@@ -1,5 +1,6 @@
 param(
     [switch]$RequireBuild,
+    [switch]$SkipGraphicsBuild,
     [string]$VintageStoryPath = ""
 )
 
@@ -11,9 +12,13 @@ if ($LASTEXITCODE -ne 0) { throw "The project checks failed." }
 
 $gamePath = Find-VintageStoryInstall $VintageStoryPath
 if ($null -ne $gamePath) {
-    Write-Host "Building reproducible graphics recipes..." -ForegroundColor Cyan
-    & (Join-Path $root "tools\graphics\Build-Graphics.ps1") -VintageStoryPath $gamePath
-    if ($LASTEXITCODE -ne 0) { throw "The graphics recipes failed." }
+    if ($SkipGraphicsBuild) {
+        Write-Host "[SKIP] Graphics build: using the committed runtime assets." -ForegroundColor Yellow
+    } else {
+        Write-Host "Building reproducible graphics recipes..." -ForegroundColor Cyan
+        & (Join-Path $root "tools\graphics\Build-Graphics.ps1") -VintageStoryPath $gamePath
+        if ($LASTEXITCODE -ne 0) { throw "The graphics recipes failed." }
+    }
 
     Write-Host "Running save-compatibility contracts..." -ForegroundColor Cyan
     & dotnet run --project (Join-Path $root "tests\Gearwright.Contracts\Gearwright.Contracts.csproj") -c Release "/p:VintageStoryPath=$gamePath"

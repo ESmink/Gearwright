@@ -1,0 +1,136 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-and-release:
+    runs-on: windows-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Check out the tagged commit
+        uses: actions/checkout@v7
+
+      - name: Install .NET 10
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Read and validate release metadata
+        id: metadata
+        shell: pwsh
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          $modInfo = Get-Content -Raw -LiteralPath "modinfo.json" | ConvertFrom-Json
+          $tag = $env:RELEASE_TAG
+
+          if ($tag -notmatch '^v(?<version>[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?)$') {
+              throw "Release tags must use v<version>, for example v0.1.0."
+          }
+
+          $tagVersion = $Matches.version
+          $modVersion = [string]$modInfo.version
+          $gameVersion = [string]$modInfo.dependencies.game
+          if ($tagVersion -cne $modVersion) {
+              throw "Tag $tag does not match modinfo.json version $modVersion."
+          }
+          if ($gameVersion -notmatch '^[0-9]+\.[0-9]+\.[0-9]+$') {
+              throw "The Vintage Story dependency must be an exact stable version."
+          }
+
+          "mod_version=$modVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "game_version=$gameVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "package_name=Gearwright_$modVersion.zip" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+      - name: Download the Vintage Story server package
+        shell: pwsh
+        env:
+          GAME_VERSION: ${{ steps.metadata.outputs.game_version }}
+        run: |
+          $gameVersion = $env:GAME_VERSION
+          $serverPath = Join-Path $env:RUNNER_TEMP "vintagestory-$gameVersion"
+          $archivePath = Join-Path $env:RUNNER_TEMP "vs_server_linux-x64_$gameVersion.tar.gz"
+          $archiveUrl = "https://cdn.vintagestory.at/gamefiles/stable/vs_server_linux-x64_$gameVersion.tar.gz"
+
+          New-Item -ItemType Directory -Force -Path $serverPath | Out-Null
+          & curl.exe --fail --location --retry 3 --output $archivePath $archiveUrl
+          if ($LASTEXITCODE -ne 0) { throw "Vintage Story server download failed." }
+
+          & tar.exe -xzf $archivePath -C $serverPath
+          if ($LASTEXITCODE -ne 0) { throw "Vintage Story server extraction failed." }
+
+          foreach ($relative in @("VintagestoryAPI.dll", "Lib\Newtonsoft.Json.dll", "assets\survival")) {
+              if (-not (Test-Path -LiteralPath (Join-Path $serverPath $relative))) {
+                  throw "Vintage Story server package is missing $relative."
+              }
+          }
+
+          "VINTAGE_STORY=$serverPath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Test and package
+        shell: pwsh
+        run: .\tools\Test-Project.ps1 -RequireBuild -SkipGraphicsBuild -VintageStoryPath $env:VINTAGE_STORY
+
+      - name: Verify the release package
+        shell: pwsh
+        env:
+          MOD_VERSION: ${{ steps.metadata.outputs.mod_version }}
+          PACKAGE_NAME: ${{ steps.metadata.outputs.package_name }}
+        run: |
+          $packageName = $env:PACKAGE_NAME
+          $packagePath = Join-Path "dist" $packageName
+          if (-not (Test-Path -LiteralPath $packagePath -PathType Leaf)) {
+              throw "Expected package was not created: $packageName"
+          }
+
+          Add-Type -AssemblyName System.IO.Compression.FileSystem
+          $archive = [IO.Compression.ZipFile]::OpenRead((Resolve-Path -LiteralPath $packagePath))
+          try {
+              $entries = @($archive.Entries | ForEach-Object { $_.FullName })
+              foreach ($required in @("modinfo.json", "Gearwright.dll", "assets/gearwright/lang/en.json")) {
+                  if ($entries -cnotcontains $required) {
+                      throw "Release package is missing $required."
+                  }
+              }
+
+              $modInfoEntry = $archive.GetEntry("modinfo.json")
+              $reader = [IO.StreamReader]::new($modInfoEntry.Open())
+              try {
+                  $packagedModInfo = $reader.ReadToEnd() | ConvertFrom-Json
+              } finally {
+                  $reader.Dispose()
+              }
+              if ([string]$packagedModInfo.version -cne $env:MOD_VERSION) {
+                  throw "Packaged modinfo.json has the wrong version."
+              }
+          } finally {
+              $archive.Dispose()
+          }
+
+          $hash = (Get-FileHash -Algorithm SHA256 -LiteralPath $packagePath).Hash.ToLowerInvariant()
+          $checksumPath = "$packagePath.sha256"
+          $checksum = "$hash  $packageName" + [Environment]::NewLine
+          [IO.File]::WriteAllText($checksumPath, $checksum, [Text.UTF8Encoding]::new($false))
+
+      - name: Create the GitHub release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MOD_VERSION: ${{ steps.metadata.outputs.mod_version }}
+          PACKAGE_NAME: ${{ steps.metadata.outputs.package_name }}
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          $package = "dist/$env:PACKAGE_NAME"
+          & gh release create $env:RELEASE_TAG $package "$package.sha256" --verify-tag --generate-notes --title "Gearwright $env:MOD_VERSION"
+          if ($LASTEXITCODE -ne 0) { throw "GitHub release creation failed." }

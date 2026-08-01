@@ -16,7 +16,7 @@ function Assert-Project {
 
 $required = @(
     "AGENTS.md", "README.md", "CHANGELOG.md", "COMPATIBILITY.md", "LICENSE",
-    "modinfo.json", "Gearwright.csproj",
+    "modinfo.json", "Gearwright.csproj", ".github\workflows\release.yml",
     "tests\Gearwright.Contracts\Gearwright.Contracts.csproj", "tests\Gearwright.Contracts\Program.cs",
     "graphics\README.md", "graphics\recipes\example-workshop-marker.model.json",
     "graphics\recipes\pottery-profile-tool.model.json", "graphics\recipes\pottery-profile-tool.texture.json",
@@ -60,6 +60,7 @@ $codeText = Get-Content -Raw (Join-Path $root "code\GearwrightModSystem.cs")
 Assert-Project ($modInfo.modid -ceq "gearwright") "The permanent mod ID is gearwright"
 Assert-Project ($modInfo.authors.Count -eq 1 -and $modInfo.authors[0] -ceq "kingedwin") "Public mod author is kingedwin"
 Assert-Project ($projectText -match "<Version>$([regex]::Escape($modInfo.version))</Version>") "Project and mod versions match"
+Assert-Project ($codeText -match "ModVersion\s*=\s*`"$([regex]::Escape($modInfo.version))`"") "Code and mod versions match"
 Assert-Project ($codeText -match 'WorldStateStorageKey\s*=\s*"gearwright:world-state"') "The permanent world-state key is unchanged"
 Assert-Project ($codeText -match 'ChatCommands\.Create\("gearwright"\)') "The status command is registered"
 Assert-Project ($codeText -match 'RequiresPrivilege\(Privilege\.chat\)') "The status command is available to chat users"
@@ -73,6 +74,11 @@ $readmeText = Get-Content -Raw (Join-Path $root "README.md")
 Assert-Project ($readmeText -match 'https://github\.com/ESmink/Gearwright/wiki') "README links to the GitHub Wiki"
 $installerText = Get-Content -Raw (Join-Path $root "tools\Install-Mod.ps1")
 Assert-Project ($installerText -match 'Find-VintageStoryData' -and $installerText -match 'Get-FileHash') "The installer discovers the data folder and verifies the package"
+$releaseWorkflowText = Get-Content -Raw (Join-Path $root ".github\workflows\release.yml")
+Assert-Project ($releaseWorkflowText -match 'tags:\s*\r?\n\s*- "v\*"' -and $releaseWorkflowText -match 'contents: write') "Release workflow runs on version tags with release permission"
+Assert-Project ($releaseWorkflowText -match 'vs_server_linux-x64_\$gameVersion\.tar\.gz' -and $releaseWorkflowText -match 'Test-Project\.ps1 -RequireBuild -SkipGraphicsBuild') "Release workflow builds against the declared Vintage Story version"
+Assert-Project ($releaseWorkflowText -match 'gh release create' -and $releaseWorkflowText -match '--verify-tag' -and $releaseWorkflowText -match 'Get-FileHash -Algorithm SHA256') "Release workflow verifies and publishes the package"
+Assert-Project ($releaseWorkflowText.Contains('GH_TOKEN: ${{ github.token }}') -and $releaseWorkflowText -notmatch 'secrets\.') "Release workflow uses the repository token"
 
 $profileItem = Get-Content -Raw (Join-Path $root "assets\gearwright\itemtypes\pottery-profile-tool.json") | ConvertFrom-Json
 Assert-Project ($profileItem.code -ceq "pottery-profile-tool") "The pottery profile tool keeps its asset code"

@@ -22,6 +22,19 @@ The scripts discover Vintage Story from `-VintageStoryPath`, `VINTAGE_STORY`, or
 
 `Build-Mod.ps1` writes the package to `dist/`. `Test-Project.ps1` checks repository structure, privacy rules, graphics recipes, save migrations, downgrade protection, and the release build. `Install-Mod.ps1` installs the newest package and verifies its hash.
 
+## Release
+
+The release workflow runs when a `v<version>` tag is pushed. The tag must match the version in `modinfo.json`.
+
+Before releasing, update the version in `modinfo.json`, `Gearwright.csproj`, and `GearwrightModSystem.ModVersion`, update `CHANGELOG.md`, then run the full checks and commit the result. Create and push the tag:
+
+```powershell
+git tag -a v0.1.0 -m "Gearwright 0.1.0"
+git push origin v0.1.0
+```
+
+GitHub Actions downloads the matching official Vintage Story server package, runs the project checks and compatibility contracts, builds the mod with the committed runtime graphics, verifies the zip contents, writes a SHA-256 checksum, and attaches both files to a GitHub Release. Local completion checks still rebuild graphics from the full game installation.
+
 ## Repository layout
 
 - `code/`: gameplay and storage code
@@ -29,6 +42,7 @@ The scripts discover Vintage Story from `-VintageStoryPath`, `VINTAGE_STORY`, or
 - `tests/`: repository and save-compatibility checks
 - `tools/`: build, test, installation, and graphics scripts
 - `graphics/`: model and texture recipes
+- `.github/workflows/release.yml`: tag-driven GitHub release pipeline
 
 Read [COMPATIBILITY.md](COMPATIBILITY.md) before changing persisted data or public identifiers. Player documentation belongs in the [GitHub Wiki](https://github.com/ESmink/Gearwright/wiki).
 

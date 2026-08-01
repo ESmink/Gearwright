@@ -54,6 +54,7 @@ The public identifiers `gearwright`, `gearwright:world-state`, registered class 
 - Add a focused GitHub Wiki update with each player-visible system.
 - Keep project tooling developer-facing. Do not add double-click wrappers, source-download workflows, contribution-sync helpers, or tool installers.
 - Do not add an in-repository documentation site. The GitHub Wiki is the canonical home for player documentation.
+- Release tags use `v<version>` and must match `modinfo.json`. The release workflow must build against the declared Vintage Story version and use the repository `GITHUB_TOKEN`; do not add a personal release token.
 - A change is not complete until the project checks pass and, when the game SDK is available, the mod builds, packages, and the newest package is installed in the active Vintage Story Mods folder with `tools/Install-Mod.ps1`.
 
 ## Active development installation
