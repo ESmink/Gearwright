@@ -1,0 +1,18 @@
+{
+  "kind": "model",
+  "output": "assets/gearwright/shapes/item/pottery-profile-tool.json",
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "tool": "gearwright:item/pottery-profile-tool"
+  },
+  "primitives": [
+    { "type": "cuboid", "name": "handle", "from": [7, 1.5, 7], "to": [9, 10, 9], "texture": "#tool", "uv": [0, 0, 16, 8] },
+    { "type": "cuboid", "name": "handle-cap", "from": [6.5, 1, 6.5], "to": [9.5, 3, 9.5], "texture": "#tool", "uv": [0, 0, 16, 8] },
+    { "type": "cuboid", "name": "crossbar", "from": [2, 9, 7], "to": [14, 11, 9], "texture": "#tool", "uv": [0, 8, 16, 14] },
+    { "type": "cuboid", "name": "left-profile-upper", "from": [2, 6, 7], "to": [4, 10, 9], "texture": "#tool", "uv": [0, 8, 16, 14] },
+    { "type": "cuboid", "name": "left-profile-lower", "from": [3.25, 4, 7], "to": [5, 7, 9], "texture": "#tool", "uv": [0, 8, 16, 14] },
+    { "type": "cuboid", "name": "right-profile", "from": [12, 7, 7], "to": [14, 10, 9], "texture": "#tool", "uv": [0, 8, 16, 14] },
+    { "type": "cuboid", "name": "pivot-pin", "from": [7.25, 9.25, 6.5], "to": [8.75, 10.75, 9.5], "texture": "#tool", "uv": [0, 14, 16, 16] }
+  ]
+}

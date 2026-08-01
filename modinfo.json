@@ -1,0 +1,18 @@
+{
+  "type": "code",
+  "modid": "gearwright",
+  "name": "Gearwright",
+  "version": "0.1.0",
+  "authors": [
+    "kingedwin"
+  ],
+  "description": "Gear-driven workshop machines and limited automation for Vintage Story.",
+  "tags": [
+    "technology",
+    "mechanics",
+    "automation"
+  ],
+  "dependencies": {
+    "game": "1.22.3"
+  }
+}

@@ -1,0 +1,38 @@
+# Build output
+bin/
+obj/
+dist/
+graphics/generated/
+*.dll
+*.pdb
+*.deps.json
+*.runtimeconfig.json
+
+# IDE and editor state
+.vs/
+.vscode/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.local.json
+*.local.ps1
+secrets.json
+
+# Logs, crash data, and local game data
+*.log
+logs/
+crashes/
+Saves/
+Mods/
+
+# Operating-system noise
+.DS_Store
+Thumbs.db
+Desktop.ini

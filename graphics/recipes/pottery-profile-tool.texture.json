@@ -1,0 +1,12 @@
+{
+  "kind": "texture",
+  "output": "assets/gearwright/textures/item/pottery-profile-tool.png",
+  "width": 16,
+  "height": 16,
+  "background": "#00000000",
+  "layers": [
+    { "source": "survival:textures/block/wood/planks/aged1.png", "destination": [0, 0, 16, 8], "mode": "stretch", "tint": "#C2915A" },
+    { "source": "survival:textures/block/metal/parts.png", "destination": [0, 8, 16, 6], "mode": "stretch", "tint": "#D0A85F" },
+    { "source": "survival:textures/block/nailtexture.png", "destination": [0, 14, 16, 2], "mode": "stretch", "tint": "#DDD3B7" }
+  ]
+}

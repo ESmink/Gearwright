@@ -1,0 +1,54 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <AssemblyName>Gearwright</AssemblyName>
+    <RootNamespace>Gearwright</RootNamespace>
+    <Version>0.1.0</Version>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+
+    <VintageStoryPath Condition="'$(VintageStoryPath)' == '' and '$(VINTAGE_STORY)' != ''">$(VINTAGE_STORY)</VintageStoryPath>
+    <VintageStoryPath Condition="'$(VintageStoryPath)' == '' and Exists('$(APPDATA)\Vintagestory\VintagestoryAPI.dll')">$(APPDATA)\Vintagestory</VintageStoryPath>
+
+    <ModOutputPath>$(MSBuildProjectDirectory)\dist</ModOutputPath>
+    <ModStagingPath>$(BaseIntermediateOutputPath)modpackage</ModStagingPath>
+    <ModPackageName>Gearwright_$(Version).zip</ModPackageName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="code\**\*.cs" />
+    <Reference Include="VintagestoryAPI">
+      <HintPath>$(VintageStoryPath)\VintagestoryAPI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>$(VintageStoryPath)\Lib\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="CheckVintageStoryPath" BeforeTargets="ResolveReferences"
+          Condition="!Exists('$(VintageStoryPath)\VintagestoryAPI.dll')">
+    <Error Text="Vintage Story was not found. Set VINTAGE_STORY or pass /p:VintageStoryPath to a Vintage Story 1.22.3 installation containing VintagestoryAPI.dll." />
+  </Target>
+
+  <Target Name="PackageMod" DependsOnTargets="Build">
+    <RemoveDir Directories="$(ModStagingPath)" />
+    <MakeDir Directories="$(ModStagingPath);$(ModOutputPath)" />
+    <Copy SourceFiles="modinfo.json;$(TargetPath)" DestinationFolder="$(ModStagingPath)" />
+    <ItemGroup>
+      <ModAssets Include="assets\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(ModAssets)"
+          DestinationFiles="@(ModAssets->'$(ModStagingPath)\assets\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Delete Files="$(ModOutputPath)\$(ModPackageName)" />
+    <ZipDirectory SourceDirectory="$(ModStagingPath)"
+                  DestinationFile="$(ModOutputPath)\$(ModPackageName)"
+                  Overwrite="true" />
+    <Message Importance="high" Text="Created $(ModOutputPath)\$(ModPackageName)" />
+  </Target>
+</Project>
