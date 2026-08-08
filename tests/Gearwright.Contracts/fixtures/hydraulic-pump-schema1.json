@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "lastSettledTotalHours": 120.5,
+  "fractionalItems": 0.25,
+  "liquidCode": "game:waterportion",
+  "configuredPressure": 100,
+  "futureData": [1, 2, 3]
+}

@@ -1,0 +1,12 @@
+{
+  "kind": "model",
+  "output": "assets/gearwright/shapes/block/fluid-pipe-cap.json",
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "copper": "game:block/metal/sheet/copper1"
+  },
+  "primitives": [
+    { "type": "cuboid", "name": "face-cap", "from": [6.5, 6.5, 6], "to": [9.5, 9.5, 6.5], "texture": "#copper" }
+  ]
+}

@@ -1,10 +1,13 @@
 using Gearwright.Storage;
+using Gearwright.Hydraulics;
+using System;
+using System.Linq;
 using Vintagestory.API.Common;
 using Vintagestory.API.Server;
 
 namespace Gearwright;
 
-/// <summary>Owns Gearwright's stable world data and status command.</summary>
+/// <summary>Registers Gearwright and owns its stable world data and status command.</summary>
 public sealed class GearwrightModSystem : ModSystem
 {
     public const string ModId = "gearwright";
@@ -14,7 +17,26 @@ public sealed class GearwrightModSystem : ModSystem
     private ICoreServerAPI? serverApi;
     private GearwrightWorldState? worldState;
 
-    public override bool ShouldLoad(EnumAppSide forSide) => forSide == EnumAppSide.Server;
+    public override void Start(ICoreAPI api)
+    {
+        api.RegisterBlockClass(HydraulicCodes.PipeClass, typeof(BlockFluidPipe));
+        api.RegisterBlockEntityClass(HydraulicCodes.PipeEntityClass, typeof(BlockEntityFluidPipe));
+        api.RegisterBlockClass(HydraulicCodes.CreativePumpClass, typeof(BlockCreativeFluidPump));
+        api.RegisterBlockEntityClass(HydraulicCodes.CreativePumpEntityClass, typeof(BlockEntityCreativeFluidPump));
+        api.RegisterBlockClass(HydraulicCodes.PassivePumpClass, typeof(BlockPassiveFluidPump));
+        api.RegisterBlockEntityClass(HydraulicCodes.PassivePumpEntityClass, typeof(BlockEntityPassiveFluidPump));
+        api.RegisterCropBehavior(HydraulicCodes.CropBehaviorClass, typeof(CropBehaviorFluidExposure));
+    }
+
+    public override void AssetsFinalize(ICoreAPI api)
+    {
+        foreach (Block block in api.World.Blocks.Where(block => block?.CropProps != null))
+        {
+            if (block.CropProps.Behaviors?.Any(behavior => behavior is CropBehaviorFluidExposure) == true) continue;
+            CropBehavior[] existing = block.CropProps.Behaviors ?? Array.Empty<CropBehavior>();
+            block.CropProps.Behaviors = existing.Append(new CropBehaviorFluidExposure(block)).ToArray();
+        }
+    }
 
     public override void StartServerSide(ICoreServerAPI api)
     {

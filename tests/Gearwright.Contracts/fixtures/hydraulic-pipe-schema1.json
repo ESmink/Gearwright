@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "addon-0": 2,
+  "addonStack-0": {
+    "type": "item",
+    "code": "gearwright:sprinkler-brass",
+    "stackSize": 1
+  },
+  "futureData": {
+    "keep": true
+  }
+}

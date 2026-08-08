@@ -1,0 +1,11 @@
+{
+  "kind": "model",
+  "output": "graphics/generated/passive-fluid-pump-active.shape.json",
+  "base": "gearwright:shapes/block/passive-fluid-pump.json",
+  "parts": [
+    "gearwright:shapes/block/passive-fluid-pump-outlet.json",
+    "gearwright:shapes/block/passive-fluid-pump-intake.json",
+    "gearwright:shapes/block/passive-fluid-pump-mechanism.json",
+    "gearwright:shapes/block/passive-fluid-pump-liquid.json"
+  ]
+}

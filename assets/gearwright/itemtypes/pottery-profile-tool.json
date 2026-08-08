@@ -5,7 +5,13 @@
   "maxstacksize": 1,
   "attributes": {
     "displaycaseable": true,
-    "shelvable": true
+    "shelvable": true,
+    "handbook": {
+      "include": true,
+      "extraSections": [
+        { "title": "gearwright:handbook-title-current-purpose", "text": "gearwright:handbook-text-pottery-profile-tool" }
+      ]
+    }
   },
   "guiTransform": {
     "translation": { "x": 0, "y": 0, "z": 0 },

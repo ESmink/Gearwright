@@ -1,0 +1,19 @@
+{
+  "kind": "texture",
+  "output": "assets/gearwright/textures/block/inspection-glass.png",
+  "width": 16,
+  "height": 16,
+  "background": "#66566F7C",
+  "layers": [
+    { "fill": "#C0C6DEE4", "destination": [0, 0, 16, 1] },
+    { "fill": "#A8B5D1DA", "destination": [0, 1, 1, 14] },
+    { "fill": "#7042525C", "destination": [0, 15, 16, 1] },
+    { "fill": "#70475762", "destination": [15, 1, 1, 14] },
+    { "fill": "#4CB9D3DE", "destination": [3, 2, 1, 7] },
+    { "fill": "#42A7C2CF", "destination": [4, 2, 4, 1] },
+    { "fill": "#38C3D9E1", "destination": [11, 4, 1, 1] },
+    { "fill": "#38C3D9E1", "destination": [10, 5, 1, 1] },
+    { "fill": "#38C3D9E1", "destination": [9, 6, 1, 1] },
+    { "fill": "#2EADC7D2", "destination": [6, 12, 5, 1] }
+  ]
+}

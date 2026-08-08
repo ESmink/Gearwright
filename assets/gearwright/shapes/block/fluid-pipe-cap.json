@@ -1,0 +1,42 @@
+{
+    "textureWidth":  16,
+    "textureHeight":  16,
+    "textures":  {
+                     "copper":  "game:block/metal/sheet/copper1"
+                 },
+    "elements":  [
+                     {
+                         "name":  "face-cap",
+                         "from":  [
+                                      6.5,
+                                      6.5,
+                                      6
+                                  ],
+                         "to":  [
+                                    9.5,
+                                    9.5,
+                                    6.5
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#copper"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#copper"
+                                                }
+                                   }
+                     }
+                 ]
+}

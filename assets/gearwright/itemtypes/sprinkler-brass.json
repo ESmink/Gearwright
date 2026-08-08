@@ -1,0 +1,34 @@
+{
+  "code": "sprinkler-brass",
+  "shape": { "base": "gearwright:item/sprinkler-brass" },
+  "creativeinventory": { "general": ["*"], "gear": ["*"] },
+  "maxstacksize": 16,
+  "attributes": {
+    "displaycaseable": true,
+    "shelvable": true,
+    "handbook": {
+      "include": true,
+      "extraSections": [
+        { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-sprinkler-brass" }
+      ]
+    }
+  },
+  "guiTransform": {
+    "translation": { "x": 0, "y": 0, "z": 0 },
+    "rotation": { "x": -20, "y": 30, "z": 0 },
+    "origin": { "x": 0.5, "y": 0.5, "z": 0.5 },
+    "scale": 1.7
+  },
+  "groundTransform": {
+    "translation": { "x": 0, "y": 0.05, "z": 0 },
+    "rotation": { "x": 0, "y": 0, "z": 0 },
+    "origin": { "x": 0.5, "y": 0.1, "z": 0.5 },
+    "scale": 1.4
+  },
+  "tpHandTransform": {
+    "translation": { "x": -0.8, "y": -0.45, "z": -0.9 },
+    "rotation": { "x": -75, "y": 15, "z": 5 },
+    "origin": { "x": 0.5, "y": 0.5, "z": 0.5 },
+    "scale": 0.8
+  }
+}

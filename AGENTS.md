@@ -2,7 +2,7 @@
 
 ## Scope and identity
 
-Gearwright is a Vintage Story code mod about readable gear-driven machinery, workshop infrastructure, and steam as a heat-transfer technology. Keep gameplay code in `code/`, runtime assets in `assets/gearwright/`, tests in `tests/`, development scripts in `tools/`, and player documentation in the GitHub Wiki.
+Gearwright is a Vintage Story code mod about readable gear-driven machinery, workshop infrastructure, and steam as a heat-transfer technology. Keep gameplay code in `code/`, runtime assets in `assets/gearwright/`, tests in `tests/`, development scripts in `tools/`, full player documentation in the GitHub Wiki, and concise operating instructions in the in-game handbook.
 
 The public identifiers `gearwright`, `gearwright:world-state`, registered class names, asset codes, and persisted field names are compatibility contracts. Do not rename or reuse them.
 
@@ -26,9 +26,9 @@ The public identifiers `gearwright`, `gearwright:world-state`, registered class 
 
 ## Player-facing writing
 
-- Write all in-game text and GitHub Wiki content in direct, plain language.
+- Write all in-game text, handbook entries, and GitHub Wiki content in direct, plain language.
 - Avoid AI writing tropes, including canned enthusiasm, inflated claims, repetitive summaries, unnecessary scene-setting, and formulaic contrasts such as "not just X, but Y."
-- Write GitHub Wiki pages from the current code, assets, configuration, and maintainer direction.
+- Write GitHub Wiki pages and handbook entries from the current code, assets, configuration, and maintainer direction.
 
 ## Repository privacy and hygiene
 
@@ -51,9 +51,10 @@ The public identifiers `gearwright`, `gearwright:world-state`, registered class 
 
 - Target the Vintage Story version declared in `modinfo.json`.
 - Keep the mod ID and assembly name stable. Package runtime content only; documentation and tooling stay outside the mod archive.
-- Add a focused GitHub Wiki update with each player-visible system.
+- Add or update both the focused GitHub Wiki page and the relevant in-game handbook entries with every player-visible change.
 - Keep project tooling developer-facing. Do not add double-click wrappers, source-download workflows, contribution-sync helpers, or tool installers.
-- Do not add an in-repository documentation site. The GitHub Wiki is the canonical home for player documentation.
+- Prefer a focused, checked-in PowerShell tool in `tools/` whenever verification would otherwise require a long inline shell command. Invoke the tool with short parameters so the workflow is reviewable and repeatable.
+- Do not add an in-repository documentation site. The GitHub Wiki is the canonical home for full player documentation; the in-game handbook should carry the concise instructions needed while playing.
 - Release tags use `v<version>` and must match `modinfo.json`. The release workflow must build against the declared Vintage Story version and use the repository `GITHUB_TOKEN`; do not add a personal release token.
 - A change is not complete until the project checks pass and, when the game SDK is available, the mod builds, packages, and the newest package is installed in the active Vintage Story Mods folder with `tools/Install-Mod.ps1`.
 

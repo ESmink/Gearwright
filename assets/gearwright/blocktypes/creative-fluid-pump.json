@@ -1,0 +1,28 @@
+{
+  "code": "creative-fluid-pump",
+  "class": "GearwrightCreativeFluidPump",
+  "entityClass": "GearwrightCreativeFluidPumpEntity",
+  "drawtype": "json",
+  "shape": { "base": "gearwright:block/creative-fluid-pump" },
+  "textures": {
+    "copper": { "base": "game:block/metal/sheet/copper1" },
+    "brass": { "base": "game:block/metal/ingot/brass" },
+    "glass": { "base": "gearwright:block/inspection-glass" }
+  },
+  "attributes": {
+    "handbook": {
+      "include": true,
+      "extraSections": [
+        { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-creative-fluid-pump" }
+      ]
+    }
+  },
+  "creativeinventory": { "general": ["*"], "gear": ["*"] },
+  "blockmaterial": "Metal",
+  "lightAbsorption": 0,
+  "sidesolid": { "all": false },
+  "sideopaque": { "all": false },
+  "resistance": 5,
+  "drops": [{ "type": "block", "code": "gearwright:creative-fluid-pump" }],
+  "materialDensity": 4500
+}

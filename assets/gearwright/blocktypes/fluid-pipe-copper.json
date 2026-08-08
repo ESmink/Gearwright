@@ -1,0 +1,30 @@
+{
+  "code": "fluid-pipe-copper",
+  "class": "GearwrightFluidPipe",
+  "entityClass": "GearwrightFluidPipeEntity",
+  "drawtype": "json",
+  "shape": { "base": "gearwright:block/fluid-pipe-center" },
+  "textures": {
+    "copper": { "base": "game:block/metal/sheet/copper1" },
+    "brass": { "base": "game:block/metal/ingot/brass" },
+    "glass": { "base": "gearwright:block/inspection-glass" }
+  },
+  "attributes": {
+    "handbook": {
+      "include": true,
+      "extraSections": [
+        { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-fluid-pipe-copper" }
+      ]
+    }
+  },
+  "creativeinventory": { "general": ["*"], "gear": ["*"] },
+  "blockmaterial": "Metal",
+  "lightAbsorption": 0,
+  "sidesolid": { "all": false },
+  "sideopaque": { "all": false },
+  "resistance": 3,
+  "selectionbox": { "x1": 0.375, "y1": 0.375, "z1": 0.375, "x2": 0.625, "y2": 0.625, "z2": 0.625 },
+  "collisionbox": { "x1": 0.375, "y1": 0.375, "z1": 0.375, "x2": 0.625, "y2": 0.625, "z2": 0.625 },
+  "drops": [{ "type": "block", "code": "gearwright:fluid-pipe-copper" }],
+  "materialDensity": 8900
+}

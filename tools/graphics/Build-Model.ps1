@@ -7,6 +7,7 @@ param(
 
 $recipeData = Read-GraphicsRecipe $Recipe
 if ($recipeData.kind -ne "model") { throw "Build-Model.ps1 requires a recipe with kind 'model'." }
+$root = Get-GraphicsProjectRoot
 $outputPath = Resolve-GraphicsOutputPath ([string]$recipeData.output)
 
 $allFaces = @("north", "east", "south", "west", "up", "down")
@@ -109,7 +110,48 @@ function Scale-Vector {
     return @(0..2 | ForEach-Object { [double]$origins[$_] + ([double]$values[$_] - [double]$origins[$_]) * [double]$factors[$_] })
 }
 
-if ((Test-JsonProperty $recipeData "base") -and -not [string]::IsNullOrWhiteSpace([string]$recipeData.base)) {
+function Remove-DisabledModelFaces {
+    param([Parameter(Mandatory = $true)]$Elements)
+
+    foreach ($element in @($Elements)) {
+        if (Test-JsonProperty $element "faces") {
+            foreach ($faceProperty in @($element.faces.PSObject.Properties)) {
+                if ((Test-JsonProperty $faceProperty.Value "enabled") -and $faceProperty.Value.enabled -eq $false) {
+                    $element.faces.PSObject.Properties.Remove($faceProperty.Name)
+                }
+            }
+            if (@($element.faces.PSObject.Properties).Count -eq 0) {
+                $element.PSObject.Properties.Remove("faces")
+            }
+        }
+        if ((Test-JsonProperty $element "children") -and @($element.children).Count -gt 0) {
+            Remove-DisabledModelFaces $element.children
+        }
+    }
+}
+
+$hasSource = (Test-JsonProperty $recipeData "source") -and -not [string]::IsNullOrWhiteSpace([string]$recipeData.source)
+$hasBase = (Test-JsonProperty $recipeData "base") -and -not [string]::IsNullOrWhiteSpace([string]$recipeData.base)
+if ($hasSource -and $hasBase) {
+    throw "Model recipes cannot declare both source and base."
+}
+
+if ($hasSource) {
+    $sourceReference = [string]$recipeData.source
+    if ([IO.Path]::IsPathRooted($sourceReference)) {
+        throw "Model source paths must be project-relative: $sourceReference"
+    }
+    $sourcePath = [IO.Path]::GetFullPath((Join-Path $root $sourceReference))
+    $rootPath = [IO.Path]::GetFullPath($root).TrimEnd([IO.Path]::DirectorySeparatorChar, [IO.Path]::AltDirectorySeparatorChar)
+    $rootPrefix = $rootPath + [IO.Path]::DirectorySeparatorChar
+    if (-not $sourcePath.StartsWith($rootPrefix, [StringComparison]::OrdinalIgnoreCase)) {
+        throw "Model source path leaves the project root: $sourceReference"
+    }
+    if (-not (Test-Path -LiteralPath $sourcePath -PathType Leaf)) {
+        throw "Model source was not found: $sourceReference"
+    }
+    $model = Get-Content -Raw -LiteralPath $sourcePath | ConvertFrom-Json
+} elseif ($hasBase) {
     $basePath = Resolve-GraphicsAssetReference ([string]$recipeData.base) $VintageStoryPath
     $model = Get-Content -Raw -LiteralPath $basePath | ConvertFrom-Json
 } else {
@@ -125,10 +167,33 @@ if ((Test-JsonProperty $recipeData "base") -and -not [string]::IsNullOrWhiteSpac
 
 if (-not (Test-JsonProperty $model "elements")) { Set-ObjectProperty $model "elements" @() }
 if (-not (Test-JsonProperty $model "textures")) { Set-ObjectProperty $model "textures" ([pscustomobject]@{}) }
+if (-not (Test-JsonProperty $model "animations")) { Set-ObjectProperty $model "animations" @() }
 
 if (Test-JsonProperty $recipeData "textures") {
     foreach ($textureProperty in $recipeData.textures.PSObject.Properties) {
         Set-ObjectProperty $model.textures $textureProperty.Name $textureProperty.Value
+    }
+}
+
+if (Test-JsonProperty $recipeData "parts") {
+    foreach ($partReference in @($recipeData.parts)) {
+        if ($partReference -isnot [string] -or [string]::IsNullOrWhiteSpace([string]$partReference)) {
+            throw "Model parts must be non-empty asset references."
+        }
+        $partPath = Resolve-GraphicsAssetReference ([string]$partReference) $VintageStoryPath
+        $partModel = Get-Content -Raw -LiteralPath $partPath | ConvertFrom-Json
+        if (-not (Test-JsonProperty $partModel "elements")) {
+            throw "Model part has no elements: $partReference"
+        }
+        if (Test-JsonProperty $partModel "textures") {
+            foreach ($textureProperty in $partModel.textures.PSObject.Properties) {
+                Set-ObjectProperty $model.textures $textureProperty.Name $textureProperty.Value
+            }
+        }
+        $model.elements = @($model.elements) + @($partModel.elements)
+        if (Test-JsonProperty $partModel "animations") {
+            $model.animations = @($model.animations) + @($partModel.animations)
+        }
     }
 }
 
@@ -197,6 +262,51 @@ if (Test-JsonProperty $recipeData "edits") {
             default { throw "Unknown model edit operation: $($edit.op)" }
         }
     }
+}
+
+if (Test-JsonProperty $recipeData "animations") {
+    foreach ($animation in @($recipeData.animations)) {
+        if (-not (Test-JsonProperty $animation "name") -or [string]::IsNullOrWhiteSpace([string]$animation.name)) {
+            throw "Every model animation needs a name."
+        }
+        if (-not (Test-JsonProperty $animation "code") -or [string]::IsNullOrWhiteSpace([string]$animation.code)) {
+            throw "Every model animation needs a stable code."
+        }
+        if (-not (Test-JsonProperty $animation "quantityframes") -or [int]$animation.quantityframes -lt 2) {
+            throw "Animation '$($animation.code)' needs at least two frames."
+        }
+        if (-not (Test-JsonProperty $animation "keyframes") -or @($animation.keyframes).Count -lt 1) {
+            throw "Animation '$($animation.code)' needs keyframes."
+        }
+
+        foreach ($keyframe in @($animation.keyframes)) {
+            if (-not (Test-JsonProperty $keyframe "frame")) {
+                throw "Animation '$($animation.code)' has a keyframe without a frame number."
+            }
+            $frame = [int]$keyframe.frame
+            if ($frame -lt 0 -or $frame -ge [int]$animation.quantityframes) {
+                throw "Animation '$($animation.code)' frame $frame is outside its frame range."
+            }
+            if (-not (Test-JsonProperty $keyframe "elements")) { continue }
+            foreach ($elementProperty in $keyframe.elements.PSObject.Properties) {
+                if ($null -eq (Get-ModelElement $model.elements $elementProperty.Name)) {
+                    throw "Animation '$($animation.code)' targets missing element '$($elementProperty.Name)'."
+                }
+            }
+        }
+
+        $duplicate = @($model.animations | Where-Object { $_.code -ceq $animation.code }).Count -gt 0
+        if ($duplicate) { throw "Duplicate model animation code '$($animation.code)'." }
+        $model.animations = @($model.animations) + @($animation)
+    }
+}
+
+if (@($model.animations).Count -eq 0) {
+    $model.PSObject.Properties.Remove("animations")
+}
+
+if ((Test-JsonProperty $recipeData "stripDisabledFaces") -and $recipeData.stripDisabledFaces) {
+    Remove-DisabledModelFaces $model.elements
 }
 
 Write-GraphicsJson $outputPath $model

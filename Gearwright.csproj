@@ -25,15 +25,27 @@
       <HintPath>$(VintageStoryPath)\VintagestoryAPI.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="VSEssentials">
+      <HintPath>$(VintageStoryPath)\Mods\VSEssentials.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="VSSurvivalMod">
+      <HintPath>$(VintageStoryPath)\Mods\VSSurvivalMod.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>$(VintageStoryPath)\Lib\Newtonsoft.Json.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>$(VintageStoryPath)\Lib\protobuf-net.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>
 
   <Target Name="CheckVintageStoryPath" BeforeTargets="ResolveReferences"
-          Condition="!Exists('$(VintageStoryPath)\VintagestoryAPI.dll')">
-    <Error Text="Vintage Story was not found. Set VINTAGE_STORY or pass /p:VintageStoryPath to a Vintage Story 1.22.3 installation containing VintagestoryAPI.dll." />
+          Condition="!Exists('$(VintageStoryPath)\VintagestoryAPI.dll') or !Exists('$(VintageStoryPath)\Mods\VSSurvivalMod.dll') or !Exists('$(VintageStoryPath)\Mods\VSEssentials.dll')">
+    <Error Text="Vintage Story was not found. Set VINTAGE_STORY or pass /p:VintageStoryPath to a complete Vintage Story 1.22.3 installation." />
   </Target>
 
   <Target Name="PackageMod" DependsOnTargets="Build">

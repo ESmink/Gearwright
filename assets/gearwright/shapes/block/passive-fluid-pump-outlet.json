@@ -1,0 +1,273 @@
+{
+    "textureWidth":  16,
+    "textureHeight":  16,
+    "textures":  {
+                     "copper":  "game:block/metal/sheet/copper1"
+                 },
+    "elements":  [
+                     {
+                         "name":  "outlet-bottom",
+                         "from":  [
+                                      6,
+                                      6,
+                                      0
+                                  ],
+                         "to":  [
+                                    10,
+                                    6.5,
+                                    4
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#copper"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#copper"
+                                                }
+                                   }
+                     },
+                     {
+                         "name":  "outlet-top",
+                         "from":  [
+                                      6,
+                                      9.5,
+                                      0
+                                  ],
+                         "to":  [
+                                    10,
+                                    10,
+                                    4
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#copper"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#copper"
+                                                }
+                                   }
+                     },
+                     {
+                         "name":  "outlet-left",
+                         "from":  [
+                                      6,
+                                      6.5,
+                                      0
+                                  ],
+                         "to":  [
+                                    6.5,
+                                    9.5,
+                                    4
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#copper"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#copper"
+                                                }
+                                   }
+                     },
+                     {
+                         "name":  "outlet-right",
+                         "from":  [
+                                      9.5,
+                                      6.5,
+                                      0
+                                  ],
+                         "to":  [
+                                    10,
+                                    9.5,
+                                    4
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#copper"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#copper"
+                                                }
+                                   }
+                     },
+                     {
+                         "name":  "outlet-half-coupling-bottom",
+                         "from":  [
+                                      5.5,
+                                      5.5,
+                                      0
+                                  ],
+                         "to":  [
+                                    10.5,
+                                    6,
+                                    0.65
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#copper"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#copper"
+                                                }
+                                   }
+                     },
+                     {
+                         "name":  "outlet-half-coupling-top",
+                         "from":  [
+                                      5.5,
+                                      10,
+                                      0
+                                  ],
+                         "to":  [
+                                    10.5,
+                                    10.5,
+                                    0.65
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#copper"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#copper"
+                                                }
+                                   }
+                     },
+                     {
+                         "name":  "outlet-half-coupling-left",
+                         "from":  [
+                                      5.5,
+                                      6,
+                                      0
+                                  ],
+                         "to":  [
+                                    6,
+                                    10,
+                                    0.65
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#copper"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#copper"
+                                                }
+                                   }
+                     },
+                     {
+                         "name":  "outlet-half-coupling-right",
+                         "from":  [
+                                      10,
+                                      6,
+                                      0
+                                  ],
+                         "to":  [
+                                    10.5,
+                                    10,
+                                    0.65
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#copper"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#copper"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#copper"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#copper"
+                                                }
+                                   }
+                     }
+                 ]
+}

@@ -1,0 +1,11 @@
+{
+  "kind": "model",
+  "output": "assets/gearwright/shapes/block/passive-fluid-pump.json",
+  "source": "graphics/blender/exports/passive-fluid-pump.json",
+  "textures": {
+    "copper": "game:block/metal/sheet/copper1",
+    "brass": "game:block/metal/ingot/brass",
+    "glass": "gearwright:block/inspection-glass",
+    "shadow": "gearwright:block/inspection-shadow"
+  }
+}

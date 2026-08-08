@@ -1,0 +1,23 @@
+{
+  "kind": "model",
+  "output": "assets/gearwright/shapes/block/creative-fluid-pump.json",
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "copper": "game:block/metal/sheet/copper1",
+    "brass": "game:block/metal/ingot/brass",
+    "glass": "gearwright:block/inspection-glass"
+  },
+  "primitives": [
+    { "type": "cuboid", "name": "base", "from": [1, 0, 1], "to": [15, 2, 15], "texture": "#copper" },
+    { "type": "cuboid", "name": "body", "from": [2, 2, 2], "to": [14, 13, 14], "texture": "#copper" },
+    { "type": "cuboid", "name": "top", "from": [1.5, 13, 1.5], "to": [14.5, 15, 14.5], "texture": "#brass" },
+    { "type": "cuboid", "name": "dial-rim", "from": [5, 6, 1.2], "to": [11, 12, 2.2], "texture": "#brass" },
+    { "type": "cuboid", "name": "dial-face", "from": [5.7, 6.7, 1], "to": [10.3, 11.3, 1.25], "texture": "#glass", "faces": ["north"], "renderPass": 1 },
+    { "type": "cuboid", "name": "dial-needle", "from": [7.7, 7.3, 0.7], "to": [8.3, 10.7, 1.1], "texture": "#brass", "rotationOrigin": [8, 8.9, 0.9], "rotationZ": 28 },
+    { "type": "cuboid", "name": "port-left", "from": [0, 6, 6], "to": [3, 10, 10], "texture": "#brass" },
+    { "type": "cuboid", "name": "port-left-half-coupling", "from": [0, 5.5, 5.5], "to": [0.65, 10.5, 10.5], "texture": "#copper" },
+    { "type": "cuboid", "name": "port-right", "from": [13, 6, 6], "to": [16, 10, 10], "texture": "#brass" },
+    { "type": "cuboid", "name": "port-right-half-coupling", "from": [15.35, 5.5, 5.5], "to": [16, 10.5, 10.5], "texture": "#copper" }
+  ]
+}

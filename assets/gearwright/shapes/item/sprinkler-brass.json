@@ -1,0 +1,318 @@
+{
+    "textureWidth":  16,
+    "textureHeight":  16,
+    "textures":  {
+                     "brass":  "game:block/metal/ingot/brass"
+                 },
+    "elements":  [
+                     {
+                         "name":  "threaded-inlet",
+                         "from":  [
+                                      6,
+                                      12,
+                                      6
+                                  ],
+                         "to":  [
+                                    10,
+                                    16,
+                                    10
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#brass"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#brass"
+                                                }
+                                   }
+                     },
+                     {
+                         "name":  "inlet-collar",
+                         "from":  [
+                                      5.25,
+                                      11,
+                                      5.25
+                                  ],
+                         "to":  [
+                                    10.75,
+                                    12.5,
+                                    10.75
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#brass"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#brass"
+                                                }
+                                   }
+                     },
+                     {
+                         "name":  "spindle",
+                         "from":  [
+                                      7.4,
+                                      4,
+                                      7.4
+                                  ],
+                         "to":  [
+                                    8.6,
+                                    12,
+                                    8.6
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#brass"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#brass"
+                                                }
+                                   }
+                     },
+                     {
+                         "name":  "left-yoke",
+                         "from":  [
+                                      4,
+                                      4.5,
+                                      6.5
+                                  ],
+                         "to":  [
+                                    5.5,
+                                    11.5,
+                                    9.5
+                                ],
+                         "rotationOrigin":  [
+                                                4.75,
+                                                8,
+                                                8
+                                            ],
+                         "rotationZ":  -18,
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#brass"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#brass"
+                                                }
+                                   }
+                     },
+                     {
+                         "name":  "right-yoke",
+                         "from":  [
+                                      10.5,
+                                      4.5,
+                                      6.5
+                                  ],
+                         "to":  [
+                                    12,
+                                    11.5,
+                                    9.5
+                                ],
+                         "rotationOrigin":  [
+                                                11.25,
+                                                8,
+                                                8
+                                            ],
+                         "rotationZ":  18,
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#brass"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#brass"
+                                                }
+                                   }
+                     },
+                     {
+                         "name":  "distributor",
+                         "from":  [
+                                      5.25,
+                                      3.25,
+                                      5.25
+                                  ],
+                         "to":  [
+                                    10.75,
+                                    4.5,
+                                    10.75
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#brass"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#brass"
+                                                }
+                                   }
+                     },
+                     {
+                         "name":  "rotor-ns",
+                         "from":  [
+                                      7.5,
+                                      2.5,
+                                      2
+                                  ],
+                         "to":  [
+                                    8.5,
+                                    3.4,
+                                    14
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#brass"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#brass"
+                                                }
+                                   }
+                     },
+                     {
+                         "name":  "rotor-ew",
+                         "from":  [
+                                      2,
+                                      2.5,
+                                      7.5
+                                  ],
+                         "to":  [
+                                    14,
+                                    3.4,
+                                    8.5
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#brass"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#brass"
+                                                }
+                                   }
+                     },
+                     {
+                         "name":  "rotor-pin",
+                         "from":  [
+                                      7.2,
+                                      2,
+                                      7.2
+                                  ],
+                         "to":  [
+                                    8.8,
+                                    4,
+                                    8.8
+                                ],
+                         "faces":  {
+                                       "north":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "east":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "south":  {
+                                                     "texture":  "#brass"
+                                                 },
+                                       "west":  {
+                                                    "texture":  "#brass"
+                                                },
+                                       "up":  {
+                                                  "texture":  "#brass"
+                                              },
+                                       "down":  {
+                                                    "texture":  "#brass"
+                                                }
+                                   }
+                     }
+                 ]
+}

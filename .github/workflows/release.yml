@@ -2,6 +2,8 @@ name: Release
 
 on:
   push:
+    branches:
+      - "main"
     tags:
       - "v*"
 
@@ -18,42 +20,68 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      - name: Check out the tagged commit
+      - name: Check out the release commit
         uses: actions/checkout@v7
-
-      - name: Install .NET 10
-        uses: actions/setup-dotnet@v6
         with:
-          dotnet-version: 10.0.x
+          fetch-depth: 0
 
       - name: Read and validate release metadata
         id: metadata
         shell: pwsh
         env:
-          RELEASE_TAG: ${{ github.ref_name }}
+          COMMIT_SHA: ${{ github.sha }}
+          RELEASE_REF_NAME: ${{ github.ref_name }}
+          RELEASE_REF_TYPE: ${{ github.ref_type }}
         run: |
           $modInfo = Get-Content -Raw -LiteralPath "modinfo.json" | ConvertFrom-Json
-          $tag = $env:RELEASE_TAG
-
-          if ($tag -notmatch '^v(?<version>[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?)$') {
-              throw "Release tags must use v<version>, for example v0.1.0."
-          }
-
-          $tagVersion = $Matches.version
           $modVersion = [string]$modInfo.version
           $gameVersion = [string]$modInfo.dependencies.game
-          if ($tagVersion -cne $modVersion) {
-              throw "Tag $tag does not match modinfo.json version $modVersion."
-          }
           if ($gameVersion -notmatch '^[0-9]+\.[0-9]+\.[0-9]+$') {
               throw "The Vintage Story dependency must be an exact stable version."
           }
 
+          if ($env:RELEASE_REF_TYPE -ceq "tag") {
+              $releaseTag = $env:RELEASE_REF_NAME
+              if ($releaseTag -notmatch '^v(?<version>[0-9]+\.[0-9]+\.[0-9]+(?:-[0-9A-Za-z.-]+)?)$') {
+                  throw "Release tags must use v<version>, for example v0.1.0."
+              }
+
+              $tagVersion = $Matches.version
+              if ($tagVersion -cne $modVersion) {
+                  throw "Tag $releaseTag does not match modinfo.json version $modVersion."
+              }
+
+              $releaseKind = "stable"
+          } elseif ($env:RELEASE_REF_TYPE -ceq "branch" -and $env:RELEASE_REF_NAME -ceq "main") {
+              $versionTag = "v$modVersion"
+              $tagCommit = & git rev-list -n 1 $versionTag 2>$null
+              if ($LASTEXITCODE -eq 0 -and [string]$tagCommit -ceq $env:COMMIT_SHA) {
+                  Write-Host "Skipping the indev release because $versionTag already points to this commit."
+                  "publish=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+                  exit 0
+              }
+
+              $releaseTag = "indev"
+              $releaseKind = "indev"
+          } else {
+              throw "Unsupported release ref: $($env:RELEASE_REF_TYPE) $($env:RELEASE_REF_NAME)"
+          }
+
+          "publish=true" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "release_kind=$releaseKind" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+          "release_tag=$releaseTag" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           "mod_version=$modVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           "game_version=$gameVersion" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
           "package_name=Gearwright_$modVersion.zip" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
+      - name: Install .NET 10
+        if: steps.metadata.outputs.publish == 'true'
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: 10.0.x
+
       - name: Download the Vintage Story server package
+        if: steps.metadata.outputs.publish == 'true'
         shell: pwsh
         env:
           GAME_VERSION: ${{ steps.metadata.outputs.game_version }}
@@ -79,10 +107,12 @@ jobs:
           "VINTAGE_STORY=$serverPath" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Test and package
+        if: steps.metadata.outputs.publish == 'true'
         shell: pwsh
         run: .\tools\Test-Project.ps1 -RequireBuild -SkipGraphicsBuild -VintageStoryPath $env:VINTAGE_STORY
 
       - name: Verify the release package
+        if: steps.metadata.outputs.publish == 'true'
         shell: pwsh
         env:
           MOD_VERSION: ${{ steps.metadata.outputs.mod_version }}
@@ -123,14 +153,66 @@ jobs:
           $checksum = "$hash  $packageName" + [Environment]::NewLine
           [IO.File]::WriteAllText($checksumPath, $checksum, [Text.UTF8Encoding]::new($false))
 
-      - name: Create the GitHub release
+      - name: Create the tagged GitHub release
+        if: steps.metadata.outputs.release_kind == 'stable'
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
           MOD_VERSION: ${{ steps.metadata.outputs.mod_version }}
           PACKAGE_NAME: ${{ steps.metadata.outputs.package_name }}
-          RELEASE_TAG: ${{ github.ref_name }}
+          RELEASE_TAG: ${{ steps.metadata.outputs.release_tag }}
         run: |
           $package = "dist/$env:PACKAGE_NAME"
           & gh release create $env:RELEASE_TAG $package "$package.sha256" --verify-tag --generate-notes --title "Gearwright $env:MOD_VERSION"
           if ($LASTEXITCODE -ne 0) { throw "GitHub release creation failed." }
+
+      - name: Update the rolling indev release
+        if: steps.metadata.outputs.release_kind == 'indev'
+        shell: pwsh
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+          GH_TOKEN: ${{ github.token }}
+          MOD_VERSION: ${{ steps.metadata.outputs.mod_version }}
+          PACKAGE_NAME: ${{ steps.metadata.outputs.package_name }}
+          RELEASE_TAG: ${{ steps.metadata.outputs.release_tag }}
+        run: |
+          $package = "dist/$env:PACKAGE_NAME"
+          $shortCommit = $env:COMMIT_SHA.Substring(0, 7)
+          $commitUrl = "$env:GITHUB_SERVER_URL/$env:GITHUB_REPOSITORY/commit/$env:COMMIT_SHA"
+          $title = "Gearwright $env:MOD_VERSION indev ($shortCommit)"
+          $notes = "Automated development build from commit [$shortCommit]($commitUrl).`n`nThis prerelease may be unstable. It is replaced after each untagged push to main."
+
+          & git fetch --force --tags origin
+          if ($LASTEXITCODE -ne 0) { throw "Release tags could not be refreshed before publishing indev." }
+          $versionTag = "v$env:MOD_VERSION"
+          $tagCommit = & git rev-list -n 1 $versionTag 2>$null
+          if ($LASTEXITCODE -eq 0 -and [string]$tagCommit -ceq $env:COMMIT_SHA) {
+              Write-Host "Skipping the indev release because $versionTag now points to this commit."
+              exit 0
+          }
+
+          & git tag --force $env:RELEASE_TAG $env:COMMIT_SHA
+          if ($LASTEXITCODE -ne 0) { throw "The rolling indev tag could not be updated locally." }
+          & git push --force origin "refs/tags/$env:RELEASE_TAG"
+          if ($LASTEXITCODE -ne 0) { throw "The rolling indev tag could not be pushed." }
+
+          $releaseJson = & gh release view $env:RELEASE_TAG --json assets 2>$null
+          $releaseExists = $LASTEXITCODE -eq 0
+          if ($releaseExists) {
+              $release = $releaseJson | ConvertFrom-Json
+              $currentAssets = @($env:PACKAGE_NAME, "$($env:PACKAGE_NAME).sha256")
+              foreach ($asset in @($release.assets)) {
+                  if ($asset.name -like "Gearwright_*.zip*" -and $currentAssets -notcontains $asset.name) {
+                      & gh release delete-asset $env:RELEASE_TAG $asset.name --yes
+                      if ($LASTEXITCODE -ne 0) { throw "Stale indev asset removal failed: $($asset.name)" }
+                  }
+              }
+
+              & gh release upload $env:RELEASE_TAG $package "$package.sha256" --clobber
+              if ($LASTEXITCODE -ne 0) { throw "Indev asset upload failed." }
+              & gh release edit $env:RELEASE_TAG --verify-tag --prerelease --latest=false --title $title --notes $notes
+              if ($LASTEXITCODE -ne 0) { throw "Indev release update failed." }
+          } else {
+              & gh release create $env:RELEASE_TAG $package "$package.sha256" --verify-tag --prerelease --latest=false --title $title --notes $notes
+              if ($LASTEXITCODE -ne 0) { throw "Indev release creation failed." }
+          }

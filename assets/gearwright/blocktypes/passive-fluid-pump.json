@@ -1,0 +1,36 @@
+{
+  "code": "passive-fluid-pump",
+  "class": "GearwrightPassiveFluidPump",
+  "entityClass": "GearwrightPassiveFluidPumpEntity",
+  "drawtype": "json",
+  "shape": { "base": "gearwright:block/passive-fluid-pump" },
+  "textures": {
+    "copper": { "base": "game:block/metal/sheet/copper1" },
+    "brass": { "base": "game:block/metal/ingot/brass" },
+    "glass": { "base": "gearwright:block/inspection-glass" },
+    "shadow": { "base": "gearwright:block/inspection-shadow" }
+  },
+  "attributes": {
+    "handbook": {
+      "include": true,
+      "extraSections": [
+        { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-passive-fluid-pump" }
+      ]
+    }
+  },
+  "creativeinventory": { "general": ["*"], "gear": ["*"] },
+  "blockmaterial": "Metal",
+  "lightAbsorption": 0,
+  "sidesolid": {
+    "north": false,
+    "east": false,
+    "south": false,
+    "west": false,
+    "up": true,
+    "down": true
+  },
+  "sideopaque": { "all": false },
+  "resistance": 5,
+  "drops": [{ "type": "block", "code": "gearwright:passive-fluid-pump" }],
+  "materialDensity": 5200
+}

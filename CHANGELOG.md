@@ -13,3 +13,20 @@ All notable changes are documented here. Each entry that changes persisted data 
 - Made active development installation part of the agent completion contract and added SHA-256 verification after copying the newest package to the discovered Mods folder.
 - Fixed `/gearwright` command registration by declaring the ordinary `chat` privilege required by Vintage Story's command API.
 - Added a tag-driven GitHub release workflow that builds against the declared Vintage Story version and publishes the verified mod zip with a SHA-256 checksum.
+- Added a rolling `indev` prerelease for untagged pushes to `main`, reusing one movable tag and replacing the verified package and checksum in place.
+- Added copper fluid pipes, per-face glass inspection windows, pressure-driven brass sprinklers, a configurable creative pump, and a passive tank-fed pump.
+- Added server-authoritative pressure sharing, pump-side liquid costs, one-year unloaded catch-up, and crop death on the next growth tick after exposure to non-freshwater liquids.
+- Added deterministic hydraulic models and a Blender photoshoot checker with strict base-game texture resolution and path-safe manifests.
+- Added in-game handbook instructions for every current Gearwright item and block, and made handbook and wiki updates part of the completion contract.
+- Fixed the creative pump configuration dialog crashing when opened, including on a pump with no connected pipes.
+- Reworked the passive pump as a cardinally oriented gravity drain with a barrel-supporting top, aligned pipe outlet, exposed glass flow chamber, and pressure-driven liquid and flow-wheel animation.
+- Smoothed the copper pipe profile, changed inspection-window installation from glass panes to plain glass blocks, fixed liquid texture lookup crashes, and preserved returned add-ons when they are removed.
+- Fixed the gravity drain's base mesh being suppressed by its directional connection mesh, and extended its selectable top-or-rear intake into the attached tank.
+- Rebuilt copper pipes around a flush hollow frame, flush inspection glass, paired half-couplings, visible empty interiors, and continuously scrolling pressure- and direction-driven liquid.
+- Added state-shaped pipe hitboxes, thicker inside-facing panels and glass, a glazed elbow inventory model, translucent liquid, and gently varying flow speed.
+- Rebuilt the gravity drain around one side-priority intake that can rotate upward, non-overlapping hollow connectors, visibly framed inspection glass, a stationary UV-scrolled jet, and an eight-paddle flow indicator.
+- Replaced near-invisible plain-glass rendering with deterministic Gearwright inspection glass, removed sprinkler rotor overlap, and changed pipe and drain liquid animation from translated geometry to wrapped UV scrolling with a much wider low-to-full-pressure speed range.
+- Made the gravity drain animate only from its own active tank offer, added a visible crank rocker and barrel-masking shadow baffles, and made its single side-priority intake rotate upward when only a top tank is attached.
+- Removed the inspection glass's inward-facing texture, corrected liquid travel direction, widened the visible flow-rate range, added a pressure-filled gravity-drain basin and feed stream, increased sprinkler spray, and removed the sprinkler inlet cube that overlapped its pipe.
+- Doubled inspection-pipe liquid speed, doubled the gravity-drain basin's full depth, layered translucent moving water in the basin, connected the falling stream to the active side or top intake, and restored the sprinkler as four prominent water-particle jets reaching 300 droplets per second.
+- Rebuilt the gravity drain in Blender as a simpler direct-flow machine with a flat tank deck, retained intake and outlet, two-sided sight window, pressure gauge, and pressure plunger; its conventional animation is scrubbed from actual input pressure while liquid motion appears only during real network flow.

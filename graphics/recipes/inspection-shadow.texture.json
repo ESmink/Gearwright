@@ -1,0 +1,11 @@
+{
+  "kind": "texture",
+  "output": "assets/gearwright/textures/block/inspection-shadow.png",
+  "width": 4,
+  "height": 4,
+  "background": "#FF090C0D",
+  "layers": [
+    { "fill": "#FF101719", "destination": [0, 0, 4, 1] },
+    { "fill": "#FF050708", "destination": [0, 3, 4, 1] }
+  ]
+}

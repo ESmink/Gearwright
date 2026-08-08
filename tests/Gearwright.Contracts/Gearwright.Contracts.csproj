@@ -14,14 +14,24 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="..\..\code\Storage\GearwrightWorldState.cs" Link="GearwrightWorldState.cs" />
+    <Compile Include="..\..\code\Hydraulics\HydraulicMath.cs" Link="HydraulicMath.cs" />
+    <Compile Include="..\..\code\Hydraulics\HydraulicStateSchema.cs" Link="HydraulicStateSchema.cs" />
+    <Reference Include="VintagestoryAPI">
+      <HintPath>$(VintageStoryPath)\VintagestoryAPI.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>$(VintageStoryPath)\Lib\Newtonsoft.Json.dll</HintPath>
       <Private>true</Private>
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="fixtures\*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
   <Target Name="CheckVintageStoryPath" BeforeTargets="ResolveReferences"
-          Condition="!Exists('$(VintageStoryPath)\Lib\Newtonsoft.Json.dll')">
-    <Error Text="Vintage Story was not found. The compatibility contracts need its Newtonsoft.Json assembly." />
+          Condition="!Exists('$(VintageStoryPath)\VintagestoryAPI.dll') or !Exists('$(VintageStoryPath)\Lib\Newtonsoft.Json.dll')">
+    <Error Text="Vintage Story was not found. The compatibility contracts need VintagestoryAPI.dll and its Newtonsoft.Json assembly." />
   </Target>
 </Project>

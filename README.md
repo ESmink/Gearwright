@@ -2,7 +2,7 @@
 
 Gearwright is a Vintage Story code mod for gear-driven workshop machinery, material handling, and limited automation. Steam systems move heat rather than serving as compact power generators.
 
-Gearwright targets Vintage Story 1.22.3. Version 0.1.0 contains the `/gearwright` status command and a creative-only Potter's Profile Tool. No survival machinery is implemented yet.
+Gearwright targets Vintage Story 1.22.3. Version 0.1.0 contains the `/gearwright` status command, a creative-only Potter's Profile Tool, and an initial fluid-pipe system. Hollow copper pipes use state-shaped collision boxes and accept outward-facing flush inspection windows with stationary, pressure-scrolled liquid textures, plus downward brass sprinklers with four visible spray jets. Creative pumps and adaptive side-or-top gravity drains provide pressure without adding liquid buffers to the pipes; the Blender-authored drain uses a direct-flow sight window, pressure gauge, and pressure plunger instead of an active-looking impeller.
 
 ## Development requirements
 
@@ -18,13 +18,16 @@ The scripts discover Vintage Story from `-VintageStoryPath`, `VINTAGE_STORY`, or
 .\tools\Build-Mod.ps1
 .\tools\Test-Project.ps1 -RequireBuild
 .\tools\Install-Mod.ps1
+.\tools\Test-ServerSmoke.ps1
 ```
 
-`Build-Mod.ps1` writes the package to `dist/`. `Test-Project.ps1` checks repository structure, privacy rules, graphics recipes, save migrations, downgrade protection, and the release build. `Install-Mod.ps1` installs the newest package and verifies its hash.
+`Build-Mod.ps1` writes the package to `dist/`. `Test-Project.ps1` checks repository structure, privacy rules, graphics recipes, save migrations, downgrade protection, and the release build. `Install-Mod.ps1` installs the newest package and verifies its hash. `Test-ServerSmoke.ps1` boots the package with an isolated temporary data folder, waits for `WorldReady`, checks the logs, and removes the temporary world.
 
 ## Release
 
-The release workflow runs when a `v<version>` tag is pushed. The tag must match the version in `modinfo.json`.
+The release workflow runs for pushes to `main` and for `v<version>` tags. An untagged `main` commit updates the rolling `indev` prerelease and its checksum. If the matching version tag already points to the commit, the indev build is skipped.
+
+The `indev` tag and release are replaced in place, so they always point to the newest verified development build. Tagged releases remain permanent, and their tag must match the version in `modinfo.json`.
 
 Before releasing, update the version in `modinfo.json`, `Gearwright.csproj`, and `GearwrightModSystem.ModVersion`, update `CHANGELOG.md`, then run the full checks and commit the result. Create and push the tag:
 
@@ -41,10 +44,10 @@ GitHub Actions downloads the matching official Vintage Story server package, run
 - `assets/gearwright/`: packaged runtime assets
 - `tests/`: repository and save-compatibility checks
 - `tools/`: build, test, installation, and graphics scripts
-- `graphics/`: model and texture recipes
-- `.github/workflows/release.yml`: tag-driven GitHub release pipeline
+- `graphics/`: Blender authoring sources, reviewed exports, and deterministic model and texture recipes
+- `.github/workflows/release.yml`: rolling indev and tag-driven GitHub release pipeline
 
-Read [COMPATIBILITY.md](COMPATIBILITY.md) before changing persisted data or public identifiers. Player documentation belongs in the [GitHub Wiki](https://github.com/ESmink/Gearwright/wiki).
+Read [COMPATIBILITY.md](COMPATIBILITY.md) before changing persisted data or public identifiers. Full player documentation belongs in the [GitHub Wiki](https://github.com/ESmink/Gearwright/wiki), with concise operating instructions kept in the in-game handbook.
 
 ## License
 
