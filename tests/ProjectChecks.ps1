@@ -151,7 +151,10 @@ $releaseWorkflowText = Get-Content -Raw (Join-Path $root ".github\workflows\rele
 Assert-Project ($releaseWorkflowText -match 'tags:\s*\r?\n\s*- "v\*"' -and $releaseWorkflowText -match 'contents: write') "Release workflow runs on version tags with release permission"
 Assert-Project (
     $releaseWorkflowText -match 'branches:\s*\r?\n\s*- "main"' -and
-    [regex]::Matches($releaseWorkflowText, 'git rev-parse --verify --quiet "\$versionTag\^\{commit\}"').Count -eq 2 -and
+    [regex]::Matches($releaseWorkflowText, 'git tag --list \$versionTag').Count -eq 2 -and
+    [regex]::Matches($releaseWorkflowText, 'if \(\$versionTagMatches\.Count -gt 0\)').Count -eq 2 -and
+    [regex]::Matches($releaseWorkflowText, 'git rev-parse --verify "\$versionTag\^\{commit\}"').Count -eq 2 -and
+    $releaseWorkflowText -notmatch 'git rev-parse --verify --quiet' -and
     $releaseWorkflowText -notmatch 'git rev-list -n 1 \$versionTag' -and
     $releaseWorkflowText -match 'releaseTag = "indev"'
 ) "Release workflow safely handles a missing version tag when publishing indev builds"

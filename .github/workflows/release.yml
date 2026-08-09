@@ -54,12 +54,18 @@ jobs:
               $releaseKind = "stable"
           } elseif ($env:RELEASE_REF_TYPE -ceq "branch" -and $env:RELEASE_REF_NAME -ceq "main") {
               $versionTag = "v$modVersion"
-              $tagCommit = & git rev-parse --verify --quiet "$versionTag^{commit}"
-              $tagLookupExitCode = $LASTEXITCODE
-              if ($tagLookupExitCode -notin @(0, 1)) {
+              $versionTagMatches = @(& git tag --list $versionTag)
+              if ($LASTEXITCODE -ne 0) {
                   throw "Release tag lookup failed for $versionTag."
               }
-              if ($tagLookupExitCode -eq 0 -and [string]$tagCommit -ceq $env:COMMIT_SHA) {
+              $tagCommit = $null
+              if ($versionTagMatches.Count -gt 0) {
+                  $tagCommit = & git rev-parse --verify "$versionTag^{commit}"
+                  if ($LASTEXITCODE -ne 0) {
+                      throw "Release tag commit lookup failed for $versionTag."
+                  }
+              }
+              if ($null -ne $tagCommit -and [string]$tagCommit -ceq $env:COMMIT_SHA) {
                   Write-Host "Skipping the indev release because $versionTag already points to this commit."
                   "publish=false" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
                   exit 0
@@ -189,12 +195,18 @@ jobs:
           & git fetch --force --tags origin
           if ($LASTEXITCODE -ne 0) { throw "Release tags could not be refreshed before publishing indev." }
           $versionTag = "v$env:MOD_VERSION"
-          $tagCommit = & git rev-parse --verify --quiet "$versionTag^{commit}"
-          $tagLookupExitCode = $LASTEXITCODE
-          if ($tagLookupExitCode -notin @(0, 1)) {
+          $versionTagMatches = @(& git tag --list $versionTag)
+          if ($LASTEXITCODE -ne 0) {
               throw "Release tag lookup failed for $versionTag."
           }
-          if ($tagLookupExitCode -eq 0 -and [string]$tagCommit -ceq $env:COMMIT_SHA) {
+          $tagCommit = $null
+          if ($versionTagMatches.Count -gt 0) {
+              $tagCommit = & git rev-parse --verify "$versionTag^{commit}"
+              if ($LASTEXITCODE -ne 0) {
+                  throw "Release tag commit lookup failed for $versionTag."
+              }
+          }
+          if ($null -ne $tagCommit -and [string]$tagCommit -ceq $env:COMMIT_SHA) {
               Write-Host "Skipping the indev release because $versionTag now points to this commit."
               exit 0
           }
