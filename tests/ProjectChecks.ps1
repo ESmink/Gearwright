@@ -158,6 +158,12 @@ Assert-Project (
     $releaseWorkflowText -notmatch 'git rev-list -n 1 \$versionTag' -and
     $releaseWorkflowText -match 'releaseTag = "indev"'
 ) "Release workflow safely handles a missing version tag when publishing indev builds"
+Assert-Project (
+    $releaseWorkflowText -match 'actions/setup-python@v6' -and
+    $releaseWorkflowText -match 'python-version: "3\.13"' -and
+    $releaseWorkflowText -match 'cache-dependency-path: tools/graphics/requirements\.txt' -and
+    $releaseWorkflowText -match 'python -m pip install --disable-pip-version-check -r tools/graphics/requirements\.txt'
+) "Release workflow provisions the bounded Python graphics dependencies"
 Assert-Project ($releaseWorkflowText -match 'vs_server_linux-x64_\$gameVersion\.tar\.gz' -and $releaseWorkflowText -match 'Test-Project\.ps1 -RequireBuild -SkipGraphicsBuild') "Release workflow builds against the declared Vintage Story version"
 Assert-Project ($releaseWorkflowText -match 'gh release create' -and $releaseWorkflowText -match '--verify-tag' -and $releaseWorkflowText -match 'Get-FileHash -Algorithm SHA256') "Release workflow verifies and publishes the package"
 Assert-Project (
