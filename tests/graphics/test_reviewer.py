@@ -36,7 +36,7 @@ class ReviewerCatalogTests(unittest.TestCase):
                 (option / "fixed-render-rest").mkdir()
                 (option / "fixed-render-rest" / "manifest.json").write_text(json.dumps({"camera": [{"position": [1, 1, -1], "target": [0, 0, 0], "orthographicScale": 4}]}), encoding="utf-8")
             catalog = ReviewCatalog(root, Path("generated/review"))
-            self.assertEqual(Path("revision-4"), catalog.review_root.relative_to(review))
+            self.assertEqual((review / "revision-4").resolve(), catalog.review_root)
             document = catalog.option_document()
             self.assertEqual("rest", document["defaults"]["stage"])
             self.assertEqual(["rest", "drawn"], [stage["id"] for stage in document["candidates"][0]["stages"]])
