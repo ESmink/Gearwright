@@ -40,12 +40,20 @@ The public identifiers `gearwright`, `gearwright:world-state`, registered class 
 
 ## Graphics workflow
 
-- Prefer the deterministic tooling in `tools/graphics/` over GPT image generation. Create Vintage Story models from named cuboid primitives and build textures by cropping, tiling, tinting, rotating, and stitching inspected game or project assets.
-- Store reusable work as logical, project-relative recipes in `graphics/recipes/`. Never put an absolute installation path or username in a recipe, model, texture, or provenance note.
+- If PowerShell execution is disabled, launch the desktop reviewer directly with `python -m gearwright_graphics.review_model` after setting `PYTHONPATH`; do not add a shell wrapper.
+- Use the `python` command for all graphics development commands. It must be available to agents; wrappers accept `-PythonPath` or `GEARWRIGHT_PYTHON` only as discovery fallbacks and never install Python or dependencies.
+- Reusable Codex guidance for this workflow is in `skills/vintage-story-modeling/SKILL.md`; read it when authoring or reviewing Vintage Story models and animations.
+- Prefer the deterministic tooling in `tools/graphics/` over GPT image generation. Edit checked-in Python definitions in `graphics/models/` to create Vintage Story cuboids, animations, and review scenes. Keep textures in `graphics/recipes/` and build them by cropping, tiling, tinting, rotating, and stitching inspected game or project assets.
+- Run `python -m unittest discover tests/graphics` before delivery. Use `Build-Graphics.ps1` for the same model compiler used by packages, and use `tools/vs_photoshoot.py` for CPU review renders.
+- Use `python -m gearwright_graphics.cli inventory --root .` to audit runtime shape ownership. Keep reusable definitions in `graphics/models/`; keep human decision packages under `generated/<feature>-review/`; use `Clear-GraphicsArtifacts.ps1` for scoped cache, photoshoot, or review cleanup.
+- Keep named review-only workflow fixtures in `graphics/review/` with one declared managed path under `generated/`. They must never emit into runtime assets or create a new revision directory on every run.
+- Never hand-edit generated shape JSON or put an absolute installation path or username in a model, texture, manifest, or provenance note.
 - Search installed assets with `Find-GameAsset.ps1`, inspect every source before using it, and preserve Vintage Story's pixel density, palette, material cues, and visual language.
 - Do not edit the game installation or commit unmodified game atlases. Make a meaningful new composition and keep logical source references in the recipe for reviewable provenance.
-- Build and inspect generated output before delivery. Validate models in the Vintage Story model creator or in-game when their proportions, UVs, or rotations matter.
+- Build and inspect generated output before delivery. Validate models in the Vintage Story model creator or in-game when their proportions, UVs, or rotations matter; the photoshoot is diagnostic, not engine-identical.
 - Use GPT image generation only when primitives and existing assets cannot realistically produce the requested graphic, and document that reason before using it.
+- Approval-first model workflow: before implementing a new model or animation in `graphics/models/` or runtime assets, create a few clearly labeled candidates under the ignored root `generated/<feature>-review/`, render them with the photoshoot tool, and ask the maintainer to choose or revise one. Do not implement the feature in the mod until the maintainer approves a candidate.
+- When presenting design candidates, explicitly describe the meaningful differences between the options and what each option is intended to test; do not rely on images alone.
 
 ## Development conventions
 

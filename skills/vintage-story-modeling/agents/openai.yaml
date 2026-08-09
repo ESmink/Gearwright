@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vintage Story modeling"
+  short_description: "Author and review Vintage Story models"
+  default_prompt: "Use $vintage-story-modeling to create or review a Vintage Story model with the Gearwright graphics workflow."

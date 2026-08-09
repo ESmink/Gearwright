@@ -7,6 +7,79 @@ function Get-GraphicsProjectRoot {
     return (Split-Path -Parent (Split-Path -Parent $PSScriptRoot))
 }
 
+function Resolve-GearwrightPython {
+    param([string]$PythonPath = "")
+
+    $candidates = [Collections.Generic.List[string]]::new()
+    if (-not [string]::IsNullOrWhiteSpace($PythonPath)) { $candidates.Add($PythonPath) }
+    if (-not [string]::IsNullOrWhiteSpace($env:GEARWRIGHT_PYTHON)) { $candidates.Add($env:GEARWRIGHT_PYTHON) }
+    $pythonCommand = Get-Command python -ErrorAction SilentlyContinue
+    if ($null -ne $pythonCommand) { $candidates.Add($pythonCommand.Source) }
+    $pyCommand = Get-Command py -ErrorAction SilentlyContinue
+    if ($null -ne $pyCommand) { $candidates.Add($pyCommand.Source + " -3") }
+
+    foreach ($candidate in ($candidates | Select-Object -Unique)) {
+        try {
+            if ($candidate -match '\s+-3$') {
+                $parts = $candidate -split '\s+'
+                & $parts[0] $parts[1] -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)" 2>$null
+            } else {
+                & $candidate -c "import sys; raise SystemExit(0 if sys.version_info >= (3, 11) else 1)" 2>$null
+            }
+            if ($LASTEXITCODE -eq 0) { return $candidate }
+        } catch { }
+    }
+    throw "Python 3.11 or newer is required. Install Python and make the 'python' command available, or pass -PythonPath."
+}
+
+function Assert-GearwrightPythonDependencies {
+    param([Parameter(Mandatory = $true)][string]$Python)
+    try {
+        if ($Python -match '\s+-3$') {
+            $parts = $Python -split '\s+'
+            & $parts[0] $parts[1] -c "import numpy, PIL" 2>$null
+        } else {
+            & $Python -c "import numpy, PIL" 2>$null
+        }
+        if ($LASTEXITCODE -ne 0) { throw "missing" }
+    } catch {
+        throw "Python was found, but NumPy and Pillow are unavailable. Install the bounded dependencies from tools/graphics/requirements.txt, then retry. No installer was run."
+    }
+}
+
+function Assert-GearwrightPythonModule {
+    param(
+        [Parameter(Mandatory = $true)][string]$Python,
+        [Parameter(Mandatory = $true)][string]$Module,
+        [Parameter(Mandatory = $true)][string]$InstallHint
+    )
+    try {
+        if ($Python -match '\s+-3$') {
+            $parts = $Python -split '\s+'
+            & $parts[0] $parts[1] -c "import $Module" 2>$null
+        } else {
+            & $Python -c "import $Module" 2>$null
+        }
+        if ($LASTEXITCODE -ne 0) { throw "missing" }
+    } catch {
+        throw "Python is available to this process, but $Module is not. $InstallHint No installer was run."
+    }
+}
+
+function Invoke-GearwrightPython {
+    param(
+        [Parameter(Mandatory = $true)][string]$Python,
+        [object[]]$Arguments
+    )
+    if ($Python -match '\s+-3$') {
+        $parts = $Python -split '\s+'
+        & $parts[0] $parts[1] @Arguments | ForEach-Object { Write-Host $_ }
+    } else {
+        & $Python @Arguments | ForEach-Object { Write-Host $_ }
+    }
+    return [int]$LASTEXITCODE
+}
+
 function Test-JsonProperty {
     param(
         [Parameter(Mandatory = $true)]$Object,
@@ -42,7 +115,7 @@ function Resolve-GraphicsOutputPath {
 
     $allowedRoots = @(
         (Join-Path $root "assets\gearwright"),
-        (Join-Path $root "graphics\generated")
+        (Join-Path $root "generated")
     )
     $allowed = $false
     foreach ($allowedRoot in $allowedRoots) {
@@ -53,7 +126,7 @@ function Resolve-GraphicsOutputPath {
         }
     }
     if (-not $allowed) {
-        throw "Graphics outputs are limited to assets/gearwright or graphics/generated."
+        throw "Graphics outputs are limited to assets/gearwright or generated."
     }
     return $fullPath
 }

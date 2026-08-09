@@ -1,333 +1,343 @@
 {
-    "textureWidth":  16,
-    "textureHeight":  16,
-    "textures":  {
-                     "copper":  "game:block/metal/sheet/copper1",
-                     "brass":  "game:block/metal/ingot/brass",
-                     "glass":  "gearwright:block/inspection-glass"
-                 },
-    "elements":  [
-                     {
-                         "name":  "base",
-                         "from":  [
-                                      1,
-                                      0,
-                                      1
-                                  ],
-                         "to":  [
-                                    15,
-                                    2,
-                                    15
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#copper"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#copper"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "body",
-                         "from":  [
-                                      2,
-                                      2,
-                                      2
-                                  ],
-                         "to":  [
-                                    14,
-                                    13,
-                                    14
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#copper"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#copper"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "top",
-                         "from":  [
-                                      1.5,
-                                      13,
-                                      1.5
-                                  ],
-                         "to":  [
-                                    14.5,
-                                    15,
-                                    14.5
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#brass"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#brass"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#brass"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#brass"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#brass"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#brass"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "dial-rim",
-                         "from":  [
-                                      5,
-                                      6,
-                                      1.2
-                                  ],
-                         "to":  [
-                                    11,
-                                    12,
-                                    2.2
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#brass"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#brass"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#brass"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#brass"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#brass"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#brass"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "dial-face",
-                         "from":  [
-                                      5.7,
-                                      6.7,
-                                      1
-                                  ],
-                         "to":  [
-                                    10.3,
-                                    11.3,
-                                    1.25
-                                ],
-                         "renderPass":  1,
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#glass"
-                                                 }
-                                   }
-                     },
-                     {
-                         "name":  "dial-needle",
-                         "from":  [
-                                      7.7,
-                                      7.3,
-                                      0.7
-                                  ],
-                         "to":  [
-                                    8.3,
-                                    10.7,
-                                    1.1
-                                ],
-                         "rotationOrigin":  [
-                                                8,
-                                                8.9,
-                                                0.9
-                                            ],
-                         "rotationZ":  28,
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#brass"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#brass"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#brass"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#brass"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#brass"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#brass"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "port-left",
-                         "from":  [
-                                      0,
-                                      6,
-                                      6
-                                  ],
-                         "to":  [
-                                    3,
-                                    10,
-                                    10
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#brass"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#brass"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#brass"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#brass"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#brass"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#brass"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "port-left-half-coupling",
-                         "from":  [
-                                      0,
-                                      5.5,
-                                      5.5
-                                  ],
-                         "to":  [
-                                    0.65,
-                                    10.5,
-                                    10.5
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#copper"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#copper"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "port-right",
-                         "from":  [
-                                      13,
-                                      6,
-                                      6
-                                  ],
-                         "to":  [
-                                    16,
-                                    10,
-                                    10
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#brass"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#brass"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#brass"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#brass"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#brass"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#brass"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "port-right-half-coupling",
-                         "from":  [
-                                      15.35,
-                                      5.5,
-                                      5.5
-                                  ],
-                         "to":  [
-                                    16,
-                                    10.5,
-                                    10.5
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#copper"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#copper"
-                                                }
-                                   }
-                     }
-                 ]
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "copper": "game:block/metal/sheet/copper1",
+    "brass": "game:block/metal/ingot/brass",
+    "glass": "gearwright:block/inspection-glass"
+  },
+  "elements": [
+    {
+      "name": "base",
+      "from": [
+        1.0,
+        0,
+        1.0
+      ],
+      "to": [
+        15.0,
+        2.0,
+        15.0
+      ],
+      "group": "pump",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "body",
+      "from": [
+        2.0,
+        2.0,
+        2.0
+      ],
+      "to": [
+        14.0,
+        13.0,
+        14.0
+      ],
+      "group": "pump",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "top",
+      "from": [
+        1.5,
+        13.0,
+        1.5
+      ],
+      "to": [
+        14.5,
+        15.0,
+        14.5
+      ],
+      "group": "pump",
+      "faces": {
+        "north": {
+          "texture": "#brass"
+        },
+        "east": {
+          "texture": "#brass"
+        },
+        "south": {
+          "texture": "#brass"
+        },
+        "west": {
+          "texture": "#brass"
+        },
+        "up": {
+          "texture": "#brass"
+        },
+        "down": {
+          "texture": "#brass"
+        }
+      }
+    },
+    {
+      "name": "dial-rim",
+      "from": [
+        5.0,
+        6.0,
+        1.2
+      ],
+      "to": [
+        11.0,
+        12.0,
+        2.2
+      ],
+      "group": "pump",
+      "faces": {
+        "north": {
+          "texture": "#brass"
+        },
+        "east": {
+          "texture": "#brass"
+        },
+        "south": {
+          "texture": "#brass"
+        },
+        "west": {
+          "texture": "#brass"
+        },
+        "up": {
+          "texture": "#brass"
+        },
+        "down": {
+          "texture": "#brass"
+        }
+      }
+    },
+    {
+      "name": "dial-face",
+      "from": [
+        5.7,
+        6.7,
+        1.0
+      ],
+      "to": [
+        10.3,
+        11.3,
+        1.25
+      ],
+      "renderPass": 1,
+      "group": "pump",
+      "faces": {
+        "north": {
+          "texture": "#glass"
+        }
+      }
+    },
+    {
+      "name": "dial-needle",
+      "from": [
+        7.7,
+        7.3,
+        0.7
+      ],
+      "to": [
+        8.3,
+        10.7,
+        1.1
+      ],
+      "rotationOrigin": [
+        8.0,
+        8.9,
+        0.9
+      ],
+      "rotationZ": 28.0,
+      "group": "pump",
+      "faces": {
+        "north": {
+          "texture": "#brass"
+        },
+        "east": {
+          "texture": "#brass"
+        },
+        "south": {
+          "texture": "#brass"
+        },
+        "west": {
+          "texture": "#brass"
+        },
+        "up": {
+          "texture": "#brass"
+        },
+        "down": {
+          "texture": "#brass"
+        }
+      }
+    },
+    {
+      "name": "port-left",
+      "from": [
+        0,
+        6.0,
+        6.0
+      ],
+      "to": [
+        3.0,
+        10.0,
+        10.0
+      ],
+      "group": "pump",
+      "faces": {
+        "north": {
+          "texture": "#brass"
+        },
+        "east": {
+          "texture": "#brass"
+        },
+        "south": {
+          "texture": "#brass"
+        },
+        "west": {
+          "texture": "#brass"
+        },
+        "up": {
+          "texture": "#brass"
+        },
+        "down": {
+          "texture": "#brass"
+        }
+      }
+    },
+    {
+      "name": "port-left-half-coupling",
+      "from": [
+        0,
+        5.5,
+        5.5
+      ],
+      "to": [
+        0.65,
+        10.5,
+        10.5
+      ],
+      "group": "pump",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "port-right",
+      "from": [
+        13.0,
+        6.0,
+        6.0
+      ],
+      "to": [
+        16.0,
+        10.0,
+        10.0
+      ],
+      "group": "pump",
+      "faces": {
+        "north": {
+          "texture": "#brass"
+        },
+        "east": {
+          "texture": "#brass"
+        },
+        "south": {
+          "texture": "#brass"
+        },
+        "west": {
+          "texture": "#brass"
+        },
+        "up": {
+          "texture": "#brass"
+        },
+        "down": {
+          "texture": "#brass"
+        }
+      }
+    },
+    {
+      "name": "port-right-half-coupling",
+      "from": [
+        15.35,
+        5.5,
+        5.5
+      ],
+      "to": [
+        16.0,
+        10.5,
+        10.5
+      ],
+      "group": "pump",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    }
+  ]
 }

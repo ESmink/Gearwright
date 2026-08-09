@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "description": "Canonical runtime semantics from the last accepted JSON/Blender build before the Python migration. Review-only group names and redundant zero transforms are ignored.",
+  "shapes": {
+    "assets/gearwright/shapes/block/creative-fluid-pump.json": "6a76b28bd2f5d7706020537e0251db57c51f6a5044898281a8eaf8cb66b5bbb1",
+    "assets/gearwright/shapes/block/fluid-pipe-arm.json": "7fbd26d2d3c7be716a48ace60067049a95d3d0aae5ba89c4ad69a5c47ebda643",
+    "assets/gearwright/shapes/block/fluid-pipe-cap.json": "365dfd62ac30c61fadde3b95c53877bcb26f735986bd73892f195f2e566297ec",
+    "assets/gearwright/shapes/block/fluid-pipe-center.json": "55a3b714cf5f70a863181485eaa3880a6bcc37abacab378c64cf11ce18d45114",
+    "assets/gearwright/shapes/block/fluid-pipe-inventory.json": "44fb338d7141e09ecf4caf0a3f3e12b6f9ba45120c209ebb7e022ae04ce7a087",
+    "assets/gearwright/shapes/block/fluid-pipe-window.json": "3cb427c964fb9110a84a343ec96bb97c846c46944288e092017452de2cb6dc71",
+    "assets/gearwright/shapes/block/fluid-slug.json": "9c3f7e2fb81358ddfe8e12e214d3247832a510ade565f962bd36c53f826972cf",
+    "assets/gearwright/shapes/block/passive-fluid-pump-intake.json": "25913ec5d29b4f5bdbb590ad337038fc23929f8f716afb4a1a58b30b58a3021d",
+    "assets/gearwright/shapes/block/passive-fluid-pump-liquid.json": "6d668a5828221bd88af313fce5fafd85707274254c7b8723ba5964c86336416f",
+    "assets/gearwright/shapes/block/passive-fluid-pump-mechanism.json": "a1b691320247a7323393b6396b20243c0390601e050c273c324ad65f5872f7a4",
+    "assets/gearwright/shapes/block/passive-fluid-pump-outlet.json": "9bda9af6322e845b0a7bca5b97c97087b79328cb1d4fdb06004790f872ccbd56",
+    "assets/gearwright/shapes/block/passive-fluid-pump.json": "8a562ea532f00042c7a450f1b58d9640f2a70279ff8f6821c9d0f4306d99b4e0",
+    "assets/gearwright/shapes/block/sprinkler-body.json": "bebde50b83d470b3be034449b656611974372999d5a776cc4d199cbee0211c17",
+    "assets/gearwright/shapes/block/sprinkler-rotor.json": "f71096e75bf84df546323455343a6c4d4ecb449a5cec9eab59d779646776e386",
+    "assets/gearwright/shapes/item/pottery-profile-tool.json": "9e184617e963b09b9e86278690ff9a8b341277ef5bd4d2ec615424d11ad513f2",
+    "assets/gearwright/shapes/item/sprinkler-brass.json": "428fc66f411bba1fdc74a29e42d6dcc08e259b59dc1b16a9baac4fc6bded5bbd"
+  }
+}

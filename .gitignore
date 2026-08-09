@@ -2,7 +2,9 @@
 bin/
 obj/
 dist/
-graphics/generated/
+/generated/
+__pycache__/
+*.py[cod]
 *.dll
 *.pdb
 *.deps.json

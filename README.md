@@ -2,13 +2,14 @@
 
 Gearwright is a Vintage Story code mod for gear-driven workshop machinery, material handling, and limited automation. Steam systems move heat rather than serving as compact power generators.
 
-Gearwright targets Vintage Story 1.22.3. Version 0.1.0 contains the `/gearwright` status command, a creative-only Potter's Profile Tool, and an initial fluid-pipe system. Hollow copper pipes use state-shaped collision boxes and accept outward-facing flush inspection windows with stationary, pressure-scrolled liquid textures, plus downward brass sprinklers with four visible spray jets. Creative pumps and adaptive side-or-top gravity drains provide pressure without adding liquid buffers to the pipes; the Blender-authored drain uses a direct-flow sight window, pressure gauge, and pressure plunger instead of an active-looking impeller.
+Gearwright targets Vintage Story 1.22.3. Version 0.1.0 contains the `/gearwright` status command, a creative-only Potter's Profile Tool, and an initial fluid-pipe system. Hollow copper pipes use state-shaped collision boxes and accept outward-facing flush inspection windows with stationary, pressure-scrolled liquid textures, plus downward brass sprinklers with four visible spray jets. Creative pumps and adaptive side-or-top gravity drains provide pressure without adding liquid buffers to the pipes; the drain uses a direct-flow sight window, pressure gauge, and pressure plunger.
 
 ## Development requirements
 
 - Vintage Story 1.22.3 with `VintagestoryAPI.dll`
 - .NET 10 SDK
 - PowerShell
+- Python 3.11 or newer on the `python` command, with NumPy 2.x, Pillow 10-12, and PySide6 Essentials for graphics development
 
 The scripts discover Vintage Story from `-VintageStoryPath`, `VINTAGE_STORY`, or the standard per-user installation folders.
 
@@ -44,7 +45,7 @@ GitHub Actions downloads the matching official Vintage Story server package, run
 - `assets/gearwright/`: packaged runtime assets
 - `tests/`: repository and save-compatibility checks
 - `tools/`: build, test, installation, and graphics scripts
-- `graphics/`: Blender authoring sources, reviewed exports, and deterministic model and texture recipes
+- `graphics/`: Python model definitions, deterministic texture recipes, review-only workflow fixtures, and ignored review output
 - `.github/workflows/release.yml`: rolling indev and tag-driven GitHub release pipeline
 
 Read [COMPATIBILITY.md](COMPATIBILITY.md) before changing persisted data or public identifiers. Full player documentation belongs in the [GitHub Wiki](https://github.com/ESmink/Gearwright/wiki), with concise operating instructions kept in the in-game handbook.

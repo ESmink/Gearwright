@@ -1,405 +1,417 @@
 {
-    "textureWidth":  16,
-    "textureHeight":  16,
-    "textures":  {
-                     "copper":  "game:block/metal/sheet/copper1"
-                 },
-    "elements":  [
-                     {
-                         "name":  "frame-x-bottom-north",
-                         "from":  [
-                                      6,
-                                      6,
-                                      6
-                                  ],
-                         "to":  [
-                                    10,
-                                    6.5,
-                                    6.5
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#copper"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#copper"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "frame-x-bottom-south",
-                         "from":  [
-                                      6,
-                                      6,
-                                      9.5
-                                  ],
-                         "to":  [
-                                    10,
-                                    6.5,
-                                    10
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#copper"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#copper"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "frame-x-top-north",
-                         "from":  [
-                                      6,
-                                      9.5,
-                                      6
-                                  ],
-                         "to":  [
-                                    10,
-                                    10,
-                                    6.5
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#copper"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#copper"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "frame-x-top-south",
-                         "from":  [
-                                      6,
-                                      9.5,
-                                      9.5
-                                  ],
-                         "to":  [
-                                    10,
-                                    10,
-                                    10
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#copper"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#copper"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "frame-y-west-north",
-                         "from":  [
-                                      6,
-                                      6.5,
-                                      6
-                                  ],
-                         "to":  [
-                                    6.5,
-                                    9.5,
-                                    6.5
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#copper"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#copper"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "frame-y-east-north",
-                         "from":  [
-                                      9.5,
-                                      6.5,
-                                      6
-                                  ],
-                         "to":  [
-                                    10,
-                                    9.5,
-                                    6.5
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#copper"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#copper"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "frame-y-west-south",
-                         "from":  [
-                                      6,
-                                      6.5,
-                                      9.5
-                                  ],
-                         "to":  [
-                                    6.5,
-                                    9.5,
-                                    10
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#copper"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#copper"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "frame-y-east-south",
-                         "from":  [
-                                      9.5,
-                                      6.5,
-                                      9.5
-                                  ],
-                         "to":  [
-                                    10,
-                                    9.5,
-                                    10
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#copper"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#copper"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "frame-z-bottom-west",
-                         "from":  [
-                                      6,
-                                      6,
-                                      6.5
-                                  ],
-                         "to":  [
-                                    6.5,
-                                    6.5,
-                                    9.5
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#copper"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#copper"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "frame-z-bottom-east",
-                         "from":  [
-                                      9.5,
-                                      6,
-                                      6.5
-                                  ],
-                         "to":  [
-                                    10,
-                                    6.5,
-                                    9.5
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#copper"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#copper"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "frame-z-top-west",
-                         "from":  [
-                                      6,
-                                      9.5,
-                                      6.5
-                                  ],
-                         "to":  [
-                                    6.5,
-                                    10,
-                                    9.5
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#copper"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#copper"
-                                                }
-                                   }
-                     },
-                     {
-                         "name":  "frame-z-top-east",
-                         "from":  [
-                                      9.5,
-                                      9.5,
-                                      6.5
-                                  ],
-                         "to":  [
-                                    10,
-                                    10,
-                                    9.5
-                                ],
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "east":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "south":  {
-                                                     "texture":  "#copper"
-                                                 },
-                                       "west":  {
-                                                    "texture":  "#copper"
-                                                },
-                                       "up":  {
-                                                  "texture":  "#copper"
-                                              },
-                                       "down":  {
-                                                    "texture":  "#copper"
-                                                }
-                                   }
-                     }
-                 ]
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "copper": "game:block/metal/sheet/copper1"
+  },
+  "elements": [
+    {
+      "name": "frame-x-bottom-north",
+      "from": [
+        6.0,
+        6.0,
+        6.0
+      ],
+      "to": [
+        10.0,
+        6.5,
+        6.5
+      ],
+      "group": "center",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "frame-x-bottom-south",
+      "from": [
+        6.0,
+        6.0,
+        9.5
+      ],
+      "to": [
+        10.0,
+        6.5,
+        10.0
+      ],
+      "group": "center",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "frame-x-top-north",
+      "from": [
+        6.0,
+        9.5,
+        6.0
+      ],
+      "to": [
+        10.0,
+        10.0,
+        6.5
+      ],
+      "group": "center",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "frame-x-top-south",
+      "from": [
+        6.0,
+        9.5,
+        9.5
+      ],
+      "to": [
+        10.0,
+        10.0,
+        10.0
+      ],
+      "group": "center",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "frame-y-west-north",
+      "from": [
+        6.0,
+        6.5,
+        6.0
+      ],
+      "to": [
+        6.5,
+        9.5,
+        6.5
+      ],
+      "group": "center",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "frame-y-east-north",
+      "from": [
+        9.5,
+        6.5,
+        6.0
+      ],
+      "to": [
+        10.0,
+        9.5,
+        6.5
+      ],
+      "group": "center",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "frame-y-west-south",
+      "from": [
+        6.0,
+        6.5,
+        9.5
+      ],
+      "to": [
+        6.5,
+        9.5,
+        10.0
+      ],
+      "group": "center",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "frame-y-east-south",
+      "from": [
+        9.5,
+        6.5,
+        9.5
+      ],
+      "to": [
+        10.0,
+        9.5,
+        10.0
+      ],
+      "group": "center",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "frame-z-bottom-west",
+      "from": [
+        6.0,
+        6.0,
+        6.5
+      ],
+      "to": [
+        6.5,
+        6.5,
+        9.5
+      ],
+      "group": "center",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "frame-z-bottom-east",
+      "from": [
+        9.5,
+        6.0,
+        6.5
+      ],
+      "to": [
+        10.0,
+        6.5,
+        9.5
+      ],
+      "group": "center",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "frame-z-top-west",
+      "from": [
+        6.0,
+        9.5,
+        6.5
+      ],
+      "to": [
+        6.5,
+        10.0,
+        9.5
+      ],
+      "group": "center",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "frame-z-top-east",
+      "from": [
+        9.5,
+        9.5,
+        6.5
+      ],
+      "to": [
+        10.0,
+        10.0,
+        9.5
+      ],
+      "group": "center",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    }
+  ]
 }

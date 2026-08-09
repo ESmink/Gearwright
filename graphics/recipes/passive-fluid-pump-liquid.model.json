@@ -1,8 +1,0 @@
-{
-  "kind": "model",
-  "output": "assets/gearwright/shapes/block/passive-fluid-pump-liquid.json",
-  "source": "graphics/blender/exports/passive-fluid-pump-liquid.json",
-  "textures": {
-    "liquid": "game:block/liquid/waterportion"
-  }
-}

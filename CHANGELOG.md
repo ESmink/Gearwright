@@ -4,6 +4,7 @@ All notable changes are documented here. Each entry that changes persisted data 
 
 ## 0.1.0 - unreleased
 
+- Replaced active model authoring with checked-in Python definitions and a deterministic Vintage Story shape compiler. Added a NumPy/Pillow photoshoot renderer for reproducible stills and a persistent OpenGL desktop reviewer for orbiting models and scrubbing animations. Historical entries below describe the earlier workflow.
 - Established the Gearwright mod identity for Vintage Story 1.22.3.
 - Added `/gearwright` as an installation and save-state status command.
 - Added world-state schema 1 with unknown-field preservation, schema-0 migration, corrupt-data protection, and newer-schema read-only behavior.

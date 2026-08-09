@@ -1,28 +1,29 @@
 {
-    "textureWidth":  16,
-    "textureHeight":  16,
-    "textures":  {
-                     "liquid":  "game:block/liquid/waterportion"
-                 },
-    "elements":  [
-                     {
-                         "name":  "visible-liquid",
-                         "from":  [
-                                      6.5,
-                                      6.5,
-                                      6.08
-                                  ],
-                         "to":  [
-                                    9.5,
-                                    9.5,
-                                    6.12
-                                ],
-                         "renderPass":  1,
-                         "faces":  {
-                                       "north":  {
-                                                     "texture":  "#liquid"
-                                                 }
-                                   }
-                     }
-                 ]
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "liquid": "game:block/liquid/waterportion"
+  },
+  "elements": [
+    {
+      "name": "visible-liquid",
+      "from": [
+        6.5,
+        6.5,
+        6.08
+      ],
+      "to": [
+        9.5,
+        9.5,
+        6.12
+      ],
+      "renderPass": 1,
+      "group": "liquid",
+      "faces": {
+        "north": {
+          "texture": "#liquid"
+        }
+      }
+    }
+  ]
 }
