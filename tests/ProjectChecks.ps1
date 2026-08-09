@@ -526,14 +526,14 @@ foreach ($file in $textFiles) {
 Assert-Project ($privacyProblems.Count -eq 0) "Repository text contains no local paths or private keys"
 foreach ($problem in $privacyProblems) { Write-Host "       $problem" -ForegroundColor Red }
 
-$ignoreText = Get-Content -Raw (Join-Path $root ".gitignore")
+$ignoreLines = @(Get-Content -LiteralPath (Join-Path $root ".gitignore"))
 Assert-Project (
-    $ignoreText -match '(?m)^dist/$' -and
-    $ignoreText -match '(?m)^\*\.dll$' -and
-    $ignoreText -match '(?m)^\.env$' -and
-    $ignoreText -match '(?m)^__pycache__/$' -and
-    $ignoreText -match '(?m)^\*\.py\[cod\]$'
-) "Generated binaries, Python caches, and local secrets are ignored"
+    $ignoreLines -ccontains 'dist/' -and
+    $ignoreLines -ccontains '*.dll' -and
+    $ignoreLines -ccontains '.env' -and
+    $ignoreLines -ccontains '__pycache__/' -and
+    $ignoreLines -ccontains '*.py[cod]'
+) "Generated binaries, Python caches, and local secrets are ignored regardless of checkout line endings"
 
 if ($failures.Count -gt 0) {
     Write-Host ("{0} project check(s) failed." -f $failures.Count) -ForegroundColor Red
