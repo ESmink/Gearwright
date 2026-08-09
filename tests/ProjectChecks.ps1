@@ -255,8 +255,13 @@ $soundAttributionText = Get-Content -Raw (Join-Path $root "assets\gearwright\sou
 $hydraulicSounds = Get-ChildItem (Join-Path $root "assets\gearwright\sounds\hydraulics") -Filter "*.ogg" -File
 $validOggSounds = @($hydraulicSounds | Where-Object {
     $_.Length -gt 10000 -and
-    [Text.Encoding]::ASCII.GetString((Get-Content -Encoding Byte -TotalCount 4 $_.FullName)) -ceq "OggS"
+    [Text.Encoding]::ASCII.GetString([IO.File]::ReadAllBytes($_.FullName), 0, 4) -ceq "OggS"
 })
+$projectChecksText = Get-Content -Raw (Join-Path $root "tests\ProjectChecks.ps1")
+Assert-Project (
+    $projectChecksText -match '\[IO\.File\]::ReadAllBytes' -and
+    $projectChecksText -notmatch 'Get-Content\s+-Encoding\s+Byte'
+) "Binary project checks use a PowerShell 5.1 and 7 compatible file read"
 Assert-Project (
     $hydraulicSounds.Count -eq 7 -and $validOggSounds.Count -eq 7 -and
     $soundAttributionText -match 'freesound_community' -and
