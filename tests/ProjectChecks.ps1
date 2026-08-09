@@ -149,10 +149,25 @@ $smokeTestText = Get-Content -Raw (Join-Path $root "tools\Test-ServerSmoke.ps1")
 Assert-Project ($smokeTestText -match 'Find-VintageStoryInstall' -and $smokeTestText -match 'Entering runphase WorldReady' -and $smokeTestText -match 'smoke-') "The server smoke test uses a discovered install and an isolated temporary world"
 $releaseWorkflowText = Get-Content -Raw (Join-Path $root ".github\workflows\release.yml")
 Assert-Project ($releaseWorkflowText -match 'tags:\s*\r?\n\s*- "v\*"' -and $releaseWorkflowText -match 'contents: write') "Release workflow runs on version tags with release permission"
-Assert-Project ($releaseWorkflowText -match 'branches:\s*\r?\n\s*- "main"' -and $releaseWorkflowText -match 'git rev-list -n 1 \$versionTag' -and $releaseWorkflowText -match 'releaseTag = "indev"') "Release workflow publishes untagged main commits as indev builds"
+Assert-Project (
+    $releaseWorkflowText -match 'branches:\s*\r?\n\s*- "main"' -and
+    [regex]::Matches($releaseWorkflowText, 'git rev-parse --verify --quiet "\$versionTag\^\{commit\}"').Count -eq 2 -and
+    $releaseWorkflowText -notmatch 'git rev-list -n 1 \$versionTag' -and
+    $releaseWorkflowText -match 'releaseTag = "indev"'
+) "Release workflow safely handles a missing version tag when publishing indev builds"
 Assert-Project ($releaseWorkflowText -match 'vs_server_linux-x64_\$gameVersion\.tar\.gz' -and $releaseWorkflowText -match 'Test-Project\.ps1 -RequireBuild -SkipGraphicsBuild') "Release workflow builds against the declared Vintage Story version"
 Assert-Project ($releaseWorkflowText -match 'gh release create' -and $releaseWorkflowText -match '--verify-tag' -and $releaseWorkflowText -match 'Get-FileHash -Algorithm SHA256') "Release workflow verifies and publishes the package"
-Assert-Project ($releaseWorkflowText -match 'git fetch --force --tags origin' -and $releaseWorkflowText -match 'git push --force origin' -and $releaseWorkflowText -match 'gh release upload' -and $releaseWorkflowText -match '--clobber' -and $releaseWorkflowText -match '--prerelease' -and $releaseWorkflowText -match '--latest=false') "Release workflow rechecks tags and replaces the rolling indev prerelease"
+Assert-Project (
+    $releaseWorkflowText -match 'git fetch --force --tags origin' -and
+    $releaseWorkflowText -match 'git push --force origin' -and
+    $releaseWorkflowText -match 'gh api --paginate "repos/\{owner\}/\{repo\}/releases\?per_page=100" --jq \$releaseFilter' -and
+    $releaseWorkflowText -match 'IsNullOrWhiteSpace\(\$releaseText\)' -and
+    $releaseWorkflowText -notmatch 'gh release view .*2>\$null' -and
+    $releaseWorkflowText -match 'gh release upload' -and
+    $releaseWorkflowText -match '--clobber' -and
+    $releaseWorkflowText -match '--prerelease' -and
+    $releaseWorkflowText -match '--latest=false'
+) "Release workflow rechecks tags and safely creates or replaces the rolling indev prerelease"
 Assert-Project ($releaseWorkflowText.Contains('GH_TOKEN: ${{ github.token }}') -and $releaseWorkflowText -notmatch 'secrets\.') "Release workflow uses the repository token"
 
 $profileItem = Get-Content -Raw (Join-Path $root "assets\gearwright\itemtypes\pottery-profile-tool.json") | ConvertFrom-Json
