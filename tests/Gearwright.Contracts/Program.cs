@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Gearwright.Hydraulics;
 using Gearwright.Storage;
@@ -28,8 +29,10 @@ internal static class Program
         HydraulicPotentialSupportsWaterTowers();
         TextureScrollTracksPressureDrivenFlow();
         PipeFlowPlanningIsConservative();
-        SprinklerPerformanceAndWaterUseAreLinear();
+        PressureControlsConsumerWaterUse();
         SprinklerReachUsesStablePressureBands();
+        AmbientAudioTracksPressureAndFlow();
+        IrrigatorSupportsRespectSpanRules();
         HydraulicSchemasMigrateAdditively();
         HydraulicSchemaOneFixturesStayReadable();
         HydraulicSchemaThreePipeFixtureStaysReadable();
@@ -173,6 +176,26 @@ internal static class Program
             "Equal pressure deficits produce equal liquid and gas texture speed");
     }
 
+    private static void AmbientAudioTracksPressureAndFlow()
+    {
+        Check(HydraulicMath.PressureWarningIntensity(100) == 0 &&
+              Math.Abs(HydraulicMath.PressureWarningIntensity(125) - 0.5) < 0.000001 &&
+              HydraulicMath.PressureWarningIntensity(150) == 1 &&
+              HydraulicMath.PressureWarningIntensity(1000) == 1,
+            "Pressure-warning intensity rises only through the 100-150 kPa warning band");
+        Check(HydraulicMath.AudioFlowIntensity(0) == 0 &&
+              Math.Abs(HydraulicMath.AudioFlowIntensity(2) - 0.5) < 0.000001 &&
+              HydraulicMath.AudioFlowIntensity(-8) == 1,
+            "Ambient water intensity follows flow magnitude and reaches its extreme at 8 L/s");
+        Check(HydraulicMath.AmbientAudioRange(0.75) ==
+                  HydraulicMath.LocalAmbientAudioRangeBlocks &&
+              HydraulicMath.AmbientAudioRange(1) ==
+                  HydraulicMath.ExtremeAmbientAudioRangeBlocks &&
+              HydraulicMath.LocalAmbientAudioRangeBlocks == 2.8 &&
+              HydraulicMath.ExtremeAmbientAudioRangeBlocks == 16,
+            "Ambient sounds use doubled local and extreme ranges without changing their intensity band");
+    }
+
     private static void PipeFlowPlanningIsConservative()
     {
         double[] amounts = { 10, 0, 9.5 };
@@ -205,14 +228,21 @@ internal static class Program
             "Non-finite transfer requests cannot poison a simulation step");
     }
 
-    private static void SprinklerPerformanceAndWaterUseAreLinear()
+    private static void PressureControlsConsumerWaterUse()
     {
         Check(HydraulicMath.Performance(50) == 0.5,
             "Fifty pressure gives half sprinkler performance");
-        Check(HydraulicMath.LitresPerDayPerConsumer(50) == 4,
-            "Half performance costs four litres per day");
-        Check(HydraulicMath.LitresPerDayPerConsumer(100) == 8,
-            "Full performance costs eight litres per day");
+        Check(Math.Abs(HydraulicMath.LitresPerDayPerConsumer(50) -
+                       480 * Math.Sqrt(.5)) < .001,
+            "Sprinkler flow follows the square-root pressure curve");
+        Check(HydraulicMath.LitresPerDayPerConsumer(100) == 480,
+            "Full sprinkler pressure costs 480 litres per day");
+        Check(HydraulicMath.IrrigatorPerformance(5) == .25 &&
+              HydraulicMath.IrrigatorLitresPerDay(5) == 36 &&
+              HydraulicMath.IrrigatorLitresPerDay(20) == 72,
+            "The irrigator reaches its cheaper full flow at twenty kPa");
+        Check(HydraulicMath.IrrigatorMaximumMoisture == .8,
+            "The irrigator cannot hydrate farmland beyond eighty percent");
     }
 
     private static void SprinklerReachUsesStablePressureBands()
@@ -226,6 +256,28 @@ internal static class Program
             "Sprinkler coverage is circular instead of square");
     }
 
+    private static void IrrigatorSupportsRespectSpanRules()
+    {
+        Check(IrrigatorSupportPlanner.TryPlan(
+                1, new[] { true }, out int[] standalone, out _) &&
+              standalone[0] == (IrrigatorSupportPlanner.NegativeSupport |
+                                IrrigatorSupportPlanner.PositiveSupport),
+            "A standalone irrigator shows both supports");
+
+        Check(IrrigatorSupportPlanner.TryPlan(
+                9, new[] { true, true, true, true, true, true, true, true, true },
+                out int[] run, out _) &&
+              run.Count(mask => mask != 0) == 3 &&
+              run[0] != 0 && run[4] != 0 && run[8] != 0 &&
+              run.All(mask => mask is 0 or 1 or 2),
+            "Long runs prefer endpoints and never show two supports on one pipe");
+
+        Check(!IrrigatorSupportPlanner.TryPlan(
+                6, new[] { true, false, false, false, false, true },
+                out _, out int breakIndex) && breakIndex == 4,
+            "A span with four unsupported pipes identifies the pipe that must break off");
+    }
+
     private static void HydraulicSchemasMigrateAdditively()
     {
         TreeAttribute schemaOne = new();
@@ -236,7 +288,7 @@ internal static class Program
             schemaOne, out bool canWrite, out string? problem);
         Check(canWrite && problem == null, "Hydraulic schema 1 remains writable during migration");
         Check(migrated.GetInt("schemaVersion") == HydraulicStateSchema.CurrentVersion,
-            "Hydraulic schema 1 migrates sequentially through explicit-port schema 6");
+            "Hydraulic schema 1 migrates sequentially through irrigator schema 7");
         Check(migrated.GetString("unknownFutureValue") == "preserved",
             "Hydraulic schema migration preserves unknown fields");
 
@@ -248,7 +300,7 @@ internal static class Program
         Check(schemaTwoCanWrite && schemaTwoProblem == null &&
               migratedFromTwo.GetInt("schemaVersion") == HydraulicStateSchema.CurrentVersion &&
               migratedFromTwo.GetString("facing") == "east",
-            "Hydraulic schema 2 reaches schema 6 without losing retained attachment state");
+            "Hydraulic schema 2 reaches schema 7 without losing retained attachment state");
 
         TreeAttribute schemaThree = new();
         schemaThree.SetInt("schemaVersion", 3);
@@ -258,7 +310,7 @@ internal static class Program
         Check(schemaThreeCanWrite && schemaThreeProblem == null &&
               migratedFromThree.GetInt("schemaVersion") == HydraulicStateSchema.CurrentVersion &&
               !migratedFromThree.HasAttribute("networkFlowDirection"),
-            "Hydraulic schema 3 discards the obsolete bufferless flow cache before schema 6");
+            "Hydraulic schema 3 discards the obsolete bufferless flow cache before schema 7");
 
         TreeAttribute schemaFour = new();
         schemaFour.SetInt("schemaVersion", 4);
@@ -279,10 +331,20 @@ internal static class Program
         ITreeAttribute migratedFromFive = HydraulicStateSchema.PrepareForRead(
             schemaFive, out bool schemaFiveCanWrite, out string? schemaFiveProblem);
         Check(schemaFiveCanWrite && schemaFiveProblem == null &&
-              migratedFromFive.GetInt("schemaVersion") == 6 &&
+              migratedFromFive.GetInt("schemaVersion") == 7 &&
               migratedFromFive.GetInt("port-0") == 1 &&
               migratedFromFive.GetInt("port-4") == 0,
             "Schema 5 free faces become explicit ports while attachment faces remain closed");
+
+        TreeAttribute schemaSix = new();
+        schemaSix.SetInt("schemaVersion", 6);
+        schemaSix.SetString("unknownPipeValue", "preserved");
+        ITreeAttribute migratedFromSix = HydraulicStateSchema.PrepareForRead(
+            schemaSix, out bool schemaSixCanWrite, out string? schemaSixProblem);
+        Check(schemaSixCanWrite && schemaSixProblem == null &&
+              migratedFromSix.GetInt("schemaVersion") == 7 &&
+              migratedFromSix.GetString("unknownPipeValue") == "preserved",
+            "Schema 6 migrates additively for flanges and Irrigator Pipe state");
 
         ITreeAttribute reloaded = HydraulicStateSchema.PrepareForRead(
             migrated.Clone(), out bool reloadCanWrite, out string? reloadProblem);

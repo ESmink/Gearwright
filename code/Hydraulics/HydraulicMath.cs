@@ -20,10 +20,24 @@ public static class HydraulicMath
 
     public const double FullSprinklerPressure = 100;
     public const double MaximumCreativePressure = 1000;
-    public const double FullSprinklerLitresPerDay = 8;
+    public const double FullSprinklerLitresPerDay = 480;
+    public const double FullIrrigatorPressure = 20;
+    public const double FullIrrigatorLitresPerDay = 72;
+    public const double IrrigatorMaximumMoisture = 0.8;
+
+    // These values currently drive warning audio only. Pipes do not fail yet.
+    public const double PressureWarningStartKPa = 100;
+    public const double AssumedPipeFailurePressureKPa = 150;
+    public const double ExtremeAudioFlowLitresPerSecond = 8;
+    public const double DistantAudioIntensityThreshold = 0.75;
+    public const double LocalAmbientAudioRangeBlocks = 2.8;
+    public const double ExtremeAmbientAudioRangeBlocks = 16;
 
     public static double Performance(double consumerPressure) =>
         Math.Clamp(consumerPressure / FullSprinklerPressure, 0, 1);
+
+    public static double IrrigatorPerformance(double consumerPressure) =>
+        Math.Clamp(consumerPressure / FullIrrigatorPressure, 0, 1);
 
     public static int Reach(double consumerPressure)
     {
@@ -35,7 +49,36 @@ public static class HydraulicMath
     }
 
     public static double LitresPerDayPerConsumer(double consumerPressure) =>
-        FullSprinklerLitresPerDay * Performance(consumerPressure);
+        FullSprinklerLitresPerDay * Math.Sqrt(Performance(consumerPressure));
+
+    public static double IrrigatorLitresPerDay(double consumerPressure) =>
+        FullIrrigatorLitresPerDay * Math.Sqrt(IrrigatorPerformance(consumerPressure));
+
+    public static double PressureWarningIntensity(double pressureKPa)
+    {
+        double pressure = double.IsFinite(pressureKPa) ? pressureKPa : 0;
+        return Math.Clamp(
+            (pressure - PressureWarningStartKPa) /
+                (AssumedPipeFailurePressureKPa - PressureWarningStartKPa),
+            0,
+            1);
+    }
+
+    public static double AudioFlowIntensity(double litresPerSecond)
+    {
+        double flow = Math.Abs(double.IsFinite(litresPerSecond) ? litresPerSecond : 0);
+        return Math.Sqrt(Math.Clamp(flow / ExtremeAudioFlowLitresPerSecond, 0, 1));
+    }
+
+    public static double AmbientAudioRange(double intensity)
+    {
+        double level = Math.Clamp(double.IsFinite(intensity) ? intensity : 0, 0, 1);
+        if (level <= DistantAudioIntensityThreshold) return LocalAmbientAudioRangeBlocks;
+        double distant = (level - DistantAudioIntensityThreshold) /
+            (1 - DistantAudioIntensityThreshold);
+        return LocalAmbientAudioRangeBlocks +
+            (ExtremeAmbientAudioRangeBlocks - LocalAmbientAudioRangeBlocks) * distant * distant;
+    }
 
     public static double GasGaugePressure(double standardLitres, double temperatureC)
     {

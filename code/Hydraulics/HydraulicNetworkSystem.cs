@@ -408,17 +408,23 @@ public sealed class HydraulicNetworkSystem : ModSystem
             for (int i = 0; i < count; i++)
             {
                 BlockEntityFluidPipe pipe = pipes[i];
-                if (!pipe.HasSprinkler) continue;
+                bool sprinkler = pipe.HasSprinkler;
+                bool irrigator = pipe is BlockEntityIrrigatorPipe;
+                if (!sprinkler && !irrigator) continue;
                 double elapsed = pipe.LastSimulationTotalHours < 0
                     ? 0
                     : Math.Clamp(now - pipe.LastSimulationTotalHours, 0, MaximumCatchUpHours);
                 lastConsumerHours[i] = now;
                 if (phase != PipeContentPhase.Liquid || amounts[i] <= EmptyEpsilonLitres) continue;
-                double wanted = HydraulicMath.LitresPerDayPerConsumer(stepPressures[i]) * elapsed / 24;
+                double litresPerDay = sprinkler
+                    ? HydraulicMath.LitresPerDayPerConsumer(stepPressures[i])
+                    : HydraulicMath.IrrigatorLitresPerDay(stepPressures[i]);
+                double wanted = litresPerDay * elapsed / 24;
                 double consumed = Math.Min(wanted, amounts[i]);
                 if (consumed <= EmptyEpsilonLitres) continue;
                 RemoveAmount(i, consumed, amounts, energies, temperatures);
-                ApplySprinkler(pipe, contentCode, stepPressures[i]);
+                if (sprinkler) ApplySprinkler(pipe, contentCode, stepPressures[i]);
+                else ApplyIrrigator((BlockEntityIrrigatorPipe)pipe, contentCode, stepPressures[i]);
                 RecordFlow(i, consumed / Math.Max(SimulationStepSeconds, elapsed * 3600), BlockFacing.DOWN,
                     throughputs, strongestFlow, flowDirections);
             }
@@ -686,6 +692,7 @@ public sealed class HydraulicNetworkSystem : ModSystem
 
     private bool IsAtmosphericOutlet(BlockEntityFluidPipe pipe, BlockFacing face)
     {
+        if (pipe is BlockEntityIrrigatorPipe) return false;
         if (sapi!.World.BlockAccessor.GetBlock(pipe.Pos.AddCopy(face)).BlockMaterial !=
             EnumBlockMaterial.Air) return false;
         return pipe.GetAddon(face) == HydraulicFaceAddon.PipeNozzle || pipe.IsPortEnabled(face);
@@ -788,6 +795,38 @@ public sealed class HydraulicNetworkSystem : ModSystem
             for (int depth = 1; depth <= 4; depth++)
             {
                 BlockPos target = sprinkler.Pos.AddCopy(dx, -depth, dz);
+                farmland = sapi!.World.BlockAccessor.GetBlockEntity(target) as BlockEntityFarmland;
+                if (farmland != null) break;
+            }
+            if (farmland == null) continue;
+            if (freshWater)
+            {
+                float needed = Math.Max(0, targetMoisture - farmland.MoistureLevel);
+                if (needed > 0) farmland.WaterFarmland(needed * 2, false);
+            }
+            else MarkCropExposure(farmland, content);
+        }
+    }
+
+    private void ApplyIrrigator(
+        BlockEntityIrrigatorPipe irrigator,
+        AssetLocation content,
+        double pressure)
+    {
+        float performance = (float)HydraulicMath.IrrigatorPerformance(pressure);
+        if (performance <= 0) return;
+        bool freshWater = content.Equals(new AssetLocation(HydraulicCodes.FreshWater));
+        float targetMoisture = (float)(HydraulicMath.IrrigatorMaximumMoisture * performance);
+        (int X, int Z)[] offsets = irrigator.AlongX
+            ? new[] { (0, 0), (0, -1), (0, 1) }
+            : new[] { (0, 0), (-1, 0), (1, 0) };
+
+        foreach ((int offsetX, int offsetZ) in offsets)
+        {
+            BlockEntityFarmland? farmland = null;
+            for (int depth = 1; depth <= 4; depth++)
+            {
+                BlockPos target = irrigator.Pos.AddCopy(offsetX, -depth, offsetZ);
                 farmland = sapi!.World.BlockAccessor.GetBlockEntity(target) as BlockEntityFarmland;
                 if (farmland != null) break;
             }

@@ -1,0 +1,203 @@
+{
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "bronze": "game:block/metal/sheet/tinbronze1",
+    "shadow": "gearwright:block/inspection-shadow"
+  },
+  "elements": [
+    {
+      "name": "tube-bottom",
+      "from": [
+        6.25,
+        6.0,
+        0
+      ],
+      "to": [
+        9.75,
+        6.6,
+        16.0
+      ],
+      "group": "pipe",
+      "faces": {
+        "north": {
+          "texture": "#bronze"
+        },
+        "east": {
+          "texture": "#bronze"
+        },
+        "south": {
+          "texture": "#bronze"
+        },
+        "west": {
+          "texture": "#bronze"
+        },
+        "up": {
+          "texture": "#bronze"
+        },
+        "down": {
+          "texture": "#bronze"
+        }
+      }
+    },
+    {
+      "name": "tube-top",
+      "from": [
+        6.25,
+        9.4,
+        0
+      ],
+      "to": [
+        9.75,
+        10.0,
+        16.0
+      ],
+      "group": "pipe",
+      "faces": {
+        "north": {
+          "texture": "#bronze"
+        },
+        "east": {
+          "texture": "#bronze"
+        },
+        "south": {
+          "texture": "#bronze"
+        },
+        "west": {
+          "texture": "#bronze"
+        },
+        "up": {
+          "texture": "#bronze"
+        },
+        "down": {
+          "texture": "#bronze"
+        }
+      }
+    },
+    {
+      "name": "tube-west",
+      "from": [
+        6.25,
+        6.6,
+        0
+      ],
+      "to": [
+        6.85,
+        9.4,
+        16.0
+      ],
+      "group": "pipe",
+      "faces": {
+        "north": {
+          "texture": "#bronze"
+        },
+        "east": {
+          "texture": "#bronze"
+        },
+        "south": {
+          "texture": "#bronze"
+        },
+        "west": {
+          "texture": "#bronze"
+        },
+        "up": {
+          "texture": "#bronze"
+        },
+        "down": {
+          "texture": "#bronze"
+        }
+      }
+    },
+    {
+      "name": "tube-east",
+      "from": [
+        9.15,
+        6.6,
+        0
+      ],
+      "to": [
+        9.75,
+        9.4,
+        16.0
+      ],
+      "group": "pipe",
+      "faces": {
+        "north": {
+          "texture": "#bronze"
+        },
+        "east": {
+          "texture": "#bronze"
+        },
+        "south": {
+          "texture": "#bronze"
+        },
+        "west": {
+          "texture": "#bronze"
+        },
+        "up": {
+          "texture": "#bronze"
+        },
+        "down": {
+          "texture": "#bronze"
+        }
+      }
+    },
+    {
+      "name": "irrigation-hole-down",
+      "from": [
+        7.55,
+        5.96,
+        7.55
+      ],
+      "to": [
+        8.45,
+        5.99,
+        8.45
+      ],
+      "group": "outlets",
+      "faces": {
+        "down": {
+          "texture": "#shadow"
+        }
+      }
+    },
+    {
+      "name": "irrigation-hole-west",
+      "from": [
+        6.22,
+        6.2,
+        7.55
+      ],
+      "to": [
+        6.25,
+        7.1,
+        8.45
+      ],
+      "group": "outlets",
+      "faces": {
+        "west": {
+          "texture": "#shadow"
+        }
+      }
+    },
+    {
+      "name": "irrigation-hole-east",
+      "from": [
+        9.75,
+        6.2,
+        7.55
+      ],
+      "to": [
+        9.78,
+        7.1,
+        8.45
+      ],
+      "group": "outlets",
+      "faces": {
+        "east": {
+          "texture": "#shadow"
+        }
+      }
+    }
+  ]
+}

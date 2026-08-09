@@ -52,4 +52,4 @@ Read [COMPATIBILITY.md](COMPATIBILITY.md) before changing persisted data or publ
 
 ## License
 
-Gearwright code and original assets use the [Apache License 2.0](LICENSE). Vintage Story and its assets belong to their respective owners.
+Gearwright code and original assets use the [Apache License 2.0](LICENSE). Third-party sound effects are listed in the packaged [sound attribution](assets/gearwright/sounds/ATTRIBUTION.md) and remain under the Pixabay Content License. Vintage Story and its assets belong to their respective owners.

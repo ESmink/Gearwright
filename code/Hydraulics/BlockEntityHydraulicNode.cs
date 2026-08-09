@@ -64,7 +64,7 @@ public abstract class BlockEntityHydraulicNode : BlockEntity, IHydraulicNetworkN
                 "[Gearwright] Hydraulic state at {0} has a {1} schema ({2}). The original data will remain read-only.",
                 Pos, problem, storedSchema?.ToString() ?? "non-integer");
         }
-        else if (storedSchema is 1 or 2 or 3 or 4 or 5)
+        else if (storedSchema is 1 or 2 or 3 or 4 or 5 or 6)
         {
             worldAccessForResolve.Logger.Notification(
                 "[Gearwright] Migrated hydraulic state at {0} from schema {1} to schema {2}.",

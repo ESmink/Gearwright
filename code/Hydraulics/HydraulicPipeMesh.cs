@@ -32,6 +32,12 @@ internal static class HydraulicPipeMesh
             {
                 part = Tesselate(pipe, tesselator, "gearwright:shapes/block/fluid-pipe-intake.json");
             }
+            else if (pipe.GetAddon(face) == HydraulicFaceAddon.CopperFlange)
+            {
+                part = Tesselate(pipe, tesselator, "gearwright:shapes/block/fluid-pipe-arm.json");
+                MeshData flange = Tesselate(pipe, tesselator, "gearwright:shapes/block/fluid-pipe-flange.json");
+                part.AddMeshData(flange);
+            }
             else
             {
                 part = Tesselate(pipe, tesselator, "gearwright:shapes/block/fluid-pipe-cap.json");

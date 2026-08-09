@@ -1,0 +1,46 @@
+{
+  "code": "irrigator-pipe-bronze",
+  "class": "GearwrightIrrigatorPipe",
+  "entityClass": "GearwrightIrrigatorPipeEntity",
+  "drawtype": "json",
+  "shape": { "base": "gearwright:block/irrigator-pipe-body" },
+  "textures": {
+    "bronze": { "base": "game:block/metal/sheet/tinbronze1" },
+    "shadow": { "base": "gearwright:block/inspection-shadow" },
+    "wood": { "base": "game:block/wood/planks/oak1" }
+  },
+  "attributes": {
+    "handbook": {
+      "include": true,
+      "extraSections": [
+        { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-irrigator-pipe-bronze" }
+      ]
+    }
+  },
+  "creativeinventory": { "general": ["*"], "gear": ["*"] },
+  "blockmaterial": "Metal",
+  "sounds": {
+    "hit": "game:block/heavymetal-hit2",
+    "walk": "game:walk/wood"
+  },
+  "lightAbsorption": 0,
+  "sidesolid": { "all": false },
+  "sideopaque": { "all": false },
+  "resistance": 3,
+  "selectionbox": { "x1": 0.390625, "y1": 0.3125, "z1": 0, "x2": 0.609375, "y2": 1, "z2": 1 },
+  "collisionbox": { "x1": 0.390625, "y1": 0.3125, "z1": 0, "x2": 0.609375, "y2": 1, "z2": 1 },
+  "drops": [{ "type": "block", "code": "gearwright:irrigator-pipe-bronze" }],
+  "materialDensity": 7600,
+  "guiTransform": {
+    "translation": { "x": 0, "y": 0, "z": 0 },
+    "rotation": { "x": -20, "y": 35, "z": 0 },
+    "origin": { "x": 0.5, "y": 0.5, "z": 0.5 },
+    "scale": 1.05
+  },
+  "groundTransform": {
+    "translation": { "x": 0, "y": 0.05, "z": 0 },
+    "rotation": { "x": 0, "y": 0, "z": 0 },
+    "origin": { "x": 0.5, "y": 0.1, "z": 0.5 },
+    "scale": 0.85
+  }
+}

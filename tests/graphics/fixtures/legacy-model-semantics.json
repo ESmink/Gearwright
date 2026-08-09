@@ -6,19 +6,25 @@
     "assets/gearwright/shapes/block/fluid-pipe-arm.json": "7fbd26d2d3c7be716a48ace60067049a95d3d0aae5ba89c4ad69a5c47ebda643",
     "assets/gearwright/shapes/block/fluid-pipe-cap.json": "365dfd62ac30c61fadde3b95c53877bcb26f735986bd73892f195f2e566297ec",
     "assets/gearwright/shapes/block/fluid-pipe-center.json": "55a3b714cf5f70a863181485eaa3880a6bcc37abacab378c64cf11ce18d45114",
+    "assets/gearwright/shapes/block/fluid-pipe-flange.json": "1dca17ae722403ecada7ee4e84c9ce62de597ae45437a78cac9fdf1f5f6ba838",
     "assets/gearwright/shapes/block/fluid-pipe-inventory.json": "44fb338d7141e09ecf4caf0a3f3e12b6f9ba45120c209ebb7e022ae04ce7a087",
     "assets/gearwright/shapes/block/fluid-pipe-intake.json": "7c023d1d68e73e145b33ed9b3abb2c4a3a382bf05cfb692e484084b38d6d4fc2",
     "assets/gearwright/shapes/block/fluid-pipe-window.json": "3cb427c964fb9110a84a343ec96bb97c846c46944288e092017452de2cb6dc71",
     "assets/gearwright/shapes/block/fluid-slug.json": "9c3f7e2fb81358ddfe8e12e214d3247832a510ade565f962bd36c53f826972cf",
+    "assets/gearwright/shapes/block/irrigator-pipe-body.json": "4b6ee6a9ad992651e41fae54cb4d917d071e8c3a9eec1bd5633e21b83c22d07d",
+    "assets/gearwright/shapes/block/irrigator-pipe-connection.json": "7122dde86ec07d89c565e48ff226ba5121584ebdce0838c5b44ad82d7005703c",
+    "assets/gearwright/shapes/block/irrigator-pipe-endpoint.json": "2f33c2470ab10d8f9bbd466468a060a5c5b5e9380780c167909982e4f8e38345",
+    "assets/gearwright/shapes/block/irrigator-pipe-inventory.json": "e343d6e33a607e89c2b9b1c323ed6b68f39cb70bb53bca5a56531bcb8110a4f0",
+    "assets/gearwright/shapes/block/irrigator-pipe-support.json": "a5da20f8b2362bb2b9426adee00714aa302d9f321d3dcffebecf424f1a53fc6f",
     "assets/gearwright/shapes/block/passive-fluid-pump-intake.json": "25913ec5d29b4f5bdbb590ad337038fc23929f8f716afb4a1a58b30b58a3021d",
     "assets/gearwright/shapes/block/passive-fluid-pump-liquid.json": "6d668a5828221bd88af313fce5fafd85707274254c7b8723ba5964c86336416f",
     "assets/gearwright/shapes/block/passive-fluid-pump-mechanism.json": "a1b691320247a7323393b6396b20243c0390601e050c273c324ad65f5872f7a4",
     "assets/gearwright/shapes/block/passive-fluid-pump-outlet.json": "9bda9af6322e845b0a7bca5b97c97087b79328cb1d4fdb06004790f872ccbd56",
     "assets/gearwright/shapes/block/passive-fluid-pump.json": "8a562ea532f00042c7a450f1b58d9640f2a70279ff8f6821c9d0f4306d99b4e0",
-    "assets/gearwright/shapes/block/sprinkler-body.json": "bebde50b83d470b3be034449b656611974372999d5a776cc4d199cbee0211c17",
-    "assets/gearwright/shapes/block/sprinkler-rotor.json": "f71096e75bf84df546323455343a6c4d4ecb449a5cec9eab59d779646776e386",
+    "assets/gearwright/shapes/block/sprinkler-body.json": "f1aaf6d5111764703bdbfeef518165417b2ee77957f41c249c73baccea2bb438",
+    "assets/gearwright/shapes/block/sprinkler-rotor.json": "026e3e8834ac7d0dea632178b7ca8f9c01fbe099af5eb69726d401e83a5ec1d9",
     "assets/gearwright/shapes/item/pottery-profile-tool.json": "9e184617e963b09b9e86278690ff9a8b341277ef5bd4d2ec615424d11ad513f2",
     "assets/gearwright/shapes/item/fluid-pipe-intake-copper.json": "7a94778fc01833bd332b049de9a4b6f135197de8714b263215fec3f78d2e620e",
-    "assets/gearwright/shapes/item/sprinkler-brass.json": "428fc66f411bba1fdc74a29e42d6dcc08e259b59dc1b16a9baac4fc6bded5bbd"
+    "assets/gearwright/shapes/item/sprinkler-brass.json": "f5d0f02582e3163986afa18f9e65cdcc927776727b92e06d9ffe1e85ec7bebe3"
   }
 }

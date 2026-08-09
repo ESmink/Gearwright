@@ -166,6 +166,47 @@ class PipelineTests(unittest.TestCase):
             self.assertNotIn("north", installed_by_name[name]["faces"])
             self.assertIn("north", item_by_name[name]["faces"])
 
+    def test_irrigator_endpoint_has_disjoint_geometry_and_no_internal_face_pairs(self):
+        package = load_definition(ROOT, ROOT / "graphics/models/irrigator_pipe.py")
+        document = compile_shape(
+            package.outputs["assets/gearwright/shapes/block/irrigator-pipe-endpoint.json"]
+        )
+        elements = document["elements"]
+        self.assertEqual(10, len(elements))
+        self.assertLess(max(element["to"][2] for element in elements), 0)
+
+        negative_faces = ("west", "down", "north")
+        positive_faces = ("east", "up", "south")
+        for index, first in enumerate(elements):
+            for second in elements[index + 1:]:
+                overlap = [
+                    min(first["to"][axis], second["to"][axis])
+                    - max(first["from"][axis], second["from"][axis])
+                    for axis in range(3)
+                ]
+                self.assertFalse(all(amount > 0 for amount in overlap))
+                for axis in range(3):
+                    other_axes = [candidate for candidate in range(3) if candidate != axis]
+                    if not all(overlap[candidate] > 0 for candidate in other_axes):
+                        continue
+                    if first["to"][axis] == second["from"][axis]:
+                        self.assertFalse(
+                            positive_faces[axis] in first["faces"]
+                            and negative_faces[axis] in second["faces"]
+                        )
+                    if second["to"][axis] == first["from"][axis]:
+                        self.assertFalse(
+                            positive_faces[axis] in second["faces"]
+                            and negative_faces[axis] in first["faces"]
+                        )
+
+        self.assertEqual(
+            "game:block/wood/planks/oak1",
+            compile_shape(
+                package.outputs["assets/gearwright/shapes/block/irrigator-pipe-support.json"]
+            )["textures"]["wood"],
+        )
+
     def test_deterministic_bytes(self):
         with tempfile.TemporaryDirectory() as first, tempfile.TemporaryDirectory() as second:
             first_root, second_root = Path(first), Path(second)

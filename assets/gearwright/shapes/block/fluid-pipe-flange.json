@@ -1,0 +1,315 @@
+{
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "copper": "game:block/metal/sheet/copper1"
+  },
+  "elements": [
+    {
+      "name": "blanking-plate",
+      "from": [
+        5.5,
+        5.5,
+        -0.35
+      ],
+      "to": [
+        10.5,
+        10.5,
+        0
+      ],
+      "group": "flange",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "fastener-1",
+      "from": [
+        5.78,
+        5.78,
+        -0.52
+      ],
+      "to": [
+        6.22,
+        6.22,
+        -0.35
+      ],
+      "group": "flange",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "fastener-2",
+      "from": [
+        7.78,
+        5.78,
+        -0.52
+      ],
+      "to": [
+        8.22,
+        6.22,
+        -0.35
+      ],
+      "group": "flange",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "fastener-3",
+      "from": [
+        9.78,
+        5.78,
+        -0.52
+      ],
+      "to": [
+        10.22,
+        6.22,
+        -0.35
+      ],
+      "group": "flange",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "fastener-4",
+      "from": [
+        5.78,
+        7.78,
+        -0.52
+      ],
+      "to": [
+        6.22,
+        8.22,
+        -0.35
+      ],
+      "group": "flange",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "fastener-5",
+      "from": [
+        9.78,
+        7.78,
+        -0.52
+      ],
+      "to": [
+        10.22,
+        8.22,
+        -0.35
+      ],
+      "group": "flange",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "fastener-6",
+      "from": [
+        5.78,
+        9.78,
+        -0.52
+      ],
+      "to": [
+        6.22,
+        10.22,
+        -0.35
+      ],
+      "group": "flange",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "fastener-7",
+      "from": [
+        7.78,
+        9.78,
+        -0.52
+      ],
+      "to": [
+        8.22,
+        10.22,
+        -0.35
+      ],
+      "group": "flange",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "fastener-8",
+      "from": [
+        9.78,
+        9.78,
+        -0.52
+      ],
+      "to": [
+        10.22,
+        10.22,
+        -0.35
+      ],
+      "group": "flange",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    }
+  ]
+}

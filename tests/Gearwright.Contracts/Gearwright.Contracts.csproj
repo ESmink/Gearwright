@@ -18,6 +18,7 @@
     <Compile Include="..\..\code\Hydraulics\PipeContentPhase.cs" Link="PipeContentPhase.cs" />
     <Compile Include="..\..\code\Hydraulics\PipeFlowSolver.cs" Link="PipeFlowSolver.cs" />
     <Compile Include="..\..\code\Hydraulics\HydraulicStateSchema.cs" Link="HydraulicStateSchema.cs" />
+    <Compile Include="..\..\code\Hydraulics\IrrigatorSupportPlanner.cs" Link="IrrigatorSupportPlanner.cs" />
     <Reference Include="VintagestoryAPI">
       <HintPath>$(VintageStoryPath)\VintagestoryAPI.dll</HintPath>
       <Private>true</Private>

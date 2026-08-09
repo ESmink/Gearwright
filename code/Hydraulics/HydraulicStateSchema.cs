@@ -5,7 +5,7 @@ namespace Gearwright.Hydraulics;
 /// <summary>Sequential migrations for the state shared by hydraulic block entities.</summary>
 internal static class HydraulicStateSchema
 {
-    public const int CurrentVersion = 6;
+    public const int CurrentVersion = 7;
 
     public static ITreeAttribute PrepareForRead(
         ITreeAttribute original,
@@ -20,7 +20,7 @@ internal static class HydraulicStateSchema
             return original.Clone();
         }
 
-        if (schema is 1 or 2 or 3 or 4 or 5)
+        if (schema is 1 or 2 or 3 or 4 or 5 or 6)
         {
             ITreeAttribute migrated = original.Clone();
             int version = schema.Value;
@@ -66,6 +66,13 @@ internal static class HydraulicStateSchema
                     migrated.SetInt("port-" + face, free ? 1 : 0);
                 }
                 migrated.SetInt("schemaVersion", 6);
+                version = 6;
+            }
+            if (version == 6)
+            {
+                // Schema 7 adds the copper flange attachment value and the
+                // Irrigator Pipe's additive orientation, support, and plank state.
+                migrated.SetInt("schemaVersion", 7);
             }
             canWrite = true;
             problem = null;

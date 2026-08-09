@@ -9,7 +9,8 @@ public enum HydraulicFaceAddon
     None = 0,
     GlassWindow = 1,
     Sprinkler = 2,
-    PipeNozzle = 3
+    PipeNozzle = 3,
+    CopperFlange = 4
 }
 
 public readonly record struct PumpOffer(
@@ -34,11 +35,14 @@ public static class HydraulicCodes
     public const string PipeBlock = "fluid-pipe-copper";
     public const string SprinklerItem = "sprinkler-brass";
     public const string PipeNozzleItem = "fluid-pipe-intake-copper";
+    public const string IrrigatorPipeBlock = "irrigator-pipe-bronze";
     public const string CreativePumpBlock = "creative-fluid-pump";
     public const string PassivePumpBlock = "passive-fluid-pump";
 
     public const string PipeClass = "GearwrightFluidPipe";
     public const string PipeEntityClass = "GearwrightFluidPipeEntity";
+    public const string IrrigatorPipeClass = "GearwrightIrrigatorPipe";
+    public const string IrrigatorPipeEntityClass = "GearwrightIrrigatorPipeEntity";
     public const string CreativePumpClass = "GearwrightCreativeFluidPump";
     public const string CreativePumpEntityClass = "GearwrightCreativeFluidPumpEntity";
     public const string PassivePumpClass = "GearwrightPassiveFluidPump";

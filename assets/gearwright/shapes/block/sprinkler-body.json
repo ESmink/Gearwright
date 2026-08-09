@@ -2,7 +2,7 @@
   "textureWidth": 16,
   "textureHeight": 16,
   "textures": {
-    "brass": "game:block/metal/ingot/brass"
+    "steel": "game:block/metal/sheet/steel1"
   },
   "elements": [
     {
@@ -20,22 +20,22 @@
       "group": "sprinkler-body",
       "faces": {
         "north": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "east": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "south": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "west": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "up": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "down": {
-          "texture": "#brass"
+          "texture": "#steel"
         }
       }
     },
@@ -54,22 +54,22 @@
       "group": "sprinkler-body",
       "faces": {
         "north": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "east": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "south": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "west": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "up": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "down": {
-          "texture": "#brass"
+          "texture": "#steel"
         }
       }
     },
@@ -94,22 +94,22 @@
       "group": "sprinkler-body",
       "faces": {
         "north": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "east": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "south": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "west": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "up": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "down": {
-          "texture": "#brass"
+          "texture": "#steel"
         }
       }
     },
@@ -134,22 +134,22 @@
       "group": "sprinkler-body",
       "faces": {
         "north": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "east": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "south": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "west": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "up": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "down": {
-          "texture": "#brass"
+          "texture": "#steel"
         }
       }
     },
@@ -168,22 +168,22 @@
       "group": "sprinkler-body",
       "faces": {
         "north": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "east": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "south": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "west": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "up": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "down": {
-          "texture": "#brass"
+          "texture": "#steel"
         }
       }
     },
@@ -202,22 +202,22 @@
       "group": "sprinkler-body",
       "faces": {
         "north": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "east": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "south": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "west": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "up": {
-          "texture": "#brass"
+          "texture": "#steel"
         },
         "down": {
-          "texture": "#brass"
+          "texture": "#steel"
         }
       }
     }

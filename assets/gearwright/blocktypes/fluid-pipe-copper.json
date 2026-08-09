@@ -7,6 +7,7 @@
   "textures": {
     "copper": { "base": "game:block/metal/sheet/copper1" },
     "brass": { "base": "game:block/metal/ingot/brass" },
+    "steel": { "base": "game:block/metal/sheet/steel1" },
     "glass": { "base": "gearwright:block/inspection-glass" },
     "shadow": { "base": "gearwright:block/inspection-shadow" }
   },

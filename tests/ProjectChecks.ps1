@@ -24,7 +24,7 @@ $required = @(
     "graphics\README.md", "graphics\review\README.md", "graphics\review\slingshot_workflow.py",
     "skills\vintage-story-modeling\SKILL.md", "skills\vintage-story-modeling\agents\openai.yaml",
     "graphics\models\pottery_profile_tool.py", "graphics\models\fluid_pipe.py",
-    "graphics\models\sprinkler.py", "graphics\models\creative_fluid_pump.py",
+    "graphics\models\sprinkler.py", "graphics\models\irrigator_pipe.py", "graphics\models\creative_fluid_pump.py",
     "graphics\models\passive_fluid_pump.py", "graphics\recipes\pottery-profile-tool.texture.json",
     "graphics\recipes\inspection-glass.texture.json", "graphics\recipes\inspection-shadow.texture.json",
     "graphics\recipes\steam.texture.json",
@@ -43,6 +43,7 @@ $required = @(
     "assets\gearwright\itemtypes\sprinkler-brass.json",
     "assets\gearwright\itemtypes\fluid-pipe-intake-copper.json",
     "assets\gearwright\blocktypes\fluid-pipe-copper.json",
+    "assets\gearwright\blocktypes\irrigator-pipe-bronze.json",
     "assets\gearwright\blocktypes\creative-fluid-pump.json",
     "assets\gearwright\blocktypes\passive-fluid-pump.json",
     "assets\gearwright\shapes\block\passive-fluid-pump-liquid.json",
@@ -52,15 +53,33 @@ $required = @(
     "assets\gearwright\shapes\block\fluid-pipe-cap.json",
     "assets\gearwright\shapes\block\fluid-pipe-inventory.json",
     "assets\gearwright\shapes\block\fluid-pipe-intake.json",
+    "assets\gearwright\shapes\block\fluid-pipe-flange.json",
+    "assets\gearwright\shapes\block\irrigator-pipe-body.json",
+    "assets\gearwright\shapes\block\irrigator-pipe-connection.json",
+    "assets\gearwright\shapes\block\irrigator-pipe-endpoint.json",
+    "assets\gearwright\shapes\block\irrigator-pipe-inventory.json",
+    "assets\gearwright\shapes\block\irrigator-pipe-support.json",
     "assets\gearwright\textures\block\inspection-glass.png",
     "assets\gearwright\textures\block\inspection-shadow.png",
     "assets\gearwright\textures\block\steam.png",
     "assets\gearwright\shapes\item\pottery-profile-tool.json",
     "assets\gearwright\shapes\item\fluid-pipe-intake-copper.json",
     "assets\gearwright\textures\item\pottery-profile-tool.png",
+    "assets\gearwright\sounds\ATTRIBUTION.md",
+    "assets\gearwright\sounds\hydraulics\water-dribble.ogg",
+    "assets\gearwright\sounds\hydraulics\water-hose.ogg",
+    "assets\gearwright\sounds\hydraulics\sprinkler.ogg",
+    "assets\gearwright\sounds\hydraulics\watering.ogg",
+    "assets\gearwright\sounds\hydraulics\pressure-creak-heavy.ogg",
+    "assets\gearwright\sounds\hydraulics\pressure-creak-facility.ogg",
+    "assets\gearwright\sounds\hydraulics\pressure-creak.ogg",
     "code\Hydraulics\ScrollingLiquidSurface.cs", "code\Hydraulics\PassiveFluidPumpRenderer.cs",
     "code\Hydraulics\PipeContent.cs", "code\Hydraulics\PipeContentMesh.cs",
-    "code\Hydraulics\PipeFlowSolver.cs",
+    "code\Hydraulics\HydraulicPipeSoundController.cs",
+    "code\Hydraulics\PipeFlowSolver.cs", "code\Hydraulics\BlockIrrigatorPipe.cs",
+    "code\Hydraulics\BlockEntityIrrigatorPipe.cs", "code\Hydraulics\IrrigatorPipeMesh.cs",
+    "code\Hydraulics\IrrigatorPipeRenderer.cs", "code\Hydraulics\IrrigatorSupportPlanner.cs",
+    "code\Hydraulics\IrrigatorSupportSystem.cs",
     "tools\Common.ps1", "tools\Build-Mod.ps1", "tools\Test-Project.ps1", "tools\Install-Mod.ps1",
     "tools\Test-ServerSmoke.ps1",
     "tools\graphics\Build-Graphics.ps1",
@@ -152,6 +171,7 @@ $handbookAssets = @(
     "assets\gearwright\itemtypes\sprinkler-brass.json",
     "assets\gearwright\itemtypes\fluid-pipe-intake-copper.json",
     "assets\gearwright\blocktypes\fluid-pipe-copper.json",
+    "assets\gearwright\blocktypes\irrigator-pipe-bronze.json",
     "assets\gearwright\blocktypes\creative-fluid-pump.json",
     "assets\gearwright\blocktypes\passive-fluid-pump.json"
 )
@@ -163,7 +183,8 @@ $languageText = Get-Content -Raw (Join-Path $root "assets\gearwright\lang\en.jso
 foreach ($key in @(
     "handbook-text-pottery-profile-tool", "handbook-text-fluid-pipe-copper",
     "handbook-text-sprinkler-brass", "handbook-text-creative-fluid-pump",
-    "handbook-text-passive-fluid-pump", "handbook-text-fluid-pipe-intake-copper"
+    "handbook-text-passive-fluid-pump", "handbook-text-fluid-pipe-intake-copper",
+    "handbook-text-irrigator-pipe-bronze"
 )) {
     Assert-Project ($languageText -match [regex]::Escape('"' + $key + '"')) "Handbook text exists: $key"
 }
@@ -176,6 +197,7 @@ Assert-Project (
 
 $pipeBlockText = Get-Content -Raw (Join-Path $root "code\Hydraulics\BlockFluidPipe.cs")
 $pipeEntityText = Get-Content -Raw (Join-Path $root "code\Hydraulics\BlockEntityFluidPipe.cs")
+$pipeModelDefinitionText = Get-Content -Raw (Join-Path $root "graphics\models\fluid_pipe.py")
 Assert-Project ($pipeBlockText -match 'game", "glass-plain' -and $pipeBlockText -notmatch 'glasspane') "Pipe inspection windows consume plain glass blocks"
 Assert-Project (
     $pipeBlockText -match 'changed && !togglingPort && !removing'
@@ -188,6 +210,12 @@ Assert-Project (
     $pipeBlockText -match 'HydraulicFaceAddon\.PipeNozzle'
 ) "Pipe hitboxes follow connected arms, the installed sprinkler, and the installed nozzle"
 Assert-Project ($pipeBlockText -match 'HydraulicCodes\.PipeNozzleItem' -and $pipeBlockText -match 'TryInstallAddon') "The standalone copper nozzle item installs as a pipe attachment"
+Assert-Project (
+    $pipeBlockText -match 'metalplate-copper' -and
+    $pipeEntityText -match 'HydraulicFaceAddon\.CopperFlange' -and
+    $pipeEntityText -match 'IsPortOpenToAir\(face\)' -and
+    $pipeModelDefinitionText -match 'fastener-\{index \+ 1\}'
+) "A copper plate seals an enabled air-facing regular-pipe connection with eight fasteners"
 Assert-Project (
     $pipeEntityText -match 'AttachmentInstallSound' -and
     $pipeEntityText -match 'game:sounds/block/metaldoor-place' -and
@@ -204,6 +232,39 @@ Assert-Project (
     $pipeEntityText -match 'game:sounds/block/heavymetal-hit' -and
     $pipeEntityText -match 'PipeRemoveSound, Pos, 0, null'
 ) "Pipe placement and removal emit distinct sounds to the initiating player"
+$pipeSoundText = Get-Content -Raw (Join-Path $root "code\Hydraulics\HydraulicPipeSoundController.cs")
+$soundAttributionText = Get-Content -Raw (Join-Path $root "assets\gearwright\sounds\ATTRIBUTION.md")
+$hydraulicSounds = Get-ChildItem (Join-Path $root "assets\gearwright\sounds\hydraulics") -Filter "*.ogg" -File
+$validOggSounds = @($hydraulicSounds | Where-Object {
+    $_.Length -gt 10000 -and
+    [Text.Encoding]::ASCII.GetString((Get-Content -Encoding Byte -TotalCount 4 $_.FullName)) -ceq "OggS"
+})
+Assert-Project (
+    $hydraulicSounds.Count -eq 7 -and $validOggSounds.Count -eq 7 -and
+    $soundAttributionText -match 'freesound_community' -and
+    $soundAttributionText -match 'DRAGON-STUDIO' -and
+    $soundAttributionText -match '43910' -and
+    $soundAttributionText -match '515253'
+) "Seven valid hydraulic Ogg assets retain their Pixabay creator and source attribution"
+Assert-Project (
+    $pipeEntityText -match 'HydraulicPipeSoundController' -and
+    $pipeSoundText -match 'AudioFlowIntensity' -and
+    $pipeSoundText -match 'PressureWarningStartKPa' -and
+    $pipeSoundText -match 'PressureCreakLimiter' -and
+    $pipeSoundText -match 'SetPitch' -and
+    $pipeSoundText -match 'SetVolume' -and
+    $pipeSoundText -match 'EnumSoundType\.Ambient' -and
+    $pipeSoundText -match 'AmbientVolumeMultiplier = 2' -and
+    $pipeSoundText -match 'LoopReferenceDistanceBlocks = 0\.9f' -and
+    $pipeSoundText -match 'PressureReferenceDistanceBlocks = 1' -and
+    $pipeSoundText -match 'SprinklerLocations' -and
+    $pipeSoundText -match 'sprinkler\.ogg' -and
+    $pipeSoundText -match 'IrrigatorLocations' -and
+    $pipeSoundText -match 'pipe is BlockEntityIrrigatorPipe' -and
+    $pipeSoundText -match 'pipe is not BlockEntityIrrigatorPipe' -and
+    $pipeSoundText -match 'IrrigatorPerformance' -and
+    $pipeSoundText -match 'ref irrigatorSound, IrrigatorLocations'
+) "Pipe, nozzle, sprinkler, irrigator, and rate-limited pressure audio vary with live state at doubled volume and range"
 Assert-Project (
     $pipeEntityText -match 'port-' -and
     $pipeEntityText -match 'IsPortEnabled' -and
@@ -248,9 +309,50 @@ Assert-Project (
     $sprinklerModelText -match 'arm-north' -and
     $sprinklerModelText -notmatch 'arm-ns|arm-ew' -and
     $pipeRendererText -match '60 \+ 240 \* performance' -and
-    $pipeRendererText -match 'SpawnJet' -and
+    $pipeRendererText -match 'RotateY\(rotorAngle\)' -and
+    $pipeRendererText -match 'nextSprinklerNozzle = \(nextSprinklerNozzle \+ 1\) % 4' -and
+    $pipeRendererText -match 'baseAngles\[nozzle\] - rotorAngle' -and
+    $pipeRendererText -match 'random\.NextDouble\(\) \* maximumOutward' -and
+    $pipeRendererText -match 'SprinklerParticleAlpha = 68' -and
     $pipeRendererText -match 'EnumParticleModel\.Cube'
-) "The Python sprinkler definition separates its rotor hub and arms from the stationary pin"
+) "The steel sprinkler rotates its rotor and synchronized low-opacity jets with random outward force"
+$irrigatorModelText = Get-Content -Raw (Join-Path $root "graphics\models\irrigator_pipe.py")
+$irrigatorSupportText = Get-Content -Raw (Join-Path $root "code\Hydraulics\IrrigatorSupportPlanner.cs")
+$irrigatorSystemText = Get-Content -Raw (Join-Path $root "code\Hydraulics\IrrigatorSupportSystem.cs")
+$irrigatorEntityText = Get-Content -Raw (Join-Path $root "code\Hydraulics\BlockEntityIrrigatorPipe.cs")
+$irrigatorBlockText = Get-Content -Raw (Join-Path $root "code\Hydraulics\BlockIrrigatorPipe.cs")
+$irrigatorMeshText = Get-Content -Raw (Join-Path $root "code\Hydraulics\IrrigatorPipeMesh.cs")
+$irrigatorRendererText = Get-Content -Raw (Join-Path $root "code\Hydraulics\IrrigatorPipeRenderer.cs")
+$irrigatorAssetText = Get-Content -Raw (Join-Path $root "assets\gearwright\blocktypes\irrigator-pipe-bronze.json")
+Assert-Project (
+    $irrigatorModelText -match 'irrigation-hole-down' -and
+    $irrigatorModelText -match '6\.22, 6\.2, 7\.55' -and
+    $irrigatorModelText -match '9\.78, 7\.1, 8\.45' -and
+    $irrigatorModelText -match 'def _octagonal_layer' -and
+    $irrigatorModelText -match 'cap-front", -\.28, -\.14' -and
+    $irrigatorModelText -match 'bottom-cradle'
+) "The Irrigator Pipe has lowered three-way holes, disjoint rounded endpoints, and snug bottom-cradle supports"
+Assert-Project (
+    $irrigatorSupportText -match 'MaximumUnsupportedPipes = 3' -and
+    $irrigatorSupportText -match 'count == 1' -and
+    $irrigatorSupportText -match 'supports\.Contains\(count - 1\)' -and
+    $irrigatorSystemText -match 'BreakBlock\(problem\.Pos, null, 1f\)' -and
+    $irrigatorSystemText -match 'IsSideSolid' -and
+    $irrigatorEntityText -match 'DefaultSupportPlank = "game:planks-oak-ud"' -and
+    $irrigatorMeshText -match 'HydraulicPipeMesh\.Tesselate' -and
+    $irrigatorMeshText -notmatch 'SupportTextureSource|GetPosition' -and
+    $irrigatorAssetText -match 'game:block/wood/planks/oak1' -and
+    $irrigatorBlockText -match 'HasValidSupportPlan' -and
+    $irrigatorBlockText -match 'gearwright-irrigator-unsupported' -and
+    $irrigatorBlockText -match 'HorizontalFromYaw\(byPlayer\.Entity\.Pos\.Yaw\)' -and
+    $irrigatorBlockText -notmatch 'ResolveSupportPlank|TrySetSupportPlank'
+) "Irrigator supports use their reliable oak block texture, reject invalid placement, and break after lost support"
+Assert-Project (
+    $irrigatorRendererText -match 'nextOutlet = \(nextOutlet \+ 1\) % 3' -and
+    $irrigatorRendererText -match 'RandomBetween\(random, -\.92, -\.08\)' -and
+    $irrigatorRendererText -match 'RandomBetween\(random, 1\.08, 1\.92\)' -and
+    $irrigatorRendererText -match 'RandomBetween\(random, \.08, \.92\)'
+) "All three Irrigator outlets receive particles and scatter them across their target block"
 $gravityDrain = Get-Content -Raw (Join-Path $root "assets\gearwright\blocktypes\passive-fluid-pump.json") | ConvertFrom-Json
 $hydraulicsRecipesText = Get-Content -Raw (Join-Path $root "assets\gearwright\recipes\grid\hydraulics.json")
 Assert-Project ($null -eq $gravityDrain.PSObject.Properties["creativeinventory"] -and $hydraulicsRecipesText -notmatch 'passive-fluid-pump') "The deprecated gravity drain is absent from crafting and creative inventory"
@@ -352,11 +454,11 @@ Assert-Project (
 ) "Nozzles use bright translucent content colors, fourfold peak jet power, and zero-gravity cone intake particles"
 $hydraulicStateText = Get-Content -Raw (Join-Path $root "code\Hydraulics\HydraulicStateSchema.cs")
 Assert-Project (
-    $hydraulicStateText -match 'CurrentVersion\s*=\s*6' -and
-    $hydraulicStateText -match 'schema is 1 or 2 or 3 or 4 or 5' -and
+    $hydraulicStateText -match 'CurrentVersion\s*=\s*7' -and
+    $hydraulicStateText -match 'schema is 1 or 2 or 3 or 4 or 5 or 6' -and
     $hydraulicStateText -match 'explicitly authorized breaking pipe rework' -and
-    $hydraulicStateText -match 'explicit persisted port'
-) "Hydraulic state reaches explicit-port schema 6 through sequential migrations"
+    $hydraulicStateText -match 'Irrigator Pipe''s additive orientation'
+) "Hydraulic state reaches additive Irrigator Pipe schema 7 through sequential migrations"
 
 $graphicsRecipes = Get-ChildItem (Join-Path $root "graphics\recipes") -Filter "*.json" -File
 foreach ($graphicsRecipe in $graphicsRecipes) {

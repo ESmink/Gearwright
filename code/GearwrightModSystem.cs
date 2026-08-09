@@ -21,6 +21,8 @@ public sealed class GearwrightModSystem : ModSystem
     {
         api.RegisterBlockClass(HydraulicCodes.PipeClass, typeof(BlockFluidPipe));
         api.RegisterBlockEntityClass(HydraulicCodes.PipeEntityClass, typeof(BlockEntityFluidPipe));
+        api.RegisterBlockClass(HydraulicCodes.IrrigatorPipeClass, typeof(BlockIrrigatorPipe));
+        api.RegisterBlockEntityClass(HydraulicCodes.IrrigatorPipeEntityClass, typeof(BlockEntityIrrigatorPipe));
         api.RegisterBlockClass(HydraulicCodes.CreativePumpClass, typeof(BlockCreativeFluidPump));
         api.RegisterBlockEntityClass(HydraulicCodes.CreativePumpEntityClass, typeof(BlockEntityCreativeFluidPump));
         api.RegisterBlockClass(HydraulicCodes.PassivePumpClass, typeof(BlockPassiveFluidPump));

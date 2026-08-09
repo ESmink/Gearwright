@@ -99,6 +99,20 @@ def _cap(shape: Shape) -> None:
     shape.box("face-cap", (6.5, 6.5, 6), (9.5, 9.5, 6.5), texture=COPPER, group="attachment")
 
 
+def _flange(shape: Shape) -> None:
+    """Approved collar flange made from a copper plate with eight fasteners."""
+    _textures(shape)
+    shape.box("blanking-plate", (5.5, 5.5, -.35), (10.5, 10.5, 0), texture=COPPER, group="flange")
+    for index, (x, y) in enumerate(((6, 6), (8, 6), (10, 6), (6, 8), (10, 8), (6, 10), (8, 10), (10, 10))):
+        shape.box(
+            f"fastener-{index + 1}",
+            (x - .22, y - .22, -.52),
+            (x + .22, y + .22, -.35),
+            texture=COPPER,
+            group="flange",
+        )
+
+
 def _window(shape: Shape) -> None:
     _textures(shape, copper=False, glass=True)
     shape.box("glass", (6.5, 6.5, 6), (9.5, 9.5, 6.5), texture="#glass", faces=("north",), uv=(0, 0, 16, 16), render_pass=1, group="window")
@@ -170,6 +184,7 @@ def build() -> ModelPackage:
     package.shape(_new("fluid-pipe-center", _center), "assets/gearwright/shapes/block/fluid-pipe-center.json")
     package.shape(_new("fluid-pipe-arm", _arm), "assets/gearwright/shapes/block/fluid-pipe-arm.json")
     package.shape(_new("fluid-pipe-cap", _cap), "assets/gearwright/shapes/block/fluid-pipe-cap.json")
+    package.shape(_new("fluid-pipe-flange", _flange), "assets/gearwright/shapes/block/fluid-pipe-flange.json")
     package.shape(_new("fluid-pipe-window", _window), "assets/gearwright/shapes/block/fluid-pipe-window.json")
     package.shape(_new("fluid-slug", _slug), "assets/gearwright/shapes/block/fluid-slug.json")
     package.shape(_new("fluid-pipe-inventory", _inventory), "assets/gearwright/shapes/block/fluid-pipe-inventory.json")
@@ -212,6 +227,12 @@ def compose_pipe_shape(state: Mapping[str, str], pressure: float = 0) -> dict:
             part = output_by_suffix["sprinkler-body"] if "sprinkler-body" in output_by_suffix else None
         elif attachment == "intake":
             part = output_by_suffix["fluid-pipe-intake"]
+        elif attachment == "flange":
+            arm = deepcopy(output_by_suffix["fluid-pipe-arm"])
+            flange = output_by_suffix["fluid-pipe-flange"]
+            arm.setdefault("textures", {}).update(deepcopy(flange.get("textures", {})))
+            arm.setdefault("elements", []).extend(deepcopy(flange.get("elements", [])))
+            part = arm
         else:
             part = output_by_suffix["fluid-pipe-cap"]
         if part is not None:

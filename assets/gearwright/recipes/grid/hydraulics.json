@@ -15,13 +15,25 @@
     "ingredientPattern": "IB,SH",
     "ingredients": {
       "I": { "type": "item", "code": "game:solderingiron", "isTool": true, "toolDurabilityCost": 2 },
-      "B": { "type": "item", "code": "game:metalplate-brass" },
+      "B": { "type": "item", "code": "game:metalplate-steel" },
       "S": { "type": "item", "code": "game:solderbar-*", "quantity": 2, "name": "mat", "allowedVariants": ["tin", "silver"] },
       "H": { "type": "item", "tags": ["tool-hammer"], "isTool": true, "toolDurabilityCost": 2 }
     },
     "width": 2,
     "height": 2,
     "output": { "type": "item", "code": "gearwright:sprinkler-brass", "quantity": 1 }
+  },
+  {
+    "ingredientPattern": "IB,PS",
+    "ingredients": {
+      "I": { "type": "item", "code": "game:solderingiron", "isTool": true, "toolDurabilityCost": 1 },
+      "B": { "type": "item", "code": "game:metalplate-tinbronze" },
+      "P": { "type": "item", "code": "game:plank-oak", "quantity": 2 },
+      "S": { "type": "item", "code": "game:solderbar-*", "quantity": 1, "name": "mat", "allowedVariants": ["tin", "silver"] }
+    },
+    "width": 2,
+    "height": 2,
+    "output": { "type": "block", "code": "gearwright:irrigator-pipe-bronze", "quantity": 4 }
   },
   {
     "ingredientPattern": "IC,SH",

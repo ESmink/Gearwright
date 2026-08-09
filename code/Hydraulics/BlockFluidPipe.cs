@@ -28,13 +28,17 @@ public sealed class BlockFluidPipe : Block
         bool installingWindow = held?.Block?.Code.Equals(new AssetLocation("game", "glass-plain")) == true;
         bool installingNozzle = held?.Collectible.Code.Equals(
             new AssetLocation(GearwrightModSystem.ModId, HydraulicCodes.PipeNozzleItem)) == true;
+        bool installingFlange = held?.Collectible.Code.Equals(
+            new AssetLocation("game", "metalplate-copper")) == true;
         HydraulicFaceAddon addon = installingSprinkler
             ? HydraulicFaceAddon.Sprinkler
             : installingWindow
                 ? HydraulicFaceAddon.GlassWindow
                 : installingNozzle
                     ? HydraulicFaceAddon.PipeNozzle
-                    : HydraulicFaceAddon.None;
+                    : installingFlange
+                        ? HydraulicFaceAddon.CopperFlange
+                        : HydraulicFaceAddon.None;
 
         if (!togglingPort && !removing && addon == HydraulicFaceAddon.None) return false;
         if (world.Side == EnumAppSide.Client) return true;
@@ -92,7 +96,8 @@ public sealed class BlockFluidPipe : Block
 
         foreach (BlockFacing face in BlockFacing.ALLFACES)
         {
-            if (pipe.IsPortEnabled(face)) AddConnectionBoxes(boxes, face);
+            if (pipe.IsPortEnabled(face) || pipe.GetAddon(face) == HydraulicFaceAddon.CopperFlange)
+                AddConnectionBoxes(boxes, face);
             else if (pipe.GetAddon(face) == HydraulicFaceAddon.PipeNozzle)
                 AddIntakeBox(boxes, face);
         }

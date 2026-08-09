@@ -9,7 +9,7 @@ using Vintagestory.API.MathTools;
 
 namespace Gearwright.Hydraulics;
 
-public sealed class BlockEntityFluidPipe : BlockEntityHydraulicNode
+public class BlockEntityFluidPipe : BlockEntityHydraulicNode
 {
     private const double EmptyEpsilonLitres = 0.000001;
     private static readonly AssetLocation AttachmentInstallSound =
@@ -28,6 +28,8 @@ public sealed class BlockEntityFluidPipe : BlockEntityHydraulicNode
     private double throughputLitresPerSecond;
     private double lastSimulationTotalHours = -1;
     private HydraulicPipeRenderer? renderer;
+    private HydraulicPipeSoundController? soundController;
+    private long soundTickListenerId;
 
     public bool HasSprinkler => addons[BlockFacing.DOWN.Index] == HydraulicFaceAddon.Sprinkler;
     public double ContentAmountLitres => contentAmountLitres;
@@ -50,8 +52,14 @@ public sealed class BlockEntityFluidPipe : BlockEntityHydraulicNode
         base.Initialize(api);
         if (api is ICoreClientAPI capi)
         {
-            renderer = new HydraulicPipeRenderer(this, capi);
-            capi.Event.RegisterRenderer(renderer, EnumRenderStage.Opaque, "gearwright-hydraulic-pipe");
+            soundController = new HydraulicPipeSoundController(this, capi);
+            soundTickListenerId = RegisterGameTickListener(
+                soundController.Update, 100, api.World.Rand.Next(100));
+            if (GetType() == typeof(BlockEntityFluidPipe))
+            {
+                renderer = new HydraulicPipeRenderer(this, capi);
+                capi.Event.RegisterRenderer(renderer, EnumRenderStage.Opaque, "gearwright-hydraulic-pipe");
+            }
         }
     }
 
@@ -90,6 +98,25 @@ public sealed class BlockEntityFluidPipe : BlockEntityHydraulicNode
         MarkPortStateDirty(initialFace);
     }
 
+    protected void ConfigureStraightPorts(BlockFacing negativeFace, BlockFacing positiveFace)
+    {
+        if (!CanWriteState) return;
+        Array.Clear(ports, 0, ports.Length);
+        ports[negativeFace.Index] = true;
+        ports[positiveFace.Index] = true;
+
+        foreach (BlockFacing face in new[] { negativeFace, positiveFace })
+        {
+            if (Api?.World.BlockAccessor.GetBlockEntity(Pos.AddCopy(face)) is BlockEntityFluidPipe neighbor)
+            {
+                neighbor.EnableReciprocalPort(face.Opposite);
+            }
+            Api?.World.BlockAccessor.MarkBlockDirty(Pos.AddCopy(face));
+        }
+        MarkHydraulicsDirty(true);
+        Api?.World.BlockAccessor.TriggerNeighbourBlockUpdate(Pos);
+    }
+
     public bool TryTogglePort(BlockFacing face, IPlayer byPlayer)
     {
         if (!CanWriteState || addons[face.Index] != HydraulicFaceAddon.None) return false;
@@ -126,11 +153,13 @@ public sealed class BlockEntityFluidPipe : BlockEntityHydraulicNode
         if (!CanWriteState || addons[face.Index] != HydraulicFaceAddon.None || IsConnected(face)) return false;
         if (addon != HydraulicFaceAddon.GlassWindow &&
             addon != HydraulicFaceAddon.Sprinkler &&
-            addon != HydraulicFaceAddon.PipeNozzle) return false;
+            addon != HydraulicFaceAddon.PipeNozzle &&
+            addon != HydraulicFaceAddon.CopperFlange) return false;
         if (addon == HydraulicFaceAddon.Sprinkler && face != BlockFacing.DOWN) return false;
+        if (addon == HydraulicFaceAddon.CopperFlange && !IsPortOpenToAir(face)) return false;
 
         addons[face.Index] = addon;
-        ports[face.Index] = false;
+        ports[face.Index] = addon == HydraulicFaceAddon.CopperFlange;
         addonStacks[face.Index] = stack.Clone();
         addonStacks[face.Index]!.StackSize = 1;
         if (Api.Side == EnumAppSide.Server)
@@ -197,19 +226,19 @@ public sealed class BlockEntityFluidPipe : BlockEntityHydraulicNode
                 }
             }
         }
-        StopRenderer();
+        StopClientPresentation();
         base.OnBlockBroken(byPlayer);
     }
 
     public override void OnBlockRemoved()
     {
-        StopRenderer();
+        StopClientPresentation();
         base.OnBlockRemoved();
     }
 
     public override void OnBlockUnloaded()
     {
-        StopRenderer();
+        StopClientPresentation();
         base.OnBlockUnloaded();
     }
 
@@ -333,15 +362,24 @@ public sealed class BlockEntityFluidPipe : BlockEntityHydraulicNode
     public override bool OnTesselation(ITerrainMeshPool mesher, ITesselatorAPI tessThreadTesselator) =>
         HydraulicPipeMesh.AddStaticMeshes(this, mesher, tessThreadTesselator);
 
-    private void StopRenderer()
+    private void StopClientPresentation()
     {
-        if (renderer == null || Api is not ICoreClientAPI capi) return;
-        capi.Event.UnregisterRenderer(renderer, EnumRenderStage.Opaque);
-        renderer.Dispose();
-        renderer = null;
+        if (soundTickListenerId != 0)
+        {
+            UnregisterGameTickListener(soundTickListenerId);
+            soundTickListenerId = 0;
+        }
+        soundController?.Dispose();
+        soundController = null;
+        if (renderer != null && Api is ICoreClientAPI capi)
+        {
+            capi.Event.UnregisterRenderer(renderer, EnumRenderStage.Opaque);
+            renderer.Dispose();
+            renderer = null;
+        }
     }
 
-    private void EnableReciprocalPort(BlockFacing face)
+    internal void EnableReciprocalPort(BlockFacing face)
     {
         if (!CanWriteState || addons[face.Index] != HydraulicFaceAddon.None || ports[face.Index]) return;
         ports[face.Index] = true;

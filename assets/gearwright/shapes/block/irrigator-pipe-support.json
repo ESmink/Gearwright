@@ -1,0 +1,147 @@
+{
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "bronze": "game:block/metal/sheet/tinbronze1",
+    "shadow": "gearwright:block/inspection-shadow",
+    "wood": "game:block/wood/planks/oak1"
+  },
+  "elements": [
+    {
+      "name": "ceiling-beam",
+      "from": [
+        4.25,
+        14.2,
+        2.35
+      ],
+      "to": [
+        11.75,
+        16.0,
+        3.85
+      ],
+      "group": "support",
+      "faces": {
+        "north": {
+          "texture": "#wood"
+        },
+        "east": {
+          "texture": "#wood"
+        },
+        "south": {
+          "texture": "#wood"
+        },
+        "west": {
+          "texture": "#wood"
+        },
+        "up": {
+          "texture": "#wood"
+        },
+        "down": {
+          "texture": "#wood"
+        }
+      }
+    },
+    {
+      "name": "west-drop",
+      "from": [
+        5.0,
+        6.0,
+        2.35
+      ],
+      "to": [
+        6.25,
+        14.2,
+        3.85
+      ],
+      "group": "support",
+      "faces": {
+        "north": {
+          "texture": "#wood"
+        },
+        "east": {
+          "texture": "#wood"
+        },
+        "south": {
+          "texture": "#wood"
+        },
+        "west": {
+          "texture": "#wood"
+        },
+        "up": {
+          "texture": "#wood"
+        },
+        "down": {
+          "texture": "#wood"
+        }
+      }
+    },
+    {
+      "name": "east-drop",
+      "from": [
+        9.75,
+        6.0,
+        2.35
+      ],
+      "to": [
+        11.0,
+        14.2,
+        3.85
+      ],
+      "group": "support",
+      "faces": {
+        "north": {
+          "texture": "#wood"
+        },
+        "east": {
+          "texture": "#wood"
+        },
+        "south": {
+          "texture": "#wood"
+        },
+        "west": {
+          "texture": "#wood"
+        },
+        "up": {
+          "texture": "#wood"
+        },
+        "down": {
+          "texture": "#wood"
+        }
+      }
+    },
+    {
+      "name": "bottom-cradle",
+      "from": [
+        5.0,
+        5.0,
+        2.35
+      ],
+      "to": [
+        11.0,
+        6.2,
+        3.85
+      ],
+      "group": "support",
+      "faces": {
+        "north": {
+          "texture": "#wood"
+        },
+        "east": {
+          "texture": "#wood"
+        },
+        "south": {
+          "texture": "#wood"
+        },
+        "west": {
+          "texture": "#wood"
+        },
+        "up": {
+          "texture": "#wood"
+        },
+        "down": {
+          "texture": "#wood"
+        }
+      }
+    }
+  ]
+}

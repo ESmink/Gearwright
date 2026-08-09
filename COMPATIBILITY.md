@@ -27,6 +27,8 @@ Loading follows these rules:
 
 Future entity, block-entity, item-stack, and player data must follow the same behavior even if they use Vintage Story tree attributes or protobuf instead of JSON.
 
+Hydraulic block entities currently use schema 7. Schema 6 migrates additively: existing port and attachment values keep their numeric meaning, the Copper Plate Flange uses the new attachment value 4, and newly placed Irrigator Pipes add orientation, visible-support, and support-plank fields. Older pipe fields and unknown fields remain intact.
+
 ## Change checklist
 
 Before releasing a persistence change:
