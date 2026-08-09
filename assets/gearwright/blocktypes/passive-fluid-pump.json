@@ -18,7 +18,6 @@
       ]
     }
   },
-  "creativeinventory": { "general": ["*"], "gear": ["*"] },
   "blockmaterial": "Metal",
   "lightAbsorption": 0,
   "sidesolid": {

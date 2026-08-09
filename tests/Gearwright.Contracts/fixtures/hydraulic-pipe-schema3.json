@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 3,
+  "addon-1": 1,
+  "addonStack-1": {
+    "type": "block",
+    "code": "game:glass-plain",
+    "stackSize": 1
+  },
+  "networkFlowDirection": "south",
+  "futureData": {
+    "keep": true
+  }
+}

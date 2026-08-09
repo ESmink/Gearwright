@@ -40,44 +40,7 @@ public sealed class BlockEntityPassiveFluidPump : BlockEntityHydraulicPump
     }
 
     public override PumpOffer GetOffer()
-    {
-        SourceConnection? found = FindSource();
-        if (found == null)
-        {
-            return new PumpOffer(this, new AssetLocation(HydraulicCodes.FreshWater), 0, "no-source");
-        }
-
-        SourceConnection source = found.Value;
-        double fill = source.Interface.GetCurrentLitres(source.Position) / Math.Max(0.001, source.Interface.CapacityLitres);
-        double pressure = HydraulicMath.PassivePressure(fill, source.Horizontal);
-        return new PumpOffer(this, source.Content.Collectible.Code, pressure, pressure > 0 ? "running" : "reserve-reached");
-    }
-
-    public override double ConsumeLitres(double requestedLitres)
-    {
-        SourceConnection? found = FindSource();
-        if (found == null || requestedLitres <= 0) return 0;
-        SourceConnection source = found.Value;
-        WaterTightContainableProps? props = source.Interface.GetContentProps(source.Position);
-        if (props == null || props.ItemsPerLitre <= 0) return 0;
-
-        double currentLitres = source.Interface.GetCurrentLitres(source.Position);
-        double reserve = source.Horizontal
-            ? source.Interface.CapacityLitres * HydraulicMath.HorizontalTankReserveFraction
-            : 0;
-        double allowedLitres = Math.Min(requestedLitres, Math.Max(0, currentLitres - reserve));
-        if (allowedLitres <= 0) return 0;
-
-        double exactItems = allowedLitres * props.ItemsPerLitre + FractionalItems;
-        int maximumAccessibleItems = (int)Math.Floor(Math.Max(0, currentLitres - reserve) * props.ItemsPerLitre);
-        int requestedItems = Math.Min((int)Math.Floor(exactItems), maximumAccessibleItems);
-        FractionalItems = exactItems - requestedItems;
-        if (requestedItems <= 0) return allowedLitres;
-
-        ItemStack? taken = source.Source.TryTakeContent(source.Position, requestedItems);
-        int actualItems = taken?.StackSize ?? 0;
-        return Math.Min(allowedLitres, actualItems / props.ItemsPerLitre);
-    }
+        => new(this, new AssetLocation(HydraulicCodes.FreshWater), 0, "deprecated");
 
     protected override bool IsSourceFace(BlockFacing face)
     {

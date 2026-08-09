@@ -1,13 +1,15 @@
 # Save and identifier compatibility
 
-Gearwright maintains save compatibility across releases, including pre-1.0 releases.
+Gearwright maintains save compatibility across releases, including pre-1.0 releases, unless the maintainer explicitly authorizes a breaking change and names its scope.
+
+An authorized break applies only to the named subsystem, schemas, or identifiers. It must be recorded in the changelog with the affected data, retain unrelated saved state, and add contracts that prevent the exception from spreading accidentally. A large refactor or pre-1.0 version does not imply permission to break compatibility.
 
 ## Permanent contracts
 
 - Mod ID: `gearwright`
 - World-state storage key: `gearwright:world-state`
 - World-state format marker: `gearwright-world-state`
-- A public build makes its asset codes, registered class codes, network channel names, packet field numbers, and enum numeric values permanent.
+- A public build makes its asset codes, registered class codes, network channel names, packet field numbers, and enum numeric values permanent unless an explicitly scoped maintainer authorization says otherwise.
 
 New names may be added. Existing names must not be repurposed for different meanings.
 
@@ -41,4 +43,4 @@ Migrations must be deterministic and idempotent at the document boundary. A migr
 
 ## Removing a feature
 
-Disabling a feature does not justify deleting its saved data. Keep its reader and stable identifiers. Mark it inactive, preserve its configuration, and offer a reversible conversion or salvage path. Only remove compatibility code when there has been an announced support window and a tested intermediate release that performs the migration.
+Disabling a feature does not justify deleting its saved data. Keep its reader and stable identifiers. Mark it inactive, preserve its configuration, and offer a reversible conversion or salvage path. Only remove compatibility code when there has been an announced support window and a tested intermediate release that performs the migration, or when the maintainer explicitly includes that feature in an authorized breaking change.

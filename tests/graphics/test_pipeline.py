@@ -128,6 +128,44 @@ class PipelineTests(unittest.TestCase):
         pivot = next(item for item in applied["elements"] if item["name"] == "b_pressure-plunger")
         self.assertAlmostEqual(.425, pivot["offsetY"])
 
+    def test_approved_pipe_intake_preserves_gravity_drain_reach_without_joint_faces(self):
+        pipe_package = load_definition(ROOT, ROOT / "graphics/models/fluid_pipe.py")
+        pump_package = load_definition(ROOT, ROOT / "graphics/models/passive_fluid_pump.py")
+        installed = compile_shape(pipe_package.outputs["assets/gearwright/shapes/block/fluid-pipe-intake.json"])
+        item = compile_shape(pipe_package.outputs["assets/gearwright/shapes/item/fluid-pipe-intake-copper.json"])
+        source = compile_shape(pump_package.outputs["assets/gearwright/shapes/block/passive-fluid-pump-intake.json"])
+
+        installed_by_name = {element["name"]: element for element in installed["elements"]}
+        item_by_name = {element["name"]: element for element in item["elements"]}
+        self.assertEqual([element["name"] for element in source["elements"]], list(installed_by_name))
+        self.assertEqual(list(installed_by_name), list(item_by_name))
+
+        def approved(point, item_stage=False):
+            x, y, z = point
+            if z == 10.5:
+                z = 10
+            return [8 + (x - 8) * (4 / 3), 8 + (y - 8) * (4 / 3), z - (6.25 if item_stage else 0)]
+
+        for source_element in source["elements"]:
+            name = source_element["name"]
+            for actual, expected in zip(installed_by_name[name]["from"], approved(source_element["from"])):
+                self.assertAlmostEqual(expected, actual, places=9)
+            for actual, expected in zip(installed_by_name[name]["to"], approved(source_element["to"])):
+                self.assertAlmostEqual(expected, actual, places=9)
+            for actual, expected in zip(item_by_name[name]["from"], approved(source_element["from"], True)):
+                self.assertAlmostEqual(expected, actual, places=9)
+            for actual, expected in zip(item_by_name[name]["to"], approved(source_element["to"], True)):
+                self.assertAlmostEqual(expected, actual, places=9)
+
+        installed_from = [value for element in installed["elements"] for value in [element["from"]]]
+        installed_to = [value for element in installed["elements"] for value in [element["to"]]]
+        self.assertAlmostEqual(10, min(value[2] for value in installed_from))
+        self.assertAlmostEqual(18.5, max(value[2] for value in installed_to))
+        self.assertAlmostEqual(4, installed_by_name["intake-throat-bottom"]["to"][0] - installed_by_name["intake-throat-bottom"]["from"][0])
+        for name in ("intake-throat-bottom", "intake-throat-top", "intake-throat-left", "intake-throat-right"):
+            self.assertNotIn("north", installed_by_name[name]["faces"])
+            self.assertIn("north", item_by_name[name]["faces"])
+
     def test_deterministic_bytes(self):
         with tempfile.TemporaryDirectory() as first, tempfile.TemporaryDirectory() as second:
             first_root, second_root = Path(first), Path(second)

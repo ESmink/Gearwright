@@ -8,17 +8,17 @@ namespace Gearwright.Hydraulics;
 
 public sealed class GuiDialogCreativeFluidPump : GuiDialogBlockEntity
 {
-    private const string LiquidKey = "liquid";
+    private const string ContentKey = "content";
     private const string PressureKey = "pressure";
     private readonly BlockEntityCreativeFluidPump pump;
-    private AssetLocation selectedLiquid;
+    private AssetLocation selectedContent;
     private int selectedPressure;
 
     public GuiDialogCreativeFluidPump(BlockEntityCreativeFluidPump pump, ICoreClientAPI capi)
         : base(Lang.Get("gearwright:creative-pump-title"), pump.Pos, capi)
     {
         this.pump = pump;
-        selectedLiquid = pump.ConfiguredLiquidCode;
+        selectedContent = pump.ConfiguredContentCode;
         selectedPressure = (int)Math.Round(pump.ConfiguredPressure);
         ComposeDialog(capi);
     }
@@ -29,9 +29,11 @@ public sealed class GuiDialogCreativeFluidPump : GuiDialogBlockEntity
             .Where(item => item?.Attributes?["waterTightContainerProps"].Exists == true)
             .OrderBy(item => item.Code.ToString(), StringComparer.Ordinal)
             .ToArray();
-        string[] values = liquids.Select(item => item.Code.ToString()).ToArray();
-        string[] names = liquids.Select(item => new ItemStack(item).GetName()).ToArray();
-        int selectedIndex = Math.Max(0, Array.FindIndex(values, value => value == selectedLiquid.ToString()));
+        string[] values = new[] { HydraulicCodes.Steam }
+            .Concat(liquids.Select(item => item.Code.ToString())).ToArray();
+        string[] names = new[] { Lang.Get("gearwright:pipe-content-steam") }
+            .Concat(liquids.Select(item => new ItemStack(item).GetName())).ToArray();
+        int selectedIndex = Math.Max(0, Array.FindIndex(values, value => value == selectedContent.ToString()));
 
         ElementBounds dialogBounds = ElementStdBounds.AutosizedMainDialog
             .WithAlignment(EnumDialogArea.CenterMiddle)
@@ -52,8 +54,8 @@ public sealed class GuiDialogCreativeFluidPump : GuiDialogBlockEntity
             .AddShadedDialogBG(background, true)
             .AddDialogTitleBar(Lang.Get("gearwright:creative-pump-title"), () => TryClose())
             .BeginChildElements(background)
-            .AddStaticText(Lang.Get("gearwright:creative-pump-liquid"), CairoFont.WhiteSmallText(), liquidLabel)
-            .AddDropDown(values, names, selectedIndex, OnLiquidSelected, liquidBounds, LiquidKey)
+            .AddStaticText(Lang.Get("gearwright:creative-pump-content"), CairoFont.WhiteSmallText(), liquidLabel)
+            .AddDropDown(values, names, selectedIndex, OnContentSelected, liquidBounds, ContentKey)
             .AddStaticText(Lang.Get("gearwright:creative-pump-pressure"), CairoFont.WhiteSmallText(), pressureLabel)
             .AddSlider(OnPressureChanged, pressureBounds, PressureKey)
             .AddButton(Lang.Get("gearwright:apply"), Apply, applyBounds)
@@ -61,13 +63,13 @@ public sealed class GuiDialogCreativeFluidPump : GuiDialogBlockEntity
             .Compose();
 
         SingleComposer.GetSlider(PressureKey).SetValues(
-            selectedPressure, 0, (int)HydraulicMath.MaximumCreativePressure, 10, " PU/s");
+            selectedPressure, 0, (int)HydraulicMath.MaximumCreativePressure, 10, " kPa");
     }
 
-    private void OnLiquidSelected(string code, bool selected)
+    private void OnContentSelected(string code, bool selected)
     {
         if (!selected) return;
-        try { selectedLiquid = new AssetLocation(code); }
+        try { selectedContent = new AssetLocation(code); }
         catch { }
     }
 
@@ -79,7 +81,7 @@ public sealed class GuiDialogCreativeFluidPump : GuiDialogBlockEntity
 
     private bool Apply()
     {
-        pump.SendConfiguration(selectedLiquid, selectedPressure);
+        pump.SendConfiguration(selectedContent, selectedPressure);
         TryClose();
         return true;
     }

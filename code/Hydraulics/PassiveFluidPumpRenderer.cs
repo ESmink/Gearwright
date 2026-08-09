@@ -55,7 +55,7 @@ internal sealed class PassiveFluidPumpRenderer : IRenderer, IDisposable
         bool hasInputPressure = localOffer.Pressure > 0;
         bool operating = hasInputPressure &&
             pump.NetworkStatusCode == "running" &&
-            pump.CurrentLiquidCode?.Equals(localOffer.LiquidCode) == true;
+            pump.CurrentContentCode?.Equals(localOffer.ContentCode) == true;
         float performance = hasInputPressure ? (float)HydraulicMath.Performance(localOffer.Pressure) : 0;
 
         float response = 1 - MathF.Exp(-Math.Min(deltaTime, 0.25f) * 5.5f);
@@ -75,7 +75,7 @@ internal sealed class PassiveFluidPumpRenderer : IRenderer, IDisposable
         }
 
         if (!hasInputPressure) return;
-        EnsureFluidSurface(localOffer.LiquidCode);
+        EnsureFluidSurface(localOffer.ContentCode);
         if (fluidSurface == null) return;
 
         if (operating)

@@ -19,6 +19,7 @@ $required = @(
     "modinfo.json", "Gearwright.csproj", ".github\workflows\release.yml",
     "tests\Gearwright.Contracts\Gearwright.Contracts.csproj", "tests\Gearwright.Contracts\Program.cs",
     "tests\Gearwright.Contracts\fixtures\hydraulic-pipe-schema1.json",
+    "tests\Gearwright.Contracts\fixtures\hydraulic-pipe-schema3.json",
     "tests\Gearwright.Contracts\fixtures\hydraulic-pump-schema1.json",
     "graphics\README.md", "graphics\review\README.md", "graphics\review\slingshot_workflow.py",
     "skills\vintage-story-modeling\SKILL.md", "skills\vintage-story-modeling\agents\openai.yaml",
@@ -26,6 +27,7 @@ $required = @(
     "graphics\models\sprinkler.py", "graphics\models\creative_fluid_pump.py",
     "graphics\models\passive_fluid_pump.py", "graphics\recipes\pottery-profile-tool.texture.json",
     "graphics\recipes\inspection-glass.texture.json", "graphics\recipes\inspection-shadow.texture.json",
+    "graphics\recipes\steam.texture.json",
     "tools\graphics\gearwright_graphics\model.py", "tools\graphics\gearwright_graphics\animation.py",
     "tools\graphics\gearwright_graphics\compiler.py", "tools\graphics\gearwright_graphics\assets.py",
     "tools\graphics\gearwright_graphics\blocks.py", "tools\graphics\gearwright_graphics\scene.py",
@@ -39,6 +41,7 @@ $required = @(
     "tests\graphics\fixtures\legacy-model-semantics.json",
     "assets\gearwright\itemtypes\pottery-profile-tool.json",
     "assets\gearwright\itemtypes\sprinkler-brass.json",
+    "assets\gearwright\itemtypes\fluid-pipe-intake-copper.json",
     "assets\gearwright\blocktypes\fluid-pipe-copper.json",
     "assets\gearwright\blocktypes\creative-fluid-pump.json",
     "assets\gearwright\blocktypes\passive-fluid-pump.json",
@@ -48,11 +51,16 @@ $required = @(
     "assets\gearwright\shapes\block\passive-fluid-pump-outlet.json",
     "assets\gearwright\shapes\block\fluid-pipe-cap.json",
     "assets\gearwright\shapes\block\fluid-pipe-inventory.json",
+    "assets\gearwright\shapes\block\fluid-pipe-intake.json",
     "assets\gearwright\textures\block\inspection-glass.png",
     "assets\gearwright\textures\block\inspection-shadow.png",
+    "assets\gearwright\textures\block\steam.png",
     "assets\gearwright\shapes\item\pottery-profile-tool.json",
+    "assets\gearwright\shapes\item\fluid-pipe-intake-copper.json",
     "assets\gearwright\textures\item\pottery-profile-tool.png",
     "code\Hydraulics\ScrollingLiquidSurface.cs", "code\Hydraulics\PassiveFluidPumpRenderer.cs",
+    "code\Hydraulics\PipeContent.cs", "code\Hydraulics\PipeContentMesh.cs",
+    "code\Hydraulics\PipeFlowSolver.cs",
     "tools\Common.ps1", "tools\Build-Mod.ps1", "tools\Test-Project.ps1", "tools\Install-Mod.ps1",
     "tools\Test-ServerSmoke.ps1",
     "tools\graphics\Build-Graphics.ps1",
@@ -108,9 +116,11 @@ Assert-Project ($agentText -match 'direct, plain language' -and $agentText -matc
 Assert-Project ($agentText -match 'tools/Install-Mod\.ps1' -and $agentText -match 'newest verified Gearwright package') "Agent guidance requires installing the verified build"
 Assert-Project ($agentText -match 'both the focused GitHub Wiki page and the relevant in-game handbook entries') "Agent guidance requires current wiki and handbook documentation"
 Assert-Project ($agentText -match 'checked-in PowerShell tool in `tools/`' -and $agentText -match 'reviewable and repeatable') "Agent guidance requires reviewable scripts instead of long inline commands"
+Assert-Project ($agentText -match 'maintainer explicitly authorizes a breaking change' -and $agentText -match 'Never infer permission') "Agent guidance permits only explicitly scoped maintainer-authorized breaks"
 $modelingSkillText = Get-Content -Raw (Join-Path $root "skills\vintage-story-modeling\SKILL.md")
 Assert-Project ($modelingSkillText -match 'one fixed `current/` path' -and $modelingSkillText -match 'runtimePromotion: false') "The modeling skill closes review decisions without accumulating revisions or promoting fixtures"
 Assert-Project ($modelingSkillText -match 'camera movement must never launch the photoshoot renderer or create PNG caches') "The modeling skill protects the persistent interactive reviewer"
+Assert-Project ($modelingSkillText -match 'launch the interactive reviewer for the maintainer' -and $modelingSkillText -match 'running the documented Python command yourself') "The modeling skill requires the agent to launch the Python reviewer for the maintainer"
 
 $readmeText = Get-Content -Raw (Join-Path $root "README.md")
 Assert-Project ($readmeText -match 'https://github\.com/ESmink/Gearwright/wiki') "README links to the GitHub Wiki"
@@ -129,10 +139,18 @@ Assert-Project ($releaseWorkflowText.Contains('GH_TOKEN: ${{ github.token }}') -
 $profileItem = Get-Content -Raw (Join-Path $root "assets\gearwright\itemtypes\pottery-profile-tool.json") | ConvertFrom-Json
 Assert-Project ($profileItem.code -ceq "pottery-profile-tool") "The pottery profile tool keeps its asset code"
 Assert-Project ($profileItem.shape.base -ceq "gearwright:item/pottery-profile-tool") "The pottery profile tool keeps its generated shape"
+$pipeAsset = Get-Content -Raw (Join-Path $root "assets\gearwright\blocktypes\fluid-pipe-copper.json") | ConvertFrom-Json
+Assert-Project ($pipeAsset.textures.shadow.base -ceq "gearwright:block/inspection-shadow") "The installed pipe intake resolves its inner shadow texture through the pipe block"
+Assert-Project (
+    $null -eq $pipeAsset.sounds.PSObject.Properties["place"] -and
+    $null -eq $pipeAsset.sounds.PSObject.Properties["break"] -and
+    $pipeAsset.sounds.hit -ceq "game:block/heavymetal-hit2"
+) "Pipe assets leave placement and removal to the reliable server-side cues"
 
 $handbookAssets = @(
     "assets\gearwright\itemtypes\pottery-profile-tool.json",
     "assets\gearwright\itemtypes\sprinkler-brass.json",
+    "assets\gearwright\itemtypes\fluid-pipe-intake-copper.json",
     "assets\gearwright\blocktypes\fluid-pipe-copper.json",
     "assets\gearwright\blocktypes\creative-fluid-pump.json",
     "assets\gearwright\blocktypes\passive-fluid-pump.json"
@@ -145,7 +163,7 @@ $languageText = Get-Content -Raw (Join-Path $root "assets\gearwright\lang\en.jso
 foreach ($key in @(
     "handbook-text-pottery-profile-tool", "handbook-text-fluid-pipe-copper",
     "handbook-text-sprinkler-brass", "handbook-text-creative-fluid-pump",
-    "handbook-text-passive-fluid-pump"
+    "handbook-text-passive-fluid-pump", "handbook-text-fluid-pipe-intake-copper"
 )) {
     Assert-Project ($languageText -match [regex]::Escape('"' + $key + '"')) "Handbook text exists: $key"
 }
@@ -157,18 +175,48 @@ Assert-Project (
 ) "Creative pump dialog gives its autosized background fixed child bounds"
 
 $pipeBlockText = Get-Content -Raw (Join-Path $root "code\Hydraulics\BlockFluidPipe.cs")
+$pipeEntityText = Get-Content -Raw (Join-Path $root "code\Hydraulics\BlockEntityFluidPipe.cs")
 Assert-Project ($pipeBlockText -match 'game", "glass-plain' -and $pipeBlockText -notmatch 'glasspane') "Pipe inspection windows consume plain glass blocks"
-Assert-Project ($pipeBlockText -match 'changed && !removing') "Removing a pipe attachment does not consume the returned item"
+Assert-Project (
+    $pipeBlockText -match 'changed && !togglingPort && !removing'
+) "Removing an attachment or toggling a port does not consume the held item"
 Assert-Project (
     $pipeBlockText -match 'GetSelectionBoxes' -and
     $pipeBlockText -match 'GetCollisionBoxes' -and
-    $pipeBlockText -match 'pipe\.IsConnected\(face\)' -and
-    $pipeBlockText -match 'pipe\.HasSprinkler'
-) "Pipe hitboxes follow connected arms and the installed sprinkler"
+    $pipeBlockText -match 'pipe\.IsPortEnabled\(face\)' -and
+    $pipeBlockText -match 'pipe\.HasSprinkler' -and
+    $pipeBlockText -match 'HydraulicFaceAddon\.PipeNozzle'
+) "Pipe hitboxes follow connected arms, the installed sprinkler, and the installed nozzle"
+Assert-Project ($pipeBlockText -match 'HydraulicCodes\.PipeNozzleItem' -and $pipeBlockText -match 'TryInstallAddon') "The standalone copper nozzle item installs as a pipe attachment"
+Assert-Project (
+    $pipeEntityText -match 'AttachmentInstallSound' -and
+    $pipeEntityText -match 'game:sounds/block/metaldoor-place' -and
+    $pipeEntityText -match 'AttachmentRemoveSound' -and
+    $pipeEntityText -match 'game:sounds/block/chute' -and
+    $pipeEntityText -match 'PlaySoundAt' -and
+    $pipeEntityText -match 'Pos, 0, null, randomizePitch: false'
+) "Attachment sounds are distinct and include the player who performed the server-side action"
+Assert-Project (
+    $pipeBlockText -match 'PipePlaceSound' -and
+    $pipeBlockText -match 'game:sounds/block/plate' -and
+    $pipeBlockText -match 'PlaySoundAt' -and
+    $pipeEntityText -match 'PipeRemoveSound' -and
+    $pipeEntityText -match 'game:sounds/block/heavymetal-hit' -and
+    $pipeEntityText -match 'PipeRemoveSound, Pos, 0, null'
+) "Pipe placement and removal emit distinct sounds to the initiating player"
+Assert-Project (
+    $pipeEntityText -match 'port-' -and
+    $pipeEntityText -match 'IsPortEnabled' -and
+    $pipeEntityText -match 'TryTogglePort' -and
+    $pipeEntityText -match 'ConfigurePlacedPort' -and
+    $pipeBlockText -match 'InitialPortFace' -and
+    $pipeBlockText -match 'Controls\.ShiftKey' -and
+    $pipeBlockText -match 'wrench-'
+) "Pipe faces are explicit persisted ports selected on placement and toggleable with a wrench"
 Assert-Project ($pipeBlockText -match 'fluid-pipe-inventory\.json') "The pipe uses its glazed elbow inventory model"
 $pipeRendererText = Get-Content -Raw (Join-Path $root "code\Hydraulics\HydraulicPipeRenderer.cs")
 $scrollingSurfaceText = Get-Content -Raw (Join-Path $root "code\Hydraulics\ScrollingLiquidSurface.cs")
-Assert-Project ($pipeRendererText -match 'ContainerTextureSource' -and $pipeRendererText -notmatch '\.RuntimeBake\(') "Pipe liquid rendering uses Vintage Story's container texture source"
+Assert-Project ($pipeRendererText -match 'ContainerTextureSource' -and $pipeRendererText -match 'PipeContent\.SteamTexture' -and $pipeRendererText -notmatch '\.RuntimeBake\(') "Pipe rendering resolves both Vintage Story liquids and Gearwright steam"
 $pipeCenterModelText = Get-Content -Raw (Join-Path $root "graphics\models\fluid_pipe.py")
 $pipeWindowModelText = $pipeCenterModelText
 Assert-Project ($pipeCenterModelText -match 'frame-x-' -and $pipeCenterModelText -notmatch 'hub-band') "The pipe center is a flush copper frame without overlapping hub bands"
@@ -179,15 +227,21 @@ Assert-Project (
     $pipeWindowModelText -match 'faces=\("north",\)' -and
     $pipeWindowModelText -notmatch 'window-neck'
 ) "Inspection glass is visible, outward-facing, flush, and matches the inside pipe-wall depth"
+$pipeContentMeshText = Get-Content -Raw (Join-Path $root "code\Hydraulics\PipeContentMesh.cs")
 Assert-Project (
-    $pipeRendererText -match 'CurrentFlowDirection' -and
-    $pipeRendererText -match 'GetWindowScroll' -and
-    $pipeRendererText -match '47\.96f' -and
-    $pipeRendererText -match '!scroll\.Reverse' -and
-    $pipeRendererText -match 'UpdateSpeedVariation' -and
-    $scrollingSurfaceText -match 'UpdateMesh' -and
-    $scrollingSurfaceText -match 'WriteSurface'
-) "Visible liquid scrolls stationary wrapped UVs in the corrected direction at a strongly pressure-scaled speed"
+    $pipeRendererText -match 'pipe\.FillFraction' -and
+    $pipeRendererText -match '0\.04f \+ 0\.56f' -and
+    $pipeRendererText -match 'TextureScrollCyclesPerSecond' -and
+    $pipeRendererText -match 'ContentScrollSpeedMultiplier = 20f' -and
+    $pipeRendererText -match 'contentTexturePhase' -and
+    $pipeContentMeshText -match 'FindLiquidSurface' -and
+    $pipeContentMeshText -match 'VolumeBelow' -and
+    $pipeContentMeshText -match 'pipe\.IsPortEnabled' -and
+    $pipeContentMeshText -match 'UvStatic = false' -and
+    $pipeContentMeshText -match 'TryOrientAlongFlow' -and
+    $pipeContentMeshText -match 'WriteUvQuad' -and
+    $pipeContentMeshText -match 'UpdateMesh'
+) "Pipe interiors rise with fullness and scroll their atlas texture along pressure-driven flow"
 $sprinklerModelText = Get-Content -Raw (Join-Path $root "graphics\models\sprinkler.py")
 Assert-Project (
     $sprinklerModelText -match 'rotor-hub' -and
@@ -198,15 +252,14 @@ Assert-Project (
     $pipeRendererText -match 'EnumParticleModel\.Cube'
 ) "The Python sprinkler definition separates its rotor hub and arms from the stationary pin"
 $gravityDrain = Get-Content -Raw (Join-Path $root "assets\gearwright\blocktypes\passive-fluid-pump.json") | ConvertFrom-Json
-Assert-Project ($gravityDrain.sidesolid.up -eq $true) "The gravity drain supports a tank on its top face"
+$hydraulicsRecipesText = Get-Content -Raw (Join-Path $root "assets\gearwright\recipes\grid\hydraulics.json")
+Assert-Project ($null -eq $gravityDrain.PSObject.Properties["creativeinventory"] -and $hydraulicsRecipesText -notmatch 'passive-fluid-pump') "The deprecated gravity drain is absent from crafting and creative inventory"
 $gravityDrainCode = Get-Content -Raw (Join-Path $root "code\Hydraulics\BlockEntityPassiveFluidPump.cs")
 Assert-Project (
-    $gravityDrainCode -match 'CanConnect\(BlockFacing face\) => face == facing' -and
-    $gravityDrainCode -match 'HasTank\(facing\.Opposite\)' -and
-    $gravityDrainCode -match 'HasTank\(BlockFacing\.UP\)' -and
-    $gravityDrainCode -match 'TrySource\(FindIntakeFace\(\)\)'
-) "Gravity drains give their single drawn side intake priority before rotating it upward"
-Assert-Project ($gravityDrainCode -match 'passive-fluid-pump\.json' -and $gravityDrainCode -match 'return true;') "The gravity drain explicitly rotates and contributes its base block mesh"
+    $gravityDrainCode -match 'GetOffer\(\)' -and
+    $gravityDrainCode -match '"deprecated"' -and
+    $gravityDrainCode -notmatch 'ConsumeLitres'
+) "Placed legacy gravity drains remain identifiable but cannot supply the new pipe solver"
 $gravityDrainModel = Get-Content -Raw (Join-Path $root "graphics\models\passive_fluid_pump.py")
 $gravityDrainShapeText = Get-Content -Raw (Join-Path $root "assets\gearwright\shapes\block\passive-fluid-pump.json")
 Assert-Project (
@@ -242,7 +295,7 @@ Assert-Project (
     [double]$idlePressureFrame.elements.'b_gauge-needle'.rotationX -eq -52 -and
     [double]$fullPressureFrame.elements.'b_gauge-needle'.rotationX -eq 52 -and
     [double]$fullPressureFrame.elements.'b_pressure-plunger'.offsetY -eq 0.85
-) "Input pressure still scrubs the gauge and plunger while active flow uses the existing liquid renderer"
+) "The deprecated gravity-drain model fixture retains its pressure animation semantics"
 $pressureFixture = Get-Content -Raw (Join-Path $root "tests\graphics\fixtures\passive-pump-pressure.json") | ConvertFrom-Json
 Assert-Project ($pressureFixture.animation -ceq "pressure" -and $pressureFixture.quantityframes -eq 30 -and $pressureFixture.frames.Count -eq 3) "Pressure animation review fixture covers idle, fractional, and full frames"
 $graphicsBuilderText = Get-Content -Raw (Join-Path $root "tools\graphics\Build-Graphics.ps1")
@@ -250,11 +303,60 @@ Assert-Project (
     $graphicsBuilderText -match 'Resolve-GearwrightPython' -and
     $graphicsBuilderText -match 'gearwright_graphics\.cli' -and
     $graphicsBuilderText -match 'PythonPath' -and
+    $graphicsBuilderText -notmatch '\$LASTEXITCODE' -and
     (Get-Content -Raw (Join-Path $root "assets\gearwright\shapes\block\passive-fluid-pump-mechanism.json")) -notmatch '#null'
-) "Python graphics definitions compile runtime shapes without null materials"
+) "Python graphics definitions compile runtime shapes without null materials or unset process-exit state"
 Assert-Project (-not (Get-ChildItem (Join-Path $root "assets\gearwright") -Recurse -File | Where-Object { $_.Name -match 'slingshot' })) "The slingshot workflow fixture never enters runtime assets"
+$networkText = Get-Content -Raw (Join-Path $root "code\Hydraulics\HydraulicNetworkSystem.cs")
+$hydraulicMathText = Get-Content -Raw (Join-Path $root "code\Hydraulics\HydraulicMath.cs")
+$flowSolverText = Get-Content -Raw (Join-Path $root "code\Hydraulics\PipeFlowSolver.cs")
+Assert-Project (
+    $networkText -match 'SimulationIntervalMilliseconds = 200' -and
+    $networkText -match 'PlanPipeFlows' -and
+    $networkText -match 'ApplyPipeFlows' -and
+    $networkText -match 'previousPressures' -and
+    $flowSolverText -match 'donorTotals' -and
+    $flowSolverText -match 'receiverTotals' -and
+    $flowSolverText -match 'ScaleTransfers' -and
+    $hydraulicMathText -match 'PipeCapacityLitres = 10' -and
+    $hydraulicMathText -match 'WaterHeadKPaPerBlock = 9\.80665' -and
+    $hydraulicMathText -match 'GasGaugePressure'
+) "The 5 Hz pipe solver plans from previous state, scales both ends, and models volume, water head, and compressible gas"
+Assert-Project (
+    $networkText -match 'HydraulicFaceAddon\.PipeNozzle' -and
+    $networkText -match 'ILiquidSource' -and
+    $networkText -match 'ILiquidSink' -and
+    $networkText -match 'EnumBlockMaterial\.Air' -and
+    $networkText -match 'WouldPlacementJoinDifferentContents' -and
+    $networkText -match 'HasUpwardAirOutlet' -and
+    $networkText -match 'LiquidOverflowLitres' -and
+    $networkText -match 'GasVentableStandardLitres' -and
+    $networkText -match 'IsAtmosphericOutlet' -and
+    $networkText -match 'ProcessAirOutlet' -and
+    $networkText -match 'RecordFlow\(intent\.To, rate, intent\.DirectionFrom' -and
+    $networkText -match 'signedFlow > 0 \? face : face\.Opposite' -and
+    $pipeRendererText -match 'SpawnNozzleParticles' -and
+    $pipeRendererText -match 'IsPortOpenToAir' -and
+    $pipeRendererText -match 'IntakeConeLength = \(1\.05f - NozzleMouthOffset\) \* 0\.5f' -and
+    $pipeRendererText -match 'IntakeTargetOffset = 0\.62f' -and
+    $pipeRendererText -match 'SpawnNozzleIntakeParticles' -and
+    $pipeRendererText -match 'axial \* 0\.55f' -and
+    $pipeRendererText -match 'lifetime, 0f' -and
+    $pipeRendererText -match 'LiquidParticleAlpha = 104' -and
+    $pipeRendererText -match 'GasParticleAlpha = 72' -and
+    $pipeRendererText -match 'ParticleLightenFraction = 0\.65f' -and
+    $pipeRendererText -match 'BrightenedParticleColor' -and
+    $pipeRendererText -match 'MaximumNozzleOutputSpeedMultiplier = 4f' -and
+    $pipeRendererText -match 'HydraulicMath\.NozzleInventoryRateLitresPerSecond \* 4' -and
+    $pipeRendererText -match 'position\.AvgColor'
+) "Nozzles use bright translucent content colors, fourfold peak jet power, and zero-gravity cone intake particles"
 $hydraulicStateText = Get-Content -Raw (Join-Path $root "code\Hydraulics\HydraulicStateSchema.cs")
-Assert-Project ($hydraulicStateText -match 'CurrentVersion\s*=\s*3' -and $hydraulicStateText -match 'schema is 1 or 2') "Hydraulic state migrates sequentially through schemas 1, 2, and 3"
+Assert-Project (
+    $hydraulicStateText -match 'CurrentVersion\s*=\s*6' -and
+    $hydraulicStateText -match 'schema is 1 or 2 or 3 or 4 or 5' -and
+    $hydraulicStateText -match 'explicitly authorized breaking pipe rework' -and
+    $hydraulicStateText -match 'explicit persisted port'
+) "Hydraulic state reaches explicit-port schema 6 through sequential migrations"
 
 $graphicsRecipes = Get-ChildItem (Join-Path $root "graphics\recipes") -Filter "*.json" -File
 foreach ($graphicsRecipe in $graphicsRecipes) {

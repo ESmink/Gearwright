@@ -11,24 +11,23 @@ namespace Gearwright.Hydraulics;
 public sealed class BlockEntityCreativeFluidPump : BlockEntityHydraulicPump
 {
     private const int ConfigurePacketId = 2101;
-    private AssetLocation liquidCode = new(HydraulicCodes.FreshWater);
+    private AssetLocation contentCode = new(HydraulicCodes.FreshWater);
     private double configuredPressure = HydraulicMath.FullSprinklerPressure;
     private GuiDialogCreativeFluidPump? dialog;
 
-    public AssetLocation ConfiguredLiquidCode => liquidCode;
+    public AssetLocation ConfiguredContentCode => contentCode;
     public double ConfiguredPressure => configuredPressure;
+    public double ConfiguredTemperatureC => PipeContent.DefaultTemperatureC(contentCode);
 
     public override PumpOffer GetOffer()
     {
-        Item? item = Api.World.GetItem(liquidCode);
-        if (item?.Attributes?["waterTightContainerProps"].Exists != true)
+        if (!PipeContent.IsValid(Api.World, contentCode))
         {
-            return new PumpOffer(this, liquidCode, 0, "invalid-liquid");
+            return new PumpOffer(this, contentCode, 0, "invalid-content");
         }
-        return new PumpOffer(this, liquidCode, Math.Clamp(configuredPressure, 0, HydraulicMath.MaximumCreativePressure), "running");
+        return new PumpOffer(this, contentCode,
+            Math.Clamp(configuredPressure, 0, HydraulicMath.MaximumCreativePressure), "running");
     }
-
-    public override double ConsumeLitres(double requestedLitres) => Math.Max(0, requestedLitres);
 
     public void OpenConfigurationDialog()
     {
@@ -37,12 +36,12 @@ public sealed class BlockEntityCreativeFluidPump : BlockEntityHydraulicPump
         dialog.TryOpen();
     }
 
-    public void SendConfiguration(AssetLocation requestedLiquid, double requestedPressure)
+    public void SendConfiguration(AssetLocation requestedContent, double requestedPressure)
     {
         if (Api is not ICoreClientAPI capi) return;
         CreativePumpPacket packet = new()
         {
-            LiquidCode = requestedLiquid.ToString(),
+            ContentCode = requestedContent.ToString(),
             Pressure = requestedPressure
         };
         capi.Network.SendBlockEntityPacket(Pos, ConfigurePacketId, SerializerUtil.Serialize(packet));
@@ -58,21 +57,20 @@ public sealed class BlockEntityCreativeFluidPump : BlockEntityHydraulicPump
         try { packet = SerializerUtil.Deserialize<CreativePumpPacket>(data); }
         catch { return; }
         AssetLocation code;
-        try { code = new AssetLocation(packet.LiquidCode); }
+        try { code = new AssetLocation(packet.ContentCode); }
         catch { return; }
-        Item? item = Api.World.GetItem(code);
-        if (item?.Attributes?["waterTightContainerProps"].Exists != true) return;
+        if (!PipeContent.IsValid(Api.World, code)) return;
 
-        liquidCode = code;
+        contentCode = code;
         configuredPressure = Math.Clamp(packet.Pressure, 0, HydraulicMath.MaximumCreativePressure);
         MarkHydraulicsDirty();
     }
 
     protected override void ReadPumpState(ITreeAttribute state, IWorldAccessor world)
     {
-        string storedCode = state.GetString("liquidCode", HydraulicCodes.FreshWater);
-        try { liquidCode = new AssetLocation(storedCode); }
-        catch { liquidCode = new AssetLocation(HydraulicCodes.FreshWater); }
+        string storedCode = state.GetString("contentCode", HydraulicCodes.FreshWater);
+        try { contentCode = new AssetLocation(storedCode); }
+        catch { contentCode = new AssetLocation(HydraulicCodes.FreshWater); }
         configuredPressure = Math.Clamp(
             state.GetDouble("configuredPressure", HydraulicMath.FullSprinklerPressure),
             0, HydraulicMath.MaximumCreativePressure);
@@ -80,14 +78,14 @@ public sealed class BlockEntityCreativeFluidPump : BlockEntityHydraulicPump
 
     protected override void WritePumpState(ITreeAttribute state)
     {
-        state.SetString("liquidCode", liquidCode.ToString());
+        state.SetString("contentCode", contentCode.ToString());
         state.SetDouble("configuredPressure", configuredPressure);
     }
 
     [ProtoContract]
     public sealed class CreativePumpPacket
     {
-        [ProtoMember(1)] public string LiquidCode { get; set; } = HydraulicCodes.FreshWater;
+        [ProtoMember(1)] public string ContentCode { get; set; } = HydraulicCodes.FreshWater;
         [ProtoMember(2)] public double Pressure { get; set; } = HydraulicMath.FullSprinklerPressure;
     }
 }

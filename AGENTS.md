@@ -4,9 +4,11 @@
 
 Gearwright is a Vintage Story code mod about readable gear-driven machinery, workshop infrastructure, and steam as a heat-transfer technology. Keep gameplay code in `code/`, runtime assets in `assets/gearwright/`, tests in `tests/`, development scripts in `tools/`, full player documentation in the GitHub Wiki, and concise operating instructions in the in-game handbook.
 
-The public identifiers `gearwright`, `gearwright:world-state`, registered class names, asset codes, and persisted field names are compatibility contracts. Do not rename or reuse them.
+The public identifiers `gearwright`, `gearwright:world-state`, registered class names, asset codes, and persisted field names are compatibility contracts. Do not rename or reuse them unless the maintainer explicitly authorizes a breaking change and names those identifiers or the containing subsystem as part of its scope.
 
-## Save compatibility is mandatory
+## Save compatibility is mandatory by default
+
+The maintainer may explicitly authorize a breaking change and define its scope. Within that scope, schemas, persisted fields, registered classes, and asset codes may be replaced or removed as requested. Keep unrelated saved state compatible, record the break and its affected identifiers in the changelog, and add tests that reject accidental breakage outside the authorized scope. Never infer permission for a breaking change from a large refactor or an early development version.
 
 - Existing worlds must keep working across released versions, including pre-1.0 versions.
 - Every persisted structure must carry a schema version. Add explicit, sequential, non-destructive migrations before changing its shape.

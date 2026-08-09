@@ -7,7 +7,8 @@
   "textures": {
     "copper": { "base": "game:block/metal/sheet/copper1" },
     "brass": { "base": "game:block/metal/ingot/brass" },
-    "glass": { "base": "gearwright:block/inspection-glass" }
+    "glass": { "base": "gearwright:block/inspection-glass" },
+    "shadow": { "base": "gearwright:block/inspection-shadow" }
   },
   "attributes": {
     "handbook": {
@@ -19,6 +20,10 @@
   },
   "creativeinventory": { "general": ["*"], "gear": ["*"] },
   "blockmaterial": "Metal",
+  "sounds": {
+    "hit": "game:block/heavymetal-hit2",
+    "walk": "game:walk/stone"
+  },
   "lightAbsorption": 0,
   "sidesolid": { "all": false },
   "sideopaque": { "all": false },

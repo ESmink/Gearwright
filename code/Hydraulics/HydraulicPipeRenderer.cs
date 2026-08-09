@@ -6,31 +6,39 @@ using Vintagestory.GameContent;
 
 namespace Gearwright.Hydraulics;
 
-/// <summary>Renders the pressure-driven rotor and visible fluid without storing liquid in the pipe.</summary>
+/// <summary>Renders stored pipe contents, sprinkler motion, and pipe-nozzle particles.</summary>
 internal sealed class HydraulicPipeRenderer : IRenderer, IDisposable
 {
+    private const float NozzleMouthOffset = 0.66f;
+    private const float PipeMouthOffset = 0.52f;
+    private const float IntakeConeLength = (1.05f - NozzleMouthOffset) * 0.5f;
+    private const float IntakeTargetOffset = 0.62f;
+    private const float ContentScrollSpeedMultiplier = 20f;
+    private const float MaximumNozzleOutputSpeedMultiplier = 4f;
+    private const float ParticleLightenFraction = 0.65f;
+    private const int LiquidParticleAlpha = 104;
+    private const int GasParticleAlpha = 72;
+
     private readonly BlockEntityFluidPipe pipe;
     private readonly ICoreClientAPI capi;
-    private readonly Random speedRandom;
     private readonly MeshRef rotorMesh;
     private readonly Matrixf modelMatrix = new();
-    private ScrollingLiquidSurface? fluidSurface;
-    private string? fluidMeshCode;
-    private int fluidColor = ColorUtil.ToRgba(220, 66, 132, 220);
+    private readonly double[] nozzleParticleAccumulators = new double[BlockFacing.NumberOfFaces];
+    private PipeContentMesh? contentMesh;
+    private string? contentMeshCode;
+    private int contentTopologyMask = -1;
+    private int contentColor = ColorUtil.ToRgba(LiquidParticleAlpha, 225, 235, 240);
     private float rotorAngle;
-    private float particleAccumulator;
-    private float fluidPhase;
-    private float speedVariation = 1;
-    private float targetSpeedVariation = 1;
-    private float variationSecondsRemaining;
+    private float sprinklerParticleAccumulator;
+    private float contentTexturePhase;
+    private float displayedScrollSpeed;
 
     public HydraulicPipeRenderer(BlockEntityFluidPipe pipe, ICoreClientAPI capi)
     {
         this.pipe = pipe;
         this.capi = capi;
-        speedRandom = new Random(unchecked(pipe.Pos.X * 73856093 ^ pipe.Pos.Y * 19349663 ^ pipe.Pos.Z * 83492791));
-        PickNextSpeedVariation();
-        MeshData rotor = HydraulicPipeMesh.Tesselate(pipe, capi.Tesselator, "gearwright:shapes/block/sprinkler-rotor.json");
+        MeshData rotor = HydraulicPipeMesh.Tesselate(
+            pipe, capi.Tesselator, "gearwright:shapes/block/sprinkler-rotor.json");
         rotorMesh = capi.Render.UploadMesh(rotor);
     }
 
@@ -39,54 +47,104 @@ internal sealed class HydraulicPipeRenderer : IRenderer, IDisposable
 
     public void OnRenderFrame(float deltaTime, EnumRenderStage stage)
     {
-        double pressure = pipe.CurrentPressure;
-        float performance = (float)HydraulicMath.Performance(pressure);
+        AssetLocation? contentCode = pipe.CurrentContentCode;
+        bool gas = contentCode != null && PipeContent.IsSteam(contentCode);
+        bool hasContent = contentCode != null && pipe.ContentAmountLitres > 0;
+        if (hasContent) EnsureContentMesh(contentCode!);
+        float performance = gas ? 0 : (float)HydraulicMath.Performance(pipe.CurrentPressure);
         if (pipe.HasSprinkler)
         {
-            if (performance > 0)
+            if (performance > 0 && pipe.ContentAmountLitres > 0)
             {
                 float pressureCurve = MathF.Pow(performance, 1.6f);
                 rotorAngle = (rotorAngle + deltaTime * (0.12f + 9.88f * pressureCurve)) % GameMath.TWOPI;
             }
-            RenderMesh(rotorMesh, rotorAngle, 0, 1, capi.BlockTextureAtlas.AtlasTextures[0].TextureId);
-            if (performance > 0)
-            {
-                if (pipe.CurrentLiquidCode != null) EnsureFluidMesh(pipe.CurrentLiquidCode);
-                SpawnSpray(deltaTime, performance);
-            }
+            RenderMesh(rotorMesh, 1, capi.BlockTextureAtlas.AtlasTextures[0].TextureId);
+            if (performance > 0 && pipe.ContentAmountLitres > 0)
+                SpawnSprinklerSpray(deltaTime, performance);
         }
 
-        if (pressure <= 0 || pipe.CurrentLiquidCode == null) return;
-        if (!HasWindow()) return;
-        EnsureFluidMesh(pipe.CurrentLiquidCode);
-        if (fluidSurface == null) return;
-        float pressureResponse = MathF.Pow(performance, 2.2f);
-        float pixelsPerSecond = (0.04f + 47.96f * pressureResponse) * UpdateSpeedVariation(deltaTime);
-        fluidPhase = (fluidPhase + deltaTime * pixelsPerSecond / 16f) % 1;
-        foreach (BlockFacing face in BlockFacing.ALLFACES)
+        SpawnNozzleParticles(deltaTime, gas);
+        if (!hasContent || !HasVisibleInterior()) return;
+        if (contentMesh == null) return;
+        PipeContentPhase phase = gas ? PipeContentPhase.Gas : PipeContentPhase.Liquid;
+        float targetScrollSpeed = pipe.CurrentFlowDirection == null
+            ? 0
+            : (float)HydraulicMath.TextureScrollCyclesPerSecond(
+                pipe.ThroughputLitresPerSecond, phase) * ContentScrollSpeedMultiplier;
+        float response = 1 - MathF.Exp(-Math.Min(deltaTime, 0.25f) * 8f);
+        displayedScrollSpeed += (targetScrollSpeed - displayedScrollSpeed) * response;
+        if (pipe.CurrentFlowDirection != null && displayedScrollSpeed > 0.0001f)
         {
-            if (pipe.GetAddon(face) != HydraulicFaceAddon.GlassWindow) continue;
-            WindowScroll scroll = GetWindowScroll(face);
-            fluidSurface.Update(fluidPhase, scroll.Horizontal, !scroll.Reverse);
-            RenderMesh(fluidSurface.MeshRef, FaceYaw(face), FacePitch(face), 0.70f, fluidSurface.TextureId);
+            contentTexturePhase = (contentTexturePhase + deltaTime * displayedScrollSpeed) % 1;
         }
+        contentMesh.Update(
+            pipe.FillFraction, gas, contentTexturePhase, pipe.CurrentFlowDirection);
+        float opacity = gas
+            ? 0.04f + 0.56f * (float)pipe.FillFraction
+            : 0.70f;
+        RenderMesh(contentMesh.MeshRef, opacity, contentMesh.TextureId);
     }
 
-    private void RenderMesh(
-        MeshRef mesh,
-        float yawOrRotor,
-        float pitch,
-        float opacity,
-        int textureId)
+    private void EnsureContentMesh(AssetLocation contentCode)
+    {
+        string code = contentCode.ToString();
+        int topology = PipeContentMesh.TopologyMask(pipe);
+        if (contentMesh != null && contentMeshCode == code && contentTopologyMask == topology) return;
+        contentMesh?.Dispose();
+        contentMesh = null;
+        contentMeshCode = code;
+        contentTopologyMask = topology;
+
+        bool gas = PipeContent.IsSteam(contentCode);
+        contentColor = gas
+            ? ColorUtil.ToRgba(GasParticleAlpha, 238, 242, 245)
+            : ColorUtil.ToRgba(LiquidParticleAlpha, 225, 235, 240);
+
+        TextureAtlasPosition? position = null;
+        if (gas)
+        {
+            if (capi.BlockTextureAtlas.GetOrInsertTexture(
+                    PipeContent.SteamTexture, out _, out TextureAtlasPosition steamPosition))
+                position = steamPosition;
+        }
+        else
+        {
+            Item? item = capi.World.GetItem(contentCode);
+            WaterTightContainableProps? props = item?.Attributes?["waterTightContainerProps"]
+                .AsObject<WaterTightContainableProps>(null, contentCode.Domain);
+            if (item != null && props?.Texture != null)
+            {
+                try
+                {
+                    ContainerTextureSource textureSource = new(capi, new ItemStack(item), props.Texture);
+                    position = textureSource["liquid"];
+                }
+                catch (Exception exception)
+                {
+                    capi.Logger.Error(
+                        "[Gearwright] Could not prepare pipe content texture for {0}: {1}",
+                        contentCode, exception.Message);
+                }
+            }
+        }
+        if (position == null) return;
+        if (position.AvgColor != 0)
+        {
+            contentColor = BrightenedParticleColor(
+                gas ? GasParticleAlpha : LiquidParticleAlpha,
+                ColorUtil.ColorR(position.AvgColor),
+                ColorUtil.ColorG(position.AvgColor),
+                ColorUtil.ColorB(position.AvgColor));
+        }
+        contentMesh = new PipeContentMesh(capi, position, pipe);
+    }
+
+    private void RenderMesh(MeshRef mesh, float opacity, int textureId)
     {
         Vec3d camera = capi.World.Player.Entity.CameraPos;
-        modelMatrix.Identity()
-            .Translate(pipe.Pos.X - camera.X, pipe.Pos.Y - camera.Y, pipe.Pos.Z - camera.Z)
-            .Translate(0.5f, 0.5f, 0.5f);
-        if (pitch != 0) modelMatrix.RotateX(pitch);
-        if (yawOrRotor != 0) modelMatrix.RotateY(yawOrRotor);
-        modelMatrix.Translate(-0.5f, -0.5f, -0.5f);
-
+        modelMatrix.Identity().Translate(
+            pipe.Pos.X - camera.X, pipe.Pos.Y - camera.Y, pipe.Pos.Z - camera.Z);
         bool blended = opacity < 0.999f;
         if (blended) capi.Render.GlToggleBlend(true, EnumBlendMode.Standard);
         IStandardShaderProgram shader = capi.Render.PreparedStandardShader(
@@ -95,79 +153,139 @@ internal sealed class HydraulicPipeRenderer : IRenderer, IDisposable
         shader.ModelMatrix = modelMatrix.Values;
         shader.ViewMatrix = capi.Render.CameraMatrixOriginf;
         shader.ProjectionMatrix = capi.Render.CurrentProjectionMatrix;
-        shader.AlphaTest = 0.05f;
+        shader.AlphaTest = 0.02f;
         capi.Render.RenderMesh(mesh);
         shader.Stop();
         if (blended) capi.Render.GlToggleBlend(false);
     }
 
-    private float UpdateSpeedVariation(float deltaTime)
+    private void SpawnNozzleParticles(float deltaTime, bool gas)
     {
-        variationSecondsRemaining -= deltaTime;
-        if (variationSecondsRemaining <= 0) PickNextSpeedVariation();
-        float response = Math.Min(1, deltaTime * 0.65f);
-        speedVariation += (targetSpeedVariation - speedVariation) * response;
-        return speedVariation;
-    }
-
-    private void PickNextSpeedVariation()
-    {
-        targetSpeedVariation = 0.9f + (float)speedRandom.NextDouble() * 0.2f;
-        variationSecondsRemaining = 2.5f + (float)speedRandom.NextDouble() * 4.5f;
-    }
-
-    private void EnsureFluidMesh(AssetLocation liquidCode)
-    {
-        string code = liquidCode.ToString();
-        if (fluidMeshCode == code && fluidSurface != null) return;
-        fluidSurface?.Dispose();
-        fluidSurface = null;
-        fluidMeshCode = code;
-
-        Item? item = capi.World.GetItem(liquidCode);
-        WaterTightContainableProps? props = item?.Attributes?["waterTightContainerProps"]
-            .AsObject<WaterTightContainableProps>(null, liquidCode.Domain);
-        if (props?.Texture == null) return;
-
-        try
+        foreach (BlockFacing face in BlockFacing.ALLFACES)
         {
-            ContainerTextureSource textureSource = new(capi, new ItemStack(item), props.Texture);
-            TextureAtlasPosition position = textureSource["liquid"];
-            if (position.AvgColor != 0)
+            bool nozzle = pipe.GetAddon(face) == HydraulicFaceAddon.PipeNozzle;
+            bool openPipe = pipe.IsPortOpenToAir(face);
+            if (!nozzle && !openPipe) continue;
+            double flow = pipe.GetNozzleFlowRate(face);
+            if (Math.Abs(flow) < 0.01) continue;
+            bool outward = flow > 0;
+            double particlesPerSecond = outward
+                ? 12 + Math.Min(100, Math.Abs(flow) * 8)
+                : 5 + Math.Min(32, Math.Abs(flow) * 4);
+            nozzleParticleAccumulators[face.Index] += deltaTime * particlesPerSecond;
+            int quantity = (int)nozzleParticleAccumulators[face.Index];
+            if (quantity <= 0) continue;
+            nozzleParticleAccumulators[face.Index] -= quantity;
+
+            Vec3f normal = new(face.Normali.X, face.Normali.Y, face.Normali.Z);
+            if (!outward)
             {
-                fluidColor = ColorUtil.ToRgba(
-                    220,
-                    ColorUtil.ColorR(position.AvgColor),
-                    ColorUtil.ColorG(position.AvgColor),
-                    ColorUtil.ColorB(position.AvgColor));
+                if (nozzle) SpawnNozzleIntakeParticles(quantity, normal, gas, Math.Abs(flow));
+                continue;
             }
-            fluidSurface = new ScrollingLiquidSurface(
-                capi, position,
-                6.5f / 16f, 6.5f / 16f,
-                9.5f / 16f, 9.5f / 16f,
-                6.08f / 16f);
-        }
-        catch (Exception exception)
-        {
-            capi.Logger.Error(
-                "[Gearwright] Could not prepare the visible pipe liquid texture for {0}: {1}",
-                liquidCode, exception.Message);
+
+            float power = nozzle
+                ? 1 + (MaximumNozzleOutputSpeedMultiplier - 1) * (float)Math.Min(
+                    1, Math.Abs(flow) /
+                        (HydraulicMath.NozzleInventoryRateLitresPerSecond * 4))
+                : 1;
+            float speed = (gas ? 0.55f : 0.35f) * power;
+            Vec3f velocity = new(
+                normal.X * speed,
+                normal.Y * speed,
+                normal.Z * speed);
+            float spread = 0.16f;
+            float particleScale = gas ? 0.24f : 0.18f;
+            float originOffset = nozzle ? NozzleMouthOffset : PipeMouthOffset;
+            float particleLifetime = gas ? 0.8f : 0.55f;
+            Vec3d origin = pipe.Pos.ToVec3d().AddCopy(
+                0.5 + normal.X * originOffset,
+                0.5 + normal.Y * originOffset,
+                0.5 + normal.Z * originOffset);
+            capi.World.SpawnParticles(
+                quantity,
+                contentColor,
+                origin.AddCopy(-0.025, -0.025, -0.025),
+                origin.AddCopy(0.025, 0.025, 0.025),
+                new Vec3f(velocity.X - spread, velocity.Y - spread, velocity.Z - spread),
+                new Vec3f(velocity.X + spread, velocity.Y + spread, velocity.Z + spread),
+                particleLifetime,
+                gas ? 0.02f : 0.35f,
+                particleScale,
+                EnumParticleModel.Cube,
+                null);
         }
     }
 
-    private void SpawnSpray(float deltaTime, float performance)
+    private void SpawnNozzleIntakeParticles(
+        int quantity,
+        Vec3f normal,
+        bool gas,
+        double flowRate)
     {
-        particleAccumulator += deltaTime * (60 + 240 * performance);
-        int quantity = (int)particleAccumulator;
-        if (quantity <= 0) return;
-        particleAccumulator -= quantity;
-
-        int[] jetCounts = new int[4];
+        IntakeBasis(normal, out Vec3f tangent, out Vec3f bitangent);
+        Random random = capi.World.Rand;
+        float speed = 0.65f + (float)Math.Min(0.75, flowRate * 0.08);
+        float scale = gas ? 0.14f : 0.10f;
+        Vec3d target = pipe.Pos.ToVec3d().AddCopy(
+            0.5 + normal.X * IntakeTargetOffset,
+            0.5 + normal.Y * IntakeTargetOffset,
+            0.5 + normal.Z * IntakeTargetOffset);
         for (int particle = 0; particle < quantity; particle++)
         {
-            jetCounts[particle & 3]++;
+            float axial = IntakeConeLength * (0.45f + 0.55f * (float)random.NextDouble());
+            float radius = axial * 0.55f * MathF.Sqrt((float)random.NextDouble());
+            float angle = (float)(random.NextDouble() * GameMath.TWOPI);
+            float tangentOffset = MathF.Cos(angle) * radius;
+            float bitangentOffset = MathF.Sin(angle) * radius;
+            Vec3d start = pipe.Pos.ToVec3d().AddCopy(
+                0.5 + normal.X * (NozzleMouthOffset + axial) +
+                    tangent.X * tangentOffset + bitangent.X * bitangentOffset,
+                0.5 + normal.Y * (NozzleMouthOffset + axial) +
+                    tangent.Y * tangentOffset + bitangent.Y * bitangentOffset,
+                0.5 + normal.Z * (NozzleMouthOffset + axial) +
+                    tangent.Z * tangentOffset + bitangent.Z * bitangentOffset);
+            double dx = target.X - start.X;
+            double dy = target.Y - start.Y;
+            double dz = target.Z - start.Z;
+            double distance = Math.Sqrt(dx * dx + dy * dy + dz * dz);
+            float lifetime = (float)(distance / speed);
+            Vec3f velocity = new(
+                (float)(dx / lifetime),
+                (float)(dy / lifetime),
+                (float)(dz / lifetime));
+            capi.World.SpawnParticles(
+                1, contentColor, start, start, velocity, velocity,
+                lifetime, 0f, scale, EnumParticleModel.Cube, null);
         }
+    }
 
+    private static void IntakeBasis(Vec3f normal, out Vec3f tangent, out Vec3f bitangent)
+    {
+        if (Math.Abs(normal.Y) > 0.5f)
+        {
+            tangent = new Vec3f(1, 0, 0);
+            bitangent = new Vec3f(0, 0, 1);
+            return;
+        }
+        tangent = new Vec3f(0, 1, 0);
+        bitangent = new Vec3f(normal.Z, 0, -normal.X);
+    }
+
+    private static int BrightenedParticleColor(int alpha, int red, int green, int blue) =>
+        ColorUtil.ToRgba(alpha, Lighten(red), Lighten(green), Lighten(blue));
+
+    private static int Lighten(int channel) => (int)Math.Round(
+        channel + (255 - channel) * ParticleLightenFraction);
+
+    private void SpawnSprinklerSpray(float deltaTime, float performance)
+    {
+        sprinklerParticleAccumulator += deltaTime * (60 + 240 * performance);
+        int quantity = (int)sprinklerParticleAccumulator;
+        if (quantity <= 0) return;
+        sprinklerParticleAccumulator -= quantity;
+        int[] jetCounts = new int[4];
+        for (int particle = 0; particle < quantity; particle++) jetCounts[particle & 3]++;
         float outward = 0.8f + 1.7f * performance;
         float spread = 0.18f + 0.42f * performance;
         float liftMin = 0.45f + 0.65f * performance;
@@ -175,134 +293,39 @@ internal sealed class HydraulicPipeRenderer : IRenderer, IDisposable
         float life = 0.75f + 0.85f * performance;
         float scale = 0.13f + 0.09f * performance;
         Vec3d origin = pipe.Pos.ToVec3d();
-
         SpawnJet(jetCounts[0], origin.AddCopy(0.5, 0.045, 0.18),
-            new Vec3f(-spread, liftMin, -outward - spread),
-            new Vec3f(spread, liftMax, -outward + spread), life, scale);
+            new Vec3f(-spread, liftMin, -outward - spread), new Vec3f(spread, liftMax, -outward + spread), life, scale);
         SpawnJet(jetCounts[1], origin.AddCopy(0.5, 0.045, 0.82),
-            new Vec3f(-spread, liftMin, outward - spread),
-            new Vec3f(spread, liftMax, outward + spread), life, scale);
+            new Vec3f(-spread, liftMin, outward - spread), new Vec3f(spread, liftMax, outward + spread), life, scale);
         SpawnJet(jetCounts[2], origin.AddCopy(0.18, 0.045, 0.5),
-            new Vec3f(-outward - spread, liftMin, -spread),
-            new Vec3f(-outward + spread, liftMax, spread), life, scale);
+            new Vec3f(-outward - spread, liftMin, -spread), new Vec3f(-outward + spread, liftMax, spread), life, scale);
         SpawnJet(jetCounts[3], origin.AddCopy(0.82, 0.045, 0.5),
-            new Vec3f(outward - spread, liftMin, -spread),
-            new Vec3f(outward + spread, liftMax, spread), life, scale);
+            new Vec3f(outward - spread, liftMin, -spread), new Vec3f(outward + spread, liftMax, spread), life, scale);
     }
 
-    private void SpawnJet(
-        int quantity,
-        Vec3d position,
-        Vec3f minVelocity,
-        Vec3f maxVelocity,
-        float life,
-        float scale)
+    private void SpawnJet(int quantity, Vec3d position, Vec3f minVelocity, Vec3f maxVelocity, float life, float scale)
     {
         if (quantity <= 0) return;
-        Vec3d minPos = position.AddCopy(-0.025, -0.012, -0.025);
-        Vec3d maxPos = position.AddCopy(0.025, 0.012, 0.025);
         capi.World.SpawnParticles(
-            quantity,
-            fluidColor,
-            minPos,
-            maxPos,
-            minVelocity,
-            maxVelocity,
-            life,
-            1f,
-            scale,
-            EnumParticleModel.Cube,
-            null);
+            quantity, contentColor,
+            position.AddCopy(-0.025, -0.012, -0.025), position.AddCopy(0.025, 0.012, 0.025),
+            minVelocity, maxVelocity, life, 1f, scale, EnumParticleModel.Cube, null);
     }
 
-    private bool HasWindow()
+    private bool HasVisibleInterior()
     {
         foreach (BlockFacing face in BlockFacing.ALLFACES)
         {
-            if (pipe.GetAddon(face) == HydraulicFaceAddon.GlassWindow) return true;
+            if (pipe.GetAddon(face) == HydraulicFaceAddon.GlassWindow ||
+                pipe.IsPortOpenToAir(face)) return true;
         }
         return false;
-    }
-
-    private WindowScroll GetWindowScroll(BlockFacing windowFace)
-    {
-        BlockFacing? direction = pipe.CurrentFlowDirection;
-
-        if (direction == null)
-        {
-            foreach (BlockFacing face in BlockFacing.ALLFACES)
-            {
-                if (pipe.IsConnected(face))
-                {
-                    direction = face;
-                    break;
-                }
-            }
-        }
-        if (direction == null || direction.Axis == windowFace.Axis)
-        {
-            // End-on windows cannot project depth onto their pane, so use a stable
-            // vertical scroll instead of translating the liquid toward the camera.
-            return new WindowScroll(false, direction == windowFace.Opposite);
-        }
-
-        if (windowFace == BlockFacing.NORTH)
-        {
-            if (direction == BlockFacing.EAST || direction == BlockFacing.WEST)
-                return new WindowScroll(true, direction == BlockFacing.WEST);
-            return new WindowScroll(false, direction == BlockFacing.UP);
-        }
-        if (windowFace == BlockFacing.SOUTH)
-        {
-            if (direction == BlockFacing.EAST || direction == BlockFacing.WEST)
-                return new WindowScroll(true, direction == BlockFacing.EAST);
-            return new WindowScroll(false, direction == BlockFacing.UP);
-        }
-        if (windowFace == BlockFacing.EAST)
-        {
-            if (direction == BlockFacing.NORTH || direction == BlockFacing.SOUTH)
-                return new WindowScroll(true, direction == BlockFacing.NORTH);
-            return new WindowScroll(false, direction == BlockFacing.UP);
-        }
-        if (windowFace == BlockFacing.WEST)
-        {
-            if (direction == BlockFacing.NORTH || direction == BlockFacing.SOUTH)
-                return new WindowScroll(true, direction == BlockFacing.SOUTH);
-            return new WindowScroll(false, direction == BlockFacing.UP);
-        }
-        if (windowFace == BlockFacing.UP)
-        {
-            if (direction == BlockFacing.EAST || direction == BlockFacing.WEST)
-                return new WindowScroll(true, direction == BlockFacing.WEST);
-            return new WindowScroll(false, direction == BlockFacing.NORTH);
-        }
-
-        if (direction == BlockFacing.EAST || direction == BlockFacing.WEST)
-            return new WindowScroll(true, direction == BlockFacing.WEST);
-        return new WindowScroll(false, direction == BlockFacing.SOUTH);
-    }
-
-    private static float FaceYaw(BlockFacing face)
-    {
-        if (face == BlockFacing.EAST) return -GameMath.PIHALF;
-        if (face == BlockFacing.SOUTH) return GameMath.PI;
-        if (face == BlockFacing.WEST) return GameMath.PIHALF;
-        return 0;
-    }
-
-    private static float FacePitch(BlockFacing face)
-    {
-        if (face == BlockFacing.UP) return GameMath.PIHALF;
-        if (face == BlockFacing.DOWN) return -GameMath.PIHALF;
-        return 0;
     }
 
     public void Dispose()
     {
         rotorMesh.Dispose();
-        fluidSurface?.Dispose();
-        fluidSurface = null;
+        contentMesh?.Dispose();
+        contentMesh = null;
     }
-
-    private readonly record struct WindowScroll(bool Horizontal, bool Reverse);
 }

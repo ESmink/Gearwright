@@ -6,6 +6,7 @@
     "assets/gearwright/shapes/block/fluid-pipe-cap.json": {"elements": 1, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/fluid-pipe-center.json": {"elements": 12, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/fluid-pipe-inventory.json": {"elements": 32, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/fluid-pipe-intake.json": {"elements": 21, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/fluid-pipe-window.json": {"elements": 1, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/fluid-slug.json": {"elements": 1, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/passive-fluid-pump.json": {"elements": 40, "textureWidth": 32, "textureHeight": 32},
@@ -16,6 +17,7 @@
     "assets/gearwright/shapes/block/sprinkler-body.json": {"elements": 6, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/sprinkler-rotor.json": {"elements": 9, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/item/pottery-profile-tool.json": {"elements": 7, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/item/fluid-pipe-intake-copper.json": {"elements": 21, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/item/sprinkler-brass.json": {"elements": 9, "textureWidth": 16, "textureHeight": 16}
   },
   "animation": {

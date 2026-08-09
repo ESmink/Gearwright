@@ -15,6 +15,7 @@ Use Gearwright's deterministic Python pipeline and keep the maintainer in the lo
 - Never hand-edit compiled shape JSON.
 - Never place Python source, dependencies, or caches under `generated/`.
 - Do not emit a candidate into `assets/gearwright/`, gameplay code, or a mod package before maintainer approval.
+- When a review package is ready, launch the interactive reviewer for the maintainer by running the documented Python command yourself. Do not require the maintainer to copy or run it. If launching a visible GUI needs approval, request that approval through the available tool; provide a manual command only after the launch attempt fails.
 - Treat the photoshoot and OpenGL reviewer as diagnostics. Validate engine-sensitive UV, render-pass, particle, lighting, and playback behavior in Vintage Story.
 
 ## File ownership

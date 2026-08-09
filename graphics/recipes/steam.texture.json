@@ -1,0 +1,16 @@
+{
+  "kind": "texture",
+  "output": "assets/gearwright/textures/block/steam.png",
+  "width": 24,
+  "height": 24,
+  "background": "#00000000",
+  "layers": [
+    {
+      "source": "survival:textures/block/liquid/waterportion.png",
+      "destination": [0, 0, 24, 24],
+      "mode": "stretch",
+      "tint": "#F4F7F8"
+    },
+    { "fill": "#B8FFFFFF", "destination": [0, 0, 24, 24] }
+  ]
+}

@@ -8,12 +8,13 @@ public enum HydraulicFaceAddon
 {
     None = 0,
     GlassWindow = 1,
-    Sprinkler = 2
+    Sprinkler = 2,
+    PipeNozzle = 3
 }
 
 public readonly record struct PumpOffer(
     BlockEntityHydraulicPump Pump,
-    AssetLocation LiquidCode,
+    AssetLocation ContentCode,
     double Pressure,
     string StatusCode);
 
@@ -22,7 +23,7 @@ public interface IHydraulicNetworkNode
     BlockPos Position { get; }
     bool CanConnect(BlockFacing face);
     void SetNetworkState(
-        AssetLocation? liquidCode,
+        AssetLocation? contentCode,
         double pressure,
         string statusCode,
         BlockFacing? flowDirection);
@@ -32,6 +33,7 @@ public static class HydraulicCodes
 {
     public const string PipeBlock = "fluid-pipe-copper";
     public const string SprinklerItem = "sprinkler-brass";
+    public const string PipeNozzleItem = "fluid-pipe-intake-copper";
     public const string CreativePumpBlock = "creative-fluid-pump";
     public const string PassivePumpBlock = "passive-fluid-pump";
 
@@ -44,5 +46,6 @@ public static class HydraulicCodes
     public const string CropBehaviorClass = "GearwrightFluidExposure";
 
     public const string FreshWater = "game:waterportion";
+    public const string Steam = "gearwright:steam";
     public const string FarmlandExposureTree = "gearwrightFluidExposure";
 }

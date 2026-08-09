@@ -20,7 +20,7 @@ $textureRecipes = if ($Recipe.Count -gt 0) {
 }
 foreach ($recipeFile in $textureRecipes) {
     & (Join-Path $PSScriptRoot "Build-Texture.ps1") -Recipe $recipeFile.FullName -VintageStoryPath $VintageStoryPath
-    if ($LASTEXITCODE -ne 0) { throw "Texture recipe failed: $($recipeFile.Name)" }
+    if (-not $?) { throw "Texture recipe failed: $($recipeFile.Name)" }
 }
 
 $python = Resolve-GearwrightPython -PythonPath $PythonPath

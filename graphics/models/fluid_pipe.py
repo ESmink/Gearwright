@@ -16,6 +16,33 @@ ROTATIONS = {
     "west": (0, 90, 0), "up": (90, 0, 0), "down": (-90, 0, 0),
 }
 
+# Approved as option-c-reinforced-cartridge in the fluid-pipe intake review.
+# These are the gravity drain's intake cuboids before the approved widening and
+# one-pixel move back to the pipe center.
+INTAKE_CUBOIDS = (
+    ("intake-throat-bottom", (6.5, 6.5, 10.5), (9.5, 6.9, 13.5), "#copper"),
+    ("intake-throat-top", (6.5, 9.1, 10.5), (9.5, 9.5, 13.5), "#copper"),
+    ("intake-throat-left", (6.5, 6.9, 10.5), (6.9, 9.1, 13.5), "#copper"),
+    ("intake-throat-right", (9.1, 6.9, 10.5), (9.5, 9.1, 13.5), "#copper"),
+    ("intake-gland-bottom", (5.5, 5.5, 13.5), (10.5, 6.5, 14.5), "#brass"),
+    ("intake-gland-top", (5.5, 9.5, 13.5), (10.5, 10.5, 14.5), "#brass"),
+    ("intake-gland-left", (5.5, 6.5, 13.5), (6.5, 9.5, 14.5), "#brass"),
+    ("intake-gland-right", (9.5, 6.5, 13.5), (10.5, 9.5, 14.5), "#brass"),
+    ("intake-tube-bottom", (6.5, 6.5, 14.5), (9.5, 6.9, 18.5), "#copper"),
+    ("intake-tube-top", (6.5, 9.1, 14.5), (9.5, 9.5, 18.5), "#copper"),
+    ("intake-tube-left", (6.5, 6.9, 14.5), (6.9, 9.1, 18.5), "#copper"),
+    ("intake-tube-right", (9.1, 6.9, 14.5), (9.5, 9.1, 18.5), "#copper"),
+    ("intake-ferrule-bottom", (6, 6, 16), (10, 6.5, 17), "#brass"),
+    ("intake-ferrule-top", (6, 9.5, 16), (10, 10, 17), "#brass"),
+    ("intake-ferrule-left", (6, 6.5, 16), (6.5, 9.5, 17), "#brass"),
+    ("intake-ferrule-right", (9.5, 6.5, 16), (10, 9.5, 17), "#brass"),
+    ("intake-lip-bottom", (6.1, 6.1, 17.75), (9.9, 6.5, 18.5), "#brass"),
+    ("intake-lip-top", (6.1, 9.5, 17.75), (9.9, 9.9, 18.5), "#brass"),
+    ("intake-lip-left", (6.1, 6.5, 17.75), (6.5, 9.5, 18.5), "#brass"),
+    ("intake-lip-right", (9.5, 6.5, 17.75), (9.9, 9.5, 18.5), "#brass"),
+    ("intake-shadow", (6.9, 6.9, 18.2), (9.1, 9.1, 18.48), "#shadow"),
+)
+
 
 def _textures(shape: Shape, copper: bool = True, glass: bool = False, liquid: bool = False) -> None:
     if copper:
@@ -104,6 +131,34 @@ def _inventory(shape: Shape) -> None:
         shape.box(name, from_, to, texture=COPPER, group="attachment")
 
 
+def _intake(shape: Shape, *, installed: bool) -> None:
+    """Build approved option C from the gravity drain's established intake."""
+    shape.texture("copper", "game:block/metal/sheet/copper1")
+    shape.texture("brass", "game:block/metal/ingot/brass")
+    shape.texture("shadow", "gearwright:block/inspection-shadow")
+    z_offset = 0 if installed else -6.25
+
+    def transform(point: tuple[float, float, float]) -> tuple[float, float, float]:
+        x, y, z = point
+        if z == 10.5:
+            z = 10
+        return 8 + (x - 8) * (4 / 3), 8 + (y - 8) * (4 / 3), z + z_offset
+
+    for name, from_, to, texture in INTAKE_CUBOIDS:
+        faces = tuple(
+            face for face in FACES
+            if not (installed and name.startswith("intake-throat-") and face == "north")
+        )
+        shape.box(
+            name,
+            transform(from_),
+            transform(to),
+            texture=texture,
+            faces=faces,
+            group="intake",
+        )
+
+
 def _new(shape_id: str, builder, width: int = 16, height: int = 16) -> Shape:
     shape = Shape(shape_id, width, height)
     builder(shape)
@@ -118,10 +173,18 @@ def build() -> ModelPackage:
     package.shape(_new("fluid-pipe-window", _window), "assets/gearwright/shapes/block/fluid-pipe-window.json")
     package.shape(_new("fluid-slug", _slug), "assets/gearwright/shapes/block/fluid-slug.json")
     package.shape(_new("fluid-pipe-inventory", _inventory), "assets/gearwright/shapes/block/fluid-pipe-inventory.json")
+    package.shape(
+        _new("fluid-pipe-intake", lambda shape: _intake(shape, installed=True)),
+        "assets/gearwright/shapes/block/fluid-pipe-intake.json",
+    )
+    package.shape(
+        _new("fluid-pipe-intake-copper", lambda shape: _intake(shape, installed=False)),
+        "assets/gearwright/shapes/item/fluid-pipe-intake-copper.json",
+    )
     assemblies = tuple(ReviewAssembly(face, (f"{face}-*",), Vec3(*ROTATIONS[face]), 1) for face in FACES)
-    package.add_scene(ReviewScene("active-window-sprinkler", ({"asset": "gearwright:block/fluid-pipe-center", "state": {"north": "connection", "east": "window", "down": "sprinkler"}, "pressure": 100, "role": "target"},), ("front-right", "top"), assemblies))
+    package.add_scene(ReviewScene("active-window-sprinkler", ({"asset": "gearwright:block/fluid-pipe-center", "state": {"north": "connection", "east": "window", "south": "intake", "down": "sprinkler"}, "pressure": 100, "role": "target"},), ("front-right", "top"), assemblies))
     package.add_scene(ReviewScene("normal", ({"asset": "gearwright:block/fluid-pipe-center", "state": {}, "role": "target"},), ("front-right",), assemblies))
-    package.add_scene(ReviewScene("exploded", ({"asset": "gearwright:block/fluid-pipe-center", "state": {"north": "connection", "east": "window", "down": "sprinkler"}, "pressure": 100, "role": "target"},), ("isometric",), assemblies))
+    package.add_scene(ReviewScene("exploded", ({"asset": "gearwright:block/fluid-pipe-center", "state": {"north": "connection", "east": "window", "south": "intake", "down": "sprinkler"}, "pressure": 100, "role": "target"},), ("isometric",), assemblies))
     return package
 
 
@@ -147,11 +210,17 @@ def compose_pipe_shape(state: Mapping[str, str], pressure: float = 0) -> dict:
             part = output_by_suffix["fluid-pipe-window"]
         elif attachment == "sprinkler":
             part = output_by_suffix["sprinkler-body"] if "sprinkler-body" in output_by_suffix else None
+        elif attachment == "intake":
+            part = output_by_suffix["fluid-pipe-intake"]
         else:
             part = output_by_suffix["fluid-pipe-cap"]
         if part is not None:
             base.setdefault("textures", {}).update(deepcopy(part.get("textures", {})))
-            base.setdefault("elements", []).append({"name": f"{face}-{attachment}", "from": [0, 0, 0], "to": [0, 0, 0], "rotationOrigin": [8, 8, 8], "children": deepcopy(part.get("elements", []))})
+            wrapper = {"name": f"{face}-{attachment}", "from": [0, 0, 0], "to": [0, 0, 0], "rotationOrigin": [8, 8, 8], "children": deepcopy(part.get("elements", []))}
+            if attachment == "intake":
+                # The intake is authored toward south; preview assemblies expect north-authored parts.
+                wrapper["rotationY"] = 180
+            base.setdefault("elements", []).append(wrapper)
         if attachment == "window" and pressure > 0:
             part = output_by_suffix["fluid-slug"]
             base.setdefault("textures", {}).update(deepcopy(part.get("textures", {})))

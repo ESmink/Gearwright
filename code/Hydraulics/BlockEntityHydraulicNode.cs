@@ -15,7 +15,7 @@ public abstract class BlockEntityHydraulicNode : BlockEntity, IHydraulicNetworkN
 
     public BlockPos Position => Pos;
     public bool CanWriteState => canWrite;
-    public AssetLocation? CurrentLiquidCode { get; private set; }
+    public AssetLocation? CurrentContentCode { get; private set; }
     public double CurrentPressure { get; private set; }
     public string NetworkStatusCode { get; private set; } = "idle";
     public BlockFacing? CurrentFlowDirection { get; private set; }
@@ -64,7 +64,7 @@ public abstract class BlockEntityHydraulicNode : BlockEntity, IHydraulicNetworkN
                 "[Gearwright] Hydraulic state at {0} has a {1} schema ({2}). The original data will remain read-only.",
                 Pos, problem, storedSchema?.ToString() ?? "non-integer");
         }
-        else if (storedSchema is 1 or 2)
+        else if (storedSchema is 1 or 2 or 3 or 4 or 5)
         {
             worldAccessForResolve.Logger.Notification(
                 "[Gearwright] Migrated hydraulic state at {0} from schema {1} to schema {2}.",
@@ -93,22 +93,22 @@ public abstract class BlockEntityHydraulicNode : BlockEntity, IHydraulicNetworkN
     }
 
     public virtual void SetNetworkState(
-        AssetLocation? liquidCode,
+        AssetLocation? contentCode,
         double pressure,
         string statusCode,
         BlockFacing? flowDirection)
     {
-        string? oldLiquid = CurrentLiquidCode?.ToString();
+        string? oldContent = CurrentContentCode?.ToString();
         double oldPressure = CurrentPressure;
         string oldStatus = NetworkStatusCode;
         string? oldFlowDirection = CurrentFlowDirection?.Code;
-        CurrentLiquidCode = liquidCode;
-        CurrentPressure = Math.Max(0, pressure);
+        CurrentContentCode = contentCode;
+        CurrentPressure = double.IsFinite(pressure) ? pressure : 0;
         NetworkStatusCode = statusCode;
         CurrentFlowDirection = flowDirection;
 
         if (Api?.Side == EnumAppSide.Server &&
-            (oldLiquid != liquidCode?.ToString() || Math.Abs(oldPressure - CurrentPressure) >= 0.25 ||
+            (oldContent != contentCode?.ToString() || Math.Abs(oldPressure - CurrentPressure) >= 0.05 ||
              oldStatus != statusCode || oldFlowDirection != flowDirection?.Code))
         {
             MarkDirty(false);
@@ -120,10 +120,11 @@ public abstract class BlockEntityHydraulicNode : BlockEntity, IHydraulicNetworkN
 
     private void ReadNetworkCache(ITreeAttribute state)
     {
-        string liquid = state.GetString("networkLiquid", "");
-        try { CurrentLiquidCode = string.IsNullOrWhiteSpace(liquid) ? null : new AssetLocation(liquid); }
-        catch { CurrentLiquidCode = null; }
-        CurrentPressure = Math.Max(0, state.GetDouble("networkPressure", 0));
+        string content = state.GetString("networkContent", "");
+        try { CurrentContentCode = string.IsNullOrWhiteSpace(content) ? null : new AssetLocation(content); }
+        catch { CurrentContentCode = null; }
+        double storedPressure = state.GetDouble("networkPressure", 0);
+        CurrentPressure = double.IsFinite(storedPressure) ? storedPressure : 0;
         NetworkStatusCode = state.GetString("networkStatus", "idle");
         string flowDirection = state.GetString("networkFlowDirection", "");
         CurrentFlowDirection = string.IsNullOrWhiteSpace(flowDirection)
@@ -133,8 +134,8 @@ public abstract class BlockEntityHydraulicNode : BlockEntity, IHydraulicNetworkN
 
     private void WriteNetworkCache(ITreeAttribute state)
     {
-        if (CurrentLiquidCode == null) state.RemoveAttribute("networkLiquid");
-        else state.SetString("networkLiquid", CurrentLiquidCode.ToString());
+        if (CurrentContentCode == null) state.RemoveAttribute("networkContent");
+        else state.SetString("networkContent", CurrentContentCode.ToString());
         state.SetDouble("networkPressure", CurrentPressure);
         state.SetString("networkStatus", NetworkStatusCode);
         if (CurrentFlowDirection == null) state.RemoveAttribute("networkFlowDirection");

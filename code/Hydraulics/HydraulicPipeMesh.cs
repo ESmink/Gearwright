@@ -16,7 +16,7 @@ internal static class HydraulicPipeMesh
         foreach (BlockFacing face in BlockFacing.ALLFACES)
         {
             MeshData? part = null;
-            if (pipe.IsConnected(face))
+            if (pipe.IsPortEnabled(face))
             {
                 part = Tesselate(pipe, tesselator, "gearwright:shapes/block/fluid-pipe-arm.json");
             }
@@ -28,13 +28,18 @@ internal static class HydraulicPipeMesh
             {
                 part = Tesselate(pipe, tesselator, "gearwright:shapes/block/sprinkler-body.json");
             }
+            else if (pipe.GetAddon(face) == HydraulicFaceAddon.PipeNozzle)
+            {
+                part = Tesselate(pipe, tesselator, "gearwright:shapes/block/fluid-pipe-intake.json");
+            }
             else
             {
                 part = Tesselate(pipe, tesselator, "gearwright:shapes/block/fluid-pipe-cap.json");
             }
 
             if (part == null) continue;
-            if (pipe.GetAddon(face) != HydraulicFaceAddon.Sprinkler) RotateNorthPart(part, face);
+            if (pipe.GetAddon(face) == HydraulicFaceAddon.PipeNozzle) RotateSouthPart(part, face);
+            else if (pipe.GetAddon(face) != HydraulicFaceAddon.Sprinkler) RotateNorthPart(part, face);
             combined.AddMeshData(part);
         }
 
