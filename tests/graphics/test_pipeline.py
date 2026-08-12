@@ -88,7 +88,43 @@ def _semantic_digest(document):
     return hashlib.sha256(payload).hexdigest()
 
 
+def _walk_elements(elements):
+    for element in elements:
+        yield element
+        yield from _walk_elements(element.get("children", []))
+
+
 class PipelineTests(unittest.TestCase):
+    def test_approved_overrunning_transmission_is_split_for_live_runtime_motion(self):
+        package = load_definition(ROOT, ROOT / "graphics/models/overrunning_transmission.py")
+        documents = {
+            relative.rsplit("/", 1)[-1]: compile_shape(shape)
+            for relative, shape in package.outputs.items()
+        }
+        frame = documents["overrunning-transmission-frame.json"]
+        input_rotor = documents["overrunning-transmission-input.json"]
+        output_rotor = documents["overrunning-transmission-output.json"]
+        inventory = documents["overrunning-transmission-inventory.json"]
+
+        frame_names = {element["name"] for element in frame["elements"]}
+        self.assertIn("base-crossbeam-front", frame_names)
+        self.assertIn("base-crossbeam-back", frame_names)
+        self.assertFalse(any("foot-band" in name or "corner-base-tie" in name for name in frame_names))
+        front = next(element for element in frame["elements"] if element["name"] == "base-crossbeam-front")
+        input_foot = next(element for element in frame["elements"] if element["name"] == "input-separate-foot")
+        self.assertAlmostEqual(.02, input_foot["from"][2] - front["to"][2])
+
+        serialized_input = json.dumps(input_rotor)
+        serialized_output = json.dumps(output_rotor)
+        self.assertIn("input-replaceable-ratchet-tooth-11", serialized_input)
+        self.assertIn("output-oak-pawl-carrier-02", serialized_output)
+        for index in range(1, 4):
+            pawl = documents[f"overrunning-transmission-pawl-{index}.json"]
+            serialized_pawl = json.dumps(pawl)
+            self.assertIn(f"orbiting-pawl-{index}-tooth-hook", serialized_pawl)
+            self.assertIn(f"orbiting-pawl-{index}-leaf-spring", serialized_pawl)
+        self.assertEqual(103, sum(1 for _ in _walk_elements(inventory["elements"])))
+
     def test_all_definitions_validate_and_match_frozen_inventory(self):
         fixture = json.loads((ROOT / "tests/graphics/fixtures/model-contracts.json").read_text())
         outputs = {}

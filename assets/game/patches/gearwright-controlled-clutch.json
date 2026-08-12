@@ -1,0 +1,37 @@
+[
+  {
+    "file": "game:blocktypes/mechanics/transmission",
+    "op": "replace",
+    "path": "/class",
+    "value": "GearwrightControlledTransmission"
+  },
+  {
+    "file": "game:blocktypes/mechanics/transmission",
+    "op": "replace",
+    "path": "/entityBehaviors/1/name",
+    "value": "GearwrightMPControlledTransmission"
+  },
+  {
+    "file": "game:blocktypes/mechanics/transmission",
+    "op": "add",
+    "path": "/attributes/handbook/extraSections",
+    "value": [
+      {
+        "title": "gearwright:handbook-title-controlled-clutch",
+        "text": "gearwright:handbook-text-controlled-clutch"
+      }
+    ]
+  },
+  {
+    "file": "game:blocktypes/mechanics/clutch",
+    "op": "replace",
+    "path": "/class",
+    "value": "GearwrightControlledClutch"
+  },
+  {
+    "file": "game:blocktypes/mechanics/clutch",
+    "op": "replace",
+    "path": "/entityClass",
+    "value": "GearwrightControlledClutch"
+  }
+]

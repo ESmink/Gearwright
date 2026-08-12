@@ -1,0 +1,625 @@
+{
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "oakplanks": "game:block/wood/planks/oak1",
+    "plainoak": "survival:block/wood/plainoak",
+    "strippedoak": "survival:block/wood/debarked/oak",
+    "oakend": "survival:block/wood/treetrunk/debarked/oak",
+    "bronze": "game:block/metal/sheet/tinbronze1"
+  },
+  "elements": [
+    {
+      "name": "input-separate-foot",
+      "from": [
+        1.0,
+        0,
+        3.62
+      ],
+      "to": [
+        4.0,
+        1.72,
+        12.38
+      ],
+      "group": "frame",
+      "faces": {
+        "north": {
+          "texture": "#oakplanks"
+        },
+        "east": {
+          "texture": "#oakplanks"
+        },
+        "south": {
+          "texture": "#oakplanks"
+        },
+        "west": {
+          "texture": "#oakplanks"
+        },
+        "up": {
+          "texture": "#oakplanks"
+        },
+        "down": {
+          "texture": "#oakplanks"
+        }
+      }
+    },
+    {
+      "name": "input-bearing-post",
+      "from": [
+        1.2,
+        1.7,
+        4.6
+      ],
+      "to": [
+        3.8,
+        7.25,
+        11.4
+      ],
+      "group": "frame",
+      "faces": {
+        "north": {
+          "texture": "#oakplanks"
+        },
+        "east": {
+          "texture": "#oakplanks"
+        },
+        "south": {
+          "texture": "#oakplanks"
+        },
+        "west": {
+          "texture": "#oakplanks"
+        },
+        "up": {
+          "texture": "#oakplanks"
+        },
+        "down": {
+          "texture": "#oakplanks"
+        }
+      }
+    },
+    {
+      "name": "input-bearing-cap",
+      "from": [
+        1.05,
+        5.4,
+        4.1
+      ],
+      "to": [
+        3.95,
+        10.75,
+        11.9
+      ],
+      "group": "frame-bronze",
+      "faces": {
+        "north": {
+          "texture": "#bronze"
+        },
+        "east": {
+          "texture": "#bronze"
+        },
+        "south": {
+          "texture": "#bronze"
+        },
+        "west": {
+          "texture": "#bronze"
+        },
+        "up": {
+          "texture": "#bronze"
+        },
+        "down": {
+          "texture": "#bronze"
+        }
+      }
+    },
+    {
+      "name": "input-bearing-wood",
+      "from": [
+        1.2,
+        5.75,
+        4.55
+      ],
+      "to": [
+        3.8,
+        10.35,
+        11.45
+      ],
+      "group": "frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak"
+        },
+        "east": {
+          "texture": "#plainoak"
+        },
+        "south": {
+          "texture": "#plainoak"
+        },
+        "west": {
+          "texture": "#plainoak"
+        },
+        "up": {
+          "texture": "#plainoak"
+        },
+        "down": {
+          "texture": "#plainoak"
+        }
+      }
+    },
+    {
+      "name": "input-bearing-bolt-4.25",
+      "from": [
+        0.85,
+        7.55,
+        4.25
+      ],
+      "to": [
+        1.4,
+        8.45,
+        4.95
+      ],
+      "group": "fasteners",
+      "faces": {
+        "north": {
+          "texture": "#bronze"
+        },
+        "east": {
+          "texture": "#bronze"
+        },
+        "south": {
+          "texture": "#bronze"
+        },
+        "west": {
+          "texture": "#bronze"
+        },
+        "up": {
+          "texture": "#bronze"
+        },
+        "down": {
+          "texture": "#bronze"
+        }
+      }
+    },
+    {
+      "name": "input-bearing-bolt-11.25",
+      "from": [
+        0.85,
+        7.55,
+        11.25
+      ],
+      "to": [
+        1.4,
+        8.45,
+        11.95
+      ],
+      "group": "fasteners",
+      "faces": {
+        "north": {
+          "texture": "#bronze"
+        },
+        "east": {
+          "texture": "#bronze"
+        },
+        "south": {
+          "texture": "#bronze"
+        },
+        "west": {
+          "texture": "#bronze"
+        },
+        "up": {
+          "texture": "#bronze"
+        },
+        "down": {
+          "texture": "#bronze"
+        }
+      }
+    },
+    {
+      "name": "output-separate-foot",
+      "from": [
+        12.0,
+        0,
+        3.62
+      ],
+      "to": [
+        15.0,
+        1.72,
+        12.38
+      ],
+      "group": "frame",
+      "faces": {
+        "north": {
+          "texture": "#oakplanks"
+        },
+        "east": {
+          "texture": "#oakplanks"
+        },
+        "south": {
+          "texture": "#oakplanks"
+        },
+        "west": {
+          "texture": "#oakplanks"
+        },
+        "up": {
+          "texture": "#oakplanks"
+        },
+        "down": {
+          "texture": "#oakplanks"
+        }
+      }
+    },
+    {
+      "name": "output-bearing-post",
+      "from": [
+        12.2,
+        1.7,
+        4.6
+      ],
+      "to": [
+        14.8,
+        7.25,
+        11.4
+      ],
+      "group": "frame",
+      "faces": {
+        "north": {
+          "texture": "#oakplanks"
+        },
+        "east": {
+          "texture": "#oakplanks"
+        },
+        "south": {
+          "texture": "#oakplanks"
+        },
+        "west": {
+          "texture": "#oakplanks"
+        },
+        "up": {
+          "texture": "#oakplanks"
+        },
+        "down": {
+          "texture": "#oakplanks"
+        }
+      }
+    },
+    {
+      "name": "output-bearing-cap",
+      "from": [
+        12.05,
+        5.4,
+        4.1
+      ],
+      "to": [
+        14.95,
+        10.75,
+        11.9
+      ],
+      "group": "frame-bronze",
+      "faces": {
+        "north": {
+          "texture": "#bronze"
+        },
+        "east": {
+          "texture": "#bronze"
+        },
+        "south": {
+          "texture": "#bronze"
+        },
+        "west": {
+          "texture": "#bronze"
+        },
+        "up": {
+          "texture": "#bronze"
+        },
+        "down": {
+          "texture": "#bronze"
+        }
+      }
+    },
+    {
+      "name": "output-bearing-wood",
+      "from": [
+        12.2,
+        5.75,
+        4.55
+      ],
+      "to": [
+        14.8,
+        10.35,
+        11.45
+      ],
+      "group": "frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak"
+        },
+        "east": {
+          "texture": "#plainoak"
+        },
+        "south": {
+          "texture": "#plainoak"
+        },
+        "west": {
+          "texture": "#plainoak"
+        },
+        "up": {
+          "texture": "#plainoak"
+        },
+        "down": {
+          "texture": "#plainoak"
+        }
+      }
+    },
+    {
+      "name": "output-bearing-bolt-4.25",
+      "from": [
+        11.85,
+        7.55,
+        4.25
+      ],
+      "to": [
+        12.4,
+        8.45,
+        4.95
+      ],
+      "group": "fasteners",
+      "faces": {
+        "north": {
+          "texture": "#bronze"
+        },
+        "east": {
+          "texture": "#bronze"
+        },
+        "south": {
+          "texture": "#bronze"
+        },
+        "west": {
+          "texture": "#bronze"
+        },
+        "up": {
+          "texture": "#bronze"
+        },
+        "down": {
+          "texture": "#bronze"
+        }
+      }
+    },
+    {
+      "name": "output-bearing-bolt-11.25",
+      "from": [
+        11.85,
+        7.55,
+        11.25
+      ],
+      "to": [
+        12.4,
+        8.45,
+        11.95
+      ],
+      "group": "fasteners",
+      "faces": {
+        "north": {
+          "texture": "#bronze"
+        },
+        "east": {
+          "texture": "#bronze"
+        },
+        "south": {
+          "texture": "#bronze"
+        },
+        "west": {
+          "texture": "#bronze"
+        },
+        "up": {
+          "texture": "#bronze"
+        },
+        "down": {
+          "texture": "#bronze"
+        }
+      }
+    },
+    {
+      "name": "base-crossbeam-front",
+      "from": [
+        1.0,
+        0,
+        2.0
+      ],
+      "to": [
+        15.0,
+        1.6,
+        3.6
+      ],
+      "group": "frame",
+      "faces": {
+        "north": {
+          "texture": "#strippedoak"
+        },
+        "east": {
+          "texture": "#oakend"
+        },
+        "south": {
+          "texture": "#strippedoak"
+        },
+        "west": {
+          "texture": "#oakend"
+        },
+        "up": {
+          "texture": "#strippedoak"
+        },
+        "down": {
+          "texture": "#strippedoak"
+        }
+      }
+    },
+    {
+      "name": "base-crossbeam-front-bolt-input",
+      "from": [
+        2.08,
+        0.38,
+        1.74
+      ],
+      "to": [
+        2.92,
+        1.22,
+        2.02
+      ],
+      "group": "fasteners",
+      "faces": {
+        "north": {
+          "texture": "#bronze"
+        },
+        "east": {
+          "texture": "#bronze"
+        },
+        "south": {
+          "texture": "#bronze"
+        },
+        "west": {
+          "texture": "#bronze"
+        },
+        "up": {
+          "texture": "#bronze"
+        },
+        "down": {
+          "texture": "#bronze"
+        }
+      }
+    },
+    {
+      "name": "base-crossbeam-front-bolt-output",
+      "from": [
+        13.08,
+        0.38,
+        1.74
+      ],
+      "to": [
+        13.92,
+        1.22,
+        2.02
+      ],
+      "group": "fasteners",
+      "faces": {
+        "north": {
+          "texture": "#bronze"
+        },
+        "east": {
+          "texture": "#bronze"
+        },
+        "south": {
+          "texture": "#bronze"
+        },
+        "west": {
+          "texture": "#bronze"
+        },
+        "up": {
+          "texture": "#bronze"
+        },
+        "down": {
+          "texture": "#bronze"
+        }
+      }
+    },
+    {
+      "name": "base-crossbeam-back",
+      "from": [
+        1.0,
+        0,
+        12.4
+      ],
+      "to": [
+        15.0,
+        1.6,
+        14.0
+      ],
+      "group": "frame",
+      "faces": {
+        "north": {
+          "texture": "#strippedoak"
+        },
+        "east": {
+          "texture": "#oakend"
+        },
+        "south": {
+          "texture": "#strippedoak"
+        },
+        "west": {
+          "texture": "#oakend"
+        },
+        "up": {
+          "texture": "#strippedoak"
+        },
+        "down": {
+          "texture": "#strippedoak"
+        }
+      }
+    },
+    {
+      "name": "base-crossbeam-back-bolt-input",
+      "from": [
+        2.08,
+        0.38,
+        13.98
+      ],
+      "to": [
+        2.92,
+        1.22,
+        14.26
+      ],
+      "group": "fasteners",
+      "faces": {
+        "north": {
+          "texture": "#bronze"
+        },
+        "east": {
+          "texture": "#bronze"
+        },
+        "south": {
+          "texture": "#bronze"
+        },
+        "west": {
+          "texture": "#bronze"
+        },
+        "up": {
+          "texture": "#bronze"
+        },
+        "down": {
+          "texture": "#bronze"
+        }
+      }
+    },
+    {
+      "name": "base-crossbeam-back-bolt-output",
+      "from": [
+        13.08,
+        0.38,
+        13.98
+      ],
+      "to": [
+        13.92,
+        1.22,
+        14.26
+      ],
+      "group": "fasteners",
+      "faces": {
+        "north": {
+          "texture": "#bronze"
+        },
+        "east": {
+          "texture": "#bronze"
+        },
+        "south": {
+          "texture": "#bronze"
+        },
+        "west": {
+          "texture": "#bronze"
+        },
+        "up": {
+          "texture": "#bronze"
+        },
+        "down": {
+          "texture": "#bronze"
+        }
+      }
+    }
+  ]
+}

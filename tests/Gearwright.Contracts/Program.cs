@@ -42,6 +42,11 @@ internal static class Program
         FlywheelStateIsBoundedAndFinite();
         FlywheelSchemasPreserveUnknownDataAndProtectFutureState();
         FlywheelBoundsFollowTheQueriedMultiblockPart();
+        ControlledClutchConservesEqualTerminalMomentum();
+        ControlledClutchCouplingIsBoundedAndFinite();
+        ControlledClutchAcceleratesLargeCorrections();
+        OverrunningCouplingTransfersOnlyFromLeadingInput();
+        FlywheelNetworkLifecycleAlwaysHasARecoveryAction();
 
         if (failures == 0)
         {
@@ -51,6 +56,84 @@ internal static class Program
 
         Console.Error.WriteLine($"{failures} save-compatibility contract(s) failed.");
         return 1;
+    }
+
+    private static void ControlledClutchConservesEqualTerminalMomentum()
+    {
+        ClutchCouplingStep step = ClutchCouplingMath.Solve(0.5f, 0.1f, 0.05f);
+        Check(step.Changed && step.FirstSpeed < 0.5f && step.SecondSpeed > 0.1f,
+            "An engaged controlled clutch exchanges speed toward synchronization");
+        Check(Math.Abs((step.FirstSpeed + step.SecondSpeed) - 0.6f) < 0.000001f,
+            "The controlled clutch applies equal-and-opposite terminal changes");
+
+        ClutchCouplingStep reverse = ClutchCouplingMath.Solve(-0.4f, 0.2f, 0.05f);
+        Check(Math.Abs((reverse.FirstSpeed + reverse.SecondSpeed) + 0.2f) < 0.000001f,
+            "Reverse clutch coupling also conserves equal-terminal momentum");
+    }
+
+    private static void ControlledClutchCouplingIsBoundedAndFinite()
+    {
+        ClutchCouplingStep bounded = ClutchCouplingMath.Solve(0, 1, 0.05f);
+        Check(Math.Abs(bounded.Transfer) <=
+              ClutchCouplingMath.MaximumTransferPerSecond * 0.05f + 0.000001f,
+            "Clutch coupling cannot snap across a large speed mismatch in one tick");
+
+        ClutchCouplingStep malformed = ClutchCouplingMath.Solve(float.NaN, 0.2f, 0.05f);
+        Check(!malformed.Changed && malformed.Transfer == 0,
+            "Malformed clutch inputs are rejected before changing a network");
+    }
+
+    private static void ControlledClutchAcceleratesLargeCorrections()
+    {
+        ClutchCouplingStep small = ClutchCouplingMath.Solve(0, 0.1f, 0.05f);
+        ClutchCouplingStep large = ClutchCouplingMath.Solve(0, 1, 0.05f);
+        Check(Math.Abs(large.Transfer) > Math.Abs(small.Transfer),
+            "Controlled clutch synchronization becomes more aggressive as the speed mismatch grows");
+        Check(Math.Abs(large.Transfer) <=
+              ClutchCouplingMath.MaximumTransferPerSecond * 0.05f + 0.000001f,
+            "Aggressive clutch correction remains bounded per solver step");
+    }
+
+    private static void OverrunningCouplingTransfersOnlyFromLeadingInput()
+    {
+        OverrunningCouplingStep driving = OverrunningCouplingMath.Solve(
+            0.6f, 0.1f, 0.05f);
+        Check(driving.Engaged && driving.Changed &&
+              driving.InputSpeed < 0.6f && driving.OutputSpeed > 0.1f,
+            "The overrunning transmission drives only from a faster input");
+        Check(Math.Abs(driving.InputSpeed + driving.OutputSpeed - 0.7f) < 0.000001f,
+            "Overrunning coupling conserves equal-terminal momentum while engaged");
+
+        OverrunningCouplingStep overrun = OverrunningCouplingMath.Solve(
+            0.1f, 0.6f, 0.05f);
+        Check(!overrun.Engaged && !overrun.Changed && overrun.Transfer == 0,
+            "A faster output freewheels without back-driving the input");
+
+        OverrunningCouplingStep reversed = OverrunningCouplingMath.Solve(
+            -0.2f, 0, 0.05f);
+        Check(!reversed.Engaged && !reversed.Changed,
+            "A reversed input cannot drive through the ratchet");
+
+        OverrunningCouplingStep malformed = OverrunningCouplingMath.Solve(
+            float.NaN, 0, 0.05f);
+        Check(!malformed.Engaged && !malformed.Changed,
+            "Malformed overrunning speeds cannot change either network");
+    }
+
+    private static void FlywheelNetworkLifecycleAlwaysHasARecoveryAction()
+    {
+        Check(FlywheelNetworkPlan.Decide(false, 0, false) ==
+              FlywheelNetworkAction.CreateStandalone,
+            "An isolated flywheel creates a one-node mechanical network");
+        Check(FlywheelNetworkPlan.Decide(false, 1, true) ==
+              FlywheelNetworkAction.DiscoverFromNeighbour,
+            "A networkless flywheel rediscovers from a connected drivetrain");
+        Check(FlywheelNetworkPlan.Decide(true, 1, true) ==
+              FlywheelNetworkAction.ConnectNeighbour,
+            "A flywheel joins a new or rebuilt neighbouring network");
+        Check(FlywheelNetworkPlan.Decide(true, 2, false) ==
+              FlywheelNetworkAction.None,
+            "A healthy through-network is left unchanged");
     }
 
     private static void FlywheelBoundsFollowTheQueriedMultiblockPart()

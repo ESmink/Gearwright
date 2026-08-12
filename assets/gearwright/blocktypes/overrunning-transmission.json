@@ -1,0 +1,77 @@
+{
+  "code": "overrunningtransmission",
+  "class": "GearwrightOverrunningTransmission",
+  "entityClass": "Generic",
+  "entityBehaviors": [
+    { "name": "Burning" },
+    { "name": "GearwrightMPControlledTransmission" }
+  ],
+  "variantgroups": [
+    { "code": "orientation", "states": ["ns", "we"] },
+    { "code": "input", "states": ["negative", "positive"] }
+  ],
+  "shapeByType": {
+    "*-we-negative": { "base": "gearwright:block/overrunning-transmission-frame" },
+    "*-we-positive": { "base": "gearwright:block/overrunning-transmission-frame", "rotateY": 180 },
+    "*-ns-negative": { "base": "gearwright:block/overrunning-transmission-frame", "rotateY": 270 },
+    "*-ns-positive": { "base": "gearwright:block/overrunning-transmission-frame", "rotateY": 90 }
+  },
+  "shapeInventory": { "base": "gearwright:block/overrunning-transmission-inventory" },
+  "textures": {
+    "oakplanks": { "base": "game:block/wood/planks/oak1" },
+    "plainoak": { "base": "game:block/wood/plainoak" },
+    "strippedoak": { "base": "game:block/wood/debarked/oak" },
+    "oakend": { "base": "game:block/wood/treetrunk/debarked/oak" },
+    "bronze": { "base": "game:block/metal/sheet/tinbronze1" }
+  },
+  "attributes": {
+    "handbook": {
+      "include": true,
+      "groupBy": ["overrunningtransmission-*-*"],
+      "extraSections": [
+        {
+          "title": "gearwright:handbook-title-how-to-use",
+          "text": "gearwright:handbook-text-overrunning-transmission"
+        }
+      ]
+    }
+  },
+  "creativeinventory": {
+    "general": ["*-we-negative"],
+    "mechanics": ["*-we-negative"]
+  },
+  "blockmaterial": "Wood",
+  "materialDensity": 900,
+  "resistance": 4,
+  "lightAbsorption": 0,
+  "sidesolid": { "all": false },
+  "sideopaque": { "all": false },
+  "rainPermeable": true,
+  "maxStackSize": 1,
+  "drops": [
+    { "type": "block", "code": "gearwright:overrunningtransmission-we-negative" }
+  ],
+  "collisionSelectionBoxByType": {
+    "*-we-*": { "x1": 0.0625, "y1": 0, "z1": 0.10875, "x2": 0.9375, "y2": 0.671875, "z2": 0.89125 },
+    "*-ns-*": { "x1": 0.10875, "y1": 0, "z1": 0.0625, "x2": 0.89125, "y2": 0.671875, "z2": 0.9375 }
+  },
+  "sounds": {
+    "hit": "game:block/planks",
+    "break": "game:block/planks",
+    "place": "game:block/planks",
+    "walk": "game:walk/wood"
+  },
+  "heldTpIdleAnimation": "holdbothhandslarge",
+  "heldRightReadyAnimation": "heldblockready",
+  "heldTpUseAnimation": "twohandplaceblock",
+  "guiTransform": {
+    "translation": { "x": 0, "y": -0.1, "z": 0 },
+    "rotation": { "x": -20, "y": -35, "z": 0 },
+    "scale": 0.9
+  },
+  "groundTransform": {
+    "translation": { "x": 0, "y": 0.05, "z": 0 },
+    "rotation": { "x": 0, "y": 0, "z": 0 },
+    "scale": 0.85
+  }
+}

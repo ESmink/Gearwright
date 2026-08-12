@@ -22,6 +22,9 @@
     <Compile Include="..\..\code\Mechanics\FlywheelMath.cs" Link="FlywheelMath.cs" />
     <Compile Include="..\..\code\Mechanics\FlywheelStateSchema.cs" Link="FlywheelStateSchema.cs" />
     <Compile Include="..\..\code\Mechanics\FlywheelBounds.cs" Link="FlywheelBounds.cs" />
+    <Compile Include="..\..\code\Mechanics\ClutchCouplingMath.cs" Link="ClutchCouplingMath.cs" />
+    <Compile Include="..\..\code\Mechanics\OverrunningCouplingMath.cs" Link="OverrunningCouplingMath.cs" />
+    <Compile Include="..\..\code\Mechanics\FlywheelNetworkPlan.cs" Link="FlywheelNetworkPlan.cs" />
     <Reference Include="VintagestoryAPI">
       <HintPath>$(VintageStoryPath)\VintagestoryAPI.dll</HintPath>
       <Private>true</Private>

@@ -33,6 +33,21 @@ public sealed class GearwrightModSystem : ModSystem
         api.RegisterBlockEntityBehaviorClass(
             MechanicalCodes.FlywheelBehaviorClass,
             typeof(BEBehaviorMPSmallFlywheel));
+        api.RegisterBlockClass(
+            MechanicalCodes.ControlledTransmissionBlockClass,
+            typeof(BlockControlledTransmission));
+        api.RegisterBlockEntityBehaviorClass(
+            MechanicalCodes.ControlledTransmissionBehaviorClass,
+            typeof(BEBehaviorMPControlledTransmission));
+        api.RegisterBlockClass(
+            MechanicalCodes.ControlledClutchBlockClass,
+            typeof(BlockControlledClutch));
+        api.RegisterBlockEntityClass(
+            MechanicalCodes.ControlledClutchEntityClass,
+            typeof(BEControlledClutch));
+        api.RegisterBlockClass(
+            MechanicalCodes.OverrunningTransmissionBlockClass,
+            typeof(BlockOverrunningTransmission));
     }
 
     public override void AssetsFinalize(ICoreAPI api)

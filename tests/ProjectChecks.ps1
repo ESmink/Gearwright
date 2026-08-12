@@ -25,7 +25,8 @@ $required = @(
     "skills\vintage-story-modeling\SKILL.md", "skills\vintage-story-modeling\agents\openai.yaml",
     "graphics\models\pottery_profile_tool.py", "graphics\models\fluid_pipe.py",
     "graphics\models\sprinkler.py", "graphics\models\irrigator_pipe.py", "graphics\models\creative_fluid_pump.py",
-    "graphics\models\passive_fluid_pump.py", "graphics\recipes\pottery-profile-tool.texture.json",
+    "graphics\models\passive_fluid_pump.py", "graphics\models\overrunning_transmission.py",
+    "graphics\recipes\pottery-profile-tool.texture.json",
     "graphics\recipes\inspection-glass.texture.json", "graphics\recipes\inspection-shadow.texture.json",
     "graphics\recipes\steam.texture.json",
     "tools\graphics\gearwright_graphics\model.py", "tools\graphics\gearwright_graphics\animation.py",
@@ -46,6 +47,8 @@ $required = @(
     "assets\gearwright\blocktypes\irrigator-pipe-bronze.json",
     "assets\gearwright\blocktypes\creative-fluid-pump.json",
     "assets\gearwright\blocktypes\passive-fluid-pump.json",
+    "assets\gearwright\blocktypes\overrunning-transmission.json",
+    "assets\gearwright\recipes\grid\overrunning-transmission.json",
     "assets\gearwright\shapes\block\passive-fluid-pump-liquid.json",
     "assets\gearwright\shapes\block\passive-fluid-pump-mechanism.json",
     "assets\gearwright\shapes\block\passive-fluid-pump-intake.json",
@@ -59,6 +62,13 @@ $required = @(
     "assets\gearwright\shapes\block\irrigator-pipe-endpoint.json",
     "assets\gearwright\shapes\block\irrigator-pipe-inventory.json",
     "assets\gearwright\shapes\block\irrigator-pipe-support.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-frame.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-input.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-output.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-pawl-1.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-pawl-2.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-pawl-3.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-inventory.json",
     "assets\gearwright\textures\block\inspection-glass.png",
     "assets\gearwright\textures\block\inspection-shadow.png",
     "assets\gearwright\textures\block\steam.png",
@@ -80,6 +90,14 @@ $required = @(
     "code\Hydraulics\BlockEntityIrrigatorPipe.cs", "code\Hydraulics\IrrigatorPipeMesh.cs",
     "code\Hydraulics\IrrigatorPipeRenderer.cs", "code\Hydraulics\IrrigatorSupportPlanner.cs",
     "code\Hydraulics\IrrigatorSupportSystem.cs",
+    "assets\game\patches\gearwright-controlled-clutch.json",
+    "code\Mechanics\BEBehaviorMPControlledTransmission.cs",
+    "code\Mechanics\BEControlledClutch.cs", "code\Mechanics\BlockControlledClutch.cs",
+    "code\Mechanics\BlockControlledTransmission.cs", "code\Mechanics\ClutchCouplingMath.cs",
+    "code\Mechanics\ClutchTerminal.cs", "code\Mechanics\FlywheelNetworkPlan.cs",
+    "code\Mechanics\BlockOverrunningTransmission.cs",
+    "code\Mechanics\OverrunningCouplingMath.cs",
+    "code\Mechanics\OverrunningTransmissionRenderer.cs",
     "tools\Common.ps1", "tools\Build-Mod.ps1", "tools\Test-Project.ps1", "tools\Install-Mod.ps1",
     "tools\Test-ServerSmoke.ps1",
     "tools\graphics\Build-Graphics.ps1",
@@ -190,6 +208,53 @@ Assert-Project (
     $pipeAsset.sounds.hit -ceq "game:block/heavymetal-hit2"
 ) "Pipe assets leave placement and removal to the reliable server-side cues"
 
+$clutchPatchText = Get-Content -Raw (Join-Path $root "assets\game\patches\gearwright-controlled-clutch.json")
+$controlledTransmissionText = Get-Content -Raw (Join-Path $root "code\Mechanics\BEBehaviorMPControlledTransmission.cs")
+$controlledTransmissionInitialize = [regex]::Match(
+    $controlledTransmissionText,
+    'public override void Initialize[\s\S]*?(?=\s+public override MechPowerPath\[\])'
+).Value
+Assert-Project (
+    $clutchPatchText -match 'game:blocktypes/mechanics/transmission' -and
+    $clutchPatchText -match 'GearwrightControlledTransmission' -and
+    $clutchPatchText -match 'GearwrightMPControlledTransmission' -and
+    $clutchPatchText -match 'game:blocktypes/mechanics/clutch' -and
+    $clutchPatchText -match 'GearwrightControlledClutch'
+) "Vanilla clutch and transmission asset codes resolve through the controlled boundary"
+Assert-Project (
+    $controlledTransmissionText -match 'Array\.Empty<MechPowerPath>' -and
+    $controlledTransmissionText -match 'ClutchTerminal' -and
+    $controlledTransmissionText -match 'ClutchCouplingMath\.Solve' -and
+    $controlledTransmissionText -match 'CreateJoinAndDiscoverNetwork\(face\.Opposite\)' -and
+    $controlledTransmissionText -notmatch '\.CheckEngaged\('
+) "The controlled transmission bootstraps two separate terminal networks and never calls the vanilla merge path"
+Assert-Project (
+    $controlledTransmissionInitialize -match 'RegisterGameTickListener' -and
+    $controlledTransmissionInitialize -notmatch 'RefreshPorts\('
+) "Controlled transmission topology waits until neighbouring block entities finish initialization"
+$overrunningBlockText = Get-Content -Raw (Join-Path $root "code\Mechanics\BlockOverrunningTransmission.cs")
+$overrunningMathText = Get-Content -Raw (Join-Path $root "code\Mechanics\OverrunningCouplingMath.cs")
+$overrunningRendererText = Get-Content -Raw (Join-Path $root "code\Mechanics\OverrunningTransmissionRenderer.cs")
+$overrunningModelText = Get-Content -Raw (Join-Path $root "graphics\models\overrunning_transmission.py")
+Assert-Project (
+    $controlledTransmissionText -match 'OverrunningCouplingMath\.Solve' -and
+    $controlledTransmissionText -match 'BlockOverrunningTransmission' -and
+    $overrunningBlockText -match 'FindSingleConnectedFace' -and
+    $overrunningMathText -match 'inputSpeed - outputSpeed <= EngagementEpsilon' -and
+    $overrunningRendererText -match 'relative = lastState\.OutputAngle - lastState\.InputAngle' -and
+    $overrunningRendererText -match 'PawlLift' -and
+    $overrunningModelText -match 'PAWL_ANGLES = \(0\.0, 120\.0, 240\.0\)' -and
+    $overrunningModelText -match 'base-crossbeam-\{edge\}-bolt-\{side\}'
+) "The overrunning transmission keeps two networks and animates three live phase-driven pawls"
+$smallFlywheelBehaviourText = Get-Content -Raw (Join-Path $root "code\Mechanics\BEBehaviorMPSmallFlywheel.cs")
+Assert-Project (
+    $smallFlywheelBehaviourText -match 'MaintainNetwork' -and
+    $smallFlywheelBehaviourText -match 'FlywheelNetworkPlan\.Decide' -and
+    $smallFlywheelBehaviourText -match 'manager\.CreateNetwork\(this\)' -and
+    $smallFlywheelBehaviourText -match 'CreateJoinAndDiscoverNetwork' -and
+    $smallFlywheelBehaviourText -match 'tryConnect'
+) "The Small Flywheel keeps a singleton network and rejoins connected Vanilla drivetrains"
+
 $handbookAssets = @(
     "assets\gearwright\itemtypes\pottery-profile-tool.json",
     "assets\gearwright\itemtypes\sprinkler-brass.json",
@@ -197,7 +262,8 @@ $handbookAssets = @(
     "assets\gearwright\blocktypes\fluid-pipe-copper.json",
     "assets\gearwright\blocktypes\irrigator-pipe-bronze.json",
     "assets\gearwright\blocktypes\creative-fluid-pump.json",
-    "assets\gearwright\blocktypes\passive-fluid-pump.json"
+    "assets\gearwright\blocktypes\passive-fluid-pump.json",
+    "assets\gearwright\blocktypes\overrunning-transmission.json"
 )
 foreach ($relative in $handbookAssets) {
     $asset = Get-Content -Raw (Join-Path $root $relative) | ConvertFrom-Json
@@ -208,7 +274,8 @@ foreach ($key in @(
     "handbook-text-pottery-profile-tool", "handbook-text-fluid-pipe-copper",
     "handbook-text-sprinkler-brass", "handbook-text-creative-fluid-pump",
     "handbook-text-passive-fluid-pump", "handbook-text-fluid-pipe-intake-copper",
-    "handbook-text-irrigator-pipe-bronze"
+    "handbook-text-irrigator-pipe-bronze", "handbook-text-controlled-clutch",
+    "handbook-text-overrunning-transmission"
 )) {
     Assert-Project ($languageText -match [regex]::Escape('"' + $key + '"')) "Handbook text exists: $key"
 }
