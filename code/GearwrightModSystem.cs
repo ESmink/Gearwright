@@ -1,5 +1,6 @@
 using Gearwright.Storage;
 using Gearwright.Hydraulics;
+using Gearwright.Mechanics;
 using System;
 using System.Linq;
 using Vintagestory.API.Common;
@@ -28,6 +29,10 @@ public sealed class GearwrightModSystem : ModSystem
         api.RegisterBlockClass(HydraulicCodes.PassivePumpClass, typeof(BlockPassiveFluidPump));
         api.RegisterBlockEntityClass(HydraulicCodes.PassivePumpEntityClass, typeof(BlockEntityPassiveFluidPump));
         api.RegisterCropBehavior(HydraulicCodes.CropBehaviorClass, typeof(CropBehaviorFluidExposure));
+        api.RegisterBlockClass(MechanicalCodes.FlywheelBlockClass, typeof(BlockSmallFlywheel));
+        api.RegisterBlockEntityBehaviorClass(
+            MechanicalCodes.FlywheelBehaviorClass,
+            typeof(BEBehaviorMPSmallFlywheel));
     }
 
     public override void AssetsFinalize(ICoreAPI api)

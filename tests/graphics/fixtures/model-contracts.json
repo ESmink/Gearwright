@@ -22,6 +22,9 @@
     "assets/gearwright/shapes/block/passive-fluid-pump-outlet.json": {"elements": 8, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/sprinkler-body.json": {"elements": 6, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/sprinkler-rotor.json": {"elements": 9, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/small-flywheel-frame.json": {"elements": 36, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/small-flywheel-wheel.json": {"elements": 227, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/small-flywheel-inventory.json": {"elements": 263, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/item/pottery-profile-tool.json": {"elements": 7, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/item/fluid-pipe-intake-copper.json": {"elements": 21, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/item/sprinkler-brass.json": {"elements": 9, "textureWidth": 16, "textureHeight": 16}

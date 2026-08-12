@@ -1,0 +1,81 @@
+{
+  "code": "smallflywheel",
+  "class": "GearwrightSmallFlywheel",
+  "entityClass": "Generic",
+  "entityBehaviors": [
+    { "name": "GearwrightMPSmallFlywheel" }
+  ],
+  "behaviors": [
+    {
+      "name": "Multiblock",
+      "propertiesByType": {
+        "*-ns": { "sizex": 3, "sizey": 3, "sizez": 1, "cposition": { "x": 1, "y": 1, "z": 0 } },
+        "*-we": { "sizex": 1, "sizey": 3, "sizez": 3, "cposition": { "x": 0, "y": 1, "z": 1 } }
+      }
+    }
+  ],
+  "variantgroups": [
+    { "code": "rock", "states": ["granite", "andesite", "basalt", "peridotite"] },
+    { "code": "rotation", "states": ["ns", "we"] }
+  ],
+  "shapeByType": {
+    "*-ns": { "base": "gearwright:block/small-flywheel-frame" },
+    "*-we": { "base": "gearwright:block/small-flywheel-frame", "rotateY": 90 }
+  },
+  "shapeInventory": { "base": "gearwright:block/small-flywheel-inventory" },
+  "textures": {
+    "oak": { "base": "game:block/wood/planks/oak1" },
+    "strippedoak": { "base": "game:block/wood/debarked/oak" },
+    "oakend": { "base": "game:block/wood/treetrunk/debarked/oak" },
+    "stone": { "base": "game:block/stone/rock/{rock}1" },
+    "iron": { "base": "game:block/metal/sheet-plain/iron2" },
+    "bronze": { "base": "game:block/metal/sheet/tinbronze1" }
+  },
+  "attributes": {
+    "mechanicalPower": { "renderer": "generic" },
+    "handbook": {
+      "include": true,
+      "groupBy": ["smallflywheel-*-*"],
+      "extraSections": [
+        { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-small-flywheel" }
+      ]
+    }
+  },
+  "creativeinventory": {
+    "general": ["*-ns"],
+    "mechanics": ["*-ns"]
+  },
+  "blockmaterial": "Wood",
+  "materialDensity": 1800,
+  "resistance": 6,
+  "lightAbsorption": 0,
+  "sidesolid": { "all": false },
+  "sideopaque": { "all": false },
+  "rainPermeable": true,
+  "maxStackSize": 1,
+  "drops": [
+    { "type": "block", "code": "gearwright:smallflywheel-{rock}-ns" }
+  ],
+  "sounds": {
+    "hit": "game:block/planks",
+    "break": "game:block/planks",
+    "place": "game:block/planks",
+    "walk": "game:walk/wood"
+  },
+  "heldTpIdleAnimation": "holdbothhandslarge",
+  "guiTransform": {
+    "translation": { "x": 0, "y": -0.15, "z": 0 },
+    "rotation": { "x": -15, "y": -30, "z": 0 },
+    "scale": 0.45
+  },
+  "tpHandTransform": {
+    "translation": { "x": -0.8, "y": -0.7, "z": -0.5 },
+    "rotation": { "x": 0, "y": -90, "z": 0 },
+    "scale": 0.3
+  },
+  "groundTransform": {
+    "translation": { "x": 0, "y": 0.15, "z": 0 },
+    "rotation": { "x": 0, "y": 0, "z": 0 },
+    "scale": 0.5
+  }
+}

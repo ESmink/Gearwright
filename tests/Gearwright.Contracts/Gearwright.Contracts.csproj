@@ -19,6 +19,9 @@
     <Compile Include="..\..\code\Hydraulics\PipeFlowSolver.cs" Link="PipeFlowSolver.cs" />
     <Compile Include="..\..\code\Hydraulics\HydraulicStateSchema.cs" Link="HydraulicStateSchema.cs" />
     <Compile Include="..\..\code\Hydraulics\IrrigatorSupportPlanner.cs" Link="IrrigatorSupportPlanner.cs" />
+    <Compile Include="..\..\code\Mechanics\FlywheelMath.cs" Link="FlywheelMath.cs" />
+    <Compile Include="..\..\code\Mechanics\FlywheelStateSchema.cs" Link="FlywheelStateSchema.cs" />
+    <Compile Include="..\..\code\Mechanics\FlywheelBounds.cs" Link="FlywheelBounds.cs" />
     <Reference Include="VintagestoryAPI">
       <HintPath>$(VintageStoryPath)\VintagestoryAPI.dll</HintPath>
       <Private>true</Private>

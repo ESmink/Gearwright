@@ -1,0 +1,4 @@
+interface:
+  display_name: "Vintage Story Player Docs"
+  short_description: "Write linked wiki pages and concise item help"
+  default_prompt: "Use $vintage-story-player-docs to write cross-linked Wiki references and short, item-specific handbook entries for this Vintage Story mod."

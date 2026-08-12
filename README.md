@@ -2,7 +2,7 @@
 
 Gearwright is a Vintage Story code mod for gear-driven workshop machinery, material handling, and limited automation. Steam systems move heat rather than serving as compact power generators.
 
-Gearwright targets Vintage Story 1.22.3. Version 0.1.0 contains the `/gearwright` status command, a creative-only Potter's Profile Tool, and a stored-content pipe system. Each copper pipe has a 10 L physical volume, temperature, and local gauge pressure. Liquids pool under gravity and transmit water-column head; Gearwright steam is compressible and becomes more visible behind inspection glass as its stored amount rises. Copper Pipe Nozzles exchange liquid with unsealed Vintage Story containers or vent pipe contents into air. The old Gravity Drain is deprecated.
+Gearwright targets Vintage Story 1.22.3. Version 0.1.0 contains the `/gearwright` status command, a creative-only Potter's Profile Tool, a stored-content pipe system, and a 3x3x1 Small Flywheel for vanilla mechanical-power networks. The flywheel stores angular momentum and buffers brief source interruptions. Each copper pipe has a 10 L physical volume, temperature, and local gauge pressure. Liquids pool under gravity and transmit water-column head; Gearwright steam is compressible and becomes more visible behind inspection glass as its stored amount rises. Copper Pipe Nozzles exchange liquid with unsealed Vintage Story containers or vent pipe contents into air. The old Gravity Drain is deprecated.
 
 ## Development requirements
 

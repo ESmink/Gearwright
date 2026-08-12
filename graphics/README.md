@@ -36,6 +36,12 @@ Definitions use Vintage Story model units: 16 model units equal one block. `Vec3
 
 The authoring API supports named cuboids, parent/child hierarchies, non-rendering pivots, explicit or automatic box UVs, six faces, quarter-turn UV rotation, glow, shade, gradient shade, render passes, scales, constructive arrays, collars, frames, and copied components. Only cuboid geometry that Vintage Story shape JSON can represent is accepted.
 
+Child cuboids use Vintage Story's local-coordinate convention: their `from`,
+`to`, and `rotationOrigin` values are relative to the parent element's `from`
+coordinate. A pivot at `(8, 8, 8)` therefore takes children authored around
+the local origin. The reviewer applies the same parent translation as the
+game.
+
 The compiler supports per-texture sizes; elements, children, bounds, rotations, origins, and scales; face UVs, rotation, glow, and reflective mode; and complete Vintage Story animation metadata. It rejects meshes, curves, booleans, non-finite values, invalid faces, unsupported rotations, missing animation targets, unsafe paths, and duplicate names, codes, or output owners.
 
 ## Human review loop

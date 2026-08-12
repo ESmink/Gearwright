@@ -1,0 +1,18 @@
+[
+  {
+    "ingredientPattern": "SIS,LOL,SIS",
+    "ingredients": {
+      "S": { "type": "block", "code": "game:rock-{rock}", "quantity": 2 },
+      "I": { "type": "item", "code": "game:metalplate-iron", "quantity": 2 },
+      "L": { "type": "block", "code": "game:debarkedlog-oak-ud", "quantity": 2 },
+      "O": { "type": "block", "code": "game:woodenaxle-ud" }
+    },
+    "allowedVariants": {
+      "rock": ["granite", "andesite", "basalt", "peridotite"]
+    },
+    "name": "small-flywheel",
+    "width": 3,
+    "height": 3,
+    "output": { "type": "block", "code": "gearwright:smallflywheel-{rock}-ns" }
+  }
+]

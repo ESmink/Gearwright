@@ -23,6 +23,9 @@
     "assets/gearwright/shapes/block/passive-fluid-pump.json": "8a562ea532f00042c7a450f1b58d9640f2a70279ff8f6821c9d0f4306d99b4e0",
     "assets/gearwright/shapes/block/sprinkler-body.json": "f1aaf6d5111764703bdbfeef518165417b2ee77957f41c249c73baccea2bb438",
     "assets/gearwright/shapes/block/sprinkler-rotor.json": "026e3e8834ac7d0dea632178b7ca8f9c01fbe099af5eb69726d401e83a5ec1d9",
+    "assets/gearwright/shapes/block/small-flywheel-frame.json": "ed87b75949b1745b1216b2b2b47b991eaa1f18cc343ae5d5771ff1bf6c0bf80d",
+    "assets/gearwright/shapes/block/small-flywheel-wheel.json": "c3e8a69c96df9bb1d8a094c6d42b96df88614dedf0032d94452c4a5e946c3c49",
+    "assets/gearwright/shapes/block/small-flywheel-inventory.json": "4d1730d3f9fbe4e6eb02226493a588c6eb8ed93accc22790f768b5765f1a8b80",
     "assets/gearwright/shapes/item/pottery-profile-tool.json": "9e184617e963b09b9e86278690ff9a8b341277ef5bd4d2ec615424d11ad513f2",
     "assets/gearwright/shapes/item/fluid-pipe-intake-copper.json": "7a94778fc01833bd332b049de9a4b6f135197de8714b263215fec3f78d2e620e",
     "assets/gearwright/shapes/item/sprinkler-brass.json": "f5d0f02582e3163986afa18f9e65cdcc927776727b92e06d9ffe1e85ec7bebe3"

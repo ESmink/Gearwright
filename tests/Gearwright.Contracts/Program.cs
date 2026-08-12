@@ -3,9 +3,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Gearwright.Hydraulics;
+using Gearwright.Mechanics;
 using Gearwright.Storage;
 using Newtonsoft.Json.Linq;
 using Vintagestory.API.Datastructures;
+using Vintagestory.API.MathTools;
 
 namespace Gearwright.Contracts;
 
@@ -36,6 +38,10 @@ internal static class Program
         HydraulicSchemasMigrateAdditively();
         HydraulicSchemaOneFixturesStayReadable();
         HydraulicSchemaThreePipeFixtureStaysReadable();
+        FlywheelStoresAndReturnsMomentum();
+        FlywheelStateIsBoundedAndFinite();
+        FlywheelSchemasPreserveUnknownDataAndProtectFutureState();
+        FlywheelBoundsFollowTheQueriedMultiblockPart();
 
         if (failures == 0)
         {
@@ -45,6 +51,83 @@ internal static class Program
 
         Console.Error.WriteLine($"{failures} save-compatibility contract(s) failed.");
         return 1;
+    }
+
+    private static void FlywheelBoundsFollowTheQueriedMultiblockPart()
+    {
+        static void CheckLocal(Cuboidf[] boxes, string label)
+        {
+            Check(boxes.Length > 0, label + " has collision geometry");
+            Check(boxes.All(box =>
+                    box.X1 >= 0 && box.Y1 >= 0 && box.Z1 >= 0 &&
+                    box.X2 <= 1 && box.Y2 <= 1 && box.Z2 <= 1),
+                label + " clips every box to the queried block");
+        }
+
+        CheckLocal(FlywheelBounds.ForPart(false, new Vec3i(1, 0, 0)), "north/south left part");
+        CheckLocal(FlywheelBounds.ForPart(false, new Vec3i(-1, 0, 0)), "north/south right part");
+        CheckLocal(FlywheelBounds.ForPart(false, new Vec3i(0, -1, 0)), "north/south top part");
+        CheckLocal(FlywheelBounds.ForPart(true, new Vec3i(0, 0, 1)), "west/east near part");
+        CheckLocal(FlywheelBounds.ForPart(true, new Vec3i(0, 0, -1)), "west/east far part");
+        Check(FlywheelBounds.ForPart(false, new Vec3i(3, 0, 0)).Length == 0,
+            "parts outside the 3x3 footprint have no flywheel bounds");
+    }
+
+    private static void FlywheelStoresAndReturnsMomentum()
+    {
+        FlywheelExchange charging = FlywheelMath.Exchange(0.1f, 0.5f);
+        Check(charging.StoredSpeed > 0.1f && charging.Torque == 0 &&
+              charging.Resistance > FlywheelMath.BaseBearingResistance,
+            "A faster vanilla network charges the flywheel through added resistance");
+
+        FlywheelExchange discharging = FlywheelMath.Exchange(0.5f, 0.1f);
+        Check(discharging.StoredSpeed < 0.5f && discharging.Torque > 0 &&
+              Math.Abs(discharging.Resistance - FlywheelMath.BaseBearingResistance) < 0.000001,
+            "A faster flywheel returns torque while its stored speed falls");
+
+        FlywheelExchange reverse = FlywheelMath.Exchange(0.4f, -0.1f);
+        Check(reverse.Torque > 0 && reverse.StoredSpeed < 0.4f,
+            "Stored momentum resists a sudden network reversal");
+    }
+
+    private static void FlywheelStateIsBoundedAndFinite()
+    {
+        Check(FlywheelMath.SanitizeSpeed(float.NaN) == 0 &&
+              FlywheelMath.SanitizeSpeed(float.PositiveInfinity) == 0,
+            "Malformed flywheel speeds never enter the mechanical solver");
+        Check(FlywheelMath.SanitizeSpeed(9) == FlywheelMath.MaxSupportedSpeed &&
+              FlywheelMath.SanitizeSpeed(-9) == -FlywheelMath.MaxSupportedSpeed,
+            "Persisted flywheel speed is clamped to the supported vanilla range");
+        Check(FlywheelMath.RevolutionsPerMinute(0.5f) > 0,
+            "Flywheel inspection converts network speed to a readable RPM value");
+    }
+
+    private static void FlywheelSchemasPreserveUnknownDataAndProtectFutureState()
+    {
+        TreeAttribute current = new();
+        current.SetInt("schemaVersion", FlywheelStateSchema.CurrentVersion);
+        current.SetDouble("storedSpeed", 0.25);
+        current.SetString("futureNote", "keep");
+        ITreeAttribute readable = FlywheelStateSchema.PrepareForRead(
+            current, out bool canWrite, out string? problem);
+        Check(canWrite && problem == null && readable.GetString("futureNote") == "keep",
+            "Current flywheel state is writable and preserves unknown fields");
+
+        TreeAttribute future = new();
+        future.SetInt("schemaVersion", 99);
+        future.SetBytes("futurePayload", new byte[] { 1, 2, 3 });
+        ITreeAttribute protectedState = FlywheelStateSchema.PrepareForRead(
+            future, out bool futureCanWrite, out string? futureProblem);
+        Check(!futureCanWrite && futureProblem == "newer" &&
+              protectedState.GetBytes("futurePayload")?.SequenceEqual(new byte[] { 1, 2, 3 }) == true,
+            "Future flywheel state is read-only and retained byte for byte");
+
+        TreeAttribute malformed = new();
+        malformed.SetString("schemaVersion", "one");
+        FlywheelStateSchema.PrepareForRead(
+            malformed, out bool malformedCanWrite, out string? malformedProblem);
+        Check(!malformedCanWrite && malformedProblem == "invalid",
+            "A malformed flywheel schema is read-only");
     }
 
     private static void NewDocumentsUseCurrentSchema()

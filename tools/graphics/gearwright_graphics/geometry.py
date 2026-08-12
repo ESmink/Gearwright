@@ -105,7 +105,12 @@ def _triangles(element: Mapping[str, Any], parent: np.ndarray, texture_width: fl
             Triangle(points_np[[0, 1, 2]], uv[[0, 1, 2]], texture, alpha_mode, glow, normal, name, group, render_pass, opacity),
             Triangle(points_np[[0, 2, 3]], uv[[0, 2, 3]], texture, alpha_mode, glow, normal, name, group, render_pass, opacity),
         ))
-    child_parent = transform
+    # Vintage Story child coordinates are local to the parent's `from`
+    # coordinate. A zero-size pivot at (8, 8, 8), for example, places a
+    # child authored around (0, 0, 0) at the block centre.
+    child_origin = np.eye(4)
+    child_origin[:3, 3] = start
+    child_parent = transform @ child_origin
     for child in element.get("children", element.get("Children", [])) or []:
         result.extend(_triangles(child, child_parent, texture_width, texture_height, texture_sizes))
     return result

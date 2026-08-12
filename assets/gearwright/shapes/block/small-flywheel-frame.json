@@ -1,0 +1,1334 @@
+{
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "oak": "game:block/wood/planks/oak1",
+    "strippedoak": "game:block/wood/debarked/oak",
+    "oakend": "game:block/wood/treetrunk/debarked/oak",
+    "stone": "game:block/stone/rock/granite1",
+    "bronze": "game:block/metal/sheet/tinbronze1",
+    "iron": "game:block/metal/sheet-plain/iron2"
+  },
+  "elements": [
+    {
+      "name": "base-bottom-log-back",
+      "from": [
+        -16.0,
+        -19.0,
+        0.8
+      ],
+      "to": [
+        32.0,
+        -15.75,
+        7.35
+      ],
+      "group": "frame-log",
+      "faces": {
+        "north": {
+          "texture": "#strippedoak"
+        },
+        "east": {
+          "texture": "#oakend"
+        },
+        "south": {
+          "texture": "#strippedoak"
+        },
+        "west": {
+          "texture": "#oakend"
+        },
+        "up": {
+          "texture": "#strippedoak"
+        },
+        "down": {
+          "texture": "#strippedoak"
+        }
+      }
+    },
+    {
+      "name": "base-bottom-log-front",
+      "from": [
+        -16.0,
+        -19.0,
+        8.65
+      ],
+      "to": [
+        32.0,
+        -15.75,
+        15.2
+      ],
+      "group": "frame-log",
+      "faces": {
+        "north": {
+          "texture": "#strippedoak"
+        },
+        "east": {
+          "texture": "#oakend"
+        },
+        "south": {
+          "texture": "#strippedoak"
+        },
+        "west": {
+          "texture": "#oakend"
+        },
+        "up": {
+          "texture": "#strippedoak"
+        },
+        "down": {
+          "texture": "#strippedoak"
+        }
+      }
+    },
+    {
+      "name": "base-upper-log-back",
+      "from": [
+        -16.0,
+        -15.75,
+        0.8
+      ],
+      "to": [
+        32.0,
+        -12.45,
+        7.35
+      ],
+      "group": "frame-log",
+      "faces": {
+        "north": {
+          "texture": "#strippedoak"
+        },
+        "east": {
+          "texture": "#oakend"
+        },
+        "south": {
+          "texture": "#strippedoak"
+        },
+        "west": {
+          "texture": "#oakend"
+        },
+        "up": {
+          "texture": "#strippedoak"
+        },
+        "down": {
+          "texture": "#strippedoak"
+        }
+      }
+    },
+    {
+      "name": "base-upper-log-front",
+      "from": [
+        -16.0,
+        -15.75,
+        8.65
+      ],
+      "to": [
+        32.0,
+        -12.45,
+        15.2
+      ],
+      "group": "frame-log",
+      "faces": {
+        "north": {
+          "texture": "#strippedoak"
+        },
+        "east": {
+          "texture": "#oakend"
+        },
+        "south": {
+          "texture": "#strippedoak"
+        },
+        "west": {
+          "texture": "#oakend"
+        },
+        "up": {
+          "texture": "#strippedoak"
+        },
+        "down": {
+          "texture": "#strippedoak"
+        }
+      }
+    },
+    {
+      "name": "left-cradle-back",
+      "from": [
+        -8.0,
+        -16.3,
+        0.85
+      ],
+      "to": [
+        18.4047817639,
+        -11.9,
+        3.2
+      ],
+      "rotationOrigin": [
+        -8.0,
+        -14.1,
+        2.025
+      ],
+      "rotationZ": 56.8214883406,
+      "group": "frame",
+      "faces": {
+        "north": {
+          "texture": "#strippedoak"
+        },
+        "east": {
+          "texture": "#oakend"
+        },
+        "south": {
+          "texture": "#strippedoak"
+        },
+        "west": {
+          "texture": "#oakend"
+        },
+        "up": {
+          "texture": "#strippedoak"
+        },
+        "down": {
+          "texture": "#strippedoak"
+        }
+      }
+    },
+    {
+      "name": "left-cradle-front",
+      "from": [
+        -8.0,
+        -16.3,
+        12.8
+      ],
+      "to": [
+        18.4047817639,
+        -11.9,
+        15.15
+      ],
+      "rotationOrigin": [
+        -8.0,
+        -14.1,
+        13.975
+      ],
+      "rotationZ": 56.8214883406,
+      "group": "frame",
+      "faces": {
+        "north": {
+          "texture": "#strippedoak"
+        },
+        "east": {
+          "texture": "#oakend"
+        },
+        "south": {
+          "texture": "#strippedoak"
+        },
+        "west": {
+          "texture": "#oakend"
+        },
+        "up": {
+          "texture": "#strippedoak"
+        },
+        "down": {
+          "texture": "#strippedoak"
+        }
+      }
+    },
+    {
+      "name": "right-cradle-back",
+      "from": [
+        24.0,
+        -16.3,
+        0.85
+      ],
+      "to": [
+        50.4047817639,
+        -11.9,
+        3.2
+      ],
+      "rotationOrigin": [
+        24.0,
+        -14.1,
+        2.025
+      ],
+      "rotationZ": 123.1785116594,
+      "group": "frame",
+      "faces": {
+        "north": {
+          "texture": "#strippedoak"
+        },
+        "east": {
+          "texture": "#oakend"
+        },
+        "south": {
+          "texture": "#strippedoak"
+        },
+        "west": {
+          "texture": "#oakend"
+        },
+        "up": {
+          "texture": "#strippedoak"
+        },
+        "down": {
+          "texture": "#strippedoak"
+        }
+      }
+    },
+    {
+      "name": "right-cradle-front",
+      "from": [
+        24.0,
+        -16.3,
+        12.8
+      ],
+      "to": [
+        50.4047817639,
+        -11.9,
+        15.15
+      ],
+      "rotationOrigin": [
+        24.0,
+        -14.1,
+        13.975
+      ],
+      "rotationZ": 123.1785116594,
+      "group": "frame",
+      "faces": {
+        "north": {
+          "texture": "#strippedoak"
+        },
+        "east": {
+          "texture": "#oakend"
+        },
+        "south": {
+          "texture": "#strippedoak"
+        },
+        "west": {
+          "texture": "#oakend"
+        },
+        "up": {
+          "texture": "#strippedoak"
+        },
+        "down": {
+          "texture": "#strippedoak"
+        }
+      }
+    },
+    {
+      "name": "base-laminate-bolt-00-back",
+      "from": [
+        -2.1,
+        -14.7,
+        0.12
+      ],
+      "to": [
+        -0.9,
+        -13.5,
+        0.68
+      ],
+      "rotationOrigin": [
+        -1.5,
+        -14.1,
+        0.4
+      ],
+      "rotationZ": 45.0,
+      "group": "frame-iron",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "base-laminate-bolt-00-front",
+      "from": [
+        -2.1,
+        -14.7,
+        15.32
+      ],
+      "to": [
+        -0.9,
+        -13.5,
+        15.88
+      ],
+      "rotationOrigin": [
+        -1.5,
+        -14.1,
+        15.6
+      ],
+      "rotationZ": 45.0,
+      "group": "frame-iron",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "base-laminate-bolt-01-back",
+      "from": [
+        16.9,
+        -14.7,
+        0.12
+      ],
+      "to": [
+        18.1,
+        -13.5,
+        0.68
+      ],
+      "rotationOrigin": [
+        17.5,
+        -14.1,
+        0.4
+      ],
+      "rotationZ": 45.0,
+      "group": "frame-iron",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "base-laminate-bolt-01-front",
+      "from": [
+        16.9,
+        -14.7,
+        15.32
+      ],
+      "to": [
+        18.1,
+        -13.5,
+        15.88
+      ],
+      "rotationOrigin": [
+        17.5,
+        -14.1,
+        15.6
+      ],
+      "rotationZ": 45.0,
+      "group": "frame-iron",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "left-depth-log",
+      "from": [
+        -3.125,
+        -15.725,
+        3.95
+      ],
+      "to": [
+        0.125,
+        -12.475,
+        12.05
+      ],
+      "group": "frame-depth-support",
+      "faces": {
+        "north": {
+          "texture": "#oakend"
+        },
+        "east": {
+          "texture": "#strippedoak"
+        },
+        "south": {
+          "texture": "#oakend"
+        },
+        "west": {
+          "texture": "#strippedoak"
+        },
+        "up": {
+          "texture": "#strippedoak"
+        },
+        "down": {
+          "texture": "#strippedoak"
+        }
+      }
+    },
+    {
+      "name": "right-depth-log",
+      "from": [
+        15.875,
+        -15.725,
+        3.95
+      ],
+      "to": [
+        19.125,
+        -12.475,
+        12.05
+      ],
+      "group": "frame-depth-support",
+      "faces": {
+        "north": {
+          "texture": "#oakend"
+        },
+        "east": {
+          "texture": "#strippedoak"
+        },
+        "south": {
+          "texture": "#oakend"
+        },
+        "west": {
+          "texture": "#strippedoak"
+        },
+        "up": {
+          "texture": "#strippedoak"
+        },
+        "down": {
+          "texture": "#strippedoak"
+        }
+      }
+    },
+    {
+      "name": "bearing-block-back",
+      "from": [
+        4.5,
+        4.2,
+        0.83
+      ],
+      "to": [
+        11.5,
+        11.8,
+        4.02
+      ],
+      "group": "frame",
+      "faces": {
+        "north": {
+          "texture": "#oak"
+        },
+        "east": {
+          "texture": "#oak"
+        },
+        "south": {
+          "texture": "#oak"
+        },
+        "west": {
+          "texture": "#oak"
+        },
+        "up": {
+          "texture": "#oak"
+        },
+        "down": {
+          "texture": "#oak"
+        }
+      }
+    },
+    {
+      "name": "bearing-block-front",
+      "from": [
+        4.5,
+        4.2,
+        11.98
+      ],
+      "to": [
+        11.5,
+        11.8,
+        15.17
+      ],
+      "group": "frame",
+      "faces": {
+        "north": {
+          "texture": "#oak"
+        },
+        "east": {
+          "texture": "#oak"
+        },
+        "south": {
+          "texture": "#oak"
+        },
+        "west": {
+          "texture": "#oak"
+        },
+        "up": {
+          "texture": "#oak"
+        },
+        "down": {
+          "texture": "#oak"
+        }
+      }
+    },
+    {
+      "name": "bearing-bushing-left-back",
+      "from": [
+        4.6,
+        5.2,
+        4.02
+      ],
+      "to": [
+        6.2,
+        10.8,
+        4.57
+      ],
+      "group": "frame-bearing",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-bushing-right-back",
+      "from": [
+        9.8,
+        5.2,
+        4.02
+      ],
+      "to": [
+        11.4,
+        10.8,
+        4.57
+      ],
+      "group": "frame-bearing",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-bushing-bottom-back",
+      "from": [
+        6.2,
+        5.2,
+        4.02
+      ],
+      "to": [
+        9.8,
+        6.5,
+        4.57
+      ],
+      "group": "frame-bearing",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-bushing-top-back",
+      "from": [
+        6.2,
+        9.5,
+        4.02
+      ],
+      "to": [
+        9.8,
+        10.8,
+        4.57
+      ],
+      "group": "frame-bearing",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-bushing-left-front",
+      "from": [
+        4.6,
+        5.2,
+        11.43
+      ],
+      "to": [
+        6.2,
+        10.8,
+        11.98
+      ],
+      "group": "frame-bearing",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-bushing-right-front",
+      "from": [
+        9.8,
+        5.2,
+        11.43
+      ],
+      "to": [
+        11.4,
+        10.8,
+        11.98
+      ],
+      "group": "frame-bearing",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-bushing-bottom-front",
+      "from": [
+        6.2,
+        5.2,
+        11.43
+      ],
+      "to": [
+        9.8,
+        6.5,
+        11.98
+      ],
+      "group": "frame-bearing",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-bushing-top-front",
+      "from": [
+        6.2,
+        9.5,
+        11.43
+      ],
+      "to": [
+        9.8,
+        10.8,
+        11.98
+      ],
+      "group": "frame-bearing",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-saddle-top-back",
+      "from": [
+        4.5,
+        10.35,
+        0.2
+      ],
+      "to": [
+        11.5,
+        11.8,
+        0.75
+      ],
+      "group": "frame-bronze",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-saddle-top-front",
+      "from": [
+        4.5,
+        10.35,
+        15.25
+      ],
+      "to": [
+        11.5,
+        11.8,
+        15.8
+      ],
+      "group": "frame-bronze",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-saddle-seat-back",
+      "from": [
+        4.5,
+        4.2,
+        0.2
+      ],
+      "to": [
+        11.5,
+        5.65,
+        0.75
+      ],
+      "group": "frame-bronze",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-saddle-seat-front",
+      "from": [
+        4.5,
+        4.2,
+        15.25
+      ],
+      "to": [
+        11.5,
+        5.65,
+        15.8
+      ],
+      "group": "frame-bronze",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-saddle-bolt-00-back",
+      "from": [
+        4.95,
+        10.6,
+        0.12
+      ],
+      "to": [
+        5.85,
+        11.5,
+        0.68
+      ],
+      "rotationOrigin": [
+        5.4,
+        11.05,
+        0.4
+      ],
+      "rotationZ": 45.0,
+      "group": "frame-iron",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-saddle-bolt-00-front",
+      "from": [
+        4.95,
+        10.6,
+        15.32
+      ],
+      "to": [
+        5.85,
+        11.5,
+        15.88
+      ],
+      "rotationOrigin": [
+        5.4,
+        11.05,
+        15.6
+      ],
+      "rotationZ": 45.0,
+      "group": "frame-iron",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-saddle-bolt-01-back",
+      "from": [
+        10.15,
+        10.6,
+        0.12
+      ],
+      "to": [
+        11.05,
+        11.5,
+        0.68
+      ],
+      "rotationOrigin": [
+        10.6,
+        11.05,
+        0.4
+      ],
+      "rotationZ": 45.0,
+      "group": "frame-iron",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-saddle-bolt-01-front",
+      "from": [
+        10.15,
+        10.6,
+        15.32
+      ],
+      "to": [
+        11.05,
+        11.5,
+        15.88
+      ],
+      "rotationOrigin": [
+        10.6,
+        11.05,
+        15.6
+      ],
+      "rotationZ": 45.0,
+      "group": "frame-iron",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-saddle-bolt-02-back",
+      "from": [
+        4.95,
+        4.5,
+        0.12
+      ],
+      "to": [
+        5.85,
+        5.4,
+        0.68
+      ],
+      "rotationOrigin": [
+        5.4,
+        4.95,
+        0.4
+      ],
+      "rotationZ": 45.0,
+      "group": "frame-iron",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-saddle-bolt-02-front",
+      "from": [
+        4.95,
+        4.5,
+        15.32
+      ],
+      "to": [
+        5.85,
+        5.4,
+        15.88
+      ],
+      "rotationOrigin": [
+        5.4,
+        4.95,
+        15.6
+      ],
+      "rotationZ": 45.0,
+      "group": "frame-iron",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-saddle-bolt-03-back",
+      "from": [
+        10.15,
+        4.5,
+        0.12
+      ],
+      "to": [
+        11.05,
+        5.4,
+        0.68
+      ],
+      "rotationOrigin": [
+        10.6,
+        4.95,
+        0.4
+      ],
+      "rotationZ": 45.0,
+      "group": "frame-iron",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    },
+    {
+      "name": "bearing-saddle-bolt-03-front",
+      "from": [
+        10.15,
+        4.5,
+        15.32
+      ],
+      "to": [
+        11.05,
+        5.4,
+        15.88
+      ],
+      "rotationOrigin": [
+        10.6,
+        4.95,
+        15.6
+      ],
+      "rotationZ": 45.0,
+      "group": "frame-iron",
+      "faces": {
+        "north": {
+          "texture": "#iron"
+        },
+        "east": {
+          "texture": "#iron"
+        },
+        "south": {
+          "texture": "#iron"
+        },
+        "west": {
+          "texture": "#iron"
+        },
+        "up": {
+          "texture": "#iron"
+        },
+        "down": {
+          "texture": "#iron"
+        }
+      }
+    }
+  ]
+}

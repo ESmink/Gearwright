@@ -15,7 +15,7 @@ sys.path.insert(0, str(ROOT / "tools" / "graphics"))
 
 from gearwright_graphics.animation import apply_animation, evaluate_animation
 from gearwright_graphics.compiler import build_package, compile_shape, definition_paths, load_definition
-from gearwright_graphics.geometry import Triangle, triangles
+from gearwright_graphics.geometry import Triangle, bounds, triangles
 from gearwright_graphics.materials import Material, load_material
 from gearwright_graphics.model import ModelError, Shape, Vec3, animate
 from gearwright_graphics.raster import Camera, render
@@ -221,10 +221,18 @@ class PipelineTests(unittest.TestCase):
         shape = Shape("test")
         shape.texture("paint", "project:missing.png")
         pivot = shape.pivot("pivot", (8, 8, 8))
-        shape.box("child", (7, 7, 7), (9, 9, 9), texture="#paint", parent=pivot)
+        shape.box("child", (0, -1, -1), (2, 1, 1), texture="#paint", parent=pivot)
         document = compile_shape(shape)
         mesh = triangles(document)
         self.assertEqual(12, len(mesh))
+        minimum, maximum = bounds(mesh)
+        np.testing.assert_allclose((8, 7, 7), minimum * 16)
+        np.testing.assert_allclose((10, 9, 9), maximum * 16)
+        rotated = copy.deepcopy(document)
+        rotated["elements"][0]["rotationZ"] = 90
+        rotated_minimum, rotated_maximum = bounds(triangles(rotated))
+        np.testing.assert_allclose((7, 8, 7), rotated_minimum * 16)
+        np.testing.assert_allclose((9, 10, 9), rotated_maximum * 16)
         camera = Camera(Vec3(0, 0, -2).values(), Vec3(0, 0, 0).values(), 96, 64)
         image = render(mesh, {"missing": load_material("missing", None)}, camera)
         self.assertEqual((96, 64), image.size)
