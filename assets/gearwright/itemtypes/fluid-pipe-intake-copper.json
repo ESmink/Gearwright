@@ -1,7 +1,7 @@
 {
   "code": "fluid-pipe-intake-copper",
   "shape": { "base": "gearwright:item/fluid-pipe-intake-copper" },
-  "creativeinventory": { "general": ["*"], "gear": ["*"] },
+  "creativeinventory": { "general": ["*"], "gearwright": ["*"] },
   "maxstacksize": 16,
   "attributes": {
     "displaycaseable": true,

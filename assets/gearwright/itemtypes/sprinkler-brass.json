@@ -1,7 +1,7 @@
 {
   "code": "sprinkler-brass",
   "shape": { "base": "gearwright:item/sprinkler-brass" },
-  "creativeinventory": { "general": ["*"], "gear": ["*"] },
+  "creativeinventory": { "general": ["*"], "gearwright": ["*"] },
   "maxstacksize": 16,
   "attributes": {
     "displaycaseable": true,

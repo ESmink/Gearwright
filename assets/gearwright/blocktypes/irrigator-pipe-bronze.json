@@ -17,7 +17,7 @@
       ]
     }
   },
-  "creativeinventory": { "general": ["*"], "gear": ["*"] },
+  "creativeinventory": { "general": ["*"], "gearwright": ["*"] },
   "blockmaterial": "Metal",
   "sounds": {
     "hit": "game:block/heavymetal-hit2",

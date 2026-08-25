@@ -14,6 +14,7 @@ Use Gearwright's deterministic Python pipeline and keep the maintainer in the lo
 - Preserve public asset codes, animation codes, element names used by code, and accepted runtime semantics.
 - Never hand-edit compiled shape JSON.
 - Never place Python source, dependencies, or caches under `generated/`.
+- When promoting a new player-facing item or block, include at least one intended variant in both the `general` and `gearwright` entries of its `creativeinventory`. Keep `tabname-gearwright` labeled `Gearwright` in `assets/game/lang/en.json`, because the creative inventory resolves tab labels from the `game` domain. Add or update a project check so later model work cannot omit the asset or put its label in the wrong domain. Keep deliberately deprecated or compatibility-only assets out of creative inventory and document the exclusion.
 - Do not emit a candidate into `assets/gearwright/`, gameplay code, or a mod package before maintainer approval.
 - When a review package is ready, launch the interactive reviewer for the maintainer by running the documented Python command yourself. Do not require the maintainer to copy or run it. If launching a visible GUI needs approval, request that approval through the available tool; provide a manual command only after the launch attempt fails.
 - Treat the photoshoot and OpenGL reviewer as diagnostics. Validate engine-sensitive UV, render-pass, particle, lighting, and playback behavior in Vintage Story.
@@ -31,6 +32,19 @@ Every review generator must own one fixed `current/` path, replace it on rerun, 
 
 ## Workflow
 
+### Machine material ladder
+
+Choose the cheapest tier that safely carries the actual load. Material choice is an engineering decision, not a way to make every later machine look richer. For every candidate, identify the load path, the likely wear or failure point, the selected tier, and why the next cheaper tier is inadequate.
+
+1. **Wood** - Default for frames, foundations, broad hubs, slow shafts, handles, spokes, and large low-stress wheels. Let generous wooden sections carry bulk loads when abrasion, heat, shock, and splitting are minor.
+2. **Metal-reinforced wood** - Default next step for substantial machines. Keep wood as the structure and add only the bands, straps, bolts, bushings, wear faces, or replaceable teeth needed to prevent splitting, looseness, and local wear.
+3. **Copper** - Use for heat transfer, plumbing, corrosion resistance, soft sheet work, and very light sacrificial fittings. Do not use copper for loaded teeth, pawls, springs, bearing pins, or repeated impact.
+4. **Bronze / brass** - Use bronze for bearings, pins, teeth, pawls, and repeated sliding or impact when reinforced wood or copper will not last. Prefer brass for clockmaker-scale plates, bushings, fittings, and precise low-impact parts when it is mechanically adequate. Follow the clockmaker rule: use brass where possible, but never mesh brass teeth against brass teeth. Pair brass teeth with an appropriate wood, bronze, or iron mate chosen for the load and intended wear part.
+5. **Iron** - Use when torque, shock, section size, temperature, or wear exceeds bronze, or when a compact structural member cannot reasonably be made from reinforced wood. Do not upgrade ordinary fasteners or decoration to iron without a load-based reason.
+6. **Steel** - Reserve for the highest-stress axles, springs, pressure parts, cutting edges, and compact wear components that iron cannot safely or durably serve.
+
+Separate structural and contact requirements. A machine can have an oak frame, bronze pawls, and an iron spring without becoming an “iron-tier machine.” Prefer visible, replaceable wear parts and avoid using a higher tier merely to make a joint look busier.
+
 ### 1. Audit before changing
 
 - Read adjacent definitions and tests.
@@ -42,6 +56,8 @@ Every review generator must own one fixed `current/` path, replace it on rerun, 
 
 - Put programmatic candidate source in `graphics/review/<feature>.py`; emit only to `generated/<feature>-review/current/`.
 - Offer materially different candidates when design is uncertain. Describe what each option tests and what the maintainer should compare.
+- Maximize decision value rather than family resemblance: vary meaningful dimensions such as mechanism, silhouette, material layout, reinforcement, or negative space, and avoid presenting small parameter changes as separate choices.
+- Preserve the maintainer's shared requirements across the set, but let each option make a distinct argument and identify parts that can be mixed. Use a controlled single-variable comparison only when the maintainer explicitly asks for one.
 - Use identical cameras, framing, lighting, background, and sizes for comparative stills.
 - For animations, provide rest, a meaningful intermediate pose, and the final pose. State actual travel or rotation values when scale matters.
 - Use the photoshoot for comparable evidence and the persistent OpenGL reviewer for orbiting, exact side views, depth/occlusion checks, and animation scrubbing.

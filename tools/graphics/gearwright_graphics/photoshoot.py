@@ -436,10 +436,6 @@ def run(args: argparse.Namespace, root: Path) -> list[Path]:
     frame_values = args.frames if args.animation else [None]
     for frame in frame_values:
         args.frame = frame
-        if args.animation and frame is not None:
-            for object_ in objects:
-                if object_.shape.get("animations"):
-                    object_.shape = apply_animation(object_.shape, args.animation, frame, mode=args.interpolation)
         tris = _all_triangles(objects, assemblies, args, warnings)
         if not tris:
             raise PhotoshootError("scene contains no renderable faces")

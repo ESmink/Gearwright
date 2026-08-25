@@ -6,7 +6,8 @@
     "plainoak": "survival:block/wood/plainoak",
     "strippedoak": "survival:block/wood/debarked/oak",
     "oakend": "survival:block/wood/treetrunk/debarked/oak",
-    "bronze": "game:block/metal/sheet/tinbronze1"
+    "bronze": "game:block/metal/sheet/tinbronze1",
+    "brass": "game:block/metal/sheet/brass1"
   },
   "elements": [
     {
@@ -709,16 +710,16 @@
           }
         },
         {
-          "name": "input-oak-hub",
+          "name": "input-oak-ring-hub",
           "from": [
-            -2.9,
-            -2.05,
-            -2.05
+            -2.54,
+            -1.38,
+            -1.38
           ],
           "to": [
-            -0.55,
-            2.05,
-            2.05
+            -0.6,
+            1.38,
+            1.38
           ],
           "group": "input-oak",
           "faces": {
@@ -743,50 +744,50 @@
           }
         },
         {
-          "name": "input-hub-bronze-band",
+          "name": "input-oak-hub-brass-band",
           "from": [
-            -2.95,
-            -2.3,
-            -2.3
+            -2.66,
+            -1.65,
+            -1.65
           ],
           "to": [
-            -2.45,
-            2.3,
-            2.3
+            -2.34,
+            1.65,
+            1.65
           ],
-          "group": "ratchet-bronze",
+          "group": "input-brass",
           "faces": {
             "north": {
-              "texture": "#bronze"
+              "texture": "#brass"
             },
             "east": {
-              "texture": "#bronze"
+              "texture": "#brass"
             },
             "south": {
-              "texture": "#bronze"
+              "texture": "#brass"
             },
             "west": {
-              "texture": "#bronze"
+              "texture": "#brass"
             },
             "up": {
-              "texture": "#bronze"
+              "texture": "#brass"
             },
             "down": {
-              "texture": "#bronze"
+              "texture": "#brass"
             }
           }
         },
         {
-          "name": "input-oak-wheel-spoke-00",
+          "name": "input-oak-ring-spoke-00",
           "from": [
-            -2.35,
-            1.35,
-            -0.55
+            -2.18,
+            1.1,
+            -0.6
           ],
           "to": [
-            -0.75,
-            4.65,
-            0.55
+            -0.7,
+            4.04,
+            0.6
           ],
           "rotationOrigin": [
             0,
@@ -816,1295 +817,16 @@
           }
         },
         {
-          "name": "input-oak-wheel-spoke-01",
+          "name": "input-oak-ring-spoke-01",
           "from": [
-            -2.35,
-            1.35,
-            -0.55
+            -2.18,
+            1.1,
+            -0.6
           ],
           "to": [
-            -0.75,
-            4.65,
-            0.55
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 60.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-oak-wheel-spoke-02",
-          "from": [
-            -2.35,
-            1.35,
-            -0.55
-          ],
-          "to": [
-            -0.75,
-            4.65,
-            0.55
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 120.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-oak-wheel-spoke-03",
-          "from": [
-            -2.35,
-            1.35,
-            -0.55
-          ],
-          "to": [
-            -0.75,
-            4.65,
-            0.55
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 180.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-oak-wheel-spoke-04",
-          "from": [
-            -2.35,
-            1.35,
-            -0.55
-          ],
-          "to": [
-            -0.75,
-            4.65,
-            0.55
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 240.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-oak-wheel-spoke-05",
-          "from": [
-            -2.35,
-            1.35,
-            -0.55
-          ],
-          "to": [
-            -0.75,
-            4.65,
-            0.55
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 300.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-oak-ratchet-wheel-00",
-          "from": [
-            -2.35,
-            3.975,
-            -1.45
-          ],
-          "to": [
-            -0.75,
-            5.025,
-            1.45
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 15.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-oak-ratchet-wheel-01",
-          "from": [
-            -2.35,
-            3.975,
-            -1.45
-          ],
-          "to": [
-            -0.75,
-            5.025,
-            1.45
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 45.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-oak-ratchet-wheel-02",
-          "from": [
-            -2.35,
-            3.975,
-            -1.45
-          ],
-          "to": [
-            -0.75,
-            5.025,
-            1.45
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 75.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-oak-ratchet-wheel-03",
-          "from": [
-            -2.35,
-            3.975,
-            -1.45
-          ],
-          "to": [
-            -0.75,
-            5.025,
-            1.45
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 105.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-oak-ratchet-wheel-04",
-          "from": [
-            -2.35,
-            3.975,
-            -1.45
-          ],
-          "to": [
-            -0.75,
-            5.025,
-            1.45
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 135.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-oak-ratchet-wheel-05",
-          "from": [
-            -2.35,
-            3.975,
-            -1.45
-          ],
-          "to": [
-            -0.75,
-            5.025,
-            1.45
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 165.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-oak-ratchet-wheel-06",
-          "from": [
-            -2.35,
-            3.975,
-            -1.45
-          ],
-          "to": [
-            -0.75,
-            5.025,
-            1.45
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 195.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-oak-ratchet-wheel-07",
-          "from": [
-            -2.35,
-            3.975,
-            -1.45
-          ],
-          "to": [
-            -0.75,
-            5.025,
-            1.45
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 225.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-oak-ratchet-wheel-08",
-          "from": [
-            -2.35,
-            3.975,
-            -1.45
-          ],
-          "to": [
-            -0.75,
-            5.025,
-            1.45
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 255.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-oak-ratchet-wheel-09",
-          "from": [
-            -2.35,
-            3.975,
-            -1.45
-          ],
-          "to": [
-            -0.75,
-            5.025,
-            1.45
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 285.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-oak-ratchet-wheel-10",
-          "from": [
-            -2.35,
-            3.975,
-            -1.45
-          ],
-          "to": [
-            -0.75,
-            5.025,
-            1.45
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 315.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-oak-ratchet-wheel-11",
-          "from": [
-            -2.35,
-            3.975,
-            -1.45
-          ],
-          "to": [
-            -0.75,
-            5.025,
-            1.45
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 345.0,
-          "group": "input-oak",
-          "faces": {
-            "north": {
-              "texture": "#strippedoak"
-            },
-            "east": {
-              "texture": "#strippedoak"
-            },
-            "south": {
-              "texture": "#strippedoak"
-            },
-            "west": {
-              "texture": "#strippedoak"
-            },
-            "up": {
-              "texture": "#strippedoak"
-            },
-            "down": {
-              "texture": "#strippedoak"
-            }
-          }
-        },
-        {
-          "name": "input-thin-bronze-tire-00",
-          "from": [
-            -2.5,
-            4.425,
-            -1.375
-          ],
-          "to": [
-            -2.1,
-            4.875,
-            1.375
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 15.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-thin-bronze-tire-01",
-          "from": [
-            -2.5,
-            4.425,
-            -1.375
-          ],
-          "to": [
-            -2.1,
-            4.875,
-            1.375
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 45.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-thin-bronze-tire-02",
-          "from": [
-            -2.5,
-            4.425,
-            -1.375
-          ],
-          "to": [
-            -2.1,
-            4.875,
-            1.375
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 75.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-thin-bronze-tire-03",
-          "from": [
-            -2.5,
-            4.425,
-            -1.375
-          ],
-          "to": [
-            -2.1,
-            4.875,
-            1.375
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 105.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-thin-bronze-tire-04",
-          "from": [
-            -2.5,
-            4.425,
-            -1.375
-          ],
-          "to": [
-            -2.1,
-            4.875,
-            1.375
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 135.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-thin-bronze-tire-05",
-          "from": [
-            -2.5,
-            4.425,
-            -1.375
-          ],
-          "to": [
-            -2.1,
-            4.875,
-            1.375
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 165.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-thin-bronze-tire-06",
-          "from": [
-            -2.5,
-            4.425,
-            -1.375
-          ],
-          "to": [
-            -2.1,
-            4.875,
-            1.375
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 195.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-thin-bronze-tire-07",
-          "from": [
-            -2.5,
-            4.425,
-            -1.375
-          ],
-          "to": [
-            -2.1,
-            4.875,
-            1.375
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 225.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-thin-bronze-tire-08",
-          "from": [
-            -2.5,
-            4.425,
-            -1.375
-          ],
-          "to": [
-            -2.1,
-            4.875,
-            1.375
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 255.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-thin-bronze-tire-09",
-          "from": [
-            -2.5,
-            4.425,
-            -1.375
-          ],
-          "to": [
-            -2.1,
-            4.875,
-            1.375
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 285.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-thin-bronze-tire-10",
-          "from": [
-            -2.5,
-            4.425,
-            -1.375
-          ],
-          "to": [
-            -2.1,
-            4.875,
-            1.375
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 315.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-thin-bronze-tire-11",
-          "from": [
-            -2.5,
-            4.425,
-            -1.375
-          ],
-          "to": [
-            -2.1,
-            4.875,
-            1.375
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 345.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-replaceable-ratchet-tooth-00",
-          "from": [
-            -2.6,
-            4.85,
-            -0.46
-          ],
-          "to": [
-            -0.5,
-            5.6,
-            0.46
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-replaceable-ratchet-tooth-01",
-          "from": [
-            -2.6,
-            4.85,
-            -0.46
-          ],
-          "to": [
-            -0.5,
-            5.6,
-            0.46
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 30.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-replaceable-ratchet-tooth-02",
-          "from": [
-            -2.6,
-            4.85,
-            -0.46
-          ],
-          "to": [
-            -0.5,
-            5.6,
-            0.46
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 60.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-replaceable-ratchet-tooth-03",
-          "from": [
-            -2.6,
-            4.85,
-            -0.46
-          ],
-          "to": [
-            -0.5,
-            5.6,
-            0.46
+            -0.7,
+            4.04,
+            0.6
           ],
           "rotationOrigin": [
             0,
@@ -2112,119 +834,39 @@
             0
           ],
           "rotationX": 90.0,
-          "group": "ratchet-bronze",
+          "group": "input-oak",
           "faces": {
             "north": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "east": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "south": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "west": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "up": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "down": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             }
           }
         },
         {
-          "name": "input-replaceable-ratchet-tooth-04",
+          "name": "input-oak-ring-spoke-02",
           "from": [
-            -2.6,
-            4.85,
-            -0.46
+            -2.18,
+            1.1,
+            -0.6
           ],
           "to": [
-            -0.5,
-            5.6,
-            0.46
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 120.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-replaceable-ratchet-tooth-05",
-          "from": [
-            -2.6,
-            4.85,
-            -0.46
-          ],
-          "to": [
-            -0.5,
-            5.6,
-            0.46
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 150.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-replaceable-ratchet-tooth-06",
-          "from": [
-            -2.6,
-            4.85,
-            -0.46
-          ],
-          "to": [
-            -0.5,
-            5.6,
-            0.46
+            -0.7,
+            4.04,
+            0.6
           ],
           "rotationOrigin": [
             0,
@@ -2232,119 +874,39 @@
             0
           ],
           "rotationX": 180.0,
-          "group": "ratchet-bronze",
+          "group": "input-oak",
           "faces": {
             "north": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "east": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "south": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "west": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "up": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "down": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             }
           }
         },
         {
-          "name": "input-replaceable-ratchet-tooth-07",
+          "name": "input-oak-ring-spoke-03",
           "from": [
-            -2.6,
-            4.85,
-            -0.46
+            -2.18,
+            1.1,
+            -0.6
           ],
           "to": [
-            -0.5,
-            5.6,
-            0.46
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 210.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-replaceable-ratchet-tooth-08",
-          "from": [
-            -2.6,
-            4.85,
-            -0.46
-          ],
-          "to": [
-            -0.5,
-            5.6,
-            0.46
-          ],
-          "rotationOrigin": [
-            0,
-            0,
-            0
-          ],
-          "rotationX": 240.0,
-          "group": "ratchet-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "input-replaceable-ratchet-tooth-09",
-          "from": [
-            -2.6,
-            4.85,
-            -0.46
-          ],
-          "to": [
-            -0.5,
-            5.6,
-            0.46
+            -0.7,
+            4.04,
+            0.6
           ],
           "rotationOrigin": [
             0,
@@ -2352,39 +914,519 @@
             0
           ],
           "rotationX": 270.0,
-          "group": "ratchet-bronze",
+          "group": "input-oak",
           "faces": {
             "north": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "east": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "south": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "west": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "up": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "down": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             }
           }
         },
         {
-          "name": "input-replaceable-ratchet-tooth-10",
+          "name": "input-locking-oak-ring-00",
           "from": [
-            -2.6,
-            4.85,
-            -0.46
+            -2.2,
+            3.85,
+            -0.97
           ],
           "to": [
-            -0.5,
-            5.6,
-            0.46
+            -0.66,
+            4.47,
+            0.97
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 12.0,
+          "group": "input-oak",
+          "faces": {
+            "north": {
+              "texture": "#strippedoak"
+            },
+            "east": {
+              "texture": "#strippedoak"
+            },
+            "south": {
+              "texture": "#strippedoak"
+            },
+            "west": {
+              "texture": "#strippedoak"
+            },
+            "up": {
+              "texture": "#strippedoak"
+            },
+            "down": {
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "input-locking-oak-ring-01",
+          "from": [
+            -2.2,
+            3.85,
+            -0.97
+          ],
+          "to": [
+            -0.66,
+            4.47,
+            0.97
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 36.0,
+          "group": "input-oak",
+          "faces": {
+            "north": {
+              "texture": "#strippedoak"
+            },
+            "east": {
+              "texture": "#strippedoak"
+            },
+            "south": {
+              "texture": "#strippedoak"
+            },
+            "west": {
+              "texture": "#strippedoak"
+            },
+            "up": {
+              "texture": "#strippedoak"
+            },
+            "down": {
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "input-locking-oak-ring-02",
+          "from": [
+            -2.2,
+            3.85,
+            -0.97
+          ],
+          "to": [
+            -0.66,
+            4.47,
+            0.97
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 60.0,
+          "group": "input-oak",
+          "faces": {
+            "north": {
+              "texture": "#strippedoak"
+            },
+            "east": {
+              "texture": "#strippedoak"
+            },
+            "south": {
+              "texture": "#strippedoak"
+            },
+            "west": {
+              "texture": "#strippedoak"
+            },
+            "up": {
+              "texture": "#strippedoak"
+            },
+            "down": {
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "input-locking-oak-ring-03",
+          "from": [
+            -2.2,
+            3.85,
+            -0.97
+          ],
+          "to": [
+            -0.66,
+            4.47,
+            0.97
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 84.0,
+          "group": "input-oak",
+          "faces": {
+            "north": {
+              "texture": "#strippedoak"
+            },
+            "east": {
+              "texture": "#strippedoak"
+            },
+            "south": {
+              "texture": "#strippedoak"
+            },
+            "west": {
+              "texture": "#strippedoak"
+            },
+            "up": {
+              "texture": "#strippedoak"
+            },
+            "down": {
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "input-locking-oak-ring-04",
+          "from": [
+            -2.2,
+            3.85,
+            -0.97
+          ],
+          "to": [
+            -0.66,
+            4.47,
+            0.97
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 108.0,
+          "group": "input-oak",
+          "faces": {
+            "north": {
+              "texture": "#strippedoak"
+            },
+            "east": {
+              "texture": "#strippedoak"
+            },
+            "south": {
+              "texture": "#strippedoak"
+            },
+            "west": {
+              "texture": "#strippedoak"
+            },
+            "up": {
+              "texture": "#strippedoak"
+            },
+            "down": {
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "input-locking-oak-ring-05",
+          "from": [
+            -2.2,
+            3.85,
+            -0.97
+          ],
+          "to": [
+            -0.66,
+            4.47,
+            0.97
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 132.0,
+          "group": "input-oak",
+          "faces": {
+            "north": {
+              "texture": "#strippedoak"
+            },
+            "east": {
+              "texture": "#strippedoak"
+            },
+            "south": {
+              "texture": "#strippedoak"
+            },
+            "west": {
+              "texture": "#strippedoak"
+            },
+            "up": {
+              "texture": "#strippedoak"
+            },
+            "down": {
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "input-locking-oak-ring-06",
+          "from": [
+            -2.2,
+            3.85,
+            -0.97
+          ],
+          "to": [
+            -0.66,
+            4.47,
+            0.97
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 156.0,
+          "group": "input-oak",
+          "faces": {
+            "north": {
+              "texture": "#strippedoak"
+            },
+            "east": {
+              "texture": "#strippedoak"
+            },
+            "south": {
+              "texture": "#strippedoak"
+            },
+            "west": {
+              "texture": "#strippedoak"
+            },
+            "up": {
+              "texture": "#strippedoak"
+            },
+            "down": {
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "input-locking-oak-ring-07",
+          "from": [
+            -2.2,
+            3.85,
+            -0.97
+          ],
+          "to": [
+            -0.66,
+            4.47,
+            0.97
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 180.0,
+          "group": "input-oak",
+          "faces": {
+            "north": {
+              "texture": "#strippedoak"
+            },
+            "east": {
+              "texture": "#strippedoak"
+            },
+            "south": {
+              "texture": "#strippedoak"
+            },
+            "west": {
+              "texture": "#strippedoak"
+            },
+            "up": {
+              "texture": "#strippedoak"
+            },
+            "down": {
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "input-locking-oak-ring-08",
+          "from": [
+            -2.2,
+            3.85,
+            -0.97
+          ],
+          "to": [
+            -0.66,
+            4.47,
+            0.97
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 204.0,
+          "group": "input-oak",
+          "faces": {
+            "north": {
+              "texture": "#strippedoak"
+            },
+            "east": {
+              "texture": "#strippedoak"
+            },
+            "south": {
+              "texture": "#strippedoak"
+            },
+            "west": {
+              "texture": "#strippedoak"
+            },
+            "up": {
+              "texture": "#strippedoak"
+            },
+            "down": {
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "input-locking-oak-ring-09",
+          "from": [
+            -2.2,
+            3.85,
+            -0.97
+          ],
+          "to": [
+            -0.66,
+            4.47,
+            0.97
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 228.0,
+          "group": "input-oak",
+          "faces": {
+            "north": {
+              "texture": "#strippedoak"
+            },
+            "east": {
+              "texture": "#strippedoak"
+            },
+            "south": {
+              "texture": "#strippedoak"
+            },
+            "west": {
+              "texture": "#strippedoak"
+            },
+            "up": {
+              "texture": "#strippedoak"
+            },
+            "down": {
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "input-locking-oak-ring-10",
+          "from": [
+            -2.2,
+            3.85,
+            -0.97
+          ],
+          "to": [
+            -0.66,
+            4.47,
+            0.97
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 252.0,
+          "group": "input-oak",
+          "faces": {
+            "north": {
+              "texture": "#strippedoak"
+            },
+            "east": {
+              "texture": "#strippedoak"
+            },
+            "south": {
+              "texture": "#strippedoak"
+            },
+            "west": {
+              "texture": "#strippedoak"
+            },
+            "up": {
+              "texture": "#strippedoak"
+            },
+            "down": {
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "input-locking-oak-ring-11",
+          "from": [
+            -2.2,
+            3.85,
+            -0.97
+          ],
+          "to": [
+            -0.66,
+            4.47,
+            0.97
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 276.0,
+          "group": "input-oak",
+          "faces": {
+            "north": {
+              "texture": "#strippedoak"
+            },
+            "east": {
+              "texture": "#strippedoak"
+            },
+            "south": {
+              "texture": "#strippedoak"
+            },
+            "west": {
+              "texture": "#strippedoak"
+            },
+            "up": {
+              "texture": "#strippedoak"
+            },
+            "down": {
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "input-locking-oak-ring-12",
+          "from": [
+            -2.2,
+            3.85,
+            -0.97
+          ],
+          "to": [
+            -0.66,
+            4.47,
+            0.97
           ],
           "rotationOrigin": [
             0,
@@ -2392,65 +1434,2219 @@
             0
           ],
           "rotationX": 300.0,
-          "group": "ratchet-bronze",
+          "group": "input-oak",
           "faces": {
             "north": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "east": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "south": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "west": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "up": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "down": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             }
           }
         },
         {
-          "name": "input-replaceable-ratchet-tooth-11",
+          "name": "input-locking-oak-ring-13",
           "from": [
-            -2.6,
-            4.85,
-            -0.46
+            -2.2,
+            3.85,
+            -0.97
           ],
           "to": [
-            -0.5,
-            5.6,
-            0.46
+            -0.66,
+            4.47,
+            0.97
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 330.0,
-          "group": "ratchet-bronze",
+          "rotationX": 324.0,
+          "group": "input-oak",
           "faces": {
             "north": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "east": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "south": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "west": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "up": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
             },
             "down": {
-              "texture": "#bronze"
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "input-locking-oak-ring-14",
+          "from": [
+            -2.2,
+            3.85,
+            -0.97
+          ],
+          "to": [
+            -0.66,
+            4.47,
+            0.97
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 348.0,
+          "group": "input-oak",
+          "faces": {
+            "north": {
+              "texture": "#strippedoak"
+            },
+            "east": {
+              "texture": "#strippedoak"
+            },
+            "south": {
+              "texture": "#strippedoak"
+            },
+            "west": {
+              "texture": "#strippedoak"
+            },
+            "up": {
+              "texture": "#strippedoak"
+            },
+            "down": {
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "input-thin-brass-tire-00",
+          "from": [
+            -2.34,
+            4.44,
+            -1.0088
+          ],
+          "to": [
+            -2.18,
+            4.62,
+            1.0088
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 12.0,
+          "group": "gear-reinforcement",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-thin-brass-tire-01",
+          "from": [
+            -2.34,
+            4.44,
+            -1.0088
+          ],
+          "to": [
+            -2.18,
+            4.62,
+            1.0088
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 36.0,
+          "group": "gear-reinforcement",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-thin-brass-tire-02",
+          "from": [
+            -2.34,
+            4.44,
+            -1.0088
+          ],
+          "to": [
+            -2.18,
+            4.62,
+            1.0088
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 60.0,
+          "group": "gear-reinforcement",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-thin-brass-tire-03",
+          "from": [
+            -2.34,
+            4.44,
+            -1.0088
+          ],
+          "to": [
+            -2.18,
+            4.62,
+            1.0088
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 84.0,
+          "group": "gear-reinforcement",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-thin-brass-tire-04",
+          "from": [
+            -2.34,
+            4.44,
+            -1.0088
+          ],
+          "to": [
+            -2.18,
+            4.62,
+            1.0088
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 108.0,
+          "group": "gear-reinforcement",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-thin-brass-tire-05",
+          "from": [
+            -2.34,
+            4.44,
+            -1.0088
+          ],
+          "to": [
+            -2.18,
+            4.62,
+            1.0088
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 132.0,
+          "group": "gear-reinforcement",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-thin-brass-tire-06",
+          "from": [
+            -2.34,
+            4.44,
+            -1.0088
+          ],
+          "to": [
+            -2.18,
+            4.62,
+            1.0088
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 156.0,
+          "group": "gear-reinforcement",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-thin-brass-tire-07",
+          "from": [
+            -2.34,
+            4.44,
+            -1.0088
+          ],
+          "to": [
+            -2.18,
+            4.62,
+            1.0088
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 180.0,
+          "group": "gear-reinforcement",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-thin-brass-tire-08",
+          "from": [
+            -2.34,
+            4.44,
+            -1.0088
+          ],
+          "to": [
+            -2.18,
+            4.62,
+            1.0088
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 204.0,
+          "group": "gear-reinforcement",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-thin-brass-tire-09",
+          "from": [
+            -2.34,
+            4.44,
+            -1.0088
+          ],
+          "to": [
+            -2.18,
+            4.62,
+            1.0088
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 228.0,
+          "group": "gear-reinforcement",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-thin-brass-tire-10",
+          "from": [
+            -2.34,
+            4.44,
+            -1.0088
+          ],
+          "to": [
+            -2.18,
+            4.62,
+            1.0088
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 252.0,
+          "group": "gear-reinforcement",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-thin-brass-tire-11",
+          "from": [
+            -2.34,
+            4.44,
+            -1.0088
+          ],
+          "to": [
+            -2.18,
+            4.62,
+            1.0088
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 276.0,
+          "group": "gear-reinforcement",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-thin-brass-tire-12",
+          "from": [
+            -2.34,
+            4.44,
+            -1.0088
+          ],
+          "to": [
+            -2.18,
+            4.62,
+            1.0088
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 300.0,
+          "group": "gear-reinforcement",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-thin-brass-tire-13",
+          "from": [
+            -2.34,
+            4.44,
+            -1.0088
+          ],
+          "to": [
+            -2.18,
+            4.62,
+            1.0088
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 324.0,
+          "group": "gear-reinforcement",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-thin-brass-tire-14",
+          "from": [
+            -2.34,
+            4.44,
+            -1.0088
+          ],
+          "to": [
+            -2.18,
+            4.62,
+            1.0088
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 348.0,
+          "group": "gear-reinforcement",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-smooth-ramp-00-mount",
+          "from": [
+            0,
+            4.55,
+            -0.76
+          ],
+          "to": [
+            0,
+            4.55,
+            -0.76
+          ],
+          "rotationOrigin": [
+            0,
+            4.55,
+            -0.76
+          ],
+          "group": "input-teeth",
+          "children": [
+            {
+              "name": "input-smooth-ramp-00",
+              "from": [
+                -2.38,
+                -0.575,
+                -0.2
+              ],
+              "to": [
+                -0.48,
+                0.575,
+                0.2
+              ],
+              "rotationOrigin": [
+                0,
+                0,
+                0
+              ],
+              "rotationX": 55.0,
+              "group": "input-teeth",
+              "faces": {
+                "north": {
+                  "texture": "#brass"
+                },
+                "east": {
+                  "texture": "#brass"
+                },
+                "south": {
+                  "texture": "#brass"
+                },
+                "west": {
+                  "texture": "#brass"
+                },
+                "up": {
+                  "texture": "#brass"
+                },
+                "down": {
+                  "texture": "#brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "input-ratchet-lock-face-00",
+          "from": [
+            -2.38,
+            4.18,
+            -0.34
+          ],
+          "to": [
+            -0.48,
+            4.98,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "group": "input-teeth",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-smooth-ramp-01-mount",
+          "from": [
+            0,
+            4.465751681,
+            1.1563571782
+          ],
+          "to": [
+            0,
+            4.465751681,
+            1.1563571782
+          ],
+          "rotationOrigin": [
+            0,
+            4.465751681,
+            1.1563571782
+          ],
+          "group": "input-teeth",
+          "children": [
+            {
+              "name": "input-smooth-ramp-01",
+              "from": [
+                -2.38,
+                -0.575,
+                -0.2
+              ],
+              "to": [
+                -0.48,
+                0.575,
+                0.2
+              ],
+              "rotationOrigin": [
+                0,
+                0,
+                0
+              ],
+              "rotationX": 79.0,
+              "group": "input-teeth",
+              "faces": {
+                "north": {
+                  "texture": "#brass"
+                },
+                "east": {
+                  "texture": "#brass"
+                },
+                "south": {
+                  "texture": "#brass"
+                },
+                "west": {
+                  "texture": "#brass"
+                },
+                "up": {
+                  "texture": "#brass"
+                },
+                "down": {
+                  "texture": "#brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "input-ratchet-lock-face-01",
+          "from": [
+            -2.38,
+            4.18,
+            -0.34
+          ],
+          "to": [
+            -0.48,
+            4.98,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 24.0,
+          "group": "input-teeth",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-smooth-ramp-02-mount",
+          "from": [
+            0,
+            3.6093343263,
+            2.8727696951
+          ],
+          "to": [
+            0,
+            3.6093343263,
+            2.8727696951
+          ],
+          "rotationOrigin": [
+            0,
+            3.6093343263,
+            2.8727696951
+          ],
+          "group": "input-teeth",
+          "children": [
+            {
+              "name": "input-smooth-ramp-02",
+              "from": [
+                -2.38,
+                -0.575,
+                -0.2
+              ],
+              "to": [
+                -0.48,
+                0.575,
+                0.2
+              ],
+              "rotationOrigin": [
+                0,
+                0,
+                0
+              ],
+              "rotationX": 103.0,
+              "group": "input-teeth",
+              "faces": {
+                "north": {
+                  "texture": "#brass"
+                },
+                "east": {
+                  "texture": "#brass"
+                },
+                "south": {
+                  "texture": "#brass"
+                },
+                "west": {
+                  "texture": "#brass"
+                },
+                "up": {
+                  "texture": "#brass"
+                },
+                "down": {
+                  "texture": "#brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "input-ratchet-lock-face-02",
+          "from": [
+            -2.38,
+            4.18,
+            -0.34
+          ],
+          "to": [
+            -0.48,
+            4.98,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 48.0,
+          "group": "input-teeth",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-smooth-ramp-03-mount",
+          "from": [
+            0,
+            2.1288302768,
+            4.0924542334
+          ],
+          "to": [
+            0,
+            2.1288302768,
+            4.0924542334
+          ],
+          "rotationOrigin": [
+            0,
+            2.1288302768,
+            4.0924542334
+          ],
+          "group": "input-teeth",
+          "children": [
+            {
+              "name": "input-smooth-ramp-03",
+              "from": [
+                -2.38,
+                -0.575,
+                -0.2
+              ],
+              "to": [
+                -0.48,
+                0.575,
+                0.2
+              ],
+              "rotationOrigin": [
+                0,
+                0,
+                0
+              ],
+              "rotationX": 127.0,
+              "group": "input-teeth",
+              "faces": {
+                "north": {
+                  "texture": "#brass"
+                },
+                "east": {
+                  "texture": "#brass"
+                },
+                "south": {
+                  "texture": "#brass"
+                },
+                "west": {
+                  "texture": "#brass"
+                },
+                "up": {
+                  "texture": "#brass"
+                },
+                "down": {
+                  "texture": "#brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "input-ratchet-lock-face-03",
+          "from": [
+            -2.38,
+            4.18,
+            -0.34
+          ],
+          "to": [
+            -0.48,
+            4.98,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 72.0,
+          "group": "input-teeth",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-smooth-ramp-04-mount",
+          "from": [
+            0,
+            0.2802321326,
+            4.604516256
+          ],
+          "to": [
+            0,
+            0.2802321326,
+            4.604516256
+          ],
+          "rotationOrigin": [
+            0,
+            0.2802321326,
+            4.604516256
+          ],
+          "group": "input-teeth",
+          "children": [
+            {
+              "name": "input-smooth-ramp-04",
+              "from": [
+                -2.38,
+                -0.575,
+                -0.2
+              ],
+              "to": [
+                -0.48,
+                0.575,
+                0.2
+              ],
+              "rotationOrigin": [
+                0,
+                0,
+                0
+              ],
+              "rotationX": 151.0,
+              "group": "input-teeth",
+              "faces": {
+                "north": {
+                  "texture": "#brass"
+                },
+                "east": {
+                  "texture": "#brass"
+                },
+                "south": {
+                  "texture": "#brass"
+                },
+                "west": {
+                  "texture": "#brass"
+                },
+                "up": {
+                  "texture": "#brass"
+                },
+                "down": {
+                  "texture": "#brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "input-ratchet-lock-face-04",
+          "from": [
+            -2.38,
+            4.18,
+            -0.34
+          ],
+          "to": [
+            -0.48,
+            4.98,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 96.0,
+          "group": "input-teeth",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-smooth-ramp-05-mount",
+          "from": [
+            0,
+            -1.6168206931,
+            4.3204155872
+          ],
+          "to": [
+            0,
+            -1.6168206931,
+            4.3204155872
+          ],
+          "rotationOrigin": [
+            0,
+            -1.6168206931,
+            4.3204155872
+          ],
+          "group": "input-teeth",
+          "children": [
+            {
+              "name": "input-smooth-ramp-05",
+              "from": [
+                -2.38,
+                -0.575,
+                -0.2
+              ],
+              "to": [
+                -0.48,
+                0.575,
+                0.2
+              ],
+              "rotationOrigin": [
+                0,
+                0,
+                0
+              ],
+              "rotationX": 175.0,
+              "group": "input-teeth",
+              "faces": {
+                "north": {
+                  "texture": "#brass"
+                },
+                "east": {
+                  "texture": "#brass"
+                },
+                "south": {
+                  "texture": "#brass"
+                },
+                "west": {
+                  "texture": "#brass"
+                },
+                "up": {
+                  "texture": "#brass"
+                },
+                "down": {
+                  "texture": "#brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "input-ratchet-lock-face-05",
+          "from": [
+            -2.38,
+            4.18,
+            -0.34
+          ],
+          "to": [
+            -0.48,
+            4.98,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 120.0,
+          "group": "input-teeth",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-smooth-ramp-06-mount",
+          "from": [
+            0,
+            -3.2343105327,
+            3.2892758137
+          ],
+          "to": [
+            0,
+            -3.2343105327,
+            3.2892758137
+          ],
+          "rotationOrigin": [
+            0,
+            -3.2343105327,
+            3.2892758137
+          ],
+          "group": "input-teeth",
+          "children": [
+            {
+              "name": "input-smooth-ramp-06",
+              "from": [
+                -2.38,
+                -0.575,
+                -0.2
+              ],
+              "to": [
+                -0.48,
+                0.575,
+                0.2
+              ],
+              "rotationOrigin": [
+                0,
+                0,
+                0
+              ],
+              "rotationX": 199.0,
+              "group": "input-teeth",
+              "faces": {
+                "north": {
+                  "texture": "#brass"
+                },
+                "east": {
+                  "texture": "#brass"
+                },
+                "south": {
+                  "texture": "#brass"
+                },
+                "west": {
+                  "texture": "#brass"
+                },
+                "up": {
+                  "texture": "#brass"
+                },
+                "down": {
+                  "texture": "#brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "input-ratchet-lock-face-06",
+          "from": [
+            -2.38,
+            4.18,
+            -0.34
+          ],
+          "to": [
+            -0.48,
+            4.98,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 144.0,
+          "group": "input-teeth",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-smooth-ramp-07-mount",
+          "from": [
+            0,
+            -4.2925586983,
+            1.6893903698
+          ],
+          "to": [
+            0,
+            -4.2925586983,
+            1.6893903698
+          ],
+          "rotationOrigin": [
+            0,
+            -4.2925586983,
+            1.6893903698
+          ],
+          "group": "input-teeth",
+          "children": [
+            {
+              "name": "input-smooth-ramp-07",
+              "from": [
+                -2.38,
+                -0.575,
+                -0.2
+              ],
+              "to": [
+                -0.48,
+                0.575,
+                0.2
+              ],
+              "rotationOrigin": [
+                0,
+                0,
+                0
+              ],
+              "rotationX": 223.0,
+              "group": "input-teeth",
+              "faces": {
+                "north": {
+                  "texture": "#brass"
+                },
+                "east": {
+                  "texture": "#brass"
+                },
+                "south": {
+                  "texture": "#brass"
+                },
+                "west": {
+                  "texture": "#brass"
+                },
+                "up": {
+                  "texture": "#brass"
+                },
+                "down": {
+                  "texture": "#brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "input-ratchet-lock-face-07",
+          "from": [
+            -2.38,
+            4.18,
+            -0.34
+          ],
+          "to": [
+            -0.48,
+            4.98,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 168.0,
+          "group": "input-teeth",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-smooth-ramp-08-mount",
+          "from": [
+            0,
+            -4.6085844684,
+            -0.2026060167
+          ],
+          "to": [
+            0,
+            -4.6085844684,
+            -0.2026060167
+          ],
+          "rotationOrigin": [
+            0,
+            -4.6085844684,
+            -0.2026060167
+          ],
+          "group": "input-teeth",
+          "children": [
+            {
+              "name": "input-smooth-ramp-08",
+              "from": [
+                -2.38,
+                -0.575,
+                -0.2
+              ],
+              "to": [
+                -0.48,
+                0.575,
+                0.2
+              ],
+              "rotationOrigin": [
+                0,
+                0,
+                0
+              ],
+              "rotationX": 247.0,
+              "group": "input-teeth",
+              "faces": {
+                "north": {
+                  "texture": "#brass"
+                },
+                "east": {
+                  "texture": "#brass"
+                },
+                "south": {
+                  "texture": "#brass"
+                },
+                "west": {
+                  "texture": "#brass"
+                },
+                "up": {
+                  "texture": "#brass"
+                },
+                "down": {
+                  "texture": "#brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "input-ratchet-lock-face-08",
+          "from": [
+            -2.38,
+            4.18,
+            -0.34
+          ],
+          "to": [
+            -0.48,
+            4.98,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 192.0,
+          "group": "input-teeth",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-smooth-ramp-09-mount",
+          "from": [
+            0,
+            -4.1277441161,
+            -2.0595699822
+          ],
+          "to": [
+            0,
+            -4.1277441161,
+            -2.0595699822
+          ],
+          "rotationOrigin": [
+            0,
+            -4.1277441161,
+            -2.0595699822
+          ],
+          "group": "input-teeth",
+          "children": [
+            {
+              "name": "input-smooth-ramp-09",
+              "from": [
+                -2.38,
+                -0.575,
+                -0.2
+              ],
+              "to": [
+                -0.48,
+                0.575,
+                0.2
+              ],
+              "rotationOrigin": [
+                0,
+                0,
+                0
+              ],
+              "rotationX": 271.0,
+              "group": "input-teeth",
+              "faces": {
+                "north": {
+                  "texture": "#brass"
+                },
+                "east": {
+                  "texture": "#brass"
+                },
+                "south": {
+                  "texture": "#brass"
+                },
+                "west": {
+                  "texture": "#brass"
+                },
+                "up": {
+                  "texture": "#brass"
+                },
+                "down": {
+                  "texture": "#brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "input-ratchet-lock-face-09",
+          "from": [
+            -2.38,
+            4.18,
+            -0.34
+          ],
+          "to": [
+            -0.48,
+            4.98,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 216.0,
+          "group": "input-teeth",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-smooth-ramp-10-mount",
+          "from": [
+            0,
+            -2.9331793069,
+            -3.5604155872
+          ],
+          "to": [
+            0,
+            -2.9331793069,
+            -3.5604155872
+          ],
+          "rotationOrigin": [
+            0,
+            -2.9331793069,
+            -3.5604155872
+          ],
+          "group": "input-teeth",
+          "children": [
+            {
+              "name": "input-smooth-ramp-10",
+              "from": [
+                -2.38,
+                -0.575,
+                -0.2
+              ],
+              "to": [
+                -0.48,
+                0.575,
+                0.2
+              ],
+              "rotationOrigin": [
+                0,
+                0,
+                0
+              ],
+              "rotationX": 295.0,
+              "group": "input-teeth",
+              "faces": {
+                "north": {
+                  "texture": "#brass"
+                },
+                "east": {
+                  "texture": "#brass"
+                },
+                "south": {
+                  "texture": "#brass"
+                },
+                "west": {
+                  "texture": "#brass"
+                },
+                "up": {
+                  "texture": "#brass"
+                },
+                "down": {
+                  "texture": "#brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "input-ratchet-lock-face-10",
+          "from": [
+            -2.38,
+            4.18,
+            -0.34
+          ],
+          "to": [
+            -0.48,
+            4.98,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 240.0,
+          "group": "input-teeth",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-smooth-ramp-11-mount",
+          "from": [
+            0,
+            -1.2314411483,
+            -4.4456329918
+          ],
+          "to": [
+            0,
+            -1.2314411483,
+            -4.4456329918
+          ],
+          "rotationOrigin": [
+            0,
+            -1.2314411483,
+            -4.4456329918
+          ],
+          "group": "input-teeth",
+          "children": [
+            {
+              "name": "input-smooth-ramp-11",
+              "from": [
+                -2.38,
+                -0.575,
+                -0.2
+              ],
+              "to": [
+                -0.48,
+                0.575,
+                0.2
+              ],
+              "rotationOrigin": [
+                0,
+                0,
+                0
+              ],
+              "rotationX": 319.0,
+              "group": "input-teeth",
+              "faces": {
+                "north": {
+                  "texture": "#brass"
+                },
+                "east": {
+                  "texture": "#brass"
+                },
+                "south": {
+                  "texture": "#brass"
+                },
+                "west": {
+                  "texture": "#brass"
+                },
+                "up": {
+                  "texture": "#brass"
+                },
+                "down": {
+                  "texture": "#brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "input-ratchet-lock-face-11",
+          "from": [
+            -2.38,
+            4.18,
+            -0.34
+          ],
+          "to": [
+            -0.48,
+            4.98,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 264.0,
+          "group": "input-teeth",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-smooth-ramp-12-mount",
+          "from": [
+            0,
+            0.683224372,
+            -4.5621600649
+          ],
+          "to": [
+            0,
+            0.683224372,
+            -4.5621600649
+          ],
+          "rotationOrigin": [
+            0,
+            0.683224372,
+            -4.5621600649
+          ],
+          "group": "input-teeth",
+          "children": [
+            {
+              "name": "input-smooth-ramp-12",
+              "from": [
+                -2.38,
+                -0.575,
+                -0.2
+              ],
+              "to": [
+                -0.48,
+                0.575,
+                0.2
+              ],
+              "rotationOrigin": [
+                0,
+                0,
+                0
+              ],
+              "rotationX": 343.0,
+              "group": "input-teeth",
+              "faces": {
+                "north": {
+                  "texture": "#brass"
+                },
+                "east": {
+                  "texture": "#brass"
+                },
+                "south": {
+                  "texture": "#brass"
+                },
+                "west": {
+                  "texture": "#brass"
+                },
+                "up": {
+                  "texture": "#brass"
+                },
+                "down": {
+                  "texture": "#brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "input-ratchet-lock-face-12",
+          "from": [
+            -2.38,
+            4.18,
+            -0.34
+          ],
+          "to": [
+            -0.48,
+            4.98,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 288.0,
+          "group": "input-teeth",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-smooth-ramp-13-mount",
+          "from": [
+            0,
+            2.4797541916,
+            -3.8898482168
+          ],
+          "to": [
+            0,
+            2.4797541916,
+            -3.8898482168
+          ],
+          "rotationOrigin": [
+            0,
+            2.4797541916,
+            -3.8898482168
+          ],
+          "group": "input-teeth",
+          "children": [
+            {
+              "name": "input-smooth-ramp-13",
+              "from": [
+                -2.38,
+                -0.575,
+                -0.2
+              ],
+              "to": [
+                -0.48,
+                0.575,
+                0.2
+              ],
+              "rotationOrigin": [
+                0,
+                0,
+                0
+              ],
+              "rotationX": 367.0,
+              "group": "input-teeth",
+              "faces": {
+                "north": {
+                  "texture": "#brass"
+                },
+                "east": {
+                  "texture": "#brass"
+                },
+                "south": {
+                  "texture": "#brass"
+                },
+                "west": {
+                  "texture": "#brass"
+                },
+                "up": {
+                  "texture": "#brass"
+                },
+                "down": {
+                  "texture": "#brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "input-ratchet-lock-face-13",
+          "from": [
+            -2.38,
+            4.18,
+            -0.34
+          ],
+          "to": [
+            -0.48,
+            4.98,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 312.0,
+          "group": "input-teeth",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
+            }
+          }
+        },
+        {
+          "name": "input-smooth-ramp-14-mount",
+          "from": [
+            0,
+            3.8475119835,
+            -2.5449462738
+          ],
+          "to": [
+            0,
+            3.8475119835,
+            -2.5449462738
+          ],
+          "rotationOrigin": [
+            0,
+            3.8475119835,
+            -2.5449462738
+          ],
+          "group": "input-teeth",
+          "children": [
+            {
+              "name": "input-smooth-ramp-14",
+              "from": [
+                -2.38,
+                -0.575,
+                -0.2
+              ],
+              "to": [
+                -0.48,
+                0.575,
+                0.2
+              ],
+              "rotationOrigin": [
+                0,
+                0,
+                0
+              ],
+              "rotationX": 391.0,
+              "group": "input-teeth",
+              "faces": {
+                "north": {
+                  "texture": "#brass"
+                },
+                "east": {
+                  "texture": "#brass"
+                },
+                "south": {
+                  "texture": "#brass"
+                },
+                "west": {
+                  "texture": "#brass"
+                },
+                "up": {
+                  "texture": "#brass"
+                },
+                "down": {
+                  "texture": "#brass"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "input-ratchet-lock-face-14",
+          "from": [
+            -2.38,
+            4.18,
+            -0.34
+          ],
+          "to": [
+            -0.48,
+            4.98,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 336.0,
+          "group": "input-teeth",
+          "faces": {
+            "north": {
+              "texture": "#brass"
+            },
+            "east": {
+              "texture": "#brass"
+            },
+            "south": {
+              "texture": "#brass"
+            },
+            "west": {
+              "texture": "#brass"
+            },
+            "up": {
+              "texture": "#brass"
+            },
+            "down": {
+              "texture": "#brass"
             }
           }
         }
@@ -2547,13 +3743,13 @@
           "name": "output-oak-hub",
           "from": [
             0.55,
-            -2.05,
-            -2.05
+            -1.56,
+            -1.56
           ],
           "to": [
             2.9,
-            2.05,
-            2.05
+            1.56,
+            1.56
           ],
           "group": "output-oak",
           "faces": {
@@ -2581,47 +3777,47 @@
           "name": "output-hub-bronze-band",
           "from": [
             2.45,
-            -2.3,
-            -2.3
+            -1.84,
+            -1.84
           ],
           "to": [
             2.95,
+            1.84,
+            1.84
+          ],
+          "group": "output-bronze",
+          "faces": {
+            "north": {
+              "texture": "#bronze"
+            },
+            "east": {
+              "texture": "#bronze"
+            },
+            "south": {
+              "texture": "#bronze"
+            },
+            "west": {
+              "texture": "#bronze"
+            },
+            "up": {
+              "texture": "#bronze"
+            },
+            "down": {
+              "texture": "#bronze"
+            }
+          }
+        },
+        {
+          "name": "output-broad-orbital-arm-00",
+          "from": [
+            0.72,
+            1.3,
+            -0.79
+          ],
+          "to": [
             2.3,
-            2.3
-          ],
-          "group": "output-bronze",
-          "faces": {
-            "north": {
-              "texture": "#bronze"
-            },
-            "east": {
-              "texture": "#bronze"
-            },
-            "south": {
-              "texture": "#bronze"
-            },
-            "west": {
-              "texture": "#bronze"
-            },
-            "up": {
-              "texture": "#bronze"
-            },
-            "down": {
-              "texture": "#bronze"
-            }
-          }
-        },
-        {
-          "name": "output-oak-pawl-carrier-00",
-          "from": [
-            0.75,
-            1.3,
-            -0.525
-          ],
-          "to": [
-            2.35,
-            5.2,
-            0.525
+            5.24,
+            0.79
           ],
           "rotationOrigin": [
             0,
@@ -2651,16 +3847,16 @@
           }
         },
         {
-          "name": "output-oak-pawl-carrier-01",
+          "name": "output-broad-orbital-arm-01",
           "from": [
-            0.75,
+            0.72,
             1.3,
-            -0.525
+            -0.79
           ],
           "to": [
-            2.35,
-            5.2,
-            0.525
+            2.3,
+            5.24,
+            0.79
           ],
           "rotationOrigin": [
             0,
@@ -2691,16 +3887,16 @@
           }
         },
         {
-          "name": "output-oak-pawl-carrier-02",
+          "name": "output-broad-orbital-arm-02",
           "from": [
-            0.75,
+            0.72,
             1.3,
-            -0.525
+            -0.79
           ],
           "to": [
-            2.35,
-            5.2,
-            0.525
+            2.3,
+            5.24,
+            0.79
           ],
           "rotationOrigin": [
             0,
@@ -2731,16 +3927,55 @@
           }
         },
         {
-          "name": "output-carrier-bronze-inlay-00",
+          "name": "output-gearward-head-01",
           "from": [
-            2.05,
-            1.55,
-            -0.16
+            0.34,
+            5.04,
+            -0.79
           ],
           "to": [
-            2.42,
-            5.05,
-            0.16
+            2.32,
+            6.06,
+            0.79
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "group": "output-oak",
+          "faces": {
+            "north": {
+              "texture": "#strippedoak"
+            },
+            "east": {
+              "texture": "#strippedoak"
+            },
+            "south": {
+              "texture": "#strippedoak"
+            },
+            "west": {
+              "texture": "#strippedoak"
+            },
+            "up": {
+              "texture": "#strippedoak"
+            },
+            "down": {
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "output-reinforced-head-plate-01-carrier",
+          "from": [
+            2.29,
+            5.04,
+            -0.79
+          ],
+          "to": [
+            2.45,
+            6.06,
+            0.79
           ],
           "rotationOrigin": [
             0,
@@ -2770,23 +4005,22 @@
           }
         },
         {
-          "name": "output-carrier-bronze-inlay-01",
+          "name": "output-gearward-neck-01",
           "from": [
-            2.05,
-            1.55,
-            -0.16
+            -0.4,
+            5.44,
+            -0.4266
           ],
           "to": [
-            2.42,
-            5.05,
-            0.16
+            0.48,
+            6.02,
+            0.4266
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 120.0,
           "group": "output-bronze",
           "faces": {
             "north": {
@@ -2810,23 +4044,139 @@
           }
         },
         {
-          "name": "output-carrier-bronze-inlay-02",
+          "name": "output-head-clamp-bolt-01",
           "from": [
-            2.05,
-            1.55,
-            -0.16
+            0.22,
+            5.58,
+            -0.21
           ],
           "to": [
-            2.42,
-            5.05,
-            0.16
+            2.53,
+            5.9,
+            0.21
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 240.0,
+          "group": "fasteners",
+          "faces": {
+            "north": {
+              "texture": "#bronze"
+            },
+            "east": {
+              "texture": "#bronze"
+            },
+            "south": {
+              "texture": "#bronze"
+            },
+            "west": {
+              "texture": "#bronze"
+            },
+            "up": {
+              "texture": "#bronze"
+            },
+            "down": {
+              "texture": "#bronze"
+            }
+          }
+        },
+        {
+          "name": "output-head-clamp-nut-01-gear",
+          "from": [
+            0.1,
+            5.47,
+            -0.29
+          ],
+          "to": [
+            0.24,
+            6.01,
+            0.29
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "group": "fasteners",
+          "faces": {
+            "north": {
+              "texture": "#bronze"
+            },
+            "east": {
+              "texture": "#bronze"
+            },
+            "south": {
+              "texture": "#bronze"
+            },
+            "west": {
+              "texture": "#bronze"
+            },
+            "up": {
+              "texture": "#bronze"
+            },
+            "down": {
+              "texture": "#bronze"
+            }
+          }
+        },
+        {
+          "name": "output-head-clamp-nut-01-carrier",
+          "from": [
+            2.51,
+            5.47,
+            -0.29
+          ],
+          "to": [
+            2.63,
+            6.01,
+            0.29
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "group": "fasteners",
+          "faces": {
+            "north": {
+              "texture": "#bronze"
+            },
+            "east": {
+              "texture": "#bronze"
+            },
+            "south": {
+              "texture": "#bronze"
+            },
+            "west": {
+              "texture": "#bronze"
+            },
+            "up": {
+              "texture": "#bronze"
+            },
+            "down": {
+              "texture": "#bronze"
+            }
+          }
+        },
+        {
+          "name": "output-arm-root-brace-01",
+          "from": [
+            2.04,
+            1.42,
+            -0.79
+          ],
+          "to": [
+            2.43,
+            2.58,
+            0.79
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
           "group": "output-bronze",
           "faces": {
             "north": {
@@ -2853,39 +4203,34 @@
           "name": "orbiting-pawl-1-mount",
           "from": [
             0,
-            5.15,
-            0
+            5.82,
+            0.62
           ],
           "to": [
             0,
-            5.15,
-            0
+            5.82,
+            0.62
           ],
           "rotationOrigin": [
             0,
-            5.15,
-            0
+            5.82,
+            0.62
           ],
           "group": "pawl-carrier",
           "children": [
             {
-              "name": "orbiting-pawl-1-carrier-cheek-input",
+              "name": "orbiting-pawl-1-large-pin",
               "from": [
-                -0.58,
-                -0.48,
-                -0.78
+                -1.5,
+                -0.24,
+                -0.24
               ],
               "to": [
-                -0.28,
-                0.72,
-                0.78
+                0.54,
+                0.24,
+                0.24
               ],
-              "rotationOrigin": [
-                0,
-                0,
-                0
-              ],
-              "group": "pawl-carrier",
+              "group": "fasteners",
               "faces": {
                 "north": {
                   "texture": "#bronze"
@@ -2908,23 +4253,18 @@
               }
             },
             {
-              "name": "orbiting-pawl-1-carrier-cheek-output",
+              "name": "orbiting-pawl-1-pin-head-gear",
               "from": [
-                2.33,
-                -0.48,
-                -0.78
+                -1.62,
+                -0.36,
+                -0.36
               ],
               "to": [
-                2.63,
-                0.72,
-                0.78
+                -1.48,
+                0.36,
+                0.36
               ],
-              "rotationOrigin": [
-                0,
-                0,
-                0
-              ],
-              "group": "pawl-carrier",
+              "group": "fasteners",
               "faces": {
                 "north": {
                   "texture": "#bronze"
@@ -2947,41 +4287,36 @@
               }
             },
             {
-              "name": "orbiting-pawl-1-spring-stop",
+              "name": "orbiting-pawl-1-pin-head-carrier",
               "from": [
-                0.15,
-                1.28,
-                -0.52
+                0.52,
+                -0.36,
+                -0.36
               ],
               "to": [
-                1.9,
-                1.78,
-                0.52
+                0.66,
+                0.36,
+                0.36
               ],
-              "rotationOrigin": [
-                0,
-                0,
-                0
-              ],
-              "group": "pawl-carrier",
+              "group": "fasteners",
               "faces": {
                 "north": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 },
                 "east": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 },
                 "south": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 },
                 "west": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 },
                 "up": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 },
                 "down": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 }
               }
             },
@@ -3005,16 +4340,16 @@
               "group": "pawl",
               "children": [
                 {
-                  "name": "orbiting-pawl-1-hook-body",
+                  "name": "orbiting-pawl-1-contact-stick",
                   "from": [
-                    -0.2,
-                    -1.25,
-                    -0.46
+                    -1.3,
+                    -1.08,
+                    -0.62
                   ],
                   "to": [
-                    2.25,
-                    0.15,
-                    0.46
+                    -0.68,
+                    0.3,
+                    -0.34
                   ],
                   "rotationOrigin": [
                     0,
@@ -3044,16 +4379,16 @@
                   }
                 },
                 {
-                  "name": "orbiting-pawl-1-tooth-hook",
+                  "name": "orbiting-pawl-1-pivot-collar",
                   "from": [
-                    -0.35,
-                    -1.75,
-                    -0.6624
+                    -1.42,
+                    -0.38,
+                    -0.42
                   ],
                   "to": [
-                    2.4,
-                    -1.15,
-                    0.6624
+                    -0.5,
+                    0.32,
+                    0.42
                   ],
                   "rotationOrigin": [
                     0,
@@ -3083,23 +4418,83 @@
                   }
                 },
                 {
-                  "name": "orbiting-pawl-1-counterweight-heel",
+                  "name": "orbiting-pawl-1-spring-follower-cap",
                   "from": [
-                    -0.45,
-                    -0.15,
-                    -0.6624
+                    -1.28,
+                    0.22,
+                    0
                   ],
                   "to": [
-                    2.5,
-                    0.72,
-                    0.6624
+                    -0.88,
+                    0.58,
+                    0.24
                   ],
                   "rotationOrigin": [
                     0,
                     0,
                     0
                   ],
-                  "group": "pawl",
+                  "group": "pawl-spring",
+                  "faces": {
+                    "north": {
+                      "texture": "#bronze"
+                    },
+                    "east": {
+                      "texture": "#bronze"
+                    },
+                    "south": {
+                      "texture": "#bronze"
+                    },
+                    "west": {
+                      "texture": "#bronze"
+                    },
+                    "up": {
+                      "texture": "#bronze"
+                    },
+                    "down": {
+                      "texture": "#bronze"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "name": "orbiting-pawl-1-spring-flex",
+              "from": [
+                0,
+                0.32,
+                0.12
+              ],
+              "to": [
+                0,
+                0.32,
+                0.12
+              ],
+              "rotationOrigin": [
+                0,
+                0.32,
+                0.12
+              ],
+              "group": "pawl-spring",
+              "children": [
+                {
+                  "name": "orbiting-pawl-1-leaf-spring-back",
+                  "from": [
+                    -1.18,
+                    -0.78,
+                    -0.34
+                  ],
+                  "to": [
+                    -0.98,
+                    0,
+                    -0.1
+                  ],
+                  "rotationOrigin": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "group": "pawl-spring",
                   "faces": {
                     "north": {
                       "texture": "#bronze"
@@ -3122,16 +4517,16 @@
                   }
                 },
                 {
-                  "name": "orbiting-pawl-1-leaf-spring",
+                  "name": "orbiting-pawl-1-leaf-spring-tip",
                   "from": [
-                    0.05,
-                    0.52,
-                    -0.18
+                    -1.2,
+                    -0.98,
+                    -0.56
                   ],
                   "to": [
-                    2.0,
-                    1.5,
-                    0.18
+                    -0.96,
+                    -0.74,
+                    -0.32
                   ],
                   "rotationOrigin": [
                     0,
@@ -3165,43 +4560,317 @@
           ]
         },
         {
-          "name": "orbiting-pawl-2-mount",
+          "name": "output-gearward-head-02",
           "from": [
-            0,
-            -2.575,
-            4.4600308295
+            0.34,
+            5.04,
+            -0.79
           ],
           "to": [
-            0,
-            -2.575,
-            4.4600308295
+            2.32,
+            6.06,
+            0.79
           ],
           "rotationOrigin": [
             0,
-            -2.575,
-            4.4600308295
+            0,
+            0
+          ],
+          "rotationX": 120.0,
+          "group": "output-oak",
+          "faces": {
+            "north": {
+              "texture": "#strippedoak"
+            },
+            "east": {
+              "texture": "#strippedoak"
+            },
+            "south": {
+              "texture": "#strippedoak"
+            },
+            "west": {
+              "texture": "#strippedoak"
+            },
+            "up": {
+              "texture": "#strippedoak"
+            },
+            "down": {
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "output-reinforced-head-plate-02-carrier",
+          "from": [
+            2.29,
+            5.04,
+            -0.79
+          ],
+          "to": [
+            2.45,
+            6.06,
+            0.79
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 120.0,
+          "group": "output-bronze",
+          "faces": {
+            "north": {
+              "texture": "#bronze"
+            },
+            "east": {
+              "texture": "#bronze"
+            },
+            "south": {
+              "texture": "#bronze"
+            },
+            "west": {
+              "texture": "#bronze"
+            },
+            "up": {
+              "texture": "#bronze"
+            },
+            "down": {
+              "texture": "#bronze"
+            }
+          }
+        },
+        {
+          "name": "output-gearward-neck-02",
+          "from": [
+            -0.4,
+            5.44,
+            -0.4266
+          ],
+          "to": [
+            0.48,
+            6.02,
+            0.4266
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 120.0,
+          "group": "output-bronze",
+          "faces": {
+            "north": {
+              "texture": "#bronze"
+            },
+            "east": {
+              "texture": "#bronze"
+            },
+            "south": {
+              "texture": "#bronze"
+            },
+            "west": {
+              "texture": "#bronze"
+            },
+            "up": {
+              "texture": "#bronze"
+            },
+            "down": {
+              "texture": "#bronze"
+            }
+          }
+        },
+        {
+          "name": "output-head-clamp-bolt-02",
+          "from": [
+            0.22,
+            5.58,
+            -0.21
+          ],
+          "to": [
+            2.53,
+            5.9,
+            0.21
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 120.0,
+          "group": "fasteners",
+          "faces": {
+            "north": {
+              "texture": "#bronze"
+            },
+            "east": {
+              "texture": "#bronze"
+            },
+            "south": {
+              "texture": "#bronze"
+            },
+            "west": {
+              "texture": "#bronze"
+            },
+            "up": {
+              "texture": "#bronze"
+            },
+            "down": {
+              "texture": "#bronze"
+            }
+          }
+        },
+        {
+          "name": "output-head-clamp-nut-02-gear",
+          "from": [
+            0.1,
+            5.47,
+            -0.29
+          ],
+          "to": [
+            0.24,
+            6.01,
+            0.29
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 120.0,
+          "group": "fasteners",
+          "faces": {
+            "north": {
+              "texture": "#bronze"
+            },
+            "east": {
+              "texture": "#bronze"
+            },
+            "south": {
+              "texture": "#bronze"
+            },
+            "west": {
+              "texture": "#bronze"
+            },
+            "up": {
+              "texture": "#bronze"
+            },
+            "down": {
+              "texture": "#bronze"
+            }
+          }
+        },
+        {
+          "name": "output-head-clamp-nut-02-carrier",
+          "from": [
+            2.51,
+            5.47,
+            -0.29
+          ],
+          "to": [
+            2.63,
+            6.01,
+            0.29
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 120.0,
+          "group": "fasteners",
+          "faces": {
+            "north": {
+              "texture": "#bronze"
+            },
+            "east": {
+              "texture": "#bronze"
+            },
+            "south": {
+              "texture": "#bronze"
+            },
+            "west": {
+              "texture": "#bronze"
+            },
+            "up": {
+              "texture": "#bronze"
+            },
+            "down": {
+              "texture": "#bronze"
+            }
+          }
+        },
+        {
+          "name": "output-arm-root-brace-02",
+          "from": [
+            2.04,
+            1.42,
+            -0.79
+          ],
+          "to": [
+            2.43,
+            2.58,
+            0.79
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 120.0,
+          "group": "output-bronze",
+          "faces": {
+            "north": {
+              "texture": "#bronze"
+            },
+            "east": {
+              "texture": "#bronze"
+            },
+            "south": {
+              "texture": "#bronze"
+            },
+            "west": {
+              "texture": "#bronze"
+            },
+            "up": {
+              "texture": "#bronze"
+            },
+            "down": {
+              "texture": "#bronze"
+            }
+          }
+        },
+        {
+          "name": "orbiting-pawl-2-mount",
+          "from": [
+            0,
+            -3.4469357503,
+            4.73026785
+          ],
+          "to": [
+            0,
+            -3.4469357503,
+            4.73026785
+          ],
+          "rotationOrigin": [
+            0,
+            -3.4469357503,
+            4.73026785
           ],
           "group": "pawl-carrier",
           "children": [
             {
-              "name": "orbiting-pawl-2-carrier-cheek-input",
+              "name": "orbiting-pawl-2-large-pin",
               "from": [
-                -0.58,
-                -0.48,
-                -0.78
+                -1.5,
+                -0.24,
+                -0.24
               ],
               "to": [
-                -0.28,
-                0.72,
-                0.78
+                0.54,
+                0.24,
+                0.24
               ],
-              "rotationOrigin": [
-                0,
-                0,
-                0
-              ],
-              "rotationX": 120.0,
-              "group": "pawl-carrier",
+              "group": "fasteners",
               "faces": {
                 "north": {
                   "texture": "#bronze"
@@ -3224,24 +4893,18 @@
               }
             },
             {
-              "name": "orbiting-pawl-2-carrier-cheek-output",
+              "name": "orbiting-pawl-2-pin-head-gear",
               "from": [
-                2.33,
-                -0.48,
-                -0.78
+                -1.62,
+                -0.36,
+                -0.36
               ],
               "to": [
-                2.63,
-                0.72,
-                0.78
+                -1.48,
+                0.36,
+                0.36
               ],
-              "rotationOrigin": [
-                0,
-                0,
-                0
-              ],
-              "rotationX": 120.0,
-              "group": "pawl-carrier",
+              "group": "fasteners",
               "faces": {
                 "north": {
                   "texture": "#bronze"
@@ -3264,42 +4927,36 @@
               }
             },
             {
-              "name": "orbiting-pawl-2-spring-stop",
+              "name": "orbiting-pawl-2-pin-head-carrier",
               "from": [
-                0.15,
-                1.28,
-                -0.52
+                0.52,
+                -0.36,
+                -0.36
               ],
               "to": [
-                1.9,
-                1.78,
-                0.52
+                0.66,
+                0.36,
+                0.36
               ],
-              "rotationOrigin": [
-                0,
-                0,
-                0
-              ],
-              "rotationX": 120.0,
-              "group": "pawl-carrier",
+              "group": "fasteners",
               "faces": {
                 "north": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 },
                 "east": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 },
                 "south": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 },
                 "west": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 },
                 "up": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 },
                 "down": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 }
               }
             },
@@ -3323,16 +4980,16 @@
               "group": "pawl",
               "children": [
                 {
-                  "name": "orbiting-pawl-2-hook-body",
+                  "name": "orbiting-pawl-2-contact-stick",
                   "from": [
-                    -0.2,
-                    -1.25,
-                    -0.46
+                    -1.3,
+                    -1.08,
+                    -0.62
                   ],
                   "to": [
-                    2.25,
-                    0.15,
-                    0.46
+                    -0.68,
+                    0.3,
+                    -0.34
                   ],
                   "rotationOrigin": [
                     0,
@@ -3363,16 +5020,16 @@
                   }
                 },
                 {
-                  "name": "orbiting-pawl-2-tooth-hook",
+                  "name": "orbiting-pawl-2-pivot-collar",
                   "from": [
-                    -0.35,
-                    -1.75,
-                    -0.6624
+                    -1.42,
+                    -0.38,
+                    -0.42
                   ],
                   "to": [
-                    2.4,
-                    -1.15,
-                    0.6624
+                    -0.5,
+                    0.32,
+                    0.42
                   ],
                   "rotationOrigin": [
                     0,
@@ -3403,16 +5060,16 @@
                   }
                 },
                 {
-                  "name": "orbiting-pawl-2-counterweight-heel",
+                  "name": "orbiting-pawl-2-spring-follower-cap",
                   "from": [
-                    -0.45,
-                    -0.15,
-                    -0.6624
+                    -1.28,
+                    0.22,
+                    0
                   ],
                   "to": [
-                    2.5,
-                    0.72,
-                    0.6624
+                    -0.88,
+                    0.58,
+                    0.24
                   ],
                   "rotationOrigin": [
                     0,
@@ -3420,7 +5077,68 @@
                     0
                   ],
                   "rotationX": 120.0,
-                  "group": "pawl",
+                  "group": "pawl-spring",
+                  "faces": {
+                    "north": {
+                      "texture": "#bronze"
+                    },
+                    "east": {
+                      "texture": "#bronze"
+                    },
+                    "south": {
+                      "texture": "#bronze"
+                    },
+                    "west": {
+                      "texture": "#bronze"
+                    },
+                    "up": {
+                      "texture": "#bronze"
+                    },
+                    "down": {
+                      "texture": "#bronze"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "name": "orbiting-pawl-2-spring-flex",
+              "from": [
+                0,
+                -0.2639230485,
+                0.2171281292
+              ],
+              "to": [
+                0,
+                -0.2639230485,
+                0.2171281292
+              ],
+              "rotationOrigin": [
+                0,
+                -0.2639230485,
+                0.2171281292
+              ],
+              "group": "pawl-spring",
+              "children": [
+                {
+                  "name": "orbiting-pawl-2-leaf-spring-back",
+                  "from": [
+                    -1.18,
+                    -0.78,
+                    -0.34
+                  ],
+                  "to": [
+                    -0.98,
+                    0,
+                    -0.1
+                  ],
+                  "rotationOrigin": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "rotationX": 120.0,
+                  "group": "pawl-spring",
                   "faces": {
                     "north": {
                       "texture": "#bronze"
@@ -3443,16 +5161,16 @@
                   }
                 },
                 {
-                  "name": "orbiting-pawl-2-leaf-spring",
+                  "name": "orbiting-pawl-2-leaf-spring-tip",
                   "from": [
-                    0.05,
-                    0.52,
-                    -0.18
+                    -1.2,
+                    -0.98,
+                    -0.56
                   ],
                   "to": [
-                    2.0,
-                    1.5,
-                    0.18
+                    -0.96,
+                    -0.74,
+                    -0.32
                   ],
                   "rotationOrigin": [
                     0,
@@ -3487,43 +5205,317 @@
           ]
         },
         {
-          "name": "orbiting-pawl-3-mount",
+          "name": "output-gearward-head-03",
           "from": [
-            0,
-            -2.575,
-            -4.4600308295
+            0.34,
+            5.04,
+            -0.79
           ],
           "to": [
-            0,
-            -2.575,
-            -4.4600308295
+            2.32,
+            6.06,
+            0.79
           ],
           "rotationOrigin": [
             0,
-            -2.575,
-            -4.4600308295
+            0,
+            0
+          ],
+          "rotationX": 240.0,
+          "group": "output-oak",
+          "faces": {
+            "north": {
+              "texture": "#strippedoak"
+            },
+            "east": {
+              "texture": "#strippedoak"
+            },
+            "south": {
+              "texture": "#strippedoak"
+            },
+            "west": {
+              "texture": "#strippedoak"
+            },
+            "up": {
+              "texture": "#strippedoak"
+            },
+            "down": {
+              "texture": "#strippedoak"
+            }
+          }
+        },
+        {
+          "name": "output-reinforced-head-plate-03-carrier",
+          "from": [
+            2.29,
+            5.04,
+            -0.79
+          ],
+          "to": [
+            2.45,
+            6.06,
+            0.79
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 240.0,
+          "group": "output-bronze",
+          "faces": {
+            "north": {
+              "texture": "#bronze"
+            },
+            "east": {
+              "texture": "#bronze"
+            },
+            "south": {
+              "texture": "#bronze"
+            },
+            "west": {
+              "texture": "#bronze"
+            },
+            "up": {
+              "texture": "#bronze"
+            },
+            "down": {
+              "texture": "#bronze"
+            }
+          }
+        },
+        {
+          "name": "output-gearward-neck-03",
+          "from": [
+            -0.4,
+            5.44,
+            -0.4266
+          ],
+          "to": [
+            0.48,
+            6.02,
+            0.4266
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 240.0,
+          "group": "output-bronze",
+          "faces": {
+            "north": {
+              "texture": "#bronze"
+            },
+            "east": {
+              "texture": "#bronze"
+            },
+            "south": {
+              "texture": "#bronze"
+            },
+            "west": {
+              "texture": "#bronze"
+            },
+            "up": {
+              "texture": "#bronze"
+            },
+            "down": {
+              "texture": "#bronze"
+            }
+          }
+        },
+        {
+          "name": "output-head-clamp-bolt-03",
+          "from": [
+            0.22,
+            5.58,
+            -0.21
+          ],
+          "to": [
+            2.53,
+            5.9,
+            0.21
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 240.0,
+          "group": "fasteners",
+          "faces": {
+            "north": {
+              "texture": "#bronze"
+            },
+            "east": {
+              "texture": "#bronze"
+            },
+            "south": {
+              "texture": "#bronze"
+            },
+            "west": {
+              "texture": "#bronze"
+            },
+            "up": {
+              "texture": "#bronze"
+            },
+            "down": {
+              "texture": "#bronze"
+            }
+          }
+        },
+        {
+          "name": "output-head-clamp-nut-03-gear",
+          "from": [
+            0.1,
+            5.47,
+            -0.29
+          ],
+          "to": [
+            0.24,
+            6.01,
+            0.29
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 240.0,
+          "group": "fasteners",
+          "faces": {
+            "north": {
+              "texture": "#bronze"
+            },
+            "east": {
+              "texture": "#bronze"
+            },
+            "south": {
+              "texture": "#bronze"
+            },
+            "west": {
+              "texture": "#bronze"
+            },
+            "up": {
+              "texture": "#bronze"
+            },
+            "down": {
+              "texture": "#bronze"
+            }
+          }
+        },
+        {
+          "name": "output-head-clamp-nut-03-carrier",
+          "from": [
+            2.51,
+            5.47,
+            -0.29
+          ],
+          "to": [
+            2.63,
+            6.01,
+            0.29
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 240.0,
+          "group": "fasteners",
+          "faces": {
+            "north": {
+              "texture": "#bronze"
+            },
+            "east": {
+              "texture": "#bronze"
+            },
+            "south": {
+              "texture": "#bronze"
+            },
+            "west": {
+              "texture": "#bronze"
+            },
+            "up": {
+              "texture": "#bronze"
+            },
+            "down": {
+              "texture": "#bronze"
+            }
+          }
+        },
+        {
+          "name": "output-arm-root-brace-03",
+          "from": [
+            2.04,
+            1.42,
+            -0.79
+          ],
+          "to": [
+            2.43,
+            2.58,
+            0.79
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "rotationX": 240.0,
+          "group": "output-bronze",
+          "faces": {
+            "north": {
+              "texture": "#bronze"
+            },
+            "east": {
+              "texture": "#bronze"
+            },
+            "south": {
+              "texture": "#bronze"
+            },
+            "west": {
+              "texture": "#bronze"
+            },
+            "up": {
+              "texture": "#bronze"
+            },
+            "down": {
+              "texture": "#bronze"
+            }
+          }
+        },
+        {
+          "name": "orbiting-pawl-3-mount",
+          "from": [
+            0,
+            -2.3730642497,
+            -5.35026785
+          ],
+          "to": [
+            0,
+            -2.3730642497,
+            -5.35026785
+          ],
+          "rotationOrigin": [
+            0,
+            -2.3730642497,
+            -5.35026785
           ],
           "group": "pawl-carrier",
           "children": [
             {
-              "name": "orbiting-pawl-3-carrier-cheek-input",
+              "name": "orbiting-pawl-3-large-pin",
               "from": [
-                -0.58,
-                -0.48,
-                -0.78
+                -1.5,
+                -0.24,
+                -0.24
               ],
               "to": [
-                -0.28,
-                0.72,
-                0.78
+                0.54,
+                0.24,
+                0.24
               ],
-              "rotationOrigin": [
-                0,
-                0,
-                0
-              ],
-              "rotationX": 240.0,
-              "group": "pawl-carrier",
+              "group": "fasteners",
               "faces": {
                 "north": {
                   "texture": "#bronze"
@@ -3546,24 +5538,18 @@
               }
             },
             {
-              "name": "orbiting-pawl-3-carrier-cheek-output",
+              "name": "orbiting-pawl-3-pin-head-gear",
               "from": [
-                2.33,
-                -0.48,
-                -0.78
+                -1.62,
+                -0.36,
+                -0.36
               ],
               "to": [
-                2.63,
-                0.72,
-                0.78
+                -1.48,
+                0.36,
+                0.36
               ],
-              "rotationOrigin": [
-                0,
-                0,
-                0
-              ],
-              "rotationX": 240.0,
-              "group": "pawl-carrier",
+              "group": "fasteners",
               "faces": {
                 "north": {
                   "texture": "#bronze"
@@ -3586,42 +5572,36 @@
               }
             },
             {
-              "name": "orbiting-pawl-3-spring-stop",
+              "name": "orbiting-pawl-3-pin-head-carrier",
               "from": [
-                0.15,
-                1.28,
-                -0.52
+                0.52,
+                -0.36,
+                -0.36
               ],
               "to": [
-                1.9,
-                1.78,
-                0.52
+                0.66,
+                0.36,
+                0.36
               ],
-              "rotationOrigin": [
-                0,
-                0,
-                0
-              ],
-              "rotationX": 240.0,
-              "group": "pawl-carrier",
+              "group": "fasteners",
               "faces": {
                 "north": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 },
                 "east": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 },
                 "south": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 },
                 "west": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 },
                 "up": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 },
                 "down": {
-                  "texture": "#strippedoak"
+                  "texture": "#bronze"
                 }
               }
             },
@@ -3645,16 +5625,16 @@
               "group": "pawl",
               "children": [
                 {
-                  "name": "orbiting-pawl-3-hook-body",
+                  "name": "orbiting-pawl-3-contact-stick",
                   "from": [
-                    -0.2,
-                    -1.25,
-                    -0.46
+                    -1.3,
+                    -1.08,
+                    -0.62
                   ],
                   "to": [
-                    2.25,
-                    0.15,
-                    0.46
+                    -0.68,
+                    0.3,
+                    -0.34
                   ],
                   "rotationOrigin": [
                     0,
@@ -3685,16 +5665,16 @@
                   }
                 },
                 {
-                  "name": "orbiting-pawl-3-tooth-hook",
+                  "name": "orbiting-pawl-3-pivot-collar",
                   "from": [
-                    -0.35,
-                    -1.75,
-                    -0.6624
+                    -1.42,
+                    -0.38,
+                    -0.42
                   ],
                   "to": [
-                    2.4,
-                    -1.15,
-                    0.6624
+                    -0.5,
+                    0.32,
+                    0.42
                   ],
                   "rotationOrigin": [
                     0,
@@ -3725,16 +5705,16 @@
                   }
                 },
                 {
-                  "name": "orbiting-pawl-3-counterweight-heel",
+                  "name": "orbiting-pawl-3-spring-follower-cap",
                   "from": [
-                    -0.45,
-                    -0.15,
-                    -0.6624
+                    -1.28,
+                    0.22,
+                    0
                   ],
                   "to": [
-                    2.5,
-                    0.72,
-                    0.6624
+                    -0.88,
+                    0.58,
+                    0.24
                   ],
                   "rotationOrigin": [
                     0,
@@ -3742,7 +5722,68 @@
                     0
                   ],
                   "rotationX": 240.0,
-                  "group": "pawl",
+                  "group": "pawl-spring",
+                  "faces": {
+                    "north": {
+                      "texture": "#bronze"
+                    },
+                    "east": {
+                      "texture": "#bronze"
+                    },
+                    "south": {
+                      "texture": "#bronze"
+                    },
+                    "west": {
+                      "texture": "#bronze"
+                    },
+                    "up": {
+                      "texture": "#bronze"
+                    },
+                    "down": {
+                      "texture": "#bronze"
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              "name": "orbiting-pawl-3-spring-flex",
+              "from": [
+                0,
+                -0.0560769515,
+                -0.3371281292
+              ],
+              "to": [
+                0,
+                -0.0560769515,
+                -0.3371281292
+              ],
+              "rotationOrigin": [
+                0,
+                -0.0560769515,
+                -0.3371281292
+              ],
+              "group": "pawl-spring",
+              "children": [
+                {
+                  "name": "orbiting-pawl-3-leaf-spring-back",
+                  "from": [
+                    -1.18,
+                    -0.78,
+                    -0.34
+                  ],
+                  "to": [
+                    -0.98,
+                    0,
+                    -0.1
+                  ],
+                  "rotationOrigin": [
+                    0,
+                    0,
+                    0
+                  ],
+                  "rotationX": 240.0,
+                  "group": "pawl-spring",
                   "faces": {
                     "north": {
                       "texture": "#bronze"
@@ -3765,16 +5806,16 @@
                   }
                 },
                 {
-                  "name": "orbiting-pawl-3-leaf-spring",
+                  "name": "orbiting-pawl-3-leaf-spring-tip",
                   "from": [
-                    0.05,
-                    0.52,
-                    -0.18
+                    -1.2,
+                    -0.98,
+                    -0.56
                   ],
                   "to": [
-                    2.0,
-                    1.5,
-                    0.18
+                    -0.96,
+                    -0.74,
+                    -0.32
                   ],
                   "rotationOrigin": [
                     0,

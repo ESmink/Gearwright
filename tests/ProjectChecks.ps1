@@ -64,10 +64,21 @@ $required = @(
     "assets\gearwright\shapes\block\irrigator-pipe-support.json",
     "assets\gearwright\shapes\block\overrunning-transmission-frame.json",
     "assets\gearwright\shapes\block\overrunning-transmission-input.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-input-reverse.json",
     "assets\gearwright\shapes\block\overrunning-transmission-output.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-output-reverse.json",
     "assets\gearwright\shapes\block\overrunning-transmission-pawl-1.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-pawl-1-reverse.json",
     "assets\gearwright\shapes\block\overrunning-transmission-pawl-2.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-pawl-2-reverse.json",
     "assets\gearwright\shapes\block\overrunning-transmission-pawl-3.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-pawl-3-reverse.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-spring-1.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-spring-1-reverse.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-spring-2.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-spring-2-reverse.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-spring-3.json",
+    "assets\gearwright\shapes\block\overrunning-transmission-spring-3-reverse.json",
     "assets\gearwright\shapes\block\overrunning-transmission-inventory.json",
     "assets\gearwright\textures\block\inspection-glass.png",
     "assets\gearwright\textures\block\inspection-shadow.png",
@@ -96,6 +107,7 @@ $required = @(
     "code\Mechanics\BlockControlledTransmission.cs", "code\Mechanics\ClutchCouplingMath.cs",
     "code\Mechanics\ClutchTerminal.cs", "code\Mechanics\FlywheelNetworkPlan.cs",
     "code\Mechanics\BlockOverrunningTransmission.cs",
+    "code\Mechanics\BEBehaviorOverrunningTransmission.cs",
     "code\Mechanics\OverrunningCouplingMath.cs",
     "code\Mechanics\OverrunningTransmissionRenderer.cs",
     "tools\Common.ps1", "tools\Build-Mod.ps1", "tools\Test-Project.ps1", "tools\Install-Mod.ps1",
@@ -233,19 +245,37 @@ Assert-Project (
     $controlledTransmissionInitialize -notmatch 'RefreshPorts\('
 ) "Controlled transmission topology waits until neighbouring block entities finish initialization"
 $overrunningBlockText = Get-Content -Raw (Join-Path $root "code\Mechanics\BlockOverrunningTransmission.cs")
+$overrunningBehaviorText = Get-Content -Raw (Join-Path $root "code\Mechanics\BEBehaviorOverrunningTransmission.cs")
 $overrunningMathText = Get-Content -Raw (Join-Path $root "code\Mechanics\OverrunningCouplingMath.cs")
 $overrunningRendererText = Get-Content -Raw (Join-Path $root "code\Mechanics\OverrunningTransmissionRenderer.cs")
 $overrunningModelText = Get-Content -Raw (Join-Path $root "graphics\models\overrunning_transmission.py")
 Assert-Project (
-    $controlledTransmissionText -match 'OverrunningCouplingMath\.Solve' -and
-    $controlledTransmissionText -match 'BlockOverrunningTransmission' -and
+    $overrunningBlockText -match 'BlockOverrunningTransmission : BlockMPBase' -and
+    $overrunningBlockText -notmatch 'BlockControlledTransmission' -and
+    $overrunningBehaviorText -match 'BEBehaviorMPOverrunningTransmission : BlockEntityBehavior' -and
+    $overrunningBehaviorText -notmatch 'BEBehaviorMPTransmission' -and
     $overrunningBlockText -match 'FindSingleConnectedFace' -and
-    $overrunningMathText -match 'inputSpeed - outputSpeed <= EngagementEpsilon' -and
-    $overrunningRendererText -match 'relative = lastState\.OutputAngle - lastState\.InputAngle' -and
-    $overrunningRendererText -match 'PawlLift' -and
-    $overrunningModelText -match 'PAWL_ANGLES = \(0\.0, 120\.0, 240\.0\)' -and
+    $overrunningBehaviorText -match 'OverrunningCouplingMath\.Advance' -and
+    $overrunningBehaviorText -match 'OverrunningLockState' -and
+    $overrunningBehaviorText -match 'lockedInputNetwork' -and
+    $overrunningBehaviorText -match 'SignedLocalSpeed' -and
+    $overrunningBehaviorText -match 'network\.TurnDir == EnumRotDirection\.Clockwise' -and
+    $overrunningBehaviorText -match 'network\.AngleRad \* localFactor' -and
+    $overrunningMathText -match 'OperatingDirection' -and
+    $overrunningMathText -match 'ReleaseSpeedDifference = \.012f' -and
+    $overrunningMathText -match 'MaximumContactTorqueMultiplier = 4f' -and
+    $overrunningMathText -match 'ContactThreat' -and
+    $overrunningMathText -match 'inputLead >= EngageSpeedDifference' -and
+    $overrunningMathText -match 'OverrunningPawlMath' -and
+    $overrunningRendererText -match 'directedOutput - directedInput' -and
+    $overrunningRendererText -match 'handedness \* \(lastState\.OutputAngle - lastState\.InputAngle\)' -and
+    $overrunningRendererText -match 'OverrunningPawlMath\.Lift' -and
+    $overrunningRendererText -match 'UploadPair' -and
+    $overrunningModelText -match 'TOOTH_COUNT = 15' -and
+    $overrunningModelText -match 'BRASS = "game:block/metal/sheet/brass1"' -and
+    $overrunningModelText -match 'spring-follower-cap' -and
     $overrunningModelText -match 'base-crossbeam-\{edge\}-bolt-\{side\}'
-) "The overrunning transmission keeps two networks and animates three live phase-driven pawls"
+) "The independent overrunning boundary mirrors its fifteen-tooth ratchet and animates three live synchronized pawls"
 $smallFlywheelBehaviourText = Get-Content -Raw (Join-Path $root "code\Mechanics\BEBehaviorMPSmallFlywheel.cs")
 Assert-Project (
     $smallFlywheelBehaviourText -match 'MaintainNetwork' -and
@@ -452,6 +482,21 @@ Assert-Project (
 $gravityDrain = Get-Content -Raw (Join-Path $root "assets\gearwright\blocktypes\passive-fluid-pump.json") | ConvertFrom-Json
 $hydraulicsRecipesText = Get-Content -Raw (Join-Path $root "assets\gearwright\recipes\grid\hydraulics.json")
 Assert-Project ($null -eq $gravityDrain.PSObject.Properties["creativeinventory"] -and $hydraulicsRecipesText -notmatch 'passive-fluid-pump') "The deprecated gravity drain is absent from crafting and creative inventory"
+$creativeAssets = @(
+    Get-ChildItem (Join-Path $root "assets\gearwright\blocktypes") -Filter "*.json"
+    Get-ChildItem (Join-Path $root "assets\gearwright\itemtypes") -Filter "*.json"
+) | Where-Object { $_.Name -ne "passive-fluid-pump.json" }
+foreach ($creativeAsset in $creativeAssets) {
+    $definition = Get-Content -Raw $creativeAsset.FullName | ConvertFrom-Json
+    Assert-Project (
+        $null -ne $definition.creativeinventory.general -and
+        @($definition.creativeinventory.general).Count -gt 0 -and
+        $null -ne $definition.creativeinventory.gearwright -and
+        @($definition.creativeinventory.gearwright).Count -gt 0
+    ) "$($creativeAsset.Name) is present in the general and Gearwright creative tabs"
+}
+$gameLanguage = Get-Content -Raw (Join-Path $root "assets\game\lang\en.json") | ConvertFrom-Json
+Assert-Project ($gameLanguage.'tabname-gearwright' -ceq "Gearwright") "The game-domain Gearwright creative tab has its player-facing name"
 $gravityDrainCode = Get-Content -Raw (Join-Path $root "code\Hydraulics\BlockEntityPassiveFluidPump.cs")
 Assert-Project (
     $gravityDrainCode -match 'GetOffer\(\)' -and

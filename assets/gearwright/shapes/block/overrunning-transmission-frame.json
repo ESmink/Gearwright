@@ -6,7 +6,8 @@
     "plainoak": "survival:block/wood/plainoak",
     "strippedoak": "survival:block/wood/debarked/oak",
     "oakend": "survival:block/wood/treetrunk/debarked/oak",
-    "bronze": "game:block/metal/sheet/tinbronze1"
+    "bronze": "game:block/metal/sheet/tinbronze1",
+    "brass": "game:block/metal/sheet/brass1"
   },
   "elements": [
     {

@@ -21,3 +21,28 @@ Gearwright converts these recordings to mono Ogg Vorbis, normalizes their
 levels, trims unused edges, and crossfades the water recordings for looping.
 The source creators retain their rights in the recordings; Gearwright's Apache
 License 2.0 does not replace the Pixabay Content License for these files.
+
+## Researched mechanical sound candidates
+
+The following recordings are candidates for the flywheel and speed-engaged
+clutch. They are not currently packaged with Gearwright. If a recording is
+adopted, retain its creator, source URL, and license here alongside the name of
+the derived Gearwright file.
+
+All candidates below were published under the
+[Creative Commons CC0 1.0 Universal Public Domain Dedication](https://creativecommons.org/publicdomain/zero/1.0/):
+
+- **Vrymaa**, “Spinning wheel for wool,” Freesound sound ID 785157:
+  https://freesound.org/people/Vrymaa/sounds/785157/
+- **donkpow**, “Freewheel clicks.wav,” Freesound sound ID 156996:
+  https://freesound.org/people/donkpow/sounds/156996/
+- **BMacZero (Brian MacIntosh)**, “Mechanical Sounds,” OpenGameArt:
+  https://opengameart.org/content/mechanical-sounds
+- **doudar41**, “Sci fi / Steam punk interface switch wood Impact,” Freesound
+  sound ID 728517:
+  https://freesound.org/people/doudar41/sounds/728517/
+- **strikingtwice**, “Turnstile_RX.wav,” Freesound sound ID 260208:
+  https://freesound.org/people/strikingtwice/sounds/260208/
+- **CapsLok**, “Tools Ratchet.ogg,” Wikimedia Commons, originally published as
+  Freesound sound ID 181634:
+  https://commons.wikimedia.org/wiki/File:Tools_Ratchet.ogg

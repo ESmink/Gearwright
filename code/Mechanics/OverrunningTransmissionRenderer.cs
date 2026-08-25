@@ -8,9 +8,10 @@ namespace Gearwright.Mechanics;
 /// <summary>Draws both live shaft networks and phase-driven orbiting pawls.</summary>
 internal sealed class OverrunningTransmissionRenderer : IRenderer, IDisposable
 {
-    private const float PawlMountRadius = 5.15f / 16f;
-    private const float ToothPitch = GameMath.PI / 6f;
-    private const float MaximumPawlLift = 14f * GameMath.DEG2RAD;
+    private const float PawlMountRadius = 5.82f / 16f;
+    private const float PawlPivotLead = .62f / 16f;
+    private const float SpringAnchorY = .32f / 16f;
+    private const float SpringAnchorZ = .12f / 16f;
 
     private static readonly float[] PawlAngles =
     {
@@ -18,30 +19,42 @@ internal sealed class OverrunningTransmissionRenderer : IRenderer, IDisposable
         120f * GameMath.DEG2RAD,
         240f * GameMath.DEG2RAD
     };
-    private static readonly float[] PawlPhases = { 0, 1f / 3f, 2f / 3f };
 
-    private readonly BEBehaviorMPControlledTransmission transmission;
+    private readonly BEBehaviorMPOverrunningTransmission transmission;
     private readonly ICoreClientAPI capi;
-    private readonly MeshRef inputMesh;
-    private readonly MeshRef outputMesh;
-    private readonly MeshRef[] pawlMeshes;
+    private readonly MeshRef[] inputMeshes;
+    private readonly MeshRef[] outputMeshes;
+    private readonly MeshRef[][] pawlMeshes;
+    private readonly MeshRef[][] springMeshes;
     private readonly Matrixf modelMatrix = new();
     private OverrunningRotorState lastState;
+    private int handedness = 1;
+    private bool overrunPose;
 
     public OverrunningTransmissionRenderer(
-        BEBehaviorMPControlledTransmission transmission,
+        BEBehaviorMPOverrunningTransmission transmission,
         ICoreClientAPI capi)
     {
         this.transmission = transmission;
         this.capi = capi;
-        inputMesh = Upload("gearwright:shapes/block/overrunning-transmission-input.json");
-        outputMesh = Upload("gearwright:shapes/block/overrunning-transmission-output.json");
-        pawlMeshes = new[]
+        inputMeshes = UploadPair("overrunning-transmission-input");
+        outputMeshes = UploadPair("overrunning-transmission-output");
+        pawlMeshes = new MeshRef[2][];
+        springMeshes = new MeshRef[2][];
+        for (int hand = 0; hand < 2; hand++)
         {
-            Upload("gearwright:shapes/block/overrunning-transmission-pawl-1.json"),
-            Upload("gearwright:shapes/block/overrunning-transmission-pawl-2.json"),
-            Upload("gearwright:shapes/block/overrunning-transmission-pawl-3.json")
-        };
+            string suffix = hand == 0 ? "" : "-reverse";
+            pawlMeshes[hand] = new MeshRef[3];
+            springMeshes[hand] = new MeshRef[3];
+            for (int index = 0; index < 3; index++)
+            {
+                int number = index + 1;
+                pawlMeshes[hand][index] = Upload(
+                    $"gearwright:shapes/block/overrunning-transmission-pawl-{number}{suffix}.json");
+                springMeshes[hand][index] = Upload(
+                    $"gearwright:shapes/block/overrunning-transmission-spring-{number}{suffix}.json");
+            }
+        }
     }
 
     public double RenderOrder => .5;
@@ -54,23 +67,68 @@ internal sealed class OverrunningTransmissionRenderer : IRenderer, IDisposable
             lastState = current;
         }
 
-        float yaw = FacingYaw(transmission.OverrunningInputFace);
-        RenderRotor(inputMesh, yaw, lastState.InputAngle);
-        RenderRotor(outputMesh, yaw, lastState.OutputAngle);
-
-        bool driving = lastState.InputSpeed - lastState.OutputSpeed >
-            OverrunningCouplingMath.EngagementEpsilon;
-        float relative = lastState.OutputAngle - lastState.InputAngle;
-        for (int index = 0; index < pawlMeshes.Length; index++)
+        float direction = OverrunningCouplingMath.OperatingDirection(
+            lastState.InputSpeed,
+            lastState.OutputSpeed);
+        if (Math.Abs(lastState.InputSpeed) > OverrunningCouplingMath.EngagementEpsilon ||
+            Math.Abs(lastState.OutputSpeed) > OverrunningCouplingMath.EngagementEpsilon)
         {
-            float lift = driving ? 0 : PawlLift(relative, PawlPhases[index]);
-            RenderPawl(
-                pawlMeshes[index],
+            handedness = direction < 0 ? -1 : 1;
+        }
+
+        float directedInput = lastState.InputSpeed * handedness;
+        float directedOutput = lastState.OutputSpeed * handedness;
+        if (directedOutput - directedInput > OverrunningCouplingMath.ReleaseSpeedDifference)
+        {
+            overrunPose = true;
+        }
+        else if (directedInput - directedOutput >= OverrunningCouplingMath.EngageSpeedDifference)
+        {
+            overrunPose = false;
+        }
+
+        int handIndex = handedness < 0 ? 1 : 0;
+        float yaw = FacingYaw(transmission.InputFace);
+        RenderRotor(inputMeshes[handIndex], yaw, lastState.InputAngle);
+        RenderRotor(outputMeshes[handIndex], yaw, lastState.OutputAngle);
+
+        float relative = handedness * (lastState.OutputAngle - lastState.InputAngle);
+        float lift = overrunPose ? OverrunningPawlMath.Lift(relative) : 0;
+        for (int index = 0; index < PawlAngles.Length; index++)
+        {
+            MountPoint(PawlAngles[index], handedness, out float mountY, out float mountZ);
+            RenderPart(
+                pawlMeshes[handIndex][index],
                 yaw,
                 lastState.OutputAngle,
+                mountY,
+                mountZ,
+                handedness * lift);
+
+            SpringPoint(
                 PawlAngles[index],
-                lift);
+                handedness,
+                mountY,
+                mountZ,
+                out float springY,
+                out float springZ);
+            RenderPart(
+                springMeshes[handIndex][index],
+                yaw,
+                lastState.OutputAngle,
+                springY,
+                springZ,
+                handedness * lift * OverrunningPawlMath.SpringLiftFraction);
         }
+    }
+
+    private MeshRef[] UploadPair(string stem)
+    {
+        return new[]
+        {
+            Upload($"gearwright:shapes/block/{stem}.json"),
+            Upload($"gearwright:shapes/block/{stem}-reverse.json")
+        };
     }
 
     private MeshRef Upload(string location)
@@ -94,20 +152,19 @@ internal sealed class OverrunningTransmissionRenderer : IRenderer, IDisposable
         Render(mesh);
     }
 
-    private void RenderPawl(
+    private void RenderPart(
         MeshRef mesh,
         float yaw,
         float outputAngle,
-        float mountAngle,
+        float pivotY,
+        float pivotZ,
         float lift)
     {
-        float mountY = MathF.Cos(mountAngle) * PawlMountRadius;
-        float mountZ = MathF.Sin(mountAngle) * PawlMountRadius;
         BeginModel(yaw)
             .RotateX(outputAngle)
-            .Translate(0, mountY, mountZ)
+            .Translate(0, pivotY, pivotZ)
             .RotateX(lift)
-            .Translate(0, -mountY, -mountZ)
+            .Translate(0, -pivotY, -pivotZ)
             .Translate(-.5f, -.5f, -.5f);
         Render(mesh);
     }
@@ -138,19 +195,28 @@ internal sealed class OverrunningTransmissionRenderer : IRenderer, IDisposable
         shader.Stop();
     }
 
-    internal static float PawlLift(float relativeAngle, float phase)
+    private static void MountPoint(
+        float angle,
+        int hand,
+        out float y,
+        out float z)
     {
-        float cycle = PositiveModulo(relativeAngle / ToothPitch + phase, 1);
-        float normalized = cycle < .7f
-            ? cycle / .7f
-            : (1 - cycle) / .3f;
-        return Math.Max(0, normalized) * MaximumPawlLift;
+        y = MathF.Cos(angle) * PawlMountRadius - MathF.Sin(angle) * PawlPivotLead;
+        z = hand * (
+            MathF.Sin(angle) * PawlMountRadius + MathF.Cos(angle) * PawlPivotLead);
     }
 
-    private static float PositiveModulo(float value, float divisor)
+    private static void SpringPoint(
+        float angle,
+        int hand,
+        float mountY,
+        float mountZ,
+        out float y,
+        out float z)
     {
-        float result = value % divisor;
-        return result < 0 ? result + divisor : result;
+        y = mountY + MathF.Cos(angle) * SpringAnchorY - MathF.Sin(angle) * SpringAnchorZ;
+        z = mountZ + hand * (
+            MathF.Sin(angle) * SpringAnchorY + MathF.Cos(angle) * SpringAnchorZ);
     }
 
     private static float FacingYaw(BlockFacing input)
@@ -163,8 +229,15 @@ internal sealed class OverrunningTransmissionRenderer : IRenderer, IDisposable
 
     public void Dispose()
     {
-        inputMesh.Dispose();
-        outputMesh.Dispose();
-        foreach (MeshRef pawl in pawlMeshes) pawl.Dispose();
+        foreach (MeshRef mesh in inputMeshes) mesh.Dispose();
+        foreach (MeshRef mesh in outputMeshes) mesh.Dispose();
+        foreach (MeshRef[] hand in pawlMeshes)
+        {
+            foreach (MeshRef mesh in hand) mesh.Dispose();
+        }
+        foreach (MeshRef[] hand in springMeshes)
+        {
+            foreach (MeshRef mesh in hand) mesh.Dispose();
+        }
     }
 }

@@ -4,7 +4,7 @@
   "entityClass": "Generic",
   "entityBehaviors": [
     { "name": "Burning" },
-    { "name": "GearwrightMPControlledTransmission" }
+    { "name": "GearwrightMPOverrunningTransmission" }
   ],
   "variantgroups": [
     { "code": "orientation", "states": ["ns", "we"] },
@@ -22,7 +22,8 @@
     "plainoak": { "base": "game:block/wood/plainoak" },
     "strippedoak": { "base": "game:block/wood/debarked/oak" },
     "oakend": { "base": "game:block/wood/treetrunk/debarked/oak" },
-    "bronze": { "base": "game:block/metal/sheet/tinbronze1" }
+    "bronze": { "base": "game:block/metal/sheet/tinbronze1" },
+    "brass": { "base": "game:block/metal/sheet/brass1" }
   },
   "attributes": {
     "handbook": {
@@ -38,7 +39,7 @@
   },
   "creativeinventory": {
     "general": ["*-we-negative"],
-    "mechanics": ["*-we-negative"]
+    "gearwright": ["*-we-negative"]
   },
   "blockmaterial": "Wood",
   "materialDensity": 900,

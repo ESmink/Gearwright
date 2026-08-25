@@ -17,7 +17,7 @@
       ]
     }
   },
-  "creativeinventory": { "general": ["*"], "gear": ["*"] },
+  "creativeinventory": { "general": ["*"], "gearwright": ["*"] },
   "blockmaterial": "Metal",
   "lightAbsorption": 0,
   "sidesolid": { "all": false },

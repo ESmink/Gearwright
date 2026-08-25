@@ -5,7 +5,7 @@ using Vintagestory.GameContent.Mechanics;
 namespace Gearwright.Mechanics;
 
 /// <summary>A directional automatic boundary between two Vanilla mechanical networks.</summary>
-public sealed class BlockOverrunningTransmission : BlockControlledTransmission
+public sealed class BlockOverrunningTransmission : BlockMPBase
 {
     public BlockFacing InputFace
     {
@@ -59,6 +59,30 @@ public sealed class BlockOverrunningTransmission : BlockControlledTransmission
         return true;
     }
 
+    public override bool HasMechPowerConnectorAt(
+        IWorldAccessor world,
+        BlockPos pos,
+        BlockFacing face,
+        BlockMPBase block) => false;
+
+    public override MechanicalNetwork GetNetwork(IWorldAccessor world, BlockPos pos) => null!;
+
+    public override void DidConnectAt(
+        IWorldAccessor world,
+        BlockPos pos,
+        BlockFacing face)
+    {
+        NotifyBoundary(world, pos);
+    }
+
+    public override void OnNeighbourBlockChange(
+        IWorldAccessor world,
+        BlockPos pos,
+        BlockPos neibpos)
+    {
+        NotifyBoundary(world, pos);
+    }
+
     private BlockFacing? FindSingleConnectedFace(IWorldAccessor world, BlockPos position)
     {
         BlockFacing? found = null;
@@ -74,5 +98,12 @@ public sealed class BlockOverrunningTransmission : BlockControlledTransmission
             found = face;
         }
         return found;
+    }
+
+    private static void NotifyBoundary(IWorldAccessor world, BlockPos pos)
+    {
+        world.BlockAccessor.GetBlockEntity(pos)?
+            .GetBehavior<BEBehaviorMPOverrunningTransmission>()?
+            .RefreshNow();
     }
 }

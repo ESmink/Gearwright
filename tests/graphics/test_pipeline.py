@@ -103,6 +103,7 @@ class PipelineTests(unittest.TestCase):
         }
         frame = documents["overrunning-transmission-frame.json"]
         input_rotor = documents["overrunning-transmission-input.json"]
+        reverse_input = documents["overrunning-transmission-input-reverse.json"]
         output_rotor = documents["overrunning-transmission-output.json"]
         inventory = documents["overrunning-transmission-inventory.json"]
 
@@ -114,17 +115,46 @@ class PipelineTests(unittest.TestCase):
         input_foot = next(element for element in frame["elements"] if element["name"] == "input-separate-foot")
         self.assertAlmostEqual(.02, input_foot["from"][2] - front["to"][2])
 
-        serialized_input = json.dumps(input_rotor)
-        serialized_output = json.dumps(output_rotor)
-        self.assertIn("input-replaceable-ratchet-tooth-11", serialized_input)
-        self.assertIn("output-oak-pawl-carrier-02", serialized_output)
+        input_elements = {element["name"]: element for element in _walk_elements(input_rotor["elements"])}
+        reverse_elements = {element["name"]: element for element in _walk_elements(reverse_input["elements"])}
+        output_names = {element["name"] for element in _walk_elements(output_rotor["elements"])}
+        self.assertIn("input-smooth-ramp-14", input_elements)
+        self.assertIn("input-ratchet-lock-face-14", input_elements)
+        self.assertEqual(4, sum(name.startswith("input-oak-ring-spoke-") for name in input_elements))
+        self.assertEqual("game:block/metal/sheet/brass1", input_rotor["textures"]["brass"])
+        self.assertIn("output-broad-orbital-arm-02", output_names)
+        self.assertIn("output-gearward-head-03", output_names)
+        self.assertEqual(
+            -input_elements["input-smooth-ramp-00-mount"]["from"][2],
+            reverse_elements["input-smooth-ramp-00-mount"]["from"][2],
+        )
+        self.assertEqual(
+            -input_elements["input-smooth-ramp-00"]["rotationX"],
+            reverse_elements["input-smooth-ramp-00"]["rotationX"],
+        )
+
         for index in range(1, 4):
             pawl = documents[f"overrunning-transmission-pawl-{index}.json"]
+            spring = documents[f"overrunning-transmission-spring-{index}.json"]
+            reverse_pawl = documents[f"overrunning-transmission-pawl-{index}-reverse.json"]
             serialized_pawl = json.dumps(pawl)
-            self.assertIn(f"orbiting-pawl-{index}-tooth-hook", serialized_pawl)
-            self.assertIn(f"orbiting-pawl-{index}-leaf-spring", serialized_pawl)
-        self.assertEqual(103, sum(1 for _ in _walk_elements(inventory["elements"])))
-
+            serialized_spring = json.dumps(spring)
+            self.assertIn(f"orbiting-pawl-{index}-contact-stick", serialized_pawl)
+            self.assertIn(f"orbiting-pawl-{index}-spring-follower-cap", serialized_pawl)
+            self.assertNotIn("tooth-hook", serialized_pawl)
+            self.assertIn(f"orbiting-pawl-{index}-leaf-spring-back", serialized_spring)
+            self.assertIn(f"orbiting-pawl-{index}-leaf-spring-tip", serialized_spring)
+            forward_stick = next(
+                element for element in _walk_elements(pawl["elements"])
+                if element["name"] == f"orbiting-pawl-{index}-contact-stick"
+            )
+            reverse_stick = next(
+                element for element in _walk_elements(reverse_pawl["elements"])
+                if element["name"] == f"orbiting-pawl-{index}-contact-stick"
+            )
+            self.assertEqual(-forward_stick["from"][2], reverse_stick["to"][2])
+            self.assertEqual(-forward_stick["to"][2], reverse_stick["from"][2])
+        self.assertEqual(164, sum(1 for _ in _walk_elements(inventory["elements"])))
     def test_all_definitions_validate_and_match_frozen_inventory(self):
         fixture = json.loads((ROOT / "tests/graphics/fixtures/model-contracts.json").read_text())
         outputs = {}

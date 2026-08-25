@@ -46,6 +46,7 @@ internal static class Program
         ControlledClutchCouplingIsBoundedAndFinite();
         ControlledClutchAcceleratesLargeCorrections();
         OverrunningCouplingTransfersOnlyFromLeadingInput();
+        OverrunningPawlAnimationUsesPhysicalPhase();
         FlywheelNetworkLifecycleAlwaysHasARecoveryAction();
 
         if (failures == 0)
@@ -100,24 +101,97 @@ internal static class Program
             0.6f, 0.1f, 0.05f);
         Check(driving.Engaged && driving.Changed &&
               driving.InputSpeed < 0.6f && driving.OutputSpeed > 0.1f,
-            "The overrunning transmission drives only from a faster input");
+            "The overrunning transmission drives from a faster forward input");
         Check(Math.Abs(driving.InputSpeed + driving.OutputSpeed - 0.7f) < 0.000001f,
-            "Overrunning coupling conserves equal-terminal momentum while engaged");
+            "Forward overrunning coupling conserves equal-terminal momentum");
 
         OverrunningCouplingStep overrun = OverrunningCouplingMath.Solve(
             0.1f, 0.6f, 0.05f);
         Check(!overrun.Engaged && !overrun.Changed && overrun.Transfer == 0,
-            "A faster output freewheels without back-driving the input");
+            "A faster forward output freewheels without back-driving the input");
 
-        OverrunningCouplingStep reversed = OverrunningCouplingMath.Solve(
-            -0.2f, 0, 0.05f);
-        Check(!reversed.Engaged && !reversed.Changed,
-            "A reversed input cannot drive through the ratchet");
+        OverrunningCouplingStep sticky = OverrunningCouplingMath.Solve(
+            0.2f, 0.205f, 0.05f, true, 0);
+        Check(sticky.Engaged && sticky.Changed &&
+              sticky.InputSpeed > 0.2f && sticky.OutputSpeed < 0.205f,
+            "An engaged ratchet absorbs a small output lead instead of chattering open");
+        OverrunningCouplingStep released = OverrunningCouplingMath.Solve(
+            0.2f, 0.22f, 0.05f, true, 0);
+        Check(!released.Engaged && !released.Changed,
+            "The ratchet releases after the output becomes measurably faster");
+
+        OverrunningCouplingStep ordinaryContact = OverrunningCouplingMath.Solve(
+            0.3f, 0.1f, 0.05f, true, 0);
+        OverrunningCouplingStep threatenedContact = OverrunningCouplingMath.Solve(
+            0.3f,
+            0.1f,
+            0.05f,
+            true,
+            -OverrunningPawlMath.FullContactThreatPhaseLag);
+        Check(Math.Abs(threatenedContact.Transfer) > Math.Abs(ordinaryContact.Transfer),
+            "A loaded pawl receives a stronger bounded exchange before crossing its locking face");
+        Check(Math.Abs(
+                  threatenedContact.InputSpeed + threatenedContact.OutputSpeed - 0.4f) <
+              0.000001f,
+            "Phase-aware contact correction remains equal and opposite");
+
+        OverrunningCouplingUpdate acquiredLock = OverrunningCouplingMath.Advance(
+            default, 0.3f, 0.1f, 0, 0.05f);
+        OverrunningCouplingUpdate loadedLock = OverrunningCouplingMath.Advance(
+            acquiredLock.State,
+            0.3f,
+            0.1f,
+            -OverrunningPawlMath.FullContactThreatPhaseLag,
+            0.05f);
+        Check(acquiredLock.State.Engaged && loadedLock.State.PhaseError < 0 &&
+              loadedLock.ContactThreat > 0.99f,
+            "The live lock tracker accumulates input-side tooth lag across solver ticks");
+
+        OverrunningCouplingStep reverseDrive = OverrunningCouplingMath.Solve(
+            -0.6f, -0.1f, 0.05f);
+        Check(reverseDrive.Engaged && reverseDrive.Changed &&
+              reverseDrive.InputSpeed > -0.6f && reverseDrive.OutputSpeed < -0.1f,
+            "The ratchet mirrors itself and drives from a faster reverse input");
+        Check(Math.Abs(reverseDrive.InputSpeed + reverseDrive.OutputSpeed + 0.7f) < 0.000001f,
+            "Reverse overrunning coupling conserves equal-terminal momentum");
+
+        OverrunningCouplingStep reverseOverrun = OverrunningCouplingMath.Solve(
+            -0.1f, -0.6f, 0.05f);
+        Check(!reverseOverrun.Engaged && !reverseOverrun.Changed,
+            "A faster reverse output freewheels through the mirrored ratchet");
+        Check(!OverrunningCouplingMath.Solve(0, 0.6f, 0.05f).Engaged &&
+              !OverrunningCouplingMath.Solve(0, -0.6f, 0.05f).Engaged,
+            "A stopped input cannot be back-driven from either output direction");
+        Check(OverrunningCouplingMath.OperatingDirection(-0.2f, 0) == -1 &&
+              OverrunningCouplingMath.OperatingDirection(0, -0.2f) == -1 &&
+              OverrunningCouplingMath.OperatingDirection(0, 0.2f) == 1,
+            "Handedness follows the moving input, then the freewheeling output");
 
         OverrunningCouplingStep malformed = OverrunningCouplingMath.Solve(
             float.NaN, 0, 0.05f);
         Check(!malformed.Engaged && !malformed.Changed,
             "Malformed overrunning speeds cannot change either network");
+    }
+
+    private static void OverrunningPawlAnimationUsesPhysicalPhase()
+    {
+        float pitch = OverrunningPawlMath.ToothPitch;
+        float rest = OverrunningPawlMath.Lift(.2f * pitch);
+        float climbing = OverrunningPawlMath.Lift(.55f * pitch);
+        float peak = OverrunningPawlMath.Lift(.8f * pitch);
+        float dropping = OverrunningPawlMath.Lift(.9925f * pitch);
+        Check(rest == 0 && climbing > 0 && climbing < peak &&
+              Math.Abs(peak - OverrunningPawlMath.MaximumLift) < 0.000001f &&
+              dropping > 0 && dropping < peak &&
+              OverrunningPawlMath.Lift(0) == 0,
+            "The pawl starts seated, climbs slowly, peaks late, and drops quickly at tooth clearance");
+
+        float sample = .57f * pitch;
+        Check(Math.Abs(OverrunningPawlMath.Lift(sample) -
+                       OverrunningPawlMath.Lift(sample + 2 * MathF.PI / 3)) < 0.000001f,
+            "All three pawls share one phase on a fifteen-tooth wheel");
+        Check(OverrunningPawlMath.Lift(float.NaN) == 0,
+            "Malformed animation phase returns a safe seated pawl");
     }
 
     private static void FlywheelNetworkLifecycleAlwaysHasARecoveryAction()

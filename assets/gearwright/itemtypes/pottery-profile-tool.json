@@ -1,7 +1,7 @@
 {
   "code": "pottery-profile-tool",
   "shape": { "base": "gearwright:item/pottery-profile-tool" },
-  "creativeinventory": { "general": ["*"], "items": ["*"] },
+  "creativeinventory": { "general": ["*"], "gearwright": ["*"] },
   "maxstacksize": 1,
   "attributes": {
     "displaycaseable": true,

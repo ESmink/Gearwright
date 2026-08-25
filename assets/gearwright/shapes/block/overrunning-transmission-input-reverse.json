@@ -221,7 +221,7 @@
             0,
             0
           ],
-          "rotationX": 90.0,
+          "rotationX": -90.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -261,7 +261,7 @@
             0,
             0
           ],
-          "rotationX": 180.0,
+          "rotationX": -180.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -301,7 +301,7 @@
             0,
             0
           ],
-          "rotationX": 270.0,
+          "rotationX": -270.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -341,7 +341,7 @@
             0,
             0
           ],
-          "rotationX": 12.0,
+          "rotationX": -12.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -381,7 +381,7 @@
             0,
             0
           ],
-          "rotationX": 36.0,
+          "rotationX": -36.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -421,7 +421,7 @@
             0,
             0
           ],
-          "rotationX": 60.0,
+          "rotationX": -60.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -461,7 +461,7 @@
             0,
             0
           ],
-          "rotationX": 84.0,
+          "rotationX": -84.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -501,7 +501,7 @@
             0,
             0
           ],
-          "rotationX": 108.0,
+          "rotationX": -108.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -541,7 +541,7 @@
             0,
             0
           ],
-          "rotationX": 132.0,
+          "rotationX": -132.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -581,7 +581,7 @@
             0,
             0
           ],
-          "rotationX": 156.0,
+          "rotationX": -156.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -621,7 +621,7 @@
             0,
             0
           ],
-          "rotationX": 180.0,
+          "rotationX": -180.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -661,7 +661,7 @@
             0,
             0
           ],
-          "rotationX": 204.0,
+          "rotationX": -204.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -701,7 +701,7 @@
             0,
             0
           ],
-          "rotationX": 228.0,
+          "rotationX": -228.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -741,7 +741,7 @@
             0,
             0
           ],
-          "rotationX": 252.0,
+          "rotationX": -252.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -781,7 +781,7 @@
             0,
             0
           ],
-          "rotationX": 276.0,
+          "rotationX": -276.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -821,7 +821,7 @@
             0,
             0
           ],
-          "rotationX": 300.0,
+          "rotationX": -300.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -861,7 +861,7 @@
             0,
             0
           ],
-          "rotationX": 324.0,
+          "rotationX": -324.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -901,7 +901,7 @@
             0,
             0
           ],
-          "rotationX": 348.0,
+          "rotationX": -348.0,
           "group": "input-oak",
           "faces": {
             "north": {
@@ -941,7 +941,7 @@
             0,
             0
           ],
-          "rotationX": 12.0,
+          "rotationX": -12.0,
           "group": "gear-reinforcement",
           "faces": {
             "north": {
@@ -981,7 +981,7 @@
             0,
             0
           ],
-          "rotationX": 36.0,
+          "rotationX": -36.0,
           "group": "gear-reinforcement",
           "faces": {
             "north": {
@@ -1021,7 +1021,7 @@
             0,
             0
           ],
-          "rotationX": 60.0,
+          "rotationX": -60.0,
           "group": "gear-reinforcement",
           "faces": {
             "north": {
@@ -1061,7 +1061,7 @@
             0,
             0
           ],
-          "rotationX": 84.0,
+          "rotationX": -84.0,
           "group": "gear-reinforcement",
           "faces": {
             "north": {
@@ -1101,7 +1101,7 @@
             0,
             0
           ],
-          "rotationX": 108.0,
+          "rotationX": -108.0,
           "group": "gear-reinforcement",
           "faces": {
             "north": {
@@ -1141,7 +1141,7 @@
             0,
             0
           ],
-          "rotationX": 132.0,
+          "rotationX": -132.0,
           "group": "gear-reinforcement",
           "faces": {
             "north": {
@@ -1181,7 +1181,7 @@
             0,
             0
           ],
-          "rotationX": 156.0,
+          "rotationX": -156.0,
           "group": "gear-reinforcement",
           "faces": {
             "north": {
@@ -1221,7 +1221,7 @@
             0,
             0
           ],
-          "rotationX": 180.0,
+          "rotationX": -180.0,
           "group": "gear-reinforcement",
           "faces": {
             "north": {
@@ -1261,7 +1261,7 @@
             0,
             0
           ],
-          "rotationX": 204.0,
+          "rotationX": -204.0,
           "group": "gear-reinforcement",
           "faces": {
             "north": {
@@ -1301,7 +1301,7 @@
             0,
             0
           ],
-          "rotationX": 228.0,
+          "rotationX": -228.0,
           "group": "gear-reinforcement",
           "faces": {
             "north": {
@@ -1341,7 +1341,7 @@
             0,
             0
           ],
-          "rotationX": 252.0,
+          "rotationX": -252.0,
           "group": "gear-reinforcement",
           "faces": {
             "north": {
@@ -1381,7 +1381,7 @@
             0,
             0
           ],
-          "rotationX": 276.0,
+          "rotationX": -276.0,
           "group": "gear-reinforcement",
           "faces": {
             "north": {
@@ -1421,7 +1421,7 @@
             0,
             0
           ],
-          "rotationX": 300.0,
+          "rotationX": -300.0,
           "group": "gear-reinforcement",
           "faces": {
             "north": {
@@ -1461,7 +1461,7 @@
             0,
             0
           ],
-          "rotationX": 324.0,
+          "rotationX": -324.0,
           "group": "gear-reinforcement",
           "faces": {
             "north": {
@@ -1501,7 +1501,7 @@
             0,
             0
           ],
-          "rotationX": 348.0,
+          "rotationX": -348.0,
           "group": "gear-reinforcement",
           "faces": {
             "north": {
@@ -1529,17 +1529,17 @@
           "from": [
             0,
             4.55,
-            -0.76
+            0.76
           ],
           "to": [
             0,
             4.55,
-            -0.76
+            0.76
           ],
           "rotationOrigin": [
             0,
             4.55,
-            -0.76
+            0.76
           ],
           "group": "input-teeth",
           "children": [
@@ -1560,7 +1560,7 @@
                 0,
                 0
               ],
-              "rotationX": 55.0,
+              "rotationX": -55.0,
               "group": "input-teeth",
               "faces": {
                 "north": {
@@ -1590,12 +1590,12 @@
           "from": [
             -2.38,
             4.18,
-            -0.34
+            0
           ],
           "to": [
             -0.48,
             4.98,
-            0
+            0.34
           ],
           "rotationOrigin": [
             0,
@@ -1629,17 +1629,17 @@
           "from": [
             0,
             4.465751681,
-            1.1563571782
+            -1.1563571782
           ],
           "to": [
             0,
             4.465751681,
-            1.1563571782
+            -1.1563571782
           ],
           "rotationOrigin": [
             0,
             4.465751681,
-            1.1563571782
+            -1.1563571782
           ],
           "group": "input-teeth",
           "children": [
@@ -1660,7 +1660,7 @@
                 0,
                 0
               ],
-              "rotationX": 79.0,
+              "rotationX": -79.0,
               "group": "input-teeth",
               "faces": {
                 "north": {
@@ -1690,19 +1690,19 @@
           "from": [
             -2.38,
             4.18,
-            -0.34
+            0
           ],
           "to": [
             -0.48,
             4.98,
-            0
+            0.34
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 24.0,
+          "rotationX": -24.0,
           "group": "input-teeth",
           "faces": {
             "north": {
@@ -1730,17 +1730,17 @@
           "from": [
             0,
             3.6093343263,
-            2.8727696951
+            -2.8727696951
           ],
           "to": [
             0,
             3.6093343263,
-            2.8727696951
+            -2.8727696951
           ],
           "rotationOrigin": [
             0,
             3.6093343263,
-            2.8727696951
+            -2.8727696951
           ],
           "group": "input-teeth",
           "children": [
@@ -1761,7 +1761,7 @@
                 0,
                 0
               ],
-              "rotationX": 103.0,
+              "rotationX": -103.0,
               "group": "input-teeth",
               "faces": {
                 "north": {
@@ -1791,19 +1791,19 @@
           "from": [
             -2.38,
             4.18,
-            -0.34
+            0
           ],
           "to": [
             -0.48,
             4.98,
-            0
+            0.34
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 48.0,
+          "rotationX": -48.0,
           "group": "input-teeth",
           "faces": {
             "north": {
@@ -1831,17 +1831,17 @@
           "from": [
             0,
             2.1288302768,
-            4.0924542334
+            -4.0924542334
           ],
           "to": [
             0,
             2.1288302768,
-            4.0924542334
+            -4.0924542334
           ],
           "rotationOrigin": [
             0,
             2.1288302768,
-            4.0924542334
+            -4.0924542334
           ],
           "group": "input-teeth",
           "children": [
@@ -1862,7 +1862,7 @@
                 0,
                 0
               ],
-              "rotationX": 127.0,
+              "rotationX": -127.0,
               "group": "input-teeth",
               "faces": {
                 "north": {
@@ -1892,19 +1892,19 @@
           "from": [
             -2.38,
             4.18,
-            -0.34
+            0
           ],
           "to": [
             -0.48,
             4.98,
-            0
+            0.34
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 72.0,
+          "rotationX": -72.0,
           "group": "input-teeth",
           "faces": {
             "north": {
@@ -1932,17 +1932,17 @@
           "from": [
             0,
             0.2802321326,
-            4.604516256
+            -4.604516256
           ],
           "to": [
             0,
             0.2802321326,
-            4.604516256
+            -4.604516256
           ],
           "rotationOrigin": [
             0,
             0.2802321326,
-            4.604516256
+            -4.604516256
           ],
           "group": "input-teeth",
           "children": [
@@ -1963,7 +1963,7 @@
                 0,
                 0
               ],
-              "rotationX": 151.0,
+              "rotationX": -151.0,
               "group": "input-teeth",
               "faces": {
                 "north": {
@@ -1993,19 +1993,19 @@
           "from": [
             -2.38,
             4.18,
-            -0.34
+            0
           ],
           "to": [
             -0.48,
             4.98,
-            0
+            0.34
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 96.0,
+          "rotationX": -96.0,
           "group": "input-teeth",
           "faces": {
             "north": {
@@ -2033,17 +2033,17 @@
           "from": [
             0,
             -1.6168206931,
-            4.3204155872
+            -4.3204155872
           ],
           "to": [
             0,
             -1.6168206931,
-            4.3204155872
+            -4.3204155872
           ],
           "rotationOrigin": [
             0,
             -1.6168206931,
-            4.3204155872
+            -4.3204155872
           ],
           "group": "input-teeth",
           "children": [
@@ -2064,7 +2064,7 @@
                 0,
                 0
               ],
-              "rotationX": 175.0,
+              "rotationX": -175.0,
               "group": "input-teeth",
               "faces": {
                 "north": {
@@ -2094,19 +2094,19 @@
           "from": [
             -2.38,
             4.18,
-            -0.34
+            0
           ],
           "to": [
             -0.48,
             4.98,
-            0
+            0.34
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 120.0,
+          "rotationX": -120.0,
           "group": "input-teeth",
           "faces": {
             "north": {
@@ -2134,17 +2134,17 @@
           "from": [
             0,
             -3.2343105327,
-            3.2892758137
+            -3.2892758137
           ],
           "to": [
             0,
             -3.2343105327,
-            3.2892758137
+            -3.2892758137
           ],
           "rotationOrigin": [
             0,
             -3.2343105327,
-            3.2892758137
+            -3.2892758137
           ],
           "group": "input-teeth",
           "children": [
@@ -2165,7 +2165,7 @@
                 0,
                 0
               ],
-              "rotationX": 199.0,
+              "rotationX": -199.0,
               "group": "input-teeth",
               "faces": {
                 "north": {
@@ -2195,19 +2195,19 @@
           "from": [
             -2.38,
             4.18,
-            -0.34
+            0
           ],
           "to": [
             -0.48,
             4.98,
-            0
+            0.34
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 144.0,
+          "rotationX": -144.0,
           "group": "input-teeth",
           "faces": {
             "north": {
@@ -2235,17 +2235,17 @@
           "from": [
             0,
             -4.2925586983,
-            1.6893903698
+            -1.6893903698
           ],
           "to": [
             0,
             -4.2925586983,
-            1.6893903698
+            -1.6893903698
           ],
           "rotationOrigin": [
             0,
             -4.2925586983,
-            1.6893903698
+            -1.6893903698
           ],
           "group": "input-teeth",
           "children": [
@@ -2266,7 +2266,7 @@
                 0,
                 0
               ],
-              "rotationX": 223.0,
+              "rotationX": -223.0,
               "group": "input-teeth",
               "faces": {
                 "north": {
@@ -2296,19 +2296,19 @@
           "from": [
             -2.38,
             4.18,
-            -0.34
+            0
           ],
           "to": [
             -0.48,
             4.98,
-            0
+            0.34
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 168.0,
+          "rotationX": -168.0,
           "group": "input-teeth",
           "faces": {
             "north": {
@@ -2336,17 +2336,17 @@
           "from": [
             0,
             -4.6085844684,
-            -0.2026060167
+            0.2026060167
           ],
           "to": [
             0,
             -4.6085844684,
-            -0.2026060167
+            0.2026060167
           ],
           "rotationOrigin": [
             0,
             -4.6085844684,
-            -0.2026060167
+            0.2026060167
           ],
           "group": "input-teeth",
           "children": [
@@ -2367,7 +2367,7 @@
                 0,
                 0
               ],
-              "rotationX": 247.0,
+              "rotationX": -247.0,
               "group": "input-teeth",
               "faces": {
                 "north": {
@@ -2397,19 +2397,19 @@
           "from": [
             -2.38,
             4.18,
-            -0.34
+            0
           ],
           "to": [
             -0.48,
             4.98,
-            0
+            0.34
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 192.0,
+          "rotationX": -192.0,
           "group": "input-teeth",
           "faces": {
             "north": {
@@ -2437,17 +2437,17 @@
           "from": [
             0,
             -4.1277441161,
-            -2.0595699822
+            2.0595699822
           ],
           "to": [
             0,
             -4.1277441161,
-            -2.0595699822
+            2.0595699822
           ],
           "rotationOrigin": [
             0,
             -4.1277441161,
-            -2.0595699822
+            2.0595699822
           ],
           "group": "input-teeth",
           "children": [
@@ -2468,7 +2468,7 @@
                 0,
                 0
               ],
-              "rotationX": 271.0,
+              "rotationX": -271.0,
               "group": "input-teeth",
               "faces": {
                 "north": {
@@ -2498,19 +2498,19 @@
           "from": [
             -2.38,
             4.18,
-            -0.34
+            0
           ],
           "to": [
             -0.48,
             4.98,
-            0
+            0.34
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 216.0,
+          "rotationX": -216.0,
           "group": "input-teeth",
           "faces": {
             "north": {
@@ -2538,17 +2538,17 @@
           "from": [
             0,
             -2.9331793069,
-            -3.5604155872
+            3.5604155872
           ],
           "to": [
             0,
             -2.9331793069,
-            -3.5604155872
+            3.5604155872
           ],
           "rotationOrigin": [
             0,
             -2.9331793069,
-            -3.5604155872
+            3.5604155872
           ],
           "group": "input-teeth",
           "children": [
@@ -2569,7 +2569,7 @@
                 0,
                 0
               ],
-              "rotationX": 295.0,
+              "rotationX": -295.0,
               "group": "input-teeth",
               "faces": {
                 "north": {
@@ -2599,19 +2599,19 @@
           "from": [
             -2.38,
             4.18,
-            -0.34
+            0
           ],
           "to": [
             -0.48,
             4.98,
-            0
+            0.34
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 240.0,
+          "rotationX": -240.0,
           "group": "input-teeth",
           "faces": {
             "north": {
@@ -2639,17 +2639,17 @@
           "from": [
             0,
             -1.2314411483,
-            -4.4456329918
+            4.4456329918
           ],
           "to": [
             0,
             -1.2314411483,
-            -4.4456329918
+            4.4456329918
           ],
           "rotationOrigin": [
             0,
             -1.2314411483,
-            -4.4456329918
+            4.4456329918
           ],
           "group": "input-teeth",
           "children": [
@@ -2670,7 +2670,7 @@
                 0,
                 0
               ],
-              "rotationX": 319.0,
+              "rotationX": -319.0,
               "group": "input-teeth",
               "faces": {
                 "north": {
@@ -2700,19 +2700,19 @@
           "from": [
             -2.38,
             4.18,
-            -0.34
+            0
           ],
           "to": [
             -0.48,
             4.98,
-            0
+            0.34
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 264.0,
+          "rotationX": -264.0,
           "group": "input-teeth",
           "faces": {
             "north": {
@@ -2740,17 +2740,17 @@
           "from": [
             0,
             0.683224372,
-            -4.5621600649
+            4.5621600649
           ],
           "to": [
             0,
             0.683224372,
-            -4.5621600649
+            4.5621600649
           ],
           "rotationOrigin": [
             0,
             0.683224372,
-            -4.5621600649
+            4.5621600649
           ],
           "group": "input-teeth",
           "children": [
@@ -2771,7 +2771,7 @@
                 0,
                 0
               ],
-              "rotationX": 343.0,
+              "rotationX": -343.0,
               "group": "input-teeth",
               "faces": {
                 "north": {
@@ -2801,19 +2801,19 @@
           "from": [
             -2.38,
             4.18,
-            -0.34
+            0
           ],
           "to": [
             -0.48,
             4.98,
-            0
+            0.34
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 288.0,
+          "rotationX": -288.0,
           "group": "input-teeth",
           "faces": {
             "north": {
@@ -2841,17 +2841,17 @@
           "from": [
             0,
             2.4797541916,
-            -3.8898482168
+            3.8898482168
           ],
           "to": [
             0,
             2.4797541916,
-            -3.8898482168
+            3.8898482168
           ],
           "rotationOrigin": [
             0,
             2.4797541916,
-            -3.8898482168
+            3.8898482168
           ],
           "group": "input-teeth",
           "children": [
@@ -2872,7 +2872,7 @@
                 0,
                 0
               ],
-              "rotationX": 367.0,
+              "rotationX": -367.0,
               "group": "input-teeth",
               "faces": {
                 "north": {
@@ -2902,19 +2902,19 @@
           "from": [
             -2.38,
             4.18,
-            -0.34
+            0
           ],
           "to": [
             -0.48,
             4.98,
-            0
+            0.34
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 312.0,
+          "rotationX": -312.0,
           "group": "input-teeth",
           "faces": {
             "north": {
@@ -2942,17 +2942,17 @@
           "from": [
             0,
             3.8475119835,
-            -2.5449462738
+            2.5449462738
           ],
           "to": [
             0,
             3.8475119835,
-            -2.5449462738
+            2.5449462738
           ],
           "rotationOrigin": [
             0,
             3.8475119835,
-            -2.5449462738
+            2.5449462738
           ],
           "group": "input-teeth",
           "children": [
@@ -2973,7 +2973,7 @@
                 0,
                 0
               ],
-              "rotationX": 391.0,
+              "rotationX": -391.0,
               "group": "input-teeth",
               "faces": {
                 "north": {
@@ -3003,19 +3003,19 @@
           "from": [
             -2.38,
             4.18,
-            -0.34
+            0
           ],
           "to": [
             -0.48,
             4.98,
-            0
+            0.34
           ],
           "rotationOrigin": [
             0,
             0,
             0
           ],
-          "rotationX": 336.0,
+          "rotationX": -336.0,
           "group": "input-teeth",
           "faces": {
             "north": {

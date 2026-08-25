@@ -43,7 +43,7 @@
   },
   "creativeinventory": {
     "general": ["*-ns"],
-    "mechanics": ["*-ns"]
+    "gearwright": ["*-ns"]
   },
   "blockmaterial": "Wood",
   "materialDensity": 1800,

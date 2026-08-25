@@ -6,7 +6,8 @@
     "plainoak": "survival:block/wood/plainoak",
     "strippedoak": "survival:block/wood/debarked/oak",
     "oakend": "survival:block/wood/treetrunk/debarked/oak",
-    "bronze": "game:block/metal/sheet/tinbronze1"
+    "bronze": "game:block/metal/sheet/tinbronze1",
+    "brass": "game:block/metal/sheet/brass1"
   },
   "elements": [
     {
@@ -32,18 +33,18 @@
           "name": "orbiting-pawl-2-mount",
           "from": [
             0,
-            -2.575,
-            4.4600308295
+            -3.4469357503,
+            4.73026785
           ],
           "to": [
             0,
-            -2.575,
-            4.4600308295
+            -3.4469357503,
+            4.73026785
           ],
           "rotationOrigin": [
             0,
-            -2.575,
-            4.4600308295
+            -3.4469357503,
+            4.73026785
           ],
           "group": "pawl-carrier",
           "children": [
@@ -67,16 +68,16 @@
               "group": "pawl",
               "children": [
                 {
-                  "name": "orbiting-pawl-2-hook-body",
+                  "name": "orbiting-pawl-2-contact-stick",
                   "from": [
-                    -0.2,
-                    -1.25,
-                    -0.46
+                    -1.3,
+                    -1.08,
+                    -0.62
                   ],
                   "to": [
-                    2.25,
-                    0.15,
-                    0.46
+                    -0.68,
+                    0.3,
+                    -0.34
                   ],
                   "rotationOrigin": [
                     0,
@@ -107,16 +108,16 @@
                   }
                 },
                 {
-                  "name": "orbiting-pawl-2-tooth-hook",
+                  "name": "orbiting-pawl-2-pivot-collar",
                   "from": [
-                    -0.35,
-                    -1.75,
-                    -0.6624
+                    -1.42,
+                    -0.38,
+                    -0.42
                   ],
                   "to": [
-                    2.4,
-                    -1.15,
-                    0.6624
+                    -0.5,
+                    0.32,
+                    0.42
                   ],
                   "rotationOrigin": [
                     0,
@@ -147,56 +148,16 @@
                   }
                 },
                 {
-                  "name": "orbiting-pawl-2-counterweight-heel",
+                  "name": "orbiting-pawl-2-spring-follower-cap",
                   "from": [
-                    -0.45,
-                    -0.15,
-                    -0.6624
-                  ],
-                  "to": [
-                    2.5,
-                    0.72,
-                    0.6624
-                  ],
-                  "rotationOrigin": [
-                    0,
-                    0,
+                    -1.28,
+                    0.22,
                     0
                   ],
-                  "rotationX": 120.0,
-                  "group": "pawl",
-                  "faces": {
-                    "north": {
-                      "texture": "#bronze"
-                    },
-                    "east": {
-                      "texture": "#bronze"
-                    },
-                    "south": {
-                      "texture": "#bronze"
-                    },
-                    "west": {
-                      "texture": "#bronze"
-                    },
-                    "up": {
-                      "texture": "#bronze"
-                    },
-                    "down": {
-                      "texture": "#bronze"
-                    }
-                  }
-                },
-                {
-                  "name": "orbiting-pawl-2-leaf-spring",
-                  "from": [
-                    0.05,
-                    0.52,
-                    -0.18
-                  ],
                   "to": [
-                    2.0,
-                    1.5,
-                    0.18
+                    -0.88,
+                    0.58,
+                    0.24
                   ],
                   "rotationOrigin": [
                     0,

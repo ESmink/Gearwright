@@ -48,6 +48,9 @@ public sealed class GearwrightModSystem : ModSystem
         api.RegisterBlockClass(
             MechanicalCodes.OverrunningTransmissionBlockClass,
             typeof(BlockOverrunningTransmission));
+        api.RegisterBlockEntityBehaviorClass(
+            MechanicalCodes.OverrunningTransmissionBehaviorClass,
+            typeof(BEBehaviorMPOverrunningTransmission));
     }
 
     public override void AssetsFinalize(ICoreAPI api)

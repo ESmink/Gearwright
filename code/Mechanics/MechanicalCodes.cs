@@ -9,4 +9,5 @@ public static class MechanicalCodes
     public const string ControlledClutchBlockClass = "GearwrightControlledClutch";
     public const string ControlledClutchEntityClass = "GearwrightControlledClutch";
     public const string OverrunningTransmissionBlockClass = "GearwrightOverrunningTransmission";
+    public const string OverrunningTransmissionBehaviorClass = "GearwrightMPOverrunningTransmission";
 }

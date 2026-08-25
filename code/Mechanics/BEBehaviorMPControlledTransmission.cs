@@ -1,6 +1,5 @@
 using System;
 using System.Text;
-using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
@@ -24,7 +23,6 @@ public sealed class BEBehaviorMPControlledTransmission : BEBehaviorMPTransmissio
     private float firstLocalFactor = 1;
     private float secondLocalFactor = 1;
     private float lastTransfer;
-    private OverrunningTransmissionRenderer? overrunningRenderer;
 
     public BEBehaviorMPControlledTransmission(BlockEntity blockentity) : base(blockentity)
     {
@@ -54,25 +52,6 @@ public sealed class BEBehaviorMPControlledTransmission : BEBehaviorMPTransmissio
             solverListenerId = Blockentity.RegisterGameTickListener(
                 OnServerTick, SolverIntervalMilliseconds);
         }
-        else if (api is ICoreClientAPI capi && IsOverrunning)
-        {
-            overrunningRenderer = new OverrunningTransmissionRenderer(this, capi);
-            capi.Event.RegisterRenderer(
-                overrunningRenderer,
-                EnumRenderStage.Opaque,
-                "gearwright-overrunning-transmission");
-        }
-    }
-
-    public override void SetOrientations()
-    {
-        if (Blockentity.Block is BlockOverrunningTransmission transmission)
-        {
-            BlockFacing input = transmission.InputFace;
-            AxisSign = new[] { input.Normali.X, input.Normali.Y, input.Normali.Z };
-            return;
-        }
-        base.SetOrientations();
     }
 
     public override MechPowerPath[] GetMechPowerExits(MechPowerPath path) =>
@@ -99,7 +78,7 @@ public sealed class BEBehaviorMPControlledTransmission : BEBehaviorMPTransmissio
 
     public void SetControlledEngaged(bool value)
     {
-        if (IsOverrunning || Api?.Side != EnumAppSide.Server || engaged == value) return;
+        if (Api?.Side != EnumAppSide.Server || engaged == value) return;
         engaged = value;
         pendingBroadcast = true;
         Blockentity.MarkDirty(true);
@@ -128,17 +107,6 @@ public sealed class BEBehaviorMPControlledTransmission : BEBehaviorMPTransmissio
     public override void GetBlockInfo(IPlayer forPlayer, StringBuilder sb)
     {
         base.GetBlockInfo(forPlayer, sb);
-        if (IsOverrunning)
-        {
-            sb.AppendLine(Lang.Get(
-                "gearwright:overrunning-input-face",
-                Lang.Get("direction-" + AxisFaces()[0].Code)));
-            sb.AppendLine(engaged
-                ? Lang.Get("gearwright:overrunning-engaged")
-                : Lang.Get("gearwright:overrunning-freewheeling"));
-            AppendTerminalStatus(sb);
-            return;
-        }
         string state = engaged
             ? Lang.Get("gearwright:controlled-clutch-engaged")
             : Lang.Get("gearwright:controlled-clutch-disengaged");
@@ -148,7 +116,7 @@ public sealed class BEBehaviorMPControlledTransmission : BEBehaviorMPTransmissio
 
     private void OnServerTick(float elapsedSeconds)
     {
-        if (!IsOverrunning) RefreshEngagedFromClutch();
+        RefreshEngagedFromClutch();
         RefreshPorts();
 
         MechanicalNetwork? firstNetwork = firstTerminal.Network;
@@ -158,24 +126,7 @@ public sealed class BEBehaviorMPControlledTransmission : BEBehaviorMPTransmissio
         {
             float firstSpeed = firstNetwork.Speed * firstLocalFactor;
             float secondSpeed = secondNetwork.Speed * secondLocalFactor;
-            if (IsOverrunning)
-            {
-                OverrunningCouplingStep step = OverrunningCouplingMath.Solve(
-                    firstSpeed, secondSpeed, elapsedSeconds);
-                SetAutomaticEngaged(step.Engaged);
-                if (step.Changed)
-                {
-                    firstNetwork.Speed = step.InputSpeed / firstLocalFactor;
-                    secondNetwork.Speed = step.OutputSpeed / secondLocalFactor;
-                    lastTransfer = step.Transfer;
-                    pendingBroadcast = true;
-                }
-                else
-                {
-                    lastTransfer = 0;
-                }
-            }
-            else if (engaged)
+            if (engaged)
             {
                 ClutchCouplingStep step = ClutchCouplingMath.Solve(
                     firstSpeed, secondSpeed, elapsedSeconds);
@@ -194,7 +145,6 @@ public sealed class BEBehaviorMPControlledTransmission : BEBehaviorMPTransmissio
         }
         else
         {
-            if (IsOverrunning) SetAutomaticEngaged(false);
             lastTransfer = 0;
         }
 
@@ -263,7 +213,6 @@ public sealed class BEBehaviorMPControlledTransmission : BEBehaviorMPTransmissio
 
     private void RefreshEngagedFromClutch()
     {
-        if (IsOverrunning) return;
         BlockFacing[] axis = AxisFaces();
         bool foundEngaged = false;
         foreach (BlockFacing face in BlockFacing.HORIZONTALS)
@@ -286,63 +235,9 @@ public sealed class BEBehaviorMPControlledTransmission : BEBehaviorMPTransmissio
 
     private BlockFacing[] AxisFaces()
     {
-        if (Blockentity.Block is BlockOverrunningTransmission transmission)
-        {
-            return new[] { transmission.InputFace, transmission.InputFace.Opposite };
-        }
         return Blockentity.Block.Variant["orientation"] == "we"
             ? new[] { BlockFacing.WEST, BlockFacing.EAST }
             : new[] { BlockFacing.NORTH, BlockFacing.SOUTH };
-    }
-
-    internal BlockEntity Owner => Blockentity;
-
-    internal BlockFacing OverrunningInputFace =>
-        Blockentity.Block is BlockOverrunningTransmission transmission
-            ? transmission.InputFace
-            : AxisFaces()[0];
-
-    internal bool TryGetRotorState(out OverrunningRotorState state)
-    {
-        BlockFacing[] faces = AxisFaces();
-        if (!TryReadRotor(faces[0], out float inputAngle, out float inputSpeed) ||
-            !TryReadRotor(faces[1], out float outputAngle, out float outputSpeed))
-        {
-            state = default;
-            return false;
-        }
-        state = new OverrunningRotorState(
-            inputAngle, outputAngle, inputSpeed, outputSpeed);
-        return true;
-    }
-
-    private bool TryReadRotor(BlockFacing face, out float angle, out float speed)
-    {
-        BEBehaviorMPBase? neighbour = Api?.World.BlockAccessor
-            .GetBlockEntity(Position.AddCopy(face))?
-            .GetBehavior<BEBehaviorMPBase>();
-        if (neighbour?.Network?.Valid != true)
-        {
-            angle = 0;
-            speed = 0;
-            return false;
-        }
-        float factor = neighbour.GearedRatio * (neighbour.IsRotationReversed() ? -1 : 1);
-        if (!float.IsFinite(factor) || Math.Abs(factor) < ClutchCouplingMath.SpeedEpsilon)
-        {
-            factor = 1;
-        }
-        angle = neighbour.AngleRad;
-        speed = neighbour.Network.Speed * factor;
-        return true;
-    }
-
-    private void SetAutomaticEngaged(bool value)
-    {
-        if (engaged == value) return;
-        engaged = value;
-        pendingBroadcast = true;
-        Blockentity.MarkDirty(true);
     }
 
     private void AppendTerminalStatus(StringBuilder sb)
@@ -363,7 +258,6 @@ public sealed class BEBehaviorMPControlledTransmission : BEBehaviorMPTransmissio
         }
     }
 
-    private bool IsOverrunning => Blockentity.Block is BlockOverrunningTransmission;
 
     private void AttachOrLeave(ClutchTerminal terminal, MechanicalNetwork? network)
     {
@@ -401,12 +295,6 @@ public sealed class BEBehaviorMPControlledTransmission : BEBehaviorMPTransmissio
 
     private void Shutdown()
     {
-        if (overrunningRenderer != null && Api is ICoreClientAPI capi)
-        {
-            capi.Event.UnregisterRenderer(overrunningRenderer, EnumRenderStage.Opaque);
-            overrunningRenderer.Dispose();
-            overrunningRenderer = null;
-        }
         if (solverListenerId != 0)
         {
             Blockentity.UnregisterGameTickListener(solverListenerId);
@@ -420,9 +308,3 @@ public sealed class BEBehaviorMPControlledTransmission : BEBehaviorMPTransmissio
         MechanicalNetwork? Network,
         float LocalFactor);
 }
-
-internal readonly record struct OverrunningRotorState(
-    float InputAngle,
-    float OutputAngle,
-    float InputSpeed,
-    float OutputSpeed);
