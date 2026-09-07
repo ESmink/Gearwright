@@ -21,11 +21,14 @@ $required = @(
     "tests\Gearwright.Contracts\fixtures\hydraulic-pipe-schema1.json",
     "tests\Gearwright.Contracts\fixtures\hydraulic-pipe-schema3.json",
     "tests\Gearwright.Contracts\fixtures\hydraulic-pump-schema1.json",
+    "tests\Gearwright.Contracts\fixtures\lateral-crank-schema1.json",
+    "tests\Gearwright.Contracts\fixtures\reciprocating-pump-schema1.json",
     "graphics\README.md", "graphics\review\README.md", "graphics\review\slingshot_workflow.py",
     "skills\vintage-story-modeling\SKILL.md", "skills\vintage-story-modeling\agents\openai.yaml",
     "graphics\models\pottery_profile_tool.py", "graphics\models\fluid_pipe.py",
     "graphics\models\sprinkler.py", "graphics\models\irrigator_pipe.py", "graphics\models\creative_fluid_pump.py",
     "graphics\models\passive_fluid_pump.py", "graphics\models\overrunning_transmission.py",
+    "graphics\models\reciprocating_pump.py", "graphics\review\lateral_motion_system.py",
     "graphics\recipes\pottery-profile-tool.texture.json",
     "graphics\recipes\inspection-glass.texture.json", "graphics\recipes\inspection-shadow.texture.json",
     "graphics\recipes\steam.texture.json",
@@ -39,6 +42,7 @@ $required = @(
     "tools\graphics\requirements.txt", "tools\graphics\Invoke-Photoshoot.ps1",
     "tools\graphics\Review-Model.ps1", "tools\graphics\Clear-GraphicsArtifacts.ps1",
     "tests\graphics\test_pipeline.py", "tests\graphics\test_reviewer.py", "tests\graphics\test_workflow_review.py",
+    "tests\graphics\test_lateral_motion_review.py", "tests\graphics\test_reciprocating_pump_model.py",
     "tests\graphics\fixtures\legacy-model-semantics.json",
     "assets\gearwright\itemtypes\pottery-profile-tool.json",
     "assets\gearwright\itemtypes\sprinkler-brass.json",
@@ -48,7 +52,11 @@ $required = @(
     "assets\gearwright\blocktypes\creative-fluid-pump.json",
     "assets\gearwright\blocktypes\passive-fluid-pump.json",
     "assets\gearwright\blocktypes\overrunning-transmission.json",
+    "assets\gearwright\blocktypes\lateral-crank.json",
+    "assets\gearwright\blocktypes\reciprocating-pump.json",
     "assets\gearwright\recipes\grid\overrunning-transmission.json",
+    "assets\gearwright\recipes\grid\lateral-crank.json",
+    "assets\gearwright\recipes\grid\reciprocating-pump.json",
     "assets\gearwright\shapes\block\passive-fluid-pump-liquid.json",
     "assets\gearwright\shapes\block\passive-fluid-pump-mechanism.json",
     "assets\gearwright\shapes\block\passive-fluid-pump-intake.json",
@@ -80,6 +88,20 @@ $required = @(
     "assets\gearwright\shapes\block\overrunning-transmission-spring-3.json",
     "assets\gearwright\shapes\block\overrunning-transmission-spring-3-reverse.json",
     "assets\gearwright\shapes\block\overrunning-transmission-inventory.json",
+    "assets\gearwright\shapes\block\gearwright-empty.json",
+    "assets\gearwright\shapes\block\lateral-crank-one-sided.json",
+    "assets\gearwright\shapes\block\lateral-crank-through.json",
+    "assets\gearwright\shapes\block\lateral-crank-inventory.json",
+    "assets\gearwright\shapes\block\reciprocating-pump-body.json",
+    "assets\gearwright\shapes\block\reciprocating-pump-body-supported.json",
+    "assets\gearwright\shapes\block\reciprocating-pump-mechanism.json",
+    "assets\gearwright\shapes\block\reciprocating-pump-piston.json",
+    "assets\gearwright\shapes\block\reciprocating-pump-connecting-rod.json",
+    "assets\gearwright\shapes\block\reciprocating-pump-wet-intake-check.json",
+    "assets\gearwright\shapes\block\reciprocating-pump-wet-output-check.json",
+    "assets\gearwright\shapes\block\reciprocating-pump-breather-intake-check.json",
+    "assets\gearwright\shapes\block\reciprocating-pump-breather-exhaust-check.json",
+    "assets\gearwright\shapes\block\reciprocating-pump-inventory.json",
     "assets\gearwright\textures\block\inspection-glass.png",
     "assets\gearwright\textures\block\inspection-shadow.png",
     "assets\gearwright\textures\block\steam.png",
@@ -110,6 +132,12 @@ $required = @(
     "code\Mechanics\BEBehaviorOverrunningTransmission.cs",
     "code\Mechanics\OverrunningCouplingMath.cs",
     "code\Mechanics\OverrunningTransmissionRenderer.cs",
+    "code\Mechanics\BlockLateralCrank.cs", "code\Mechanics\BEBehaviorMPLateralCrank.cs",
+    "code\Mechanics\LateralCrankRenderer.cs", "code\Mechanics\LateralCrankStateSchema.cs",
+    "code\Mechanics\LateralCrankMotion.cs",
+    "code\Hydraulics\BlockReciprocatingPump.cs", "code\Hydraulics\BlockEntityReciprocatingPump.cs",
+    "code\Hydraulics\PumpOrientation.cs", "code\Hydraulics\ReciprocatingPumpMath.cs",
+    "code\Hydraulics\ReciprocatingPumpRenderer.cs", "code\Hydraulics\ReciprocatingPumpStateSchema.cs",
     "tools\Common.ps1", "tools\Build-Mod.ps1", "tools\Test-Project.ps1", "tools\Install-Mod.ps1",
     "tools\Test-ServerSmoke.ps1",
     "tools\graphics\Build-Graphics.ps1",
@@ -136,6 +164,7 @@ Assert-Project (@(Get-ChildItem $root -Recurse -Filter "*.cmd" -File).Count -eq 
 
 $allowedToolScripts = @(
     "Build-Mod.ps1", "Common.ps1", "Install-Mod.ps1", "Test-Project.ps1", "Test-ServerSmoke.ps1",
+    "Inspect-MechanicalRotation.ps1",
     "graphics\Build-Graphics.ps1",
     "graphics\Build-Texture.ps1", "graphics\Find-GameAsset.ps1", "graphics\Graphics.Common.ps1",
     "graphics\Invoke-Photoshoot.ps1", "graphics\Review-Model.ps1",
@@ -293,7 +322,9 @@ $handbookAssets = @(
     "assets\gearwright\blocktypes\irrigator-pipe-bronze.json",
     "assets\gearwright\blocktypes\creative-fluid-pump.json",
     "assets\gearwright\blocktypes\passive-fluid-pump.json",
-    "assets\gearwright\blocktypes\overrunning-transmission.json"
+    "assets\gearwright\blocktypes\overrunning-transmission.json",
+    "assets\gearwright\blocktypes\lateral-crank.json",
+    "assets\gearwright\blocktypes\reciprocating-pump.json"
 )
 foreach ($relative in $handbookAssets) {
     $asset = Get-Content -Raw (Join-Path $root $relative) | ConvertFrom-Json
@@ -305,7 +336,8 @@ foreach ($key in @(
     "handbook-text-sprinkler-brass", "handbook-text-creative-fluid-pump",
     "handbook-text-passive-fluid-pump", "handbook-text-fluid-pipe-intake-copper",
     "handbook-text-irrigator-pipe-bronze", "handbook-text-controlled-clutch",
-    "handbook-text-overrunning-transmission"
+    "handbook-text-overrunning-transmission", "handbook-text-lateral-crank",
+    "handbook-text-reciprocating-pump"
 )) {
     Assert-Project ($languageText -match [regex]::Escape('"' + $key + '"')) "Handbook text exists: $key"
 }
@@ -549,35 +581,122 @@ Assert-Project (
     $graphicsBuilderText -notmatch '\$LASTEXITCODE' -and
     (Get-Content -Raw (Join-Path $root "assets\gearwright\shapes\block\passive-fluid-pump-mechanism.json")) -notmatch '#null'
 ) "Python graphics definitions compile runtime shapes without null materials or unset process-exit state"
+$reciprocatingDriveBehaviorText = Get-Content -Raw (Join-Path $root "code\Mechanics\BEBehaviorMPLateralCrank.cs")
+$reciprocatingDriveBlockText = Get-Content -Raw (Join-Path $root "code\Mechanics\BlockLateralCrank.cs")
+$reciprocatingDriveRendererText = Get-Content -Raw (Join-Path $root "code\Mechanics\LateralCrankRenderer.cs")
+$reciprocatingPumpBlockText = Get-Content -Raw (Join-Path $root "code\Hydraulics\BlockReciprocatingPump.cs")
+$reciprocatingPumpEntityText = Get-Content -Raw (Join-Path $root "code\Hydraulics\BlockEntityReciprocatingPump.cs")
+$reciprocatingPumpRendererText = Get-Content -Raw (Join-Path $root "code\Hydraulics\ReciprocatingPumpRenderer.cs")
+$reciprocatingDriveOneSided = Get-Content -Raw (Join-Path $root "assets\gearwright\shapes\block\lateral-crank-one-sided.json") | ConvertFrom-Json
+$reciprocatingDriveInventory = Get-Content -Raw (Join-Path $root "assets\gearwright\shapes\block\lateral-crank-inventory.json") | ConvertFrom-Json
+$reciprocatingPumpMechanism = Get-Content -Raw (Join-Path $root "assets\gearwright\shapes\block\reciprocating-pump-mechanism.json") | ConvertFrom-Json
+$gearwrightLanguage = Get-Content -Raw (Join-Path $root "assets\gearwright\lang\en.json") | ConvertFrom-Json
+Assert-Project (
+    $reciprocatingDriveOneSided.animations[0].onActivityStopped -ceq "EaseOut" -and
+    $reciprocatingPumpMechanism.animations[0].onActivityStopped -ceq "EaseOut" -and
+    $null -eq $reciprocatingDriveInventory.PSObject.Properties["animations"]
+) "Reciprocating runtime shapes use engine-valid animation handling and a static inventory model"
+Assert-Project (
+    $reciprocatingDriveBehaviorText -match 'protected override CompositeShape GetShape\(\) => null!;' -and
+    $reciprocatingDriveBehaviorText -match 'LateralCrankRenderer' -and
+    $reciprocatingDriveBehaviorText -match 'pump\.OutputFace\.Axis == shaftAxis' -and
+    $reciprocatingDriveRendererText -match 'RotateX\(angle\)' -and
+    $reciprocatingDriveRendererText -match 'crank\.AngleInFrame\(shaftSide\.Opposite, BlockFacing\.UP\)' -and
+    $reciprocatingDriveRendererText -notmatch 'GetAnimationState|CurrentFrame|AnimationUtil'
+) "The Reciprocating Drive Shaft directly rotates one complete model and accepts only aligned pumps"
+Assert-Project (
+    $reciprocatingPumpRendererText -notmatch 'GetAnimationState|CurrentFrame|AnimationUtil' -and
+    $reciprocatingPumpRendererText -match 'crank\.PumpAngle\(pump\)' -and
+    $reciprocatingPumpEntityText -match 'crank\.PumpAngle\(this\)' -and
+    $reciprocatingDriveBehaviorText -match 'pump\.GetMechanicalResistance\(PumpAngle\(pump\), PumpTravel\(pump,' -and
+    $reciprocatingPumpRendererText -match 'PumpOrientation\.ApplyConnectingRodPose' -and
+    $reciprocatingPumpRendererText -match 'RenderSlidingPart\(shader, pistonMesh, pose\.PistonOffsetY\)'
+) "The piston, rod, pressure simulation, and load use the same mount-aware journal pose without a separate animation clock"
+Assert-Project (
+    $reciprocatingPumpRendererText -match 'ReciprocatingPumpLiquidGeometry\.SurfaceHeight\(amount, pistonBottom, volume\)' -and
+    $reciprocatingPumpRendererText -match 'if \(!gas && contentTopSurface != null\)' -and
+    $reciprocatingPumpRendererText -match 'ReciprocatingPumpLiquidGeometry\.ApplyTopPose' -and
+    $reciprocatingPumpRendererText -match 'GLDepthMask\(false\)' -and
+    $reciprocatingPumpRendererText -match 'GLDepthMask\(true\)' -and
+    $reciprocatingPumpRendererText -match 'contentTopSurface\?\.Dispose\(\)'
+) "The pump renders and disposes a liquid-only top using tested chamber bounds without side-pane depth occlusion"
+$pumpTimingText = Get-Content -Raw (Join-Path $root "code\Mechanics\PumpTimingSystem.cs")
+$pumpPresentationText = Get-Content -Raw (Join-Path $root "code\Hydraulics\PumpPresentation.cs")
+Assert-Project (
+    $pumpTimingText -match 'if \(__1 % 5 == 0\)' -and
+    $pumpTimingText.IndexOf('updateNetwork(__instance, __1)') -lt $pumpTimingText.IndexOf('updateAngle(__instance,') -and
+    $pumpTimingText -match 'StepDrivenPump\(seconds\)' -and
+    $pumpTimingText -match '__instance.AngleRad = \(float\)timeline.Angle' -and
+    $pumpTimingText -match '__instance.AngleRad = __0.angle' -and
+    $reciprocatingPumpRendererText -match 'PumpTimingSystem.TryPresentation' -and
+    $reciprocatingPumpRendererText -match 'presentation.Amount' -and
+    $pumpPresentationText -match 'contact - result.Volume'
+) "Pump substeps, finite pre-step load and a shared server presentation frame keep liquid and stalled mechanisms synchronized"
+Assert-Project (
+    $reciprocatingDriveBlockText -match 'MechanicalCodes\.LateralCrankVariantPath\(rotation\)' -and
+    $reciprocatingDriveBlockText -notmatch 'CodeWithVariant\("rotation", rotation\)'
+) "The dashed drive-shaft asset code resolves both placement rotations without truncation"
+Assert-Project (
+    $reciprocatingPumpBlockText -notmatch 'override bool TryPlaceBlock' -and
+    $reciprocatingPumpBlockText -match 'driveFace = blockSel\.Face' -and
+    $reciprocatingPumpEntityText -match 'drive\.AxisFaces\(\)\[0\]\.Axis == OutputFace\.Axis'
+) "The pump can be placed alone but operates only with an aligned drive shaft"
+Assert-Project (
+    $gearwrightLanguage.'block-lateral-crank-ns' -ceq "Reciprocating Drive Shaft" -and
+    $gearwrightLanguage.'block-lateral-crank-we' -ceq "Reciprocating Drive Shaft"
+) "The drive shaft has a non-manual player-facing name while retaining its asset codes"
 Assert-Project (-not (Get-ChildItem (Join-Path $root "assets\gearwright") -Recurse -File | Where-Object { $_.Name -match 'slingshot' })) "The slingshot workflow fixture never enters runtime assets"
 $networkText = Get-Content -Raw (Join-Path $root "code\Hydraulics\HydraulicNetworkSystem.cs")
 $hydraulicMathText = Get-Content -Raw (Join-Path $root "code\Hydraulics\HydraulicMath.cs")
-$flowSolverText = Get-Content -Raw (Join-Path $root "code\Hydraulics\PipeFlowSolver.cs")
+$flowSolverText = Get-Content -Raw (Join-Path $root "code\Hydraulics\PipePressureSolver.cs")
+$networkFlowText = Get-Content -Raw (Join-Path $root "code\Hydraulics\HydraulicNetworkFlow.cs")
 Assert-Project (
-    $networkText -match 'SimulationIntervalMilliseconds = 200' -and
-    $networkText -match 'PlanPipeFlows' -and
-    $networkText -match 'ApplyPipeFlows' -and
-    $networkText -match 'previousPressures' -and
-    $flowSolverText -match 'donorTotals' -and
-    $flowSolverText -match 'receiverTotals' -and
-    $flowSolverText -match 'ScaleTransfers' -and
+    $networkText -match 'SolvePressureFlow' -and
+    $networkFlowText -match 'PipePressureSolver.TryStep' -and
+    $networkFlowText -match 'pump.ChamberVolumeLitres' -and
+    $networkFlowText -match 'solved.LinkLitres' -and
+    $networkFlowText -match 'pump.Receive' -and
+    $networkFlowText -match 'pump.Provide'
+) "Pump chambers and connected pipes commit the same pressure-balanced check-valve flux"
+Assert-Project (
+    $networkText -notmatch 'previousPressures|pipePressureSnapshots|PlanPipeFlows|ApplyPipeFlows' -and
+    $networkFlowText -match 'DrivenSuctionKPa = suction' -and
+    $networkText -match 'amounts\[i\], temperatures\[i\], stepPressures\[i\], status' -and
+    $networkText -notmatch 'networkEmpty \? 0 : stepPressures'
+) "Stored contents determine pressure while dry liquid intake runs retain derived priming suction"
+Assert-Project (
+    $reciprocatingPumpEntityText -match 'if \(amountLitres == 0\)' -and
+    $networkText -match 'bool networkEmpty = totalAmount == 0' -and
+    $networkText -match 'pipes.Any\(pipe => !pipe.CanWriteState\)' -and
+    $networkText -notmatch 'if \(amounts\[i\] <= EmptyEpsilonLitres\)'
+) "Pump and network storage keep trace amounts and pause before transferring into read-only receivers"
+Assert-Project (
+    $networkFlowText -match 'PropagatedLiquidSuction\(\s*pipes\[neighbor\]\.DrivenSuctionKPa' -and
+    $networkFlowText -match 'phase == PipeContentPhase.Liquid' -and
+    $hydraulicMathText -match 'previous >= -EmptyPipeSuctionKPa' -and
+    $hydraulicMathText -match 'Math.Max\(0, \(double\)neighborY - ownY\)'
+) "Only derived driven suction propagates; empty-pipe bias and height cannot amplify extraction vacuum"
+Assert-Project (
+    $networkText -match 'SimulationIntervalMilliseconds = 20' -and
+    $networkText -match 'topologyDirty' -and
+    $networkText -match 'NextAttemptTick' -and
+    $flowSolverText -match 'MaximumCells = 4096' -and
+    $flowSolverText -match 'MaximumNewtonIterations' -and
+    $flowSolverText -match 'MaximumLinearIterations' -and
+    $flowSolverText -match 'amounts\[edge.From\] -= flux; amounts\[edge.To\] \+= flux' -and
     $hydraulicMathText -match 'PipeCapacityLitres = 10' -and
     $hydraulicMathText -match 'WaterHeadKPaPerBlock = 9\.80665' -and
     $hydraulicMathText -match 'GasGaugePressure'
-) "The 5 Hz pipe solver plans from previous state, scales both ends, and models volume, water head, and compressible gas"
+) "The bounded 50 Hz sparse solver balances stored volume, water head and compressible gas with cached topology and retry backoff"
 Assert-Project (
     $networkText -match 'HydraulicFaceAddon\.PipeNozzle' -and
     $networkText -match 'ILiquidSource' -and
     $networkText -match 'ILiquidSink' -and
     $networkText -match 'EnumBlockMaterial\.Air' -and
     $networkText -match 'WouldPlacementJoinDifferentContents' -and
-    $networkText -match 'HasUpwardAirOutlet' -and
-    $networkText -match 'LiquidOverflowLitres' -and
-    $networkText -match 'GasVentableStandardLitres' -and
     $networkText -match 'IsAtmosphericOutlet' -and
-    $networkText -match 'ProcessAirOutlet' -and
-    $networkText -match 'RecordFlow\(intent\.To, rate, intent\.DirectionFrom' -and
-    $networkText -match 'signedFlow > 0 \? face : face\.Opposite' -and
+    $networkFlowText -match 'RecordFlow\(links\[k\].To, rate, face' -and
+    $networkFlowText -match 'rate >= 0 \? boundaryFaces\[k\] : boundaryFaces\[k\].Opposite' -and
     $pipeRendererText -match 'SpawnNozzleParticles' -and
     $pipeRendererText -match 'IsPortOpenToAir' -and
     $pipeRendererText -match 'IntakeConeLength = \(1\.05f - NozzleMouthOffset\) \* 0\.5f' -and

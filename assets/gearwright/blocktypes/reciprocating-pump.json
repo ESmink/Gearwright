@@ -1,0 +1,49 @@
+{
+  "code": "reciprocating-pump",
+  "class": "GearwrightReciprocatingPump",
+  "entityClass": "GearwrightReciprocatingPumpEntity",
+  "drawtype": "json",
+  "shape": { "base": "gearwright:block/gearwright-empty" },
+  "shapeInventory": { "base": "gearwright:block/reciprocating-pump-inventory" },
+  "textures": {
+    "gw-oak": { "base": "game:block/wood/debarked/oak" },
+    "gw-iron": { "base": "game:block/metal/sheet-plain/iron2" },
+    "gw-bronze": { "base": "game:block/metal/sheet/tinbronze1" },
+    "gw-copper": { "base": "game:block/metal/sheet/copper1" },
+    "gw-glass": { "base": "gearwright:block/inspection-glass" },
+    "gw-shadow": { "base": "gearwright:block/inspection-shadow" }
+  },
+  "attributes": {
+    "handbook": {
+      "include": true,
+      "extraSections": [
+        { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-reciprocating-pump" }
+      ]
+    }
+  },
+  "creativeinventory": { "general": ["*"], "gearwright": ["*"] },
+  "blockmaterial": "Metal",
+  "materialDensity": 5200,
+  "resistance": 6,
+  "lightAbsorption": 0,
+  "sidesolid": { "all": false },
+  "sideopaque": { "all": false },
+  "rainPermeable": true,
+  "maxStackSize": 1,
+  "selectionbox": { "x1": 0, "y1": 0, "z1": 0, "x2": 1, "y2": 1, "z2": 1 },
+  "collisionbox": { "x1": 0.03, "y1": 0, "z1": 0.08, "x2": 0.97, "y2": 1, "z2": 0.92 },
+  "drops": [
+    { "type": "block", "code": "gearwright:reciprocating-pump" }
+  ],
+  "sounds": {
+    "hit": "game:block/heavymetal-hit2",
+    "break": "game:block/heavymetal-hit2",
+    "place": "game:block/plate",
+    "walk": "game:walk/stone"
+  },
+  "guiTransform": {
+    "translation": { "x": 0, "y": -0.1, "z": 0 },
+    "rotation": { "x": -20, "y": -35, "z": 0 },
+    "scale": 0.72
+  }
+}

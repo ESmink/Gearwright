@@ -1,0 +1,265 @@
+{
+  "textureWidth": 32,
+  "textureHeight": 32,
+  "textures": {
+    "gw-oak": "game:block/wood/debarked/oak",
+    "gw-iron": "game:block/metal/sheet-plain/iron2",
+    "gw-bronze": "game:block/metal/sheet/tinbronze1",
+    "gw-copper": "game:block/metal/sheet/copper1",
+    "gw-glass": "gearwright:block/inspection-glass",
+    "gw-shadow": "gearwright:block/inspection-shadow"
+  },
+  "textureSizes": {
+    "gw-oak": [
+      32,
+      32
+    ],
+    "gw-iron": [
+      32,
+      32
+    ],
+    "gw-bronze": [
+      32,
+      32
+    ],
+    "gw-copper": [
+      32,
+      32
+    ],
+    "gw-glass": [
+      16,
+      16
+    ],
+    "gw-shadow": [
+      4,
+      4
+    ]
+  },
+  "elements": [
+    {
+      "name": "gw-crank-phase",
+      "from": [
+        8.0,
+        8.0,
+        8.0
+      ],
+      "to": [
+        8.0,
+        8.0,
+        8.0
+      ],
+      "rotationOrigin": [
+        8.0,
+        8.0,
+        8.0
+      ],
+      "group": "crank-motion",
+      "children": [
+        {
+          "name": "gw-crank-input-shaft-wide",
+          "from": [
+            -8.0,
+            -1.0,
+            -2.0
+          ],
+          "to": [
+            -2.05,
+            1.0,
+            2.0
+          ],
+          "group": "shaft",
+          "faces": {
+            "north": {
+              "texture": "#gw-oak"
+            },
+            "east": {
+              "texture": "#gw-oak"
+            },
+            "south": {
+              "texture": "#gw-oak"
+            },
+            "west": {
+              "texture": "#gw-oak"
+            },
+            "up": {
+              "texture": "#gw-oak"
+            },
+            "down": {
+              "texture": "#gw-oak"
+            }
+          }
+        },
+        {
+          "name": "gw-crank-input-shaft-tall",
+          "from": [
+            -8.0,
+            -2.0,
+            -1.0
+          ],
+          "to": [
+            -2.05,
+            2.0,
+            1.0
+          ],
+          "group": "shaft",
+          "faces": {
+            "north": {
+              "texture": "#gw-oak"
+            },
+            "east": {
+              "texture": "#gw-oak"
+            },
+            "south": {
+              "texture": "#gw-oak"
+            },
+            "west": {
+              "texture": "#gw-oak"
+            },
+            "up": {
+              "texture": "#gw-oak"
+            },
+            "down": {
+              "texture": "#gw-oak"
+            }
+          }
+        },
+        {
+          "name": "gw-crank-single-web",
+          "from": [
+            -2.05,
+            -1.55,
+            -1.25
+          ],
+          "to": [
+            -0.65,
+            3.7,
+            1.25
+          ],
+          "group": "crank-load-path",
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-crank-single-root-bush",
+          "from": [
+            -2.2,
+            -1.85,
+            -1.55
+          ],
+          "to": [
+            -0.5,
+            0.35,
+            1.55
+          ],
+          "group": "crank-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-crank-bronze-journal",
+          "from": [
+            -0.65,
+            2.05,
+            -1.15
+          ],
+          "to": [
+            1.05,
+            3.95,
+            1.15
+          ],
+          "group": "crank-journal",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-crank-journal-retainer",
+          "from": [
+            0.92,
+            2.22,
+            -1.34
+          ],
+          "to": [
+            1.25,
+            3.78,
+            1.34
+          ],
+          "group": "crank-journal",
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

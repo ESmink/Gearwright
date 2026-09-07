@@ -310,6 +310,52 @@ class PipelineTests(unittest.TestCase):
         with self.assertRaises(ModelError):
             animation.keyframe(0, type("Ref", (), {"shape_id": "bad", "name": "missing"})(), offsetY=1)
 
+    def test_engine_animation_handling_enums_are_validated(self):
+        shape = Shape("bad-handling")
+        pivot = shape.pivot("pivot", (8, 8, 8))
+        animation = animate(
+            shape,
+            "Bad handling",
+            "badhandling",
+            2,
+            on_activity_stopped="Hold",
+            on_animation_end="Repeat",
+        )
+        animation.keyframe(0, pivot, rotationX=0)
+        animation.keyframe(1, pivot, rotationX=1)
+        shape.add_animation(animation.build())
+        with self.assertRaisesRegex(ModelError, "invalid onActivityStopped"):
+            compile_shape(shape)
+
+    def test_animation_transform_vectors_are_completed_for_the_engine(self):
+        shape = Shape("engine-vectors")
+        pivot = shape.pivot("pivot", (8, 8, 8))
+        animation = animate(shape, "Vectors", "vectors", 2)
+        animation.keyframe(0, pivot, offsetY=1, rotationX=5)
+        animation.keyframe(1, pivot, offsetY=2, rotationX=10)
+        shape.add_animation(animation.build())
+        values = compile_shape(shape)["animations"][0]["keyframes"][0]["elements"]["pivot"]
+        self.assertEqual((0, 1, 0), tuple(values[key] for key in ("offsetX", "offsetY", "offsetZ")))
+        self.assertEqual((5, 0, 0), tuple(values[key] for key in ("rotationX", "rotationY", "rotationZ")))
+
+    def test_every_runtime_animation_has_complete_engine_vectors(self):
+        groups = (
+            ("offsetX", "offsetY", "offsetZ"),
+            ("rotationX", "rotationY", "rotationZ"),
+        )
+        for path in definition_paths(ROOT):
+            package = load_definition(ROOT, path)
+            for relative, shape in package.outputs.items():
+                document = compile_shape(shape)
+                for animation in document.get("animations", []):
+                    for keyframe in animation["keyframes"]:
+                        for element, values in keyframe["elements"].items():
+                            for group in groups:
+                                present = {key for key in group if key in values}
+                                self.assertIn(len(present), (0, 3), (
+                                    relative, animation["code"], keyframe["frame"], element, group
+                                ))
+
     def test_shortest_angle_interpolation(self):
         animation = {"quantityframes": 10, "keyframes": [{"frame": 0, "elements": {"needle": {"rotationY": 170, "rotShortestDistanceY": True}}}, {"frame": 9, "elements": {"needle": {"rotationY": -170, "rotShortestDistanceY": True}}}]}
         self.assertAlmostEqual(180, evaluate_animation(animation, 4.5)["needle"]["rotationY"])

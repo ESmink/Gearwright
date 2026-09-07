@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Gearwright.Mechanics;
 using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
@@ -11,19 +12,22 @@ namespace Gearwright.Hydraulics;
 
 /// <summary>
 /// Server-authoritative pipe storage and pressure simulation. Every step is planned
-/// from an immutable snapshot, then scaled and committed without node-order bias.
+/// from an immutable snapshot and balanced across connected edges before commit.
 /// </summary>
-public sealed class HydraulicNetworkSystem : ModSystem
+public sealed partial class HydraulicNetworkSystem : ModSystem
 {
-    private const int SimulationIntervalMilliseconds = 200;
+    private const int SimulationIntervalMilliseconds = 20;
     private const double SimulationStepSeconds = SimulationIntervalMilliseconds / 1000.0;
     private const double MaximumCatchUpHours = 24 * 365;
     private const double EmptyEpsilonLitres = 0.000001;
 
     private readonly Dictionary<BlockPos, IHydraulicNetworkNode> loadedNodes = new();
+    private readonly Dictionary<BlockPos, BlockEntityReciprocatingPump> loadedPumps = new();
     private ICoreServerAPI? sapi;
     private long tickListenerId;
     private int simulationTick;
+    private readonly List<NetworkComponent> components = new();
+    private bool topologyDirty = true;
 
     public override bool ShouldLoad(EnumAppSide forSide) => forSide == EnumAppSide.Server;
 
@@ -34,14 +38,29 @@ public sealed class HydraulicNetworkSystem : ModSystem
             OnServerTick, SimulationIntervalMilliseconds, SimulationIntervalMilliseconds / 2);
     }
 
-    public void Register(IHydraulicNetworkNode node) => loadedNodes[node.Position.Copy()] = node;
+    public void Register(IHydraulicNetworkNode node) { loadedNodes[node.Position.Copy()] = node; topologyDirty = true; }
 
-    public void Unregister(IHydraulicNetworkNode node) => loadedNodes.Remove(node.Position);
+    public void Unregister(IHydraulicNetworkNode node) { loadedNodes.Remove(node.Position); topologyDirty = true; }
+
+    public void RegisterPump(BlockEntityReciprocatingPump pump)
+    {
+        loadedPumps[pump.Pos.Copy()] = pump;
+        pump.UsesNetworkSolver = true;
+    }
+
+    public void UnregisterPump(BlockEntityReciprocatingPump pump)
+    {
+        loadedPumps.Remove(pump.Pos);
+        pump.UsesNetworkSolver = false;
+    }
 
     public override void Dispose()
     {
         if (sapi != null && tickListenerId != 0) sapi.Event.UnregisterGameTickListener(tickListenerId);
         loadedNodes.Clear();
+        foreach (var pump in loadedPumps.Values) pump.UsesNetworkSolver = false;
+        loadedPumps.Clear();
+        components.Clear();
         sapi = null;
     }
 
@@ -98,21 +117,47 @@ public sealed class HydraulicNetworkSystem : ModSystem
 
     private void OnServerTick(float _)
     {
-        if (sapi == null || loadedNodes.Count == 0) return;
-        bool runConsumers = ++simulationTick % 5 == 0;
-        HashSet<IHydraulicNetworkNode> visited = new();
-        foreach (IHydraulicNetworkNode seed in loadedNodes.Values.ToArray())
+        if (sapi == null || (loadedNodes.Count == 0 && loadedPumps.Count == 0)) return;
+        BlockEntityReciprocatingPump[] pumps = loadedPumps.Values.ToArray();
+        foreach (BlockEntityReciprocatingPump pump in pumps)
         {
-            if (visited.Contains(seed)) continue;
-            NetworkComponent component = DiscoverComponent(seed, visited);
-            if (!component.Complete)
+            pump.ClearTransferPorts();
+            pump.PrepareSimulation(SimulationStepSeconds);
+        }
+        bool runConsumers = ++simulationTick % 50 == 0;
+        if (topologyDirty || simulationTick % 10 == 1)
+        {
+            topologyDirty = false;
+            components.Clear();
+            HashSet<IHydraulicNetworkNode> visited = new();
+            foreach (IHydraulicNetworkNode seed in loadedNodes.Values)
+                if (!visited.Contains(seed)) components.Add(DiscoverComponent(seed, visited));
+        }
+        foreach (NetworkComponent component in components)
+        {
+            if (simulationTick < component.NextAttemptTick) continue;
+            if (!component.Complete || component.Nodes.Any(node => BlockFacing.ALLFACES.Any(face =>
+                node.CanConnect(face) && sapi.World.BlockAccessor.GetChunkAtBlockPos(node.Position.AddCopy(face)) == null)))
             {
-                SetFault(component.Nodes, "waiting-for-chunks");
+                PauseComponent(component, "waiting-for-chunks");
                 continue;
             }
             Simulate(component, runConsumers);
         }
+        foreach (BlockEntityReciprocatingPump pump in pumps)
+        {
+            pump.FinishSimulation(
+                IsPumpPortConnected(pump, pump.InputFace),
+                IsPumpPortConnected(pump, pump.OutputFace));
+            pump.AccumulatePresentation(SimulationStepSeconds);
+            if (simulationTick % 5 == 0) pump.MarkDirty(false);
+        }
+        if (simulationTick % 5 == 0) PumpTimingSystem.PublishHydraulicFrames(pumps);
     }
+
+    private bool IsPumpPortConnected(BlockEntityReciprocatingPump pump, BlockFacing face) =>
+        sapi?.World.BlockAccessor.GetBlockEntity(pump.Pos.AddCopy(face)) is BlockEntityFluidPipe pipe &&
+        pipe.CanConnect(face.Opposite);
 
     private NetworkComponent DiscoverComponent(
         IHydraulicNetworkNode seed,
@@ -157,15 +202,48 @@ public sealed class HydraulicNetworkSystem : ModSystem
             return;
         }
 
-        if (pipes.Any(pipe => pipe.ContentAmountLitres > EmptyEpsilonLitres &&
+        // A receiver whose original save must remain untouched cannot commit
+        // incoming fluid. Pause the whole component before debiting any donor.
+        if (pipes.Any(pipe => !pipe.CanWriteState))
+        {
+            PauseComponent(component, "state-read-only");
+            return;
+        }
+        if (pipes.Count > PipePressureSolver.MaximumCells)
+        {
+            PauseComponent(component, "network-too-large");
+            return;
+        }
+
+        if (pipes.Any(pipe => pipe.ContentAmountLitres > 0 &&
                               pipe.CurrentContentCode == null))
         {
-            SetFault(component.Nodes, "invalid-content");
+            PauseComponent(component, "invalid-content");
             return;
         }
 
         Dictionary<BlockPos, int> pipeByPosition = pipes.Select((pipe, index) => (pipe, index))
             .ToDictionary(pair => pair.pipe.Pos.Copy(), pair => pair.index);
+        List<ReciprocatingPumpPort> reciprocatingPorts = new();
+        for (int pipeIndex = 0; pipeIndex < pipes.Count; pipeIndex++)
+        foreach (BlockFacing pipeFace in BlockFacing.ALLFACES)
+        {
+            if (!pipes[pipeIndex].CanConnect(pipeFace) ||
+                !loadedPumps.TryGetValue(
+                    pipes[pipeIndex].Pos.AddCopy(pipeFace),
+                    out BlockEntityReciprocatingPump? pump) ||
+                !pump.CanConnect(pipeFace.Opposite)) continue;
+            reciprocatingPorts.Add(new ReciprocatingPumpPort(
+                pump, pipeFace.Opposite, pipeIndex));
+        }
+        int activeChambers = reciprocatingPorts.Count(port =>
+            port.PumpFace == port.Pump.InputFace && port.Pump.CurrentStroke == ReciprocatingPumpStroke.Suction ||
+            port.PumpFace == port.Pump.OutputFace && port.Pump.CurrentStroke == ReciprocatingPumpStroke.Pressure);
+        if (pipes.Count + activeChambers > PipePressureSolver.MaximumCells)
+        {
+            PauseComponent(component, "network-too-large");
+            return;
+        }
         List<AssetLocation> storedCodes = pipes
             .Where(pipe => pipe.HasContent && pipe.CurrentContentCode != null)
             .Select(pipe => pipe.CurrentContentCode!)
@@ -173,7 +251,7 @@ public sealed class HydraulicNetworkSystem : ModSystem
             .ToList();
         if (storedCodes.Count > 1)
         {
-            SetFault(component.Nodes, "mixed-content");
+            PauseComponent(component, "mixed-content");
             return;
         }
 
@@ -185,6 +263,10 @@ public sealed class HydraulicNetworkSystem : ModSystem
         boundaryCodes.AddRange(creativeSources.Select(source => source.GetOffer())
             .Where(offer => offer.Pressure > 0 && PipeContent.IsValid(sapi!.World, offer.ContentCode))
             .Select(offer => offer.ContentCode));
+        boundaryCodes.AddRange(reciprocatingPorts
+            .Select(port => port.Pump.BoundaryContentCode(port.PumpFace))
+            .Where(code => code != null)
+            .Select(code => code!));
         foreach (BlockEntityFluidPipe pipe in pipes)
         foreach (BlockFacing face in BlockFacing.ALLFACES)
         {
@@ -200,7 +282,7 @@ public sealed class HydraulicNetworkSystem : ModSystem
                 .Distinct(AssetLocationComparer.Instance).ToList();
             if (distinctBoundaries.Count > 1)
             {
-                SetFault(component.Nodes, "mixed-sources");
+                PauseComponent(component, "mixed-sources");
                 return;
             }
             contentCode = distinctBoundaries.FirstOrDefault();
@@ -212,7 +294,7 @@ public sealed class HydraulicNetworkSystem : ModSystem
         }
         if (!PipeContent.IsValid(sapi!.World, contentCode))
         {
-            SetFault(component.Nodes, "invalid-content");
+            PauseComponent(component, "invalid-content");
             return;
         }
 
@@ -221,18 +303,13 @@ public sealed class HydraulicNetworkSystem : ModSystem
         double[] amounts = new double[count];
         double[] temperatures = new double[count];
         double[] energies = new double[count];
-        double[] previousPressures = new double[count];
         double[] stepPressures = new double[count];
-        double[] generatedPressures = new double[count];
         double[] throughputs = new double[count];
         double[][] nozzleFlows = Enumerable.Range(0, count)
             .Select(_ => new double[BlockFacing.NumberOfFaces]).ToArray();
         double[] strongestFlow = new double[count];
         BlockFacing?[] flowDirections = new BlockFacing?[count];
         double[] lastConsumerHours = pipes.Select(pipe => pipe.LastSimulationTotalHours).ToArray();
-        bool[] liquidOverflowOutlets = pipes
-            .Select(pipe => phase == PipeContentPhase.Liquid && HasUpwardAirOutlet(pipe))
-            .ToArray();
         bool boundaryMismatch = false;
         bool gasContainerBlocked = false;
 
@@ -247,161 +324,15 @@ public sealed class HydraulicNetworkSystem : ModSystem
                 ? pipe.ContentTemperatureC
                 : PipeContent.DefaultTemperatureC(contentCode);
             energies[i] = amounts[i] * temperatures[i];
-            previousPressures[i] = pipe.CurrentContentCode?.Equals(contentCode) == true
-                ? pipe.CurrentPressure
-                : phase == PipeContentPhase.Gas
-                    ? -HydraulicMath.AmbientPressureKPa
-                    : HydraulicMath.LiquidBasePressure(0);
         }
 
-        foreach (BlockEntityCreativeFluidPump source in creativeSources)
+        if (!SolvePressureFlow(pipes, pipeByPosition, reciprocatingPorts, creativeSources,
+            contentCode, phase, amounts, temperatures, energies, stepPressures, throughputs,
+            strongestFlow, flowDirections, nozzleFlows, ref boundaryMismatch, ref gasContainerBlocked))
         {
-            PumpOffer offer = source.GetOffer();
-            if (offer.Pressure <= 0) continue;
-            if (!offer.ContentCode.Equals(contentCode))
-            {
-                boundaryMismatch = true;
-                continue;
-            }
-            foreach (BlockFacing face in BlockFacing.ALLFACES)
-            {
-                if (!source.CanConnect(face) ||
-                    !pipeByPosition.TryGetValue(source.Pos.AddCopy(face), out int pipeIndex) ||
-                    !pipes[pipeIndex].CanConnect(face.Opposite)) continue;
-                generatedPressures[pipeIndex] = Math.Max(generatedPressures[pipeIndex], offer.Pressure);
-            }
+            PauseComponent(component, "flow-solving");
+            return;
         }
-
-        if (phase == PipeContentPhase.Liquid)
-        {
-            for (int i = 0; i < count; i++)
-            foreach (BlockFacing face in BlockFacing.ALLFACES)
-            {
-                BlockEntityFluidPipe pipe = pipes[i];
-                if (pipe.GetAddon(face) != HydraulicFaceAddon.PipeNozzle) continue;
-                NozzleContainer? container = GetNozzleContainer(pipe, face);
-                if (container == null) continue;
-                ItemStack? stack = container.Value.Interface.GetContent(container.Value.Position);
-                if (stack?.Collectible.Code.Equals(contentCode) != true) continue;
-                double fill = container.Value.Interface.GetCurrentLitres(container.Value.Position) /
-                    Math.Max(0.001, container.Value.Interface.CapacityLitres);
-                double pressure = HydraulicMath.LiquidContainerPressure(
-                    fill, container.Value.Position.Y, NozzleWorldY(pipe, face));
-                generatedPressures[i] = Math.Max(generatedPressures[i], pressure);
-            }
-        }
-
-        for (int i = 0; i < count; i++)
-        {
-            if (phase == PipeContentPhase.Gas)
-            {
-                stepPressures[i] = HydraulicMath.GasGaugePressure(amounts[i], temperatures[i]);
-                continue;
-            }
-
-            double strongest = generatedPressures[i];
-            foreach (BlockFacing face in BlockFacing.ALLFACES)
-            {
-                if (!pipes[i].IsConnected(face) ||
-                    !pipeByPosition.TryGetValue(pipes[i].Pos.AddCopy(face), out int neighbor)) continue;
-                strongest = Math.Max(strongest, HydraulicMath.PropagatedLiquidPressure(
-                    previousPressures[neighbor], pipes[neighbor].Pos.Y, pipes[i].Pos.Y,
-                    amounts[neighbor] / HydraulicMath.PipeCapacityLitres));
-            }
-            stepPressures[i] = HydraulicMath.LiquidPressureFromPrevious(
-                amounts[i] / HydraulicMath.PipeCapacityLitres, strongest);
-        }
-
-        List<FlowIntent> intents = PlanPipeFlows(
-            pipes, pipeByPosition, amounts, stepPressures, phase);
-        double[] receiverCapacities = liquidOverflowOutlets
-            .Select(hasOverflow => hasOverflow
-                ? double.PositiveInfinity
-                : phase == PipeContentPhase.Liquid
-                    ? HydraulicMath.PipeCapacityLitres
-                    : double.PositiveInfinity)
-            .ToArray();
-        ApplyPipeFlows(intents, amounts, energies, temperatures, throughputs,
-            strongestFlow, flowDirections, receiverCapacities);
-
-        foreach (BlockEntityCreativeFluidPump source in creativeSources)
-        {
-            PumpOffer offer = source.GetOffer();
-            if (offer.Pressure <= 0 || !offer.ContentCode.Equals(contentCode)) continue;
-            foreach (BlockFacing face in BlockFacing.ALLFACES)
-            {
-                if (!source.CanConnect(face) ||
-                    !pipeByPosition.TryGetValue(source.Pos.AddCopy(face), out int pipeIndex) ||
-                    !pipes[pipeIndex].CanConnect(face.Opposite)) continue;
-                double receivingPressure = liquidOverflowOutlets[pipeIndex] &&
-                    amounts[pipeIndex] >= HydraulicMath.PipeCapacityLitres
-                    ? 0
-                    : stepPressures[pipeIndex];
-                double wanted = HydraulicMath.RequestedTransferLitres(
-                    offer.Pressure - receivingPressure, SimulationStepSeconds, phase);
-                if (phase == PipeContentPhase.Liquid)
-                {
-                    if (!liquidOverflowOutlets[pipeIndex])
-                    {
-                        wanted = Math.Min(wanted, HydraulicMath.PipeCapacityLitres - amounts[pipeIndex]);
-                    }
-                }
-                else
-                {
-                    double targetAmount = HydraulicMath.GasStandardLitresForGaugePressure(
-                        offer.Pressure, source.ConfiguredTemperatureC);
-                    wanted = Math.Min(wanted, Math.Max(0, targetAmount - amounts[pipeIndex]));
-                }
-                if (wanted <= EmptyEpsilonLitres) continue;
-                AddAmount(pipeIndex, wanted, source.ConfiguredTemperatureC, amounts, energies, temperatures);
-                RecordFlow(pipeIndex, wanted / SimulationStepSeconds, face,
-                    throughputs, strongestFlow, flowDirections);
-            }
-        }
-
-        for (int i = 0; i < count; i++)
-        foreach (BlockFacing face in BlockFacing.ALLFACES)
-        {
-            BlockEntityFluidPipe pipe = pipes[i];
-            bool atmosphericOutlet = IsAtmosphericOutlet(pipe, face);
-            if (face == BlockFacing.UP && atmosphericOutlet) continue;
-            double signedFlow;
-            if (pipe.GetAddon(face) == HydraulicFaceAddon.PipeNozzle)
-            {
-                signedFlow = ProcessNozzle(
-                    pipe, face, contentCode, phase, stepPressures[i], i,
-                    amounts, energies, temperatures, ref boundaryMismatch, ref gasContainerBlocked);
-            }
-            else if (atmosphericOutlet)
-            {
-                signedFlow = ProcessAirOutlet(
-                    face, phase, stepPressures[i], i, amounts, energies, temperatures);
-            }
-            else continue;
-            nozzleFlows[i][face.Index] = signedFlow;
-            if (Math.Abs(signedFlow) > EmptyEpsilonLitres)
-            {
-                RecordFlow(i, Math.Abs(signedFlow),
-                    signedFlow > 0 ? face : face.Opposite,
-                    throughputs, strongestFlow, flowDirections);
-            }
-        }
-
-        for (int i = 0; i < count; i++)
-        {
-            BlockEntityFluidPipe pipe = pipes[i];
-            if (!IsAtmosphericOutlet(pipe, BlockFacing.UP)) continue;
-            double signedFlow = ProcessAirOutlet(
-                BlockFacing.UP, phase, stepPressures[i], i,
-                amounts, energies, temperatures);
-            nozzleFlows[i][BlockFacing.UP.Index] = signedFlow;
-            if (Math.Abs(signedFlow) > EmptyEpsilonLitres)
-            {
-                RecordFlow(i, Math.Abs(signedFlow), BlockFacing.UP,
-                    throughputs, strongestFlow, flowDirections);
-            }
-        }
-
         double now = sapi.World.Calendar.TotalHours;
         if (runConsumers)
         {
@@ -431,7 +362,7 @@ public sealed class HydraulicNetworkSystem : ModSystem
         }
 
         double totalAmount = amounts.Sum();
-        bool networkEmpty = totalAmount <= EmptyEpsilonLitres;
+        bool networkEmpty = totalAmount == 0;
         string status = networkEmpty
             ? "empty"
             : gasContainerBlocked
@@ -442,14 +373,19 @@ public sealed class HydraulicNetworkSystem : ModSystem
 
         for (int i = 0; i < count; i++)
         {
-            if (amounts[i] <= EmptyEpsilonLitres)
+            if (amounts[i] == 0)
             {
                 amounts[i] = 0;
                 temperatures[i] = PipeContent.DefaultTemperatureC(contentCode);
             }
+            // Commit this derived cache only after every pipe has read the
+            // previous step. Baseline bias and gravity never seed driven suction.
+            stepPressures[i] = HydraulicMath.StoredPressure(amounts[i], temperatures[i], phase, pipes[i].DrivenSuctionKPa);
             pipes[i].ApplySimulationState(
                 networkEmpty ? null : contentCode,
-                amounts[i], temperatures[i], networkEmpty ? 0 : stepPressures[i], status,
+                // A dry, known-content run still carries suction to its source.
+                // Clearing it here prevents priming beyond the adjacent pipe.
+                amounts[i], temperatures[i], stepPressures[i], status,
                 flowDirections[i], throughputs[i], nozzleFlows[i], lastConsumerHours[i]);
         }
 
@@ -463,177 +399,10 @@ public sealed class HydraulicNetworkSystem : ModSystem
             legacy.SetNetworkState(null, 0, "deprecated", null);
     }
 
-    private List<FlowIntent> PlanPipeFlows(
-        IReadOnlyList<BlockEntityFluidPipe> pipes,
-        IReadOnlyDictionary<BlockPos, int> pipeByPosition,
-        IReadOnlyList<double> amounts,
-        IReadOnlyList<double> pressures,
-        PipeContentPhase phase)
-    {
-        List<FlowIntent> intents = new();
-        for (int i = 0; i < pipes.Count; i++)
-        foreach (BlockFacing face in BlockFacing.ALLFACES)
-        {
-            if (!pipes[i].IsConnected(face) ||
-                !pipeByPosition.TryGetValue(pipes[i].Pos.AddCopy(face), out int other) || other <= i) continue;
-            double ownPotential = HydraulicMath.HydraulicPotential(pressures[i], pipes[i].Pos.Y, phase);
-            double otherPotential = HydraulicMath.HydraulicPotential(pressures[other], pipes[other].Pos.Y, phase);
-            int from = ownPotential >= otherPotential ? i : other;
-            int to = from == i ? other : i;
-            BlockFacing direction = from == i ? face : face.Opposite;
-            if (amounts[from] <= EmptyEpsilonLitres) continue;
-            double wanted = HydraulicMath.RequestedTransferLitres(
-                Math.Abs(ownPotential - otherPotential), SimulationStepSeconds, phase);
-            if (wanted > EmptyEpsilonLitres) intents.Add(new FlowIntent(from, to, wanted, direction));
-        }
-        return intents;
-    }
-
-    private static void ApplyPipeFlows(
-        IReadOnlyList<FlowIntent> intents,
-        double[] amounts,
-        double[] energies,
-        double[] temperatures,
-        double[] throughputs,
-        double[] strongestFlow,
-        BlockFacing?[] flowDirections,
-        IReadOnlyList<double> receiverCapacities)
-    {
-        PipeTransferIntent[] solverIntents = intents
-            .Select(intent => new PipeTransferIntent(intent.From, intent.To, intent.Litres)).ToArray();
-        double[] actualTransfers = PipeFlowSolver.ScaleTransfers(
-            amounts, receiverCapacities, solverIntents, HydraulicMath.MaximumTransferFractionPerStep);
-
-        double[] deltas = new double[amounts.Length];
-        double[] energyDeltas = new double[amounts.Length];
-        for (int intentIndex = 0; intentIndex < intents.Count; intentIndex++)
-        {
-            FlowIntent intent = intents[intentIndex];
-            double actual = actualTransfers[intentIndex];
-            if (actual <= EmptyEpsilonLitres) continue;
-            double temperature = temperatures[intent.From];
-            deltas[intent.From] -= actual;
-            deltas[intent.To] += actual;
-            energyDeltas[intent.From] -= actual * temperature;
-            energyDeltas[intent.To] += actual * temperature;
-            double rate = actual / SimulationStepSeconds;
-            RecordFlow(intent.From, rate, intent.DirectionFrom,
-                throughputs, strongestFlow, flowDirections);
-            RecordFlow(intent.To, rate, intent.DirectionFrom,
-                throughputs, strongestFlow, flowDirections);
-        }
-
-        for (int i = 0; i < amounts.Length; i++)
-        {
-            amounts[i] = Math.Max(0, amounts[i] + deltas[i]);
-            energies[i] = Math.Max(0, energies[i] + energyDeltas[i]);
-            temperatures[i] = amounts[i] > EmptyEpsilonLitres
-                ? energies[i] / amounts[i]
-                : temperatures[i];
-        }
-    }
-
-    private double ProcessNozzle(
-        BlockEntityFluidPipe pipe,
-        BlockFacing face,
-        AssetLocation contentCode,
-        PipeContentPhase phase,
-        double pipePressure,
-        int pipeIndex,
-        double[] amounts,
-        double[] energies,
-        double[] temperatures,
-        ref bool boundaryMismatch,
-        ref bool gasContainerBlocked)
-    {
-        BlockPos targetPos = pipe.Pos.AddCopy(face);
-        Block targetBlock = sapi!.World.BlockAccessor.GetBlock(targetPos);
-        if (targetBlock.BlockMaterial == EnumBlockMaterial.Air)
-        {
-            return ProcessAirOutlet(
-                face, phase, pipePressure, pipeIndex, amounts, energies, temperatures);
-        }
-
-        NozzleContainer? found = GetNozzleContainer(pipe, face);
-        if (found == null) return 0;
-        if (phase == PipeContentPhase.Gas)
-        {
-            gasContainerBlocked = true;
-            return 0;
-        }
-
-        NozzleContainer container = found.Value;
-        ItemStack? containerContent = container.Interface.GetContent(container.Position);
-        double currentLitres = container.Interface.GetCurrentLitres(container.Position);
-        double fill = currentLitres / Math.Max(0.001, container.Interface.CapacityLitres);
-        double containerPressure = HydraulicMath.LiquidContainerPressure(
-            fill, container.Position.Y, NozzleWorldY(pipe, face));
-
-        if (containerContent != null && containerContent.StackSize > 0 &&
-            !containerContent.Collectible.Code.Equals(contentCode))
-        {
-            boundaryMismatch = true;
-            return 0;
-        }
-
-        if (container.Source != null && containerContent != null &&
-            containerPressure > (HasUpwardAirOutlet(pipe) &&
-                amounts[pipeIndex] >= HydraulicMath.PipeCapacityLitres ? 0 : pipePressure) +
-                HydraulicMath.FlowDeadbandKPa)
-        {
-            WaterTightContainableProps? props = container.Interface.GetContentProps(container.Position);
-            if (props == null || props.ItemsPerLitre <= 0) return 0;
-            double receivingPressure = HasUpwardAirOutlet(pipe) &&
-                amounts[pipeIndex] >= HydraulicMath.PipeCapacityLitres ? 0 : pipePressure;
-            double wanted = HydraulicMath.RequestedTransferLitres(
-                containerPressure - receivingPressure, SimulationStepSeconds, PipeContentPhase.Liquid);
-            bool canOverflow = HasUpwardAirOutlet(pipe);
-            if (!canOverflow)
-            {
-                wanted = Math.Min(wanted,
-                    Math.Max(0, HydraulicMath.PipeCapacityLitres - amounts[pipeIndex]));
-            }
-            double exactItems = wanted * props.ItemsPerLitre + pipe.GetNozzleItemRemainder(face);
-            int maximumItems = canOverflow
-                ? (int)Math.Ceiling(wanted * props.ItemsPerLitre)
-                : (int)Math.Floor(
-                    Math.Max(0, HydraulicMath.PipeCapacityLitres - amounts[pipeIndex]) * props.ItemsPerLitre);
-            int requestedItems = Math.Min((int)Math.Floor(exactItems), maximumItems);
-            pipe.SetNozzleItemRemainder(face, exactItems - requestedItems);
-            if (requestedItems <= 0) return 0;
-            ItemStack? taken = container.Source.TryTakeContent(container.Position, requestedItems);
-            int actualItems = taken?.StackSize ?? 0;
-            if (actualItems <= 0) return 0;
-            double actual = canOverflow
-                ? actualItems / props.ItemsPerLitre
-                : Math.Min(HydraulicMath.PipeCapacityLitres - amounts[pipeIndex],
-                    actualItems / props.ItemsPerLitre);
-            double temperature = taken!.Collectible.GetTemperature(sapi.World, taken);
-            AddAmount(pipeIndex, actual, temperature, amounts, energies, temperatures);
-            return -actual / SimulationStepSeconds;
-        }
-
-        if (container.Sink == null || amounts[pipeIndex] <= EmptyEpsilonLitres ||
-            pipePressure <= containerPressure + HydraulicMath.FlowDeadbandKPa) return 0;
-        Item? item = sapi.World.GetItem(contentCode);
-        WaterTightContainableProps? contentProps = item?.Attributes?["waterTightContainerProps"]
-            .AsObject<WaterTightContainableProps>(null, contentCode.Domain);
-        if (item == null || contentProps == null || contentProps.ItemsPerLitre <= 0) return 0;
-        double desired = HydraulicMath.RequestedTransferLitres(
-            pipePressure - containerPressure, SimulationStepSeconds, PipeContentPhase.Liquid);
-        desired = Math.Min(desired, amounts[pipeIndex]);
-        if (desired <= EmptyEpsilonLitres) return 0;
-        ItemStack offered = new(item, Math.Max(1, (int)Math.Ceiling(desired * contentProps.ItemsPerLitre)));
-        offered.Collectible.SetTemperature(sapi.World, offered, (float)temperatures[pipeIndex], false);
-        int movedItems = container.Sink.TryPutLiquid(container.Position, offered, (float)desired);
-        double moved = Math.Min(amounts[pipeIndex], movedItems / contentProps.ItemsPerLitre);
-        if (moved <= EmptyEpsilonLitres) return 0;
-        RemoveAmount(pipeIndex, moved, amounts, energies, temperatures);
-        return moved / SimulationStepSeconds;
-    }
-
     private AssetLocation? GetNozzleSourceCode(BlockEntityFluidPipe pipe, BlockFacing face)
     {
+        NaturalLiquidSource? natural = GetNaturalLiquidSource(pipe, face);
+        if (natural != null) return natural.Value.ContentCode;
         NozzleContainer? found = GetNozzleContainer(pipe, face);
         if (found?.Source == null) return null;
         ItemStack? content = found.Value.Interface.GetContent(found.Value.Position);
@@ -641,6 +410,25 @@ public sealed class HydraulicNetworkSystem : ModSystem
             PipeContent.IsVintageStoryLiquid(sapi!.World, content.Collectible.Code)
             ? content.Collectible.Code
             : null;
+    }
+
+    private NaturalLiquidSource? GetNaturalLiquidSource(
+        BlockEntityFluidPipe pipe,
+        BlockFacing face)
+    {
+        BlockPos position = pipe.Pos.AddCopy(face);
+        Block fluid = sapi!.World.BlockAccessor.GetBlock(position, BlockLayersAccess.Fluid);
+        if (!fluid.IsLiquid() || fluid.LiquidLevel != 7) return null;
+        WaterTightContainableProps? props = fluid.Attributes?["waterTightContainerProps"]
+            .AsObject<WaterTightContainableProps>(null, fluid.Code.Domain);
+        JsonItemStack? filled = props?.WhenFilled?.Stack;
+        AssetLocation? code = filled?.ResolvedItemstack?.Collectible.Code ?? filled?.Code;
+        if (code == null || !PipeContent.IsVintageStoryLiquid(sapi.World, code)) return null;
+        double temperature = filled?.ResolvedItemstack == null
+            ? PipeContent.DefaultTemperatureC(code)
+            : filled.ResolvedItemstack.Collectible.GetTemperature(
+                sapi.World, filled.ResolvedItemstack);
+        return new NaturalLiquidSource(code, temperature);
     }
 
     private NozzleContainer? GetNozzleContainer(BlockEntityFluidPipe pipe, BlockFacing face)
@@ -653,46 +441,10 @@ public sealed class HydraulicNetworkSystem : ModSystem
             position, liquid, block as ILiquidSource, block as ILiquidSink);
     }
 
-    private double ProcessAirOutlet(
-        BlockFacing face,
-        PipeContentPhase phase,
-        double pipePressure,
-        int pipeIndex,
-        double[] amounts,
-        double[] energies,
-        double[] temperatures)
-    {
-        double ventable = phase == PipeContentPhase.Gas
-            ? HydraulicMath.GasVentableStandardLitres(
-                amounts[pipeIndex], temperatures[pipeIndex])
-            : face == BlockFacing.UP
-                ? HydraulicMath.LiquidOverflowLitres(amounts[pipeIndex])
-                : amounts[pipeIndex];
-        if (ventable <= EmptyEpsilonLitres) return 0;
-        double removed;
-        if (phase == PipeContentPhase.Liquid && face == BlockFacing.UP)
-        {
-            removed = ventable;
-        }
-        else
-        {
-            double outletPressure = phase == PipeContentPhase.Gas
-                ? HydraulicMath.GasGaugePressure(amounts[pipeIndex], temperatures[pipeIndex])
-                : pipePressure;
-            double rate = HydraulicMath.NozzleInventoryRateLitresPerSecond +
-                Math.Max(0, outletPressure) * 0.25;
-            removed = Math.Min(ventable, rate * SimulationStepSeconds);
-        }
-        RemoveAmount(pipeIndex, removed, amounts, energies, temperatures);
-        return removed / SimulationStepSeconds;
-    }
-
-    private bool HasUpwardAirOutlet(BlockEntityFluidPipe pipe) =>
-        IsAtmosphericOutlet(pipe, BlockFacing.UP);
-
     private bool IsAtmosphericOutlet(BlockEntityFluidPipe pipe, BlockFacing face)
     {
         if (pipe is BlockEntityIrrigatorPipe) return false;
+        if (pipe.GetAddon(face) == HydraulicFaceAddon.PipeNozzle && GetNaturalLiquidSource(pipe, face) != null) return false;
         if (sapi!.World.BlockAccessor.GetBlock(pipe.Pos.AddCopy(face)).BlockMaterial !=
             EnumBlockMaterial.Air) return false;
         return pipe.GetAddon(face) == HydraulicFaceAddon.PipeNozzle || pipe.IsPortEnabled(face);
@@ -700,20 +452,6 @@ public sealed class HydraulicNetworkSystem : ModSystem
 
     private static double NozzleWorldY(BlockEntityFluidPipe pipe, BlockFacing face) =>
         pipe.Pos.Y + 0.5 + face.Normali.Y * 0.5;
-
-    private static void AddAmount(
-        int index,
-        double litres,
-        double temperature,
-        double[] amounts,
-        double[] energies,
-        double[] temperatures)
-    {
-        if (litres <= 0) return;
-        amounts[index] += litres;
-        energies[index] += litres * temperature;
-        temperatures[index] = energies[index] / amounts[index];
-    }
 
     private static void RemoveAmount(
         int index,
@@ -724,8 +462,8 @@ public sealed class HydraulicNetworkSystem : ModSystem
     {
         double removed = Math.Min(amounts[index], Math.Max(0, litres));
         amounts[index] -= removed;
-        energies[index] = Math.Max(0, energies[index] - removed * temperatures[index]);
-        if (amounts[index] <= EmptyEpsilonLitres)
+        energies[index] -= removed * temperatures[index];
+        if (amounts[index] == 0)
         {
             amounts[index] = 0;
             energies[index] = 0;
@@ -746,6 +484,12 @@ public sealed class HydraulicNetworkSystem : ModSystem
         flowDirections[index] = face;
     }
 
+    private void PauseComponent(NetworkComponent component, string status)
+    {
+        SetFault(component.Nodes, status);
+        component.NextAttemptTick = simulationTick + 10;
+    }
+
     private static void SetFault(IEnumerable<IHydraulicNetworkNode> nodes, string status)
     {
         double[] noNozzleFlow = new double[BlockFacing.NumberOfFaces];
@@ -753,6 +497,7 @@ public sealed class HydraulicNetworkSystem : ModSystem
         {
             if (node is BlockEntityFluidPipe pipe)
             {
+                pipe.DrivenSuctionKPa = 0;
                 pipe.ApplySimulationState(
                     pipe.CurrentContentCode, pipe.ContentAmountLitres, pipe.ContentTemperatureC,
                     pipe.CurrentPressure, status, null, 0, noNozzleFlow, pipe.LastSimulationTotalHours);
@@ -769,6 +514,7 @@ public sealed class HydraulicNetworkSystem : ModSystem
         HashSet<IHydraulicNetworkNode> pipeNodes = pipes.Cast<IHydraulicNetworkNode>().ToHashSet();
         foreach (BlockEntityFluidPipe pipe in pipes)
         {
+            pipe.DrivenSuctionKPa = 0;
             pipe.ApplySimulationState(null, 0, 20, 0, "empty", null, 0,
                 noNozzleFlow, pipe.LastSimulationTotalHours);
         }
@@ -861,13 +607,22 @@ public sealed class HydraulicNetworkSystem : ModSystem
         farmland.MarkDirty(false);
     }
 
-    private readonly record struct FlowIntent(int From, int To, double Litres, BlockFacing DirectionFrom);
-    private readonly record struct NetworkComponent(List<IHydraulicNetworkNode> Nodes, bool Complete);
+    private sealed record ReciprocatingPumpPort(
+        BlockEntityReciprocatingPump Pump,
+        BlockFacing PumpFace,
+        int PipeIndex);
+    private sealed record NetworkComponent(List<IHydraulicNetworkNode> Nodes, bool Complete)
+    {
+        public int NextAttemptTick { get; set; }
+    }
     private readonly record struct NozzleContainer(
         BlockPos Position,
         ILiquidInterface Interface,
         ILiquidSource? Source,
         ILiquidSink? Sink);
+    private readonly record struct NaturalLiquidSource(
+        AssetLocation ContentCode,
+        double TemperatureC);
 
     private sealed class AssetLocationComparer : IEqualityComparer<AssetLocation>
     {

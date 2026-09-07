@@ -1,0 +1,1658 @@
+{
+  "textureWidth": 32,
+  "textureHeight": 32,
+  "textures": {
+    "gw-oak": "game:block/wood/debarked/oak",
+    "gw-iron": "game:block/metal/sheet-plain/iron2",
+    "gw-bronze": "game:block/metal/sheet/tinbronze1",
+    "gw-copper": "game:block/metal/sheet/copper1",
+    "gw-glass": "gearwright:block/inspection-glass",
+    "gw-shadow": "gearwright:block/inspection-shadow"
+  },
+  "textureSizes": {
+    "gw-oak": [
+      32,
+      32
+    ],
+    "gw-iron": [
+      32,
+      32
+    ],
+    "gw-bronze": [
+      32,
+      32
+    ],
+    "gw-copper": [
+      32,
+      32
+    ],
+    "gw-glass": [
+      16,
+      16
+    ],
+    "gw-shadow": [
+      4,
+      4
+    ]
+  },
+  "elements": [
+    {
+      "name": "gw-pump-mount",
+      "from": [
+        8.0,
+        24.0,
+        8.0
+      ],
+      "to": [
+        8.0,
+        24.0,
+        8.0
+      ],
+      "rotationOrigin": [
+        8.0,
+        24.0,
+        8.0
+      ],
+      "group": "pump",
+      "children": [
+        {
+          "name": "gw-wet-intake-check-motion",
+          "from": [
+            -2.5,
+            -18.8,
+            0
+          ],
+          "to": [
+            -2.5,
+            -18.8,
+            0
+          ],
+          "rotationOrigin": [
+            -2.5,
+            -18.8,
+            0
+          ],
+          "group": "pump-passive-checks",
+          "children": [
+            {
+              "name": "gw-wet-intake-check-disc",
+              "from": [
+                -1.05,
+                -0.13,
+                -1.05
+              ],
+              "to": [
+                1.05,
+                0.13,
+                1.05
+              ],
+              "group": "pump-passive-checks",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            },
+            {
+              "name": "gw-wet-intake-check-guide-sleeve",
+              "from": [
+                -0.19,
+                -0.19,
+                -0.19
+              ],
+              "to": [
+                0.19,
+                0.19,
+                0.19
+              ],
+              "group": "pump-valve-guide",
+              "faces": {
+                "north": {
+                  "texture": "#gw-iron"
+                },
+                "east": {
+                  "texture": "#gw-iron"
+                },
+                "south": {
+                  "texture": "#gw-iron"
+                },
+                "west": {
+                  "texture": "#gw-iron"
+                },
+                "up": {
+                  "texture": "#gw-iron"
+                },
+                "down": {
+                  "texture": "#gw-iron"
+                }
+              }
+            },
+            {
+              "name": "gw-wet-intake-check-glass-witness",
+              "from": [
+                -0.82,
+                -0.07,
+                -1.29
+              ],
+              "to": [
+                0.82,
+                0.12,
+                -1.01
+              ],
+              "group": "pump-valve-indicator",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "gw-wet-output-check-motion",
+          "from": [
+            2.5,
+            -18.79,
+            0
+          ],
+          "to": [
+            2.5,
+            -18.79,
+            0
+          ],
+          "rotationOrigin": [
+            2.5,
+            -18.79,
+            0
+          ],
+          "group": "pump-passive-checks",
+          "children": [
+            {
+              "name": "gw-wet-output-check-disc",
+              "from": [
+                -1.05,
+                -0.13,
+                -1.05
+              ],
+              "to": [
+                1.05,
+                0.13,
+                1.05
+              ],
+              "group": "pump-passive-checks",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            },
+            {
+              "name": "gw-wet-output-check-guide-sleeve",
+              "from": [
+                -0.19,
+                -0.19,
+                -0.19
+              ],
+              "to": [
+                0.19,
+                0.19,
+                0.19
+              ],
+              "group": "pump-valve-guide",
+              "faces": {
+                "north": {
+                  "texture": "#gw-iron"
+                },
+                "east": {
+                  "texture": "#gw-iron"
+                },
+                "south": {
+                  "texture": "#gw-iron"
+                },
+                "west": {
+                  "texture": "#gw-iron"
+                },
+                "up": {
+                  "texture": "#gw-iron"
+                },
+                "down": {
+                  "texture": "#gw-iron"
+                }
+              }
+            },
+            {
+              "name": "gw-wet-output-check-glass-witness",
+              "from": [
+                -0.82,
+                -0.07,
+                -1.29
+              ],
+              "to": [
+                0.82,
+                0.12,
+                -1.01
+              ],
+              "group": "pump-valve-indicator",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "gw-breather-intake-check-motion",
+          "from": [
+            2.65,
+            -9.92,
+            1.55
+          ],
+          "to": [
+            2.65,
+            -9.92,
+            1.55
+          ],
+          "rotationOrigin": [
+            2.65,
+            -9.92,
+            1.55
+          ],
+          "group": "pump-breather",
+          "children": [
+            {
+              "name": "gw-breather-intake-check-disc",
+              "from": [
+                -0.44,
+                -0.1,
+                -0.44
+              ],
+              "to": [
+                0.44,
+                0.1,
+                0.44
+              ],
+              "group": "pump-breather",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            },
+            {
+              "name": "gw-breather-intake-guide-sleeve",
+              "from": [
+                -0.13,
+                -0.13,
+                -0.13
+              ],
+              "to": [
+                0.13,
+                0.17,
+                0.13
+              ],
+              "group": "pump-breather-guide",
+              "faces": {
+                "north": {
+                  "texture": "#gw-iron"
+                },
+                "east": {
+                  "texture": "#gw-iron"
+                },
+                "south": {
+                  "texture": "#gw-iron"
+                },
+                "west": {
+                  "texture": "#gw-iron"
+                },
+                "up": {
+                  "texture": "#gw-iron"
+                },
+                "down": {
+                  "texture": "#gw-iron"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "gw-breather-exhaust-check-motion",
+          "from": [
+            2.65,
+            -9.84,
+            -1.55
+          ],
+          "to": [
+            2.65,
+            -9.84,
+            -1.55
+          ],
+          "rotationOrigin": [
+            2.65,
+            -9.84,
+            -1.55
+          ],
+          "group": "pump-breather",
+          "children": [
+            {
+              "name": "gw-breather-exhaust-check-disc",
+              "from": [
+                -0.44,
+                -0.1,
+                -0.44
+              ],
+              "to": [
+                0.44,
+                0.1,
+                0.44
+              ],
+              "group": "pump-breather",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            },
+            {
+              "name": "gw-breather-exhaust-guide-sleeve",
+              "from": [
+                -0.13,
+                -0.13,
+                -0.13
+              ],
+              "to": [
+                0.13,
+                0.17,
+                0.13
+              ],
+              "group": "pump-breather-guide",
+              "faces": {
+                "north": {
+                  "texture": "#gw-iron"
+                },
+                "east": {
+                  "texture": "#gw-iron"
+                },
+                "south": {
+                  "texture": "#gw-iron"
+                },
+                "west": {
+                  "texture": "#gw-iron"
+                },
+                "up": {
+                  "texture": "#gw-iron"
+                },
+                "down": {
+                  "texture": "#gw-iron"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "gw-piston-motion",
+          "from": [
+            0,
+            -3.0,
+            0
+          ],
+          "to": [
+            0,
+            -3.0,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            -3.0,
+            0
+          ],
+          "group": "pump-motion",
+          "children": [
+            {
+              "name": "gw-crosshead-shoe-left",
+              "from": [
+                -4.05,
+                -0.55,
+                -0.55
+              ],
+              "to": [
+                -1.45,
+                0.55,
+                0.55
+              ],
+              "group": "pump-motion",
+              "faces": {
+                "north": {
+                  "texture": "#gw-iron"
+                },
+                "east": {
+                  "texture": "#gw-iron"
+                },
+                "south": {
+                  "texture": "#gw-iron"
+                },
+                "west": {
+                  "texture": "#gw-iron"
+                },
+                "up": {
+                  "texture": "#gw-iron"
+                },
+                "down": {
+                  "texture": "#gw-iron"
+                }
+              }
+            },
+            {
+              "name": "gw-crosshead-shoe-right",
+              "from": [
+                1.45,
+                -0.55,
+                -0.55
+              ],
+              "to": [
+                4.05,
+                0.55,
+                0.55
+              ],
+              "group": "pump-motion",
+              "faces": {
+                "north": {
+                  "texture": "#gw-iron"
+                },
+                "east": {
+                  "texture": "#gw-iron"
+                },
+                "south": {
+                  "texture": "#gw-iron"
+                },
+                "west": {
+                  "texture": "#gw-iron"
+                },
+                "up": {
+                  "texture": "#gw-iron"
+                },
+                "down": {
+                  "texture": "#gw-iron"
+                }
+              }
+            },
+            {
+              "name": "gw-crosshead-front-bridge",
+              "from": [
+                -1.45,
+                -0.55,
+                -1.35
+              ],
+              "to": [
+                1.45,
+                0.55,
+                -1.05
+              ],
+              "group": "pump-motion",
+              "faces": {
+                "north": {
+                  "texture": "#gw-iron"
+                },
+                "east": {
+                  "texture": "#gw-iron"
+                },
+                "south": {
+                  "texture": "#gw-iron"
+                },
+                "west": {
+                  "texture": "#gw-iron"
+                },
+                "up": {
+                  "texture": "#gw-iron"
+                },
+                "down": {
+                  "texture": "#gw-iron"
+                }
+              }
+            },
+            {
+              "name": "gw-crosshead-back-bridge",
+              "from": [
+                -1.45,
+                -0.55,
+                1.05
+              ],
+              "to": [
+                1.45,
+                0.55,
+                1.35
+              ],
+              "group": "pump-motion",
+              "faces": {
+                "north": {
+                  "texture": "#gw-iron"
+                },
+                "east": {
+                  "texture": "#gw-iron"
+                },
+                "south": {
+                  "texture": "#gw-iron"
+                },
+                "west": {
+                  "texture": "#gw-iron"
+                },
+                "up": {
+                  "texture": "#gw-iron"
+                },
+                "down": {
+                  "texture": "#gw-iron"
+                }
+              }
+            },
+            {
+              "name": "gw-crosshead-pin",
+              "from": [
+                -1.32,
+                -0.5,
+                -0.5
+              ],
+              "to": [
+                1.32,
+                0.5,
+                0.5
+              ],
+              "group": "pump-bearing",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            },
+            {
+              "name": "gw-piston-rod",
+              "from": [
+                -0.42,
+                -7.75,
+                -0.42
+              ],
+              "to": [
+                0.42,
+                -0.62,
+                0.42
+              ],
+              "group": "pump-motion",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            },
+            {
+              "name": "gw-piston-plate",
+              "from": [
+                -3.85,
+                -8.75,
+                -3.05
+              ],
+              "to": [
+                3.85,
+                -7.75,
+                3.05
+              ],
+              "group": "pump-piston",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            },
+            {
+              "name": "gw-piston-upper-seal",
+              "from": [
+                -4.0,
+                -7.92,
+                -3.2
+              ],
+              "to": [
+                4.0,
+                -7.62,
+                3.2
+              ],
+              "group": "pump-piston",
+              "faces": {
+                "north": {
+                  "texture": "#gw-iron"
+                },
+                "east": {
+                  "texture": "#gw-iron"
+                },
+                "south": {
+                  "texture": "#gw-iron"
+                },
+                "west": {
+                  "texture": "#gw-iron"
+                },
+                "up": {
+                  "texture": "#gw-iron"
+                },
+                "down": {
+                  "texture": "#gw-iron"
+                }
+              }
+            },
+            {
+              "name": "gw-piston-lower-seal",
+              "from": [
+                -4.0,
+                -8.78,
+                -3.2
+              ],
+              "to": [
+                4.0,
+                -8.48,
+                3.2
+              ],
+              "group": "pump-piston",
+              "faces": {
+                "north": {
+                  "texture": "#gw-iron"
+                },
+                "east": {
+                  "texture": "#gw-iron"
+                },
+                "south": {
+                  "texture": "#gw-iron"
+                },
+                "west": {
+                  "texture": "#gw-iron"
+                },
+                "up": {
+                  "texture": "#gw-iron"
+                },
+                "down": {
+                  "texture": "#gw-iron"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "gw-connecting-rod-motion",
+          "from": [
+            0,
+            0,
+            0
+          ],
+          "to": [
+            0,
+            0,
+            0
+          ],
+          "rotationOrigin": [
+            0,
+            0,
+            0
+          ],
+          "group": "pump-motion",
+          "children": [
+            {
+              "name": "gw-connecting-rod-spine",
+              "from": [
+                -0.5,
+                -1.9,
+                -0.5
+              ],
+              "to": [
+                0.5,
+                1.9,
+                0.5
+              ],
+              "group": "pump-motion",
+              "faces": {
+                "north": {
+                  "texture": "#gw-iron"
+                },
+                "east": {
+                  "texture": "#gw-iron"
+                },
+                "south": {
+                  "texture": "#gw-iron"
+                },
+                "west": {
+                  "texture": "#gw-iron"
+                },
+                "up": {
+                  "texture": "#gw-iron"
+                },
+                "down": {
+                  "texture": "#gw-iron"
+                }
+              }
+            },
+            {
+              "name": "gw-connecting-rod-crank-bearing-top",
+              "from": [
+                -0.58,
+                4.05,
+                -1.5
+              ],
+              "to": [
+                0.58,
+                4.3,
+                1.5
+              ],
+              "group": "pump-bearing",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            },
+            {
+              "name": "gw-connecting-rod-crank-bearing-bottom",
+              "from": [
+                -0.58,
+                1.7,
+                -1.5
+              ],
+              "to": [
+                0.58,
+                1.95,
+                1.5
+              ],
+              "group": "pump-bearing",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            },
+            {
+              "name": "gw-connecting-rod-crank-bearing-front",
+              "from": [
+                -0.58,
+                1.95,
+                -1.5
+              ],
+              "to": [
+                0.58,
+                4.05,
+                -1.25
+              ],
+              "group": "pump-bearing",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            },
+            {
+              "name": "gw-connecting-rod-crank-bearing-back",
+              "from": [
+                -0.58,
+                1.95,
+                1.25
+              ],
+              "to": [
+                0.58,
+                4.05,
+                1.5
+              ],
+              "group": "pump-bearing",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            },
+            {
+              "name": "gw-connecting-rod-crosshead-bearing-top",
+              "from": [
+                -0.58,
+                -2.35,
+                -1.08
+              ],
+              "to": [
+                0.58,
+                -1.95,
+                1.08
+              ],
+              "group": "pump-bearing",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            },
+            {
+              "name": "gw-connecting-rod-crosshead-bearing-bottom",
+              "from": [
+                -0.58,
+                -4.05,
+                -1.08
+              ],
+              "to": [
+                0.58,
+                -3.65,
+                1.08
+              ],
+              "group": "pump-bearing",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            },
+            {
+              "name": "gw-connecting-rod-crosshead-bearing-front",
+              "from": [
+                -0.58,
+                -3.65,
+                -1.08
+              ],
+              "to": [
+                0.58,
+                -2.35,
+                -0.65
+              ],
+              "group": "pump-bearing",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            },
+            {
+              "name": "gw-connecting-rod-crosshead-bearing-back",
+              "from": [
+                -0.58,
+                -3.65,
+                0.65
+              ],
+              "to": [
+                0.58,
+                -2.35,
+                1.08
+              ],
+              "group": "pump-bearing",
+              "faces": {
+                "north": {
+                  "texture": "#gw-bronze"
+                },
+                "east": {
+                  "texture": "#gw-bronze"
+                },
+                "south": {
+                  "texture": "#gw-bronze"
+                },
+                "west": {
+                  "texture": "#gw-bronze"
+                },
+                "up": {
+                  "texture": "#gw-bronze"
+                },
+                "down": {
+                  "texture": "#gw-bronze"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "animations": [
+    {
+      "name": "Single-acting wet end with in-pipe process checks and paired output-side air checks",
+      "code": "singleacting",
+      "quantityframes": 61,
+      "version": 1,
+      "onActivityStopped": "EaseOut",
+      "onAnimationEnd": "Repeat",
+      "keyframes": [
+        {
+          "frame": 0,
+          "elements": {
+            "gw-piston-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-connecting-rod-motion": {
+              "offsetY": 0,
+              "offsetZ": 0,
+              "rotationX": 0,
+              "rotShortestDistanceX": true,
+              "offsetX": 0,
+              "rotationY": 0,
+              "rotationZ": 0
+            },
+            "gw-wet-intake-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-wet-output-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-intake-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-exhaust-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            }
+          }
+        },
+        {
+          "frame": 5,
+          "elements": {
+            "gw-piston-motion": {
+              "offsetY": -0.211398808,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-connecting-rod-motion": {
+              "offsetY": -0.3066612983,
+              "offsetZ": 0.75,
+              "rotationX": 14.4775121859,
+              "rotShortestDistanceX": true,
+              "offsetX": 0,
+              "rotationY": 0,
+              "rotationZ": 0
+            },
+            "gw-wet-intake-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-wet-output-check-motion": {
+              "offsetY": -0.18,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-intake-check-motion": {
+              "offsetY": -0.11,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-exhaust-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            }
+          }
+        },
+        {
+          "frame": 10,
+          "elements": {
+            "gw-piston-motion": {
+              "offsetY": -0.9083269132,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-connecting-rod-motion": {
+              "offsetY": -1.2041634566,
+              "offsetZ": 1.2990381057,
+              "rotationX": 25.6589062733,
+              "rotShortestDistanceX": true,
+              "offsetX": 0,
+              "rotationY": 0,
+              "rotationZ": 0
+            },
+            "gw-wet-intake-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-wet-output-check-motion": {
+              "offsetY": -0.3117691454,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-intake-check-motion": {
+              "offsetY": -0.1905255888,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-exhaust-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            }
+          }
+        },
+        {
+          "frame": 15,
+          "elements": {
+            "gw-piston-motion": {
+              "offsetY": -2.1961524227,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-connecting-rod-motion": {
+              "offsetY": -2.5980762114,
+              "offsetZ": 1.5,
+              "rotationX": 30.0,
+              "rotShortestDistanceX": true,
+              "offsetX": 0,
+              "rotationY": 0,
+              "rotationZ": 0
+            },
+            "gw-wet-intake-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-wet-output-check-motion": {
+              "offsetY": -0.36,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-intake-check-motion": {
+              "offsetY": -0.22,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-exhaust-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            }
+          }
+        },
+        {
+          "frame": 20,
+          "elements": {
+            "gw-piston-motion": {
+              "offsetY": -3.9083269132,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-connecting-rod-motion": {
+              "offsetY": -4.2041634566,
+              "offsetZ": 1.2990381057,
+              "rotationX": 25.6589062733,
+              "rotShortestDistanceX": true,
+              "offsetX": 0,
+              "rotationY": 0,
+              "rotationZ": 0
+            },
+            "gw-wet-intake-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-wet-output-check-motion": {
+              "offsetY": -0.3117691454,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-intake-check-motion": {
+              "offsetY": -0.1905255888,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-exhaust-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            }
+          }
+        },
+        {
+          "frame": 25,
+          "elements": {
+            "gw-piston-motion": {
+              "offsetY": -5.4075512307,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-connecting-rod-motion": {
+              "offsetY": -5.502813721,
+              "offsetZ": 0.75,
+              "rotationX": 14.4775121859,
+              "rotShortestDistanceX": true,
+              "offsetX": 0,
+              "rotationY": 0,
+              "rotationZ": 0
+            },
+            "gw-wet-intake-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-wet-output-check-motion": {
+              "offsetY": -0.18,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-intake-check-motion": {
+              "offsetY": -0.11,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-exhaust-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            }
+          }
+        },
+        {
+          "frame": 30,
+          "elements": {
+            "gw-piston-motion": {
+              "offsetY": -6.0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-connecting-rod-motion": {
+              "offsetY": -6.0,
+              "offsetZ": 0,
+              "rotationX": 0,
+              "rotShortestDistanceX": true,
+              "offsetX": 0,
+              "rotationY": 0,
+              "rotationZ": 0
+            },
+            "gw-wet-intake-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-wet-output-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-intake-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-exhaust-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            }
+          }
+        },
+        {
+          "frame": 35,
+          "elements": {
+            "gw-piston-motion": {
+              "offsetY": -5.4075512307,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-connecting-rod-motion": {
+              "offsetY": -5.502813721,
+              "offsetZ": -0.75,
+              "rotationX": -14.4775121859,
+              "rotShortestDistanceX": true,
+              "offsetX": 0,
+              "rotationY": 0,
+              "rotationZ": 0
+            },
+            "gw-wet-intake-check-motion": {
+              "offsetY": 0.18,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-wet-output-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-intake-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-exhaust-check-motion": {
+              "offsetY": 0.11,
+              "offsetX": 0,
+              "offsetZ": 0
+            }
+          }
+        },
+        {
+          "frame": 40,
+          "elements": {
+            "gw-piston-motion": {
+              "offsetY": -3.9083269132,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-connecting-rod-motion": {
+              "offsetY": -4.2041634566,
+              "offsetZ": -1.2990381057,
+              "rotationX": -25.6589062733,
+              "rotShortestDistanceX": true,
+              "offsetX": 0,
+              "rotationY": 0,
+              "rotationZ": 0
+            },
+            "gw-wet-intake-check-motion": {
+              "offsetY": 0.3117691454,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-wet-output-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-intake-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-exhaust-check-motion": {
+              "offsetY": 0.1905255888,
+              "offsetX": 0,
+              "offsetZ": 0
+            }
+          }
+        },
+        {
+          "frame": 45,
+          "elements": {
+            "gw-piston-motion": {
+              "offsetY": -2.1961524227,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-connecting-rod-motion": {
+              "offsetY": -2.5980762114,
+              "offsetZ": -1.5,
+              "rotationX": -30.0,
+              "rotShortestDistanceX": true,
+              "offsetX": 0,
+              "rotationY": 0,
+              "rotationZ": 0
+            },
+            "gw-wet-intake-check-motion": {
+              "offsetY": 0.36,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-wet-output-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-intake-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-exhaust-check-motion": {
+              "offsetY": 0.22,
+              "offsetX": 0,
+              "offsetZ": 0
+            }
+          }
+        },
+        {
+          "frame": 50,
+          "elements": {
+            "gw-piston-motion": {
+              "offsetY": -0.9083269132,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-connecting-rod-motion": {
+              "offsetY": -1.2041634566,
+              "offsetZ": -1.2990381057,
+              "rotationX": -25.6589062733,
+              "rotShortestDistanceX": true,
+              "offsetX": 0,
+              "rotationY": 0,
+              "rotationZ": 0
+            },
+            "gw-wet-intake-check-motion": {
+              "offsetY": 0.3117691454,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-wet-output-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-intake-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-exhaust-check-motion": {
+              "offsetY": 0.1905255888,
+              "offsetX": 0,
+              "offsetZ": 0
+            }
+          }
+        },
+        {
+          "frame": 55,
+          "elements": {
+            "gw-piston-motion": {
+              "offsetY": -0.211398808,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-connecting-rod-motion": {
+              "offsetY": -0.3066612983,
+              "offsetZ": -0.75,
+              "rotationX": -14.4775121859,
+              "rotShortestDistanceX": true,
+              "offsetX": 0,
+              "rotationY": 0,
+              "rotationZ": 0
+            },
+            "gw-wet-intake-check-motion": {
+              "offsetY": 0.18,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-wet-output-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-intake-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-exhaust-check-motion": {
+              "offsetY": 0.11,
+              "offsetX": 0,
+              "offsetZ": 0
+            }
+          }
+        },
+        {
+          "frame": 60,
+          "elements": {
+            "gw-piston-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-connecting-rod-motion": {
+              "offsetY": 0,
+              "offsetZ": 0,
+              "rotationX": 0,
+              "rotShortestDistanceX": true,
+              "offsetX": 0,
+              "rotationY": 0,
+              "rotationZ": 0
+            },
+            "gw-wet-intake-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-wet-output-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-intake-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            },
+            "gw-breather-exhaust-check-motion": {
+              "offsetY": 0,
+              "offsetX": 0,
+              "offsetZ": 0
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

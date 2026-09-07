@@ -1,0 +1,60 @@
+{
+  "code": "lateral-crank",
+  "class": "GearwrightLateralCrank",
+  "entityClass": "Generic",
+  "entityBehaviors": [
+    { "name": "GearwrightMPLateralCrank" }
+  ],
+  "variantgroups": [
+    { "code": "rotation", "states": ["ns", "we"] }
+  ],
+  "shape": { "base": "gearwright:block/gearwright-empty" },
+  "shapeInventory": { "base": "gearwright:block/lateral-crank-inventory" },
+  "textures": {
+    "gw-oak": { "base": "game:block/wood/debarked/oak" },
+    "gw-iron": { "base": "game:block/metal/sheet-plain/iron2" },
+    "gw-bronze": { "base": "game:block/metal/sheet/tinbronze1" },
+    "gw-copper": { "base": "game:block/metal/sheet/copper1" },
+    "gw-glass": { "base": "gearwright:block/inspection-glass" },
+    "gw-shadow": { "base": "gearwright:block/inspection-shadow" }
+  },
+  "attributes": {
+    "handbook": {
+      "include": true,
+      "groupBy": ["lateral-crank-*"],
+      "extraSections": [
+        { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-lateral-crank" }
+      ]
+    }
+  },
+  "creativeinventory": {
+    "general": ["*-ns"],
+    "gearwright": ["*-ns"]
+  },
+  "blockmaterial": "Wood",
+  "materialDensity": 1400,
+  "resistance": 4,
+  "lightAbsorption": 0,
+  "sidesolid": { "all": false },
+  "sideopaque": { "all": false },
+  "rainPermeable": true,
+  "collisionSelectionBoxByType": {
+    "*-we": { "x1": 0, "y1": 0.25, "z1": 0.25, "x2": 1, "y2": 0.75, "z2": 0.75 },
+    "*-ns": { "x1": 0.25, "y1": 0.25, "z1": 0, "x2": 0.75, "y2": 0.75, "z2": 1 }
+  },
+  "maxStackSize": 1,
+  "drops": [
+    { "type": "block", "code": "gearwright:lateral-crank-ns" }
+  ],
+  "sounds": {
+    "hit": "game:block/planks",
+    "break": "game:block/planks",
+    "place": "game:block/planks",
+    "walk": "game:walk/wood"
+  },
+  "guiTransform": {
+    "translation": { "x": 0, "y": -0.05, "z": 0 },
+    "rotation": { "x": -20, "y": -35, "z": 0 },
+    "scale": 0.8
+  }
+}

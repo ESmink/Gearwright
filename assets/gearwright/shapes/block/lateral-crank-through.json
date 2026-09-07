@@ -1,0 +1,401 @@
+{
+  "textureWidth": 32,
+  "textureHeight": 32,
+  "textures": {
+    "gw-oak": "game:block/wood/debarked/oak",
+    "gw-iron": "game:block/metal/sheet-plain/iron2",
+    "gw-bronze": "game:block/metal/sheet/tinbronze1",
+    "gw-copper": "game:block/metal/sheet/copper1",
+    "gw-glass": "gearwright:block/inspection-glass",
+    "gw-shadow": "gearwright:block/inspection-shadow"
+  },
+  "textureSizes": {
+    "gw-oak": [
+      32,
+      32
+    ],
+    "gw-iron": [
+      32,
+      32
+    ],
+    "gw-bronze": [
+      32,
+      32
+    ],
+    "gw-copper": [
+      32,
+      32
+    ],
+    "gw-glass": [
+      16,
+      16
+    ],
+    "gw-shadow": [
+      4,
+      4
+    ]
+  },
+  "elements": [
+    {
+      "name": "gw-crank-phase",
+      "from": [
+        8.0,
+        8.0,
+        8.0
+      ],
+      "to": [
+        8.0,
+        8.0,
+        8.0
+      ],
+      "rotationOrigin": [
+        8.0,
+        8.0,
+        8.0
+      ],
+      "group": "crank-motion",
+      "children": [
+        {
+          "name": "gw-crank-input-shaft-wide",
+          "from": [
+            -8.0,
+            -1.0,
+            -2.0
+          ],
+          "to": [
+            -2.75,
+            1.0,
+            2.0
+          ],
+          "group": "shaft",
+          "faces": {
+            "north": {
+              "texture": "#gw-oak"
+            },
+            "east": {
+              "texture": "#gw-oak"
+            },
+            "south": {
+              "texture": "#gw-oak"
+            },
+            "west": {
+              "texture": "#gw-oak"
+            },
+            "up": {
+              "texture": "#gw-oak"
+            },
+            "down": {
+              "texture": "#gw-oak"
+            }
+          }
+        },
+        {
+          "name": "gw-crank-input-shaft-tall",
+          "from": [
+            -8.0,
+            -2.0,
+            -1.0
+          ],
+          "to": [
+            -2.75,
+            2.0,
+            1.0
+          ],
+          "group": "shaft",
+          "faces": {
+            "north": {
+              "texture": "#gw-oak"
+            },
+            "east": {
+              "texture": "#gw-oak"
+            },
+            "south": {
+              "texture": "#gw-oak"
+            },
+            "west": {
+              "texture": "#gw-oak"
+            },
+            "up": {
+              "texture": "#gw-oak"
+            },
+            "down": {
+              "texture": "#gw-oak"
+            }
+          }
+        },
+        {
+          "name": "gw-crank-output-shaft-wide",
+          "from": [
+            2.75,
+            -1.0,
+            -2.0
+          ],
+          "to": [
+            8.0,
+            1.0,
+            2.0
+          ],
+          "group": "shaft",
+          "faces": {
+            "north": {
+              "texture": "#gw-oak"
+            },
+            "east": {
+              "texture": "#gw-oak"
+            },
+            "south": {
+              "texture": "#gw-oak"
+            },
+            "west": {
+              "texture": "#gw-oak"
+            },
+            "up": {
+              "texture": "#gw-oak"
+            },
+            "down": {
+              "texture": "#gw-oak"
+            }
+          }
+        },
+        {
+          "name": "gw-crank-output-shaft-tall",
+          "from": [
+            2.75,
+            -2.0,
+            -1.0
+          ],
+          "to": [
+            8.0,
+            2.0,
+            1.0
+          ],
+          "group": "shaft",
+          "faces": {
+            "north": {
+              "texture": "#gw-oak"
+            },
+            "east": {
+              "texture": "#gw-oak"
+            },
+            "south": {
+              "texture": "#gw-oak"
+            },
+            "west": {
+              "texture": "#gw-oak"
+            },
+            "up": {
+              "texture": "#gw-oak"
+            },
+            "down": {
+              "texture": "#gw-oak"
+            }
+          }
+        },
+        {
+          "name": "gw-crank-input-web",
+          "from": [
+            -2.75,
+            -1.55,
+            -1.25
+          ],
+          "to": [
+            -1.45,
+            3.7,
+            1.25
+          ],
+          "group": "crank-load-path",
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-crank-input-root-bush",
+          "from": [
+            -2.85,
+            -1.85,
+            -1.55
+          ],
+          "to": [
+            -1.35,
+            0.35,
+            1.55
+          ],
+          "group": "crank-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-crank-output-web",
+          "from": [
+            1.45,
+            -1.55,
+            -1.25
+          ],
+          "to": [
+            2.75,
+            3.7,
+            1.25
+          ],
+          "group": "crank-load-path",
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-crank-output-root-bush",
+          "from": [
+            1.35,
+            -1.85,
+            -1.55
+          ],
+          "to": [
+            2.85,
+            0.35,
+            1.55
+          ],
+          "group": "crank-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-crank-bronze-journal",
+          "from": [
+            -1.45,
+            2.05,
+            -1.15
+          ],
+          "to": [
+            1.45,
+            3.95,
+            1.15
+          ],
+          "group": "crank-journal",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "animations": [
+    {
+      "name": "Crank rotation",
+      "code": "rotation",
+      "quantityframes": 61,
+      "version": 1,
+      "onActivityStopped": "EaseOut",
+      "onAnimationEnd": "Repeat",
+      "keyframes": [
+        {
+          "frame": 0,
+          "elements": {
+            "gw-crank-phase": {
+              "rotationX": 0,
+              "rotShortestDistanceX": false,
+              "rotationY": 0,
+              "rotationZ": 0
+            }
+          }
+        },
+        {
+          "frame": 60,
+          "elements": {
+            "gw-crank-phase": {
+              "rotationX": 360,
+              "rotShortestDistanceX": false,
+              "rotationY": 0,
+              "rotationZ": 0
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

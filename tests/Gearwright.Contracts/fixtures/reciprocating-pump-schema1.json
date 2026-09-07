@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "driveFace": "up",
+  "outputFace": "east",
+  "contentCode": "game:waterportion",
+  "amountLitres": 4.25,
+  "temperatureC": 18.5,
+  "lastVolumeLitres": 6.05,
+  "futureData": { "keep": true }
+}

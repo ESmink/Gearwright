@@ -127,6 +127,16 @@ def _validate_animation(shape: Shape, animation: Animation) -> None:
         raise CompileError(f"animation '{animation.code}' keyframes must be ordered and unique")
     if any(frame < 0 or frame >= animation.quantityframes for frame in frames):
         raise CompileError(f"animation '{animation.code}' contains a frame outside its declared range")
+    if animation.on_activity_stopped not in (None, "PlayTillEnd", "Rewind", "Stop", "EaseOut"):
+        raise CompileError(
+            f"animation '{animation.code}' has invalid onActivityStopped value "
+            f"'{animation.on_activity_stopped}'"
+        )
+    if animation.on_animation_end not in (None, "Repeat", "Hold", "Stop", "EaseOut"):
+        raise CompileError(
+            f"animation '{animation.code}' has invalid onAnimationEnd value "
+            f"'{animation.on_animation_end}'"
+        )
     names = {element.name for element in shape.elements}
     for keyframe in animation.keyframes:
         for target, values in keyframe.elements.items():
@@ -137,6 +147,24 @@ def _validate_animation(shape: Shape, animation: Animation) -> None:
                     raise CompileError(f"unsupported animation property '{key}'")
                 if isinstance(value, float) and not math.isfinite(value):
                     raise CompileError(f"animation '{animation.code}' contains a non-finite value")
+
+
+def _engine_animation_values(values: OrderedDict[str, float | bool]) -> OrderedDict[str, float | bool]:
+    """Complete transform vectors required by Vintage Story's animator.
+
+    The engine marks a whole translation or rotation group as present when any
+    component exists, then reads all three nullable components during frame
+    generation. Neutral values keep concise authoring safe at runtime.
+    """
+    output = OrderedDict(values)
+    for keys, neutral in (
+        (("offsetX", "offsetY", "offsetZ"), 0),
+        (("rotationX", "rotationY", "rotationZ"), 0),
+    ):
+        if any(key in output for key in keys):
+            for key in keys:
+                output.setdefault(key, neutral)
+    return output
 
 
 def compile_shape(shape: Shape) -> OrderedDict[str, Any]:
@@ -171,7 +199,10 @@ def compile_shape(shape: Shape) -> OrderedDict[str, Any]:
                 item["onAnimationEnd"] = animation.on_animation_end
             item["keyframes"] = [OrderedDict((
                 ("frame", keyframe.frame),
-                ("elements", OrderedDict((target, values) for target, values in keyframe.elements.items())),
+                ("elements", OrderedDict(
+                    (target, _engine_animation_values(values))
+                    for target, values in keyframe.elements.items()
+                )),
             )) for keyframe in animation.keyframes]
             animations.append(item)
         result["animations"] = animations

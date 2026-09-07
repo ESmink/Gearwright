@@ -13,34 +13,54 @@
 
   <ItemGroup>
     <Compile Include="Program.cs" />
-    <Compile Include="..\..\code\Storage\GearwrightWorldState.cs" Link="GearwrightWorldState.cs" />
-    <Compile Include="..\..\code\Hydraulics\HydraulicMath.cs" Link="HydraulicMath.cs" />
-    <Compile Include="..\..\code\Hydraulics\PipeContentPhase.cs" Link="PipeContentPhase.cs" />
-    <Compile Include="..\..\code\Hydraulics\PipeFlowSolver.cs" Link="PipeFlowSolver.cs" />
-    <Compile Include="..\..\code\Hydraulics\HydraulicStateSchema.cs" Link="HydraulicStateSchema.cs" />
-    <Compile Include="..\..\code\Hydraulics\IrrigatorSupportPlanner.cs" Link="IrrigatorSupportPlanner.cs" />
-    <Compile Include="..\..\code\Mechanics\FlywheelMath.cs" Link="FlywheelMath.cs" />
-    <Compile Include="..\..\code\Mechanics\FlywheelStateSchema.cs" Link="FlywheelStateSchema.cs" />
-    <Compile Include="..\..\code\Mechanics\FlywheelBounds.cs" Link="FlywheelBounds.cs" />
-    <Compile Include="..\..\code\Mechanics\ClutchCouplingMath.cs" Link="ClutchCouplingMath.cs" />
-    <Compile Include="..\..\code\Mechanics\OverrunningCouplingMath.cs" Link="OverrunningCouplingMath.cs" />
-    <Compile Include="..\..\code\Mechanics\FlywheelNetworkPlan.cs" Link="FlywheelNetworkPlan.cs" />
+    <Compile Include="PumpCircuitFixture.cs" />
+    <Compile Include="..\..\code\**\*.cs" LinkBase="Runtime" />
+    <Compile Include="PumpRuntimeFixture.cs" />
+    <Compile Include="PumpTimingFixture.cs" />
+    <Compile Include="PipePressureFixture.cs" />
+    <Compile Include="HydraulicRuntimeFixture.cs" />
+    <Reference Include="VSSurvivalMod">
+      <HintPath>$(VintageStoryPath)\Mods\VSSurvivalMod.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="VSEssentials">
+      <HintPath>$(VintageStoryPath)\Mods\VSEssentials.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="VintagestoryLib">
+      <HintPath>$(VintageStoryPath)\VintagestoryLib.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
     <Reference Include="VintagestoryAPI">
       <HintPath>$(VintageStoryPath)\VintagestoryAPI.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(VintageStoryPath)\Lib\0Harmony.dll</HintPath>
       <Private>true</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>$(VintageStoryPath)\Lib\Newtonsoft.Json.dll</HintPath>
       <Private>true</Private>
     </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>$(VintageStoryPath)\Lib\protobuf-net.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
     <None Include="fixtures\*.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\assets\gearwright\shapes\block\lateral-crank-one-sided.json"
+          Link="runtime-shapes\lateral-crank-one-sided.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\assets\gearwright\shapes\block\lateral-crank-through.json"
+          Link="runtime-shapes\lateral-crank-through.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\assets\gearwright\shapes\block\reciprocating-pump-mechanism.json"
+          Link="runtime-shapes\reciprocating-pump-mechanism.json" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
   <Target Name="CheckVintageStoryPath" BeforeTargets="ResolveReferences"
-          Condition="!Exists('$(VintageStoryPath)\VintagestoryAPI.dll') or !Exists('$(VintageStoryPath)\Lib\Newtonsoft.Json.dll')">
-    <Error Text="Vintage Story was not found. The compatibility contracts need VintagestoryAPI.dll and its Newtonsoft.Json assembly." />
+          Condition="!Exists('$(VintageStoryPath)\VintagestoryAPI.dll') or !Exists('$(VintageStoryPath)\Mods\VSSurvivalMod.dll') or !Exists('$(VintageStoryPath)\Mods\VSEssentials.dll') or !Exists('$(VintageStoryPath)\VintagestoryLib.dll') or !Exists('$(VintageStoryPath)\Lib\Newtonsoft.Json.dll') or !Exists('$(VintageStoryPath)\Lib\protobuf-net.dll') or !Exists('$(VintageStoryPath)\Lib\0Harmony.dll')">
+    <Error Text="Vintage Story was not found. The runtime and compatibility contracts require a complete Vintage Story 1.22.3 installation." />
   </Target>
 </Project>

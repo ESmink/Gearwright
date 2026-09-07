@@ -1,0 +1,163 @@
+{
+  "textureWidth": 32,
+  "textureHeight": 32,
+  "textures": {
+    "gw-oak": "game:block/wood/debarked/oak",
+    "gw-iron": "game:block/metal/sheet-plain/iron2",
+    "gw-bronze": "game:block/metal/sheet/tinbronze1",
+    "gw-copper": "game:block/metal/sheet/copper1",
+    "gw-glass": "gearwright:block/inspection-glass",
+    "gw-shadow": "gearwright:block/inspection-shadow"
+  },
+  "textureSizes": {
+    "gw-oak": [
+      32,
+      32
+    ],
+    "gw-iron": [
+      32,
+      32
+    ],
+    "gw-bronze": [
+      32,
+      32
+    ],
+    "gw-copper": [
+      32,
+      32
+    ],
+    "gw-glass": [
+      16,
+      16
+    ],
+    "gw-shadow": [
+      4,
+      4
+    ]
+  },
+  "elements": [
+    {
+      "name": "gw-wet-intake-check-motion",
+      "from": [
+        5.5,
+        5.2,
+        8.0
+      ],
+      "to": [
+        5.5,
+        5.2,
+        8.0
+      ],
+      "rotationOrigin": [
+        5.5,
+        5.2,
+        8.0
+      ],
+      "group": "pump-passive-checks",
+      "children": [
+        {
+          "name": "gw-wet-intake-check-disc",
+          "from": [
+            -1.05,
+            -0.13,
+            -1.05
+          ],
+          "to": [
+            1.05,
+            0.13,
+            1.05
+          ],
+          "group": "pump-passive-checks",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-wet-intake-check-guide-sleeve",
+          "from": [
+            -0.19,
+            -0.19,
+            -0.19
+          ],
+          "to": [
+            0.19,
+            0.19,
+            0.19
+          ],
+          "group": "pump-valve-guide",
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-wet-intake-check-glass-witness",
+          "from": [
+            -0.82,
+            -0.07,
+            -1.29
+          ],
+          "to": [
+            0.82,
+            0.12,
+            -1.01
+          ],
+          "group": "pump-valve-indicator",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

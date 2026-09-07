@@ -12,6 +12,8 @@ public abstract class BlockEntityHydraulicNode : BlockEntity, IHydraulicNetworkN
     private ITreeAttribute preservedState = new TreeAttribute();
     private bool canWrite = true;
     private bool registered;
+    private bool pendingSimulationUpdate;
+    private long lastSimulationUpdateMilliseconds;
 
     public BlockPos Position => Pos;
     public bool CanWriteState => canWrite;
@@ -107,12 +109,8 @@ public abstract class BlockEntityHydraulicNode : BlockEntity, IHydraulicNetworkN
         NetworkStatusCode = statusCode;
         CurrentFlowDirection = flowDirection;
 
-        if (Api?.Side == EnumAppSide.Server &&
-            (oldContent != contentCode?.ToString() || Math.Abs(oldPressure - CurrentPressure) >= 0.05 ||
-             oldStatus != statusCode || oldFlowDirection != flowDirection?.Code))
-        {
-            MarkDirty(false);
-        }
+        MarkSimulationDirty(oldContent != contentCode?.ToString() || oldPressure != CurrentPressure ||
+            oldStatus != statusCode || oldFlowDirection != flowDirection?.Code);
     }
 
     protected virtual void ReadKnownState(ITreeAttribute state, IWorldAccessor world) { }
@@ -145,6 +143,17 @@ public abstract class BlockEntityHydraulicNode : BlockEntity, IHydraulicNetworkN
     protected void MarkHydraulicsDirty(bool redrawOnClient = false)
     {
         if (canWrite) MarkDirty(redrawOnClient);
+    }
+
+    protected void MarkSimulationDirty(bool changed)
+    {
+        if (!canWrite || Api?.Side != EnumAppSide.Server) return;
+        pendingSimulationUpdate |= changed;
+        long now = Api.World.ElapsedMilliseconds;
+        if (!pendingSimulationUpdate || now - lastSimulationUpdateMilliseconds < 100) return;
+        pendingSimulationUpdate = false;
+        lastSimulationUpdateMilliseconds = now;
+        MarkDirty(false);
     }
 
     private void Unregister()

@@ -5,7 +5,10 @@ using System.Text;
 using Gearwright.Hydraulics;
 using Gearwright.Mechanics;
 using Gearwright.Storage;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Vintagestory.API.Client;
+using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 
@@ -31,6 +34,8 @@ internal static class Program
         HydraulicPotentialSupportsWaterTowers();
         TextureScrollTracksPressureDrivenFlow();
         PipeFlowPlanningIsConservative();
+        PipePressureFixture.Run(Check);
+        HydraulicRuntimeFixture.Run(Check);
         PressureControlsConsumerWaterUse();
         SprinklerReachUsesStablePressureBands();
         AmbientAudioTracksPressureAndFlow();
@@ -38,6 +43,22 @@ internal static class Program
         HydraulicSchemasMigrateAdditively();
         HydraulicSchemaOneFixturesStayReadable();
         HydraulicSchemaThreePipeFixtureStaysReadable();
+        ReciprocatingPumpStrokePressureAndLoadArePhysical();
+        PumpBoundaryPressureDoesNotCancelItsOwnTransfer();
+        ReciprocatingPumpPrimesFillsAndDischargesConservatively();
+        PumpPipeRunsCarryMoreThanTheVacuumPropagationTrickle();
+        PumpDischargeFollowsPistonDisplacement();
+        PumpOverloadIsProgressiveAndFinite();
+        PassiveHeightCannotCreatePrimingVacuum();
+        PumpRuntimeFixture.Run(Check);
+        PumpTimingFixture.Run(Check);
+        PumpLiquidSurfaceMeetsItsSidesBelowThePiston();
+        ReciprocatingLinkageRemainsConnectedInEveryOrientation();
+        ReciprocatingCheckMotionFollowsTheStroke();
+        InfiniteSourceWaterHasAnEnergyFloor();
+        PumpAndCrankSchemasProtectUnknownState();
+        DashedDriveShaftCodeKeepsItsFullBaseName();
+        RuntimeMechanismAnimationsGenerateEveryEngineFrame();
         FlywheelStoresAndReturnsMomentum();
         FlywheelStateIsBoundedAndFinite();
         FlywheelSchemasPreserveUnknownDataAndProtectFutureState();
@@ -360,6 +381,526 @@ internal static class Program
             "Configured gas pressure and standard-litre storage are invertible");
     }
 
+    private static void ReciprocatingPumpStrokePressureAndLoadArePhysical()
+    {
+        double top = ReciprocatingPumpMath.ChamberVolumeLitres(0);
+        double bottom = ReciprocatingPumpMath.ChamberVolumeLitres(Math.PI);
+        Check(Math.Abs(top - 4.05) < 0.000001 && Math.Abs(bottom - 0.05) < 0.000001,
+            "The piston sweeps four litres and reaches its finite clearance volume");
+        Check(ReciprocatingPumpMath.Stroke(bottom, top) == ReciprocatingPumpStroke.Suction &&
+              ReciprocatingPumpMath.Stroke(top, bottom) == ReciprocatingPumpStroke.Pressure,
+            "Increasing chamber volume selects intake while decreasing volume selects output");
+
+        double vacuum = ReciprocatingPumpMath.ChamberPressureKPa(
+            0, 20, PipeContentPhase.Liquid, top);
+        double filled = ReciprocatingPumpMath.ChamberPressureKPa(
+            4, 20, PipeContentPhase.Liquid, top);
+        double compressed = ReciprocatingPumpMath.ChamberPressureKPa(
+            4, 20, PipeContentPhase.Liquid, 2);
+        Check(vacuum <= -HydraulicMath.AmbientPressureKPa + 0.001 &&
+              filled > -2 && compressed > 1000,
+            "An empty upstroke draws a vacuum while trapped liquid strongly resists a downstroke");
+        Check(ReciprocatingPumpMath.MechanicalResistance(compressed, Math.PI / 2) >
+              ReciprocatingPumpMath.MechanicalResistance(filled, Math.PI / 2),
+            "Hydraulic back-pressure becomes mechanical resistance on the crank");
+    }
+
+    private static void PumpBoundaryPressureDoesNotCancelItsOwnTransfer()
+    {
+        const double step = .2;
+        const double pipeWater = 2;
+        double chamberVolume = ReciprocatingPumpMath.ChamberVolumeLitres(0);
+        double chamberPressure = ReciprocatingPumpMath.ChamberPressureKPa(
+            0, 20, PipeContentPhase.Liquid, chamberVolume);
+        LiquidPipePressureSnapshot inlet = new(pipeWater / HydraulicMath.PipeCapacityLitres, 0, 0);
+        double networkPressure = new LiquidPipePressureSnapshot(0, 0, 0).WithBoundary(chamberPressure).PressureKPa;
+        Check(ReciprocatingPumpMath.CanDrawInfiniteLiquid(networkPressure),
+            "An empty pump still projects sufficient suction into its inlet to prime a natural-source nozzle");
+        Check(HydraulicMath.RequestedTransferLitres(networkPressure - chamberPressure, step, PipeContentPhase.Liquid) == 0,
+            "Regression fixture reproduces the old self-cancelling pump/pipe pressure delta");
+        Check(ReciprocatingPumpMath.DrivingBoundaryPressureKPa(-100, ReciprocatingPumpStroke.Pressure, false) == 0 &&
+              ReciprocatingPumpMath.DrivingBoundaryPressureKPa(100, ReciprocatingPumpStroke.Suction, true) == 0 &&
+              ReciprocatingPumpMath.DrivingBoundaryPressureKPa(-100, ReciprocatingPumpStroke.Suction, false) == 0 &&
+              ReciprocatingPumpMath.DrivingBoundaryPressureKPa(100, ReciprocatingPumpStroke.Pressure, true) == 0,
+            "Checks never project suction through the outlet or pressure back through the inlet");
+        double received = HydraulicMath.BoundedTransferLitres(
+            inlet.PressureKPa - chamberPressure, pipeWater, 0, chamberVolume, step, PipeContentPhase.Liquid);
+        Check(received == pipeWater && inlet.PressureKPa > networkPressure,
+            "Water in the input pipe enters the empty chamber using pressure before this pump's own boundary");
+        double lowerPipePressure = HydraulicMath.PropagatedLiquidSuction(networkPressure, 0, -1);
+        double reflectedSuction = HydraulicMath.PropagatedLiquidSuction(lowerPipePressure, -1, 0);
+        LiquidPipePressureSnapshot connectedInlet = new(.2, 0, reflectedSuction);
+        Check(HydraulicMath.BoundedTransferLitres(connectedInlet.PressureKPa - chamberPressure,
+                  pipeWater, 0, chamberVolume, step, PipeContentPhase.Liquid) > 0,
+            "Suction returning through an adjoining lower pipe does not stop chamber intake");
+
+        LiquidPipePressureSnapshot externalPressure = new(.95, 400, 0);
+        LiquidPipePressureSnapshot otherPump = new LiquidPipePressureSnapshot(.95, 0, 0).WithBoundary(400);
+        double blockedBySource = HydraulicMath.BoundedTransferLitres(
+            200 - externalPressure.PressureKPa, 4, 9.5, 10, step, PipeContentPhase.Liquid);
+        double blockedByOtherPump = HydraulicMath.BoundedTransferLitres(
+            200 - otherPump.PressureKPa, 4, 9.5, 10, step, PipeContentPhase.Liquid);
+        Check(blockedBySource == 0 && blockedByOtherPump == 0,
+            "Ignoring a pump's own imposed pressure does not bypass real source or other-pump back-pressure");
+        Check(HydraulicMath.BoundedTransferLitres(1000, 4, 10, 10, step, PipeContentPhase.Liquid) == 0 &&
+              HydraulicMath.BoundedTransferLitres(1000, 0, 0, 8, step, PipeContentPhase.Liquid) == 0 &&
+              HydraulicMath.BoundedTransferLitres(1000, 4, 7.9, 8, step, PipeContentPhase.Liquid) <= .100000001,
+            "Pump port transfer cannot overdraw an empty pipe or overfill a liquid pipe/chamber");
+        Check(HydraulicMath.BoundedTransferLitres(-1, 4, 0, 10, step, PipeContentPhase.Liquid) == 0 &&
+              HydraulicMath.BoundedTransferLitres(100, double.NaN, 0, 10, step, PipeContentPhase.Liquid) == 0,
+            "Reverse pressure and malformed donor amounts cannot create a pump transfer");
+
+        double gasPipePressure = HydraulicMath.GasGaugePressure(20, 20);
+        double gasChamberPressure = ReciprocatingPumpMath.ChamberPressureKPa(0, 20, PipeContentPhase.Gas, 8);
+        double gasReceived = HydraulicMath.BoundedTransferLitres(
+            gasPipePressure - gasChamberPressure, 20, 0, double.PositiveInfinity, step, PipeContentPhase.Gas);
+        Check(gasReceived > 0 && gasReceived <= 20 &&
+              HydraulicMath.BoundedTransferLitres(100, 30, 20, double.PositiveInfinity, step, PipeContentPhase.Gas) > 0,
+            "Gas exchange keeps physical gas pressure and is not capped at liquid storage capacity");
+    }
+
+    private static void ReciprocatingPumpPrimesFillsAndDischargesConservatively()
+    {
+        foreach (int direction in new[] { 1, -1 })
+        {
+            double inletAmount = 0;
+            double chamberAmount = 0;
+            double outletAmount = 0;
+            double totalDrawn = 0;
+            double maxChamberAmount = 0;
+            double previousVolume = ReciprocatingPumpMath.ChamberVolumeLitres(0);
+            bool conserved = true;
+            bool respectedCapacity = true;
+            bool retainedWhenBlocked = true;
+            bool sawBlockedStroke = false;
+            for (int tick = 1; tick <= 24 * 8; tick++)
+            {
+                double volume = ReciprocatingPumpMath.ChamberVolumeLitres(direction * tick * Math.PI / 12);
+                ReciprocatingPumpStroke stroke = ReciprocatingPumpMath.Stroke(previousVolume, volume);
+                previousVolume = volume;
+                double pressure = ReciprocatingPumpMath.ChamberPressureKPa(chamberAmount, 20, PipeContentPhase.Liquid, volume);
+                LiquidPipePressureSnapshot inlet = new(inletAmount / 10, 0, 0);
+                LiquidPipePressureSnapshot outlet = new(outletAmount / 10, 0, 0);
+                double inletNetworkPressure = inlet.WithBoundary(
+                    ReciprocatingPumpMath.DrivingBoundaryPressureKPa(pressure, stroke, input: true)).PressureKPa;
+                double before = chamberAmount;
+                if (stroke == ReciprocatingPumpStroke.Suction)
+                {
+                    double received = HydraulicMath.BoundedTransferLitres(
+                        inlet.PressureKPa - pressure, inletAmount, chamberAmount, volume, .2, PipeContentPhase.Liquid);
+                    inletAmount -= received;
+                    chamberAmount += received;
+                    // Previously trapped liquid may already exceed the current
+                    // volume. Only new intake must fit the remaining free space.
+                    respectedCapacity &= received <= Math.Max(0, volume - before) + .000001;
+                }
+                else if (stroke == ReciprocatingPumpStroke.Pressure)
+                {
+                    double provided = HydraulicMath.BoundedTransferLitres(
+                        pressure - outlet.PressureKPa, chamberAmount, outletAmount, 10, .2, PipeContentPhase.Liquid);
+                    provided = Math.Min(provided, ReciprocatingPumpMath.DischargeToEquilibriumLitres(
+                        chamberAmount, 20, PipeContentPhase.Liquid, volume, outlet.PressureKPa));
+                    if (outletAmount >= 10 - .000001 && before > .001)
+                    {
+                        sawBlockedStroke = true;
+                        retainedWhenBlocked &= provided < .000001;
+                    }
+                    chamberAmount -= provided;
+                    outletAmount += provided;
+                }
+                // The real solver processes the nozzle after pump exchange, so
+                // new source water must wait until a subsequent tick for intake.
+                double drawn = ReciprocatingPumpMath.InfiniteLiquidIntakeLitres(inletNetworkPressure, 10 - inletAmount, .2);
+                inletAmount += drawn;
+                totalDrawn += drawn;
+                maxChamberAmount = Math.Max(maxChamberAmount, chamberAmount);
+                conserved &= Math.Abs(inletAmount + chamberAmount + outletAmount - totalDrawn) < .000001;
+                respectedCapacity &= inletAmount >= 0 && inletAmount <= 10.000001 && outletAmount >= 0 && outletAmount <= 10.000001;
+            }
+            Check(totalDrawn > 0 && maxChamberAmount > 1 && outletAmount > 1,
+                $"A dry inlet primes, fills the reservoir, and discharges on later strokes (rotation {direction})");
+            Check(conserved && respectedCapacity && sawBlockedStroke && retainedWhenBlocked,
+                $"Repeated pump cycles retain trapped liquid (rotation {direction}; conserved={conserved}, bounded intake={respectedCapacity}, saw block={sawBlockedStroke}, retained={retainedWhenBlocked})");
+        }
+    }
+
+    private static void PumpPipeRunsCarryMoreThanTheVacuumPropagationTrickle()
+    {
+        foreach (int inputLength in new[] { 1, 4, 7, 8 })
+        {
+            PumpCircuitResult old = PumpCircuitFixture.Run(inputLength, 3, legacyVacuum: true);
+            PumpCircuitResult current = PumpCircuitFixture.Run(inputLength, 3, legacyVacuum: false);
+            Console.WriteLine($"[MEASURE] {inputLength}-pipe intake / 3-pipe outlet: old {old.DeliveredPerCycle:F3}, current {current.DeliveredPerCycle:F3} L/cycle; chamber peak {current.MaximumChamberLitres:F3} L");
+            Check(current.Bounded && current.MaximumMassError < .000001,
+                $"The {inputLength}-pipe pump circuit preserves water and all pipe capacities");
+            Check(current.DeliveredPerCycle > 1 && current.MaximumChamberLitres > 2,
+                $"The {inputLength}-pipe pump circuit fills its chamber and delivers useful flow");
+        }
+        foreach (int direction in new[] { 1, -1 })
+        {
+            PumpCircuitResult dropped = PumpCircuitFixture.Run(7, 3, false, direction, sourceDrop: 1);
+            Console.WriteLine($"[MEASURE] 7-pipe intake, 1-block lift, rotation {direction}: {dropped.DeliveredPerCycle:F3} L/cycle; chamber peak {dropped.MaximumChamberLitres:F3} L");
+            Check(dropped.Bounded && dropped.MaximumMassError < .000001 &&
+                  dropped.DeliveredPerCycle > 1 && dropped.MaximumChamberLitres > 2,
+                $"The dropped intake primes and delivers water without loss (rotation {direction})");
+        }
+    }
+
+    private static void PumpDischargeFollowsPistonDisplacement()
+    {
+        foreach (double outletPressure in new[] { 0.0, 50, 500 })
+        {
+            double previousVolume = ReciprocatingPumpMath.ChamberVolumeLitres(0);
+            double compression = 1 + outletPressure / ReciprocatingPumpMath.LiquidCompressionStiffnessKPa;
+            double amount = previousVolume * compression;
+            double initial = amount;
+            double totalDelivered = 0;
+            int deliverySteps = 0;
+            bool gradual = true;
+            for (int step = 1; step <= 120; step++)
+            {
+                double volume = ReciprocatingPumpMath.ChamberVolumeLitres(step * Math.PI / 120);
+                double pressure = ReciprocatingPumpMath.ChamberPressureKPa(amount, 20, PipeContentPhase.Liquid, volume);
+                double delivery = Math.Min(amount, ReciprocatingPumpMath.RequestedDischargeLitres(
+                    pressure - outletPressure, .02, PipeContentPhase.Liquid));
+                delivery = Math.Min(delivery, ReciprocatingPumpMath.DischargeToEquilibriumLitres(
+                    amount, 20, PipeContentPhase.Liquid, volume, outletPressure));
+                amount -= delivery;
+                totalDelivered += delivery;
+                if (delivery > .000001) deliverySteps++;
+                gradual &= delivery >= 0 && delivery <= (previousVolume - volume) * compression + .000001 &&
+                    ReciprocatingPumpMath.ChamberPressureKPa(amount, 20, PipeContentPhase.Liquid, volume) >= outletPressure - .000001 &&
+                    Math.Abs(initial - amount - totalDelivered) < .000001;
+                previousVolume = volume;
+            }
+            Check(gradual && deliverySteps >= 115 && totalDelivered > 3.9,
+                $"Exhaust rises through the downstroke without empty/refill bursts or pressure undershoot ({outletPressure} kPa outlet)");
+        }
+
+        Check(ReciprocatingPumpMath.DischargeToEquilibriumLitres(2, 20, PipeContentPhase.Liquid, 5, 0) == 0 &&
+              ReciprocatingPumpMath.DischargeToEquilibriumLitres(5, 20, PipeContentPhase.Liquid, 5, 100) == 0 &&
+              ReciprocatingPumpMath.DischargeToEquilibriumLitres(double.NaN, 20, PipeContentPhase.Liquid, 5, 0) == 0,
+            "Underfilled or insufficiently pressurized chambers do not dump liquid through the output check");
+        foreach (double temperature in new[] { 20.0, 120 })
+        {
+            double discharged = ReciprocatingPumpMath.DischargeToEquilibriumLitres(20, temperature, PipeContentPhase.Gas, 4, 100);
+            double remainingPressure = ReciprocatingPumpMath.ChamberPressureKPa(20 - discharged, temperature, PipeContentPhase.Gas, 4);
+            Check(discharged > 0 && discharged < 20 && Math.Abs(remainingPressure - 100) < .000001,
+                $"Gas discharge also stops at the outlet pressure ({temperature} C)");
+        }
+        double dry = new LiquidPipePressureSnapshot(0, 0, -100).PressureKPa;
+        double partial = new LiquidPipePressureSnapshot(.5, 0, -100).PressureKPa;
+        double full = new LiquidPipePressureSnapshot(1, 0, -100).PressureKPa;
+        Check(dry == -100 && partial > dry && full > partial && full == HydraulicMath.LiquidBasePressure(1),
+            "Dry pipes carry priming vacuum while filling pipes recover a useful water-flow pressure gradient");
+    }
+
+    private static void PassiveHeightCannotCreatePrimingVacuum()
+    {
+        const int height = 32;
+        foreach (int wetPipes in new[] { 0, 1, 8, 16, 32 })
+        {
+            double[] previous = new double[height];
+            bool safe = true;
+            for (int tick = 0; tick < 1000; tick++)
+            {
+                double[] next = new double[height];
+                for (int y = 0; y < height; y++)
+                {
+                    double strongest = 0;
+                    double weakest = 0;
+                    foreach (int neighbor in new[] { y - 1, y + 1 })
+                    {
+                        if (neighbor < 0 || neighbor >= height) continue;
+                        strongest = Math.Max(strongest, HydraulicMath.PropagatedLiquidPressure(
+                            previous[neighbor], neighbor, y, neighbor < wetPipes ? 1 : 0));
+                        weakest = Math.Min(weakest, HydraulicMath.PropagatedLiquidSuction(previous[neighbor], neighbor, y));
+                    }
+                    next[y] = new LiquidPipePressureSnapshot(y < wetPipes ? 1 : 0, strongest, weakest).PressureKPa;
+                    safe &= next[y] >= -HydraulicMath.EmptyPipeSuctionKPa &&
+                        ReciprocatingPumpMath.InfiniteLiquidIntakeLitres(next[y], 10, .2) == 0;
+                }
+                previous = next;
+            }
+            Check(safe, $"A 32-block passive riser with {wetPipes} wet pipes never builds extraction vacuum over 1000 steps");
+        }
+        Check(HydraulicMath.PropagatedLiquidSuction(-HydraulicMath.EmptyPipeSuctionKPa, 0, 100) == 0 &&
+              HydraulicMath.PropagatedLiquidSuction(-10, 0, 100) > -10,
+            "Neither the empty-pipe bias nor weak suction can be amplified into extraction pressure by height");
+        double horizontal = HydraulicMath.PropagatedLiquidSuction(-100, 10, 10);
+        double oneBelow = HydraulicMath.PropagatedLiquidSuction(-100, 10, 9);
+        Check(Math.Abs(horizontal - (-100 + HydraulicMath.PressurePropagationLossKPa)) < .000001 &&
+              Math.Abs(oneBelow - horizontal - HydraulicMath.WaterHeadKPaPerBlock) < .000001 &&
+              ReciprocatingPumpMath.CanDrawInfiniteLiquid(oneBelow),
+            "Powered suction keeps its horizontal propagation and pays the same one-block source-lift cost");
+        Check(HydraulicMath.HydraulicPotential(0, 1, PipeContentPhase.Liquid) >
+              HydraulicMath.HydraulicPotential(0, 0, PipeContentPhase.Liquid),
+            "Gravity still drives downhill liquid flow after removing vacuum amplification");
+    }
+
+    private static void PumpOverloadIsProgressiveAndFinite()
+    {
+        double service = ReciprocatingPumpMath.ServicePressureKPa;
+        foreach (double angle in new[] { .3, Math.PI / 2, Math.PI + .3, -Math.PI / 2 })
+        {
+            float rated = ReciprocatingPumpMath.MechanicalResistance(service, angle);
+            float previous = 0;
+            foreach (double multiple in new[] { .25, .5, 1, 1.25, 1.5, 2, 3, 5 })
+            {
+                float resistance = ReciprocatingPumpMath.MechanicalResistance(service * multiple, angle);
+                Check(float.IsFinite(resistance) && resistance > previous,
+                    $"Pump load remains finite and keeps rising at {multiple} times service pressure, angle {angle:F2}");
+                previous = resistance;
+            }
+            Check(ReciprocatingPumpMath.MechanicalResistance(service * 2, angle) > rated * 9 &&
+                  ReciprocatingPumpMath.MechanicalResistance(service * 3, angle) > rated * 49,
+                "Overpressure raises the load steeply instead of plateauing at the old resistance cap");
+        }
+        double beforeService = ReciprocatingPumpMath.MechanicalResistance(service - .001, Math.PI / 2);
+        double afterService = ReciprocatingPumpMath.MechanicalResistance(service + .001, Math.PI / 2);
+        Check(afterService > beforeService && afterService - beforeService < .00001,
+            "Crossing the service pressure adds no discontinuous lock or load jump");
+        double compressed = ReciprocatingPumpMath.ChamberPressureKPa(4, 20, PipeContentPhase.Liquid, 4 / 1.02);
+        Check(Math.Abs(compressed - 2 * service) < .00001,
+            "Two percent liquid overfill develops twice service pressure without clipping pressure to the rating");
+        Check(float.IsFinite(ReciprocatingPumpMath.MechanicalResistance(double.MaxValue, Math.PI / 2)) &&
+              double.IsFinite(ReciprocatingPumpMath.ChamberPressureKPa(double.MaxValue, 20, PipeContentPhase.Liquid, .05)),
+            "Extreme finite stored amounts cannot inject infinity into the drivetrain");
+    }
+
+    private static void PumpLiquidSurfaceMeetsItsSidesBelowThePiston()
+    {
+        float bottom = ReciprocatingPumpLiquidGeometry.Bottom;
+        float upper = ReciprocatingPumpLiquidGeometry.UpperPistonBottom;
+        float minX = ReciprocatingPumpLiquidGeometry.MinX;
+        float maxX = ReciprocatingPumpLiquidGeometry.MaxX;
+        float minZ = ReciprocatingPumpLiquidGeometry.MinZ;
+        float maxZ = ReciprocatingPumpLiquidGeometry.MaxZ;
+        bool bounded = true;
+        for (int degrees = 0; degrees <= 360; degrees += 5)
+        foreach (double amount in new[] { 0.0, .05, 2, 4, 8.05, 16 })
+        {
+            float piston = upper + ReciprocatingPumpMath.VisualPose(degrees * Math.PI / 180, 0).PistonOffsetY;
+            float top = ReciprocatingPumpLiquidGeometry.SurfaceHeight(amount, piston,
+                ReciprocatingPumpMath.ChamberVolumeLitres(degrees * Math.PI / 180));
+            bounded &= top >= bottom && top < piston && top <= upper;
+        }
+        Check(bounded && ReciprocatingPumpLiquidGeometry.SurfaceHeight(0, upper, 8.05) == bottom &&
+              Math.Abs(ReciprocatingPumpLiquidGeometry.SurfaceHeight(8.05, upper, 8.05) -
+                  (upper - ReciprocatingPumpLiquidGeometry.PistonInset)) < .000001,
+            "Liquid level reaches the upper piston when full and stays below it throughout the stroke");
+        bool filledToPiston = true;
+        for (int degrees = 0; degrees <= 360; degrees += 5)
+        {
+            double angle = degrees * Math.PI / 180;
+            double volume = ReciprocatingPumpMath.ChamberVolumeLitres(angle);
+            float piston = upper + ReciprocatingPumpMath.VisualPose(angle, 0).PistonOffsetY;
+            filledToPiston &= Math.Abs(ReciprocatingPumpLiquidGeometry.SurfaceHeight(volume, piston, volume) -
+                (piston - ReciprocatingPumpLiquidGeometry.PistonInset)) < .000001;
+        }
+        Check(filledToPiston, "A liquid-filled chamber meets the piston at every height, including short strokes");
+
+        bool aligned = true;
+        foreach (BlockFacing output in BlockFacing.ALLFACES)
+        foreach (BlockFacing drive in BlockFacing.ALLFACES.Where(face => face.Axis != output.Axis))
+        {
+            const float height = .5f;
+            Matrixf frame = new();
+            frame.Set(PumpOrientation.Matrix(output, drive));
+            Matrixf top = new();
+            top.Set(frame.Values);
+            ReciprocatingPumpLiquidGeometry.ApplyTopPose(top, height);
+            // The north quad's first triangle must wind toward the piston.
+            float[] a = TransformPoint(top, minX, minZ, 0);
+            float[] b = TransformPoint(top, minX, maxZ, 0);
+            float[] c = TransformPoint(top, maxX, maxZ, 0);
+            float[] d = TransformPoint(top, maxX, minZ, 0);
+            aligned &= PointDistance(a, TransformPoint(frame, minX, height, minZ)) < .000001 &&
+                PointDistance(b, TransformPoint(frame, minX, height, maxZ)) < .000001 &&
+                PointDistance(c, TransformPoint(frame, maxX, height, maxZ)) < .000001 &&
+                PointDistance(d, TransformPoint(frame, maxX, height, minZ)) < .000001;
+            double nx = (b[1] - a[1]) * (c[2] - a[2]) - (b[2] - a[2]) * (c[1] - a[1]);
+            double ny = (b[2] - a[2]) * (c[0] - a[0]) - (b[0] - a[0]) * (c[2] - a[2]);
+            double nz = (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]);
+            aligned &= nx * drive.Normali.X + ny * drive.Normali.Y + nz * drive.Normali.Z > 0;
+        }
+        Check(aligned, "The liquid top joins both window panes and faces the piston in every mounting orientation");
+    }
+
+    private static void ReciprocatingLinkageRemainsConnectedInEveryOrientation()
+    {
+        bool connected = true;
+        bool sameDirection = true;
+        bool volumeMatchesPiston = true;
+        double largestError = 0;
+        foreach (BlockFacing axis in new[] { BlockFacing.WEST, BlockFacing.NORTH })
+        foreach (BlockFacing shaftSide in new[] { axis, axis.Opposite })
+        foreach (BlockFacing output in new[] { axis, axis.Opposite })
+        foreach (BlockFacing drive in BlockFacing.ALLFACES.Where(face => face.Axis != axis.Axis))
+        // Negative angles also exercise reverse-running networks and wraparound.
+        for (int degrees = -360; degrees <= 360; degrees += 5)
+        {
+            double mechanicalAngle = degrees * Math.PI / 180;
+            double pumpAngle = LateralCrankMotion.AngleInFrame(mechanicalAngle, axis, output, drive);
+            double shaftAngle = LateralCrankMotion.AngleInFrame(
+                mechanicalAngle, axis, shaftSide.Opposite, BlockFacing.UP);
+            ReciprocatingPumpVisualPose pose = ReciprocatingPumpMath.VisualPose(
+                pumpAngle, ReciprocatingPumpStroke.Stationary);
+
+            Matrixf shaft = new();
+            shaft.Set(PumpOrientation.Matrix(shaftSide.Opposite, BlockFacing.UP));
+            shaft.Translate(.5f, .5f, .5f).RotateX((float)shaftAngle).Translate(-.5f, -.5f, -.5f);
+            float[] pin = TransformPoint(shaft, .5f, .5f + 3f / 16, .5f);
+
+            Matrixf pumpFrame = new();
+            // Put the pump one block away from the crank along its local -Y.
+            pumpFrame.Translate(-drive.Normali.X, -drive.Normali.Y, -drive.Normali.Z);
+            Mat4f.Multiply(pumpFrame.Values, pumpFrame.Values, PumpOrientation.Matrix(output, drive));
+            Matrixf rod = new();
+            rod.Set(pumpFrame.Values);
+            PumpOrientation.ApplyConnectingRodPose(rod, pose);
+            float[] rodTop = TransformPoint(rod, .5f, 1.5f + 3f / 16, .5f);
+            float[] rodBottom = TransformPoint(rod, .5f, 1.5f - 3f / 16, .5f);
+            pumpFrame.Translate(0, pose.PistonOffsetY, 0);
+            float[] crosshead = TransformPoint(pumpFrame, .5f, 21f / 16, .5f);
+            double error = Math.Max(PointDistance(pin, rodTop), PointDistance(crosshead, rodBottom));
+            largestError = Math.Max(largestError, error);
+            connected &= error < .000002 && Math.Abs(PointDistance(rodTop, rodBottom) - 6.0 / 16) < .000002;
+
+            // An independent world-axis oracle: UP rotated around vanilla AxisSign.
+            float[] expectedPin =
+            {
+                (float)(.5 - axis.Normali.Z * Math.Sin(mechanicalAngle) * 3 / 16),
+                (float)(.5 + Math.Cos(mechanicalAngle) * 3 / 16),
+                (float)(.5 + axis.Normali.X * Math.Sin(mechanicalAngle) * 3 / 16)
+            };
+            sameDirection &= PointDistance(pin, expectedPin) < .000002;
+            volumeMatchesPiston &= Math.Abs(ReciprocatingPumpMath.PistonVolumeFraction(pumpAngle) -
+                (1 + pose.PistonOffsetY / (6.0 / 16))) < .000002;
+        }
+        Check(connected, $"Both rod bearings stay pinned for all mount/output/axle sides and reverse rotation (max error {largestError:E2} blocks)");
+        Check(sameDirection, "One-sided and through-shaft poses follow the signed vanilla rotation axis without mirroring their orbit");
+        Check(volumeMatchesPiston, "Hydraulic chamber volume follows the exact slider-crank piston height");
+        Check(Math.Abs(ReciprocatingPumpMath.VisualPose(0, 0).PistonOffsetY) < .000001 &&
+              Math.Abs(ReciprocatingPumpMath.VisualPose(Math.PI, 0).PistonOffsetY + 6f / 16) < .000001,
+            "The directly rendered piston travels the full six model units between dead centres");
+    }
+
+    private static float[] TransformPoint(Matrixf matrix, float x, float y, float z)
+    {
+        float[] m = matrix.Values;
+        return new[]
+        {
+            m[0] * x + m[4] * y + m[8] * z + m[12],
+            m[1] * x + m[5] * y + m[9] * z + m[13],
+            m[2] * x + m[6] * y + m[10] * z + m[14]
+        };
+    }
+
+    private static double PointDistance(float[] a, float[] b) => Math.Sqrt(
+        Math.Pow(a[0] - b[0], 2) + Math.Pow(a[1] - b[1], 2) + Math.Pow(a[2] - b[2], 2));
+
+    private static void ReciprocatingCheckMotionFollowsTheStroke()
+    {
+        ReciprocatingPumpVisualPose suction = ReciprocatingPumpMath.VisualPose(Math.PI / 2, ReciprocatingPumpStroke.Suction);
+        ReciprocatingPumpVisualPose pressure = ReciprocatingPumpMath.VisualPose(Math.PI / 2, ReciprocatingPumpStroke.Pressure);
+        ReciprocatingPumpVisualPose stopped = ReciprocatingPumpMath.VisualPose(Math.PI / 2, ReciprocatingPumpStroke.Stationary);
+        Check(suction.WetIntakeOffsetY > 0 && suction.WetOutputOffsetY == 0 &&
+              suction.BreatherExhaustOffsetY > 0 && suction.BreatherIntakeOffsetY == 0 &&
+              pressure.WetOutputOffsetY < 0 && pressure.WetIntakeOffsetY == 0 &&
+              pressure.BreatherIntakeOffsetY < 0 && pressure.BreatherExhaustOffsetY == 0,
+            "Wet and air checks move in opposing stroke pairs, including reverse shaft rotation");
+        Check(stopped.WetIntakeOffsetY == 0 && stopped.WetOutputOffsetY == 0 &&
+              stopped.BreatherIntakeOffsetY == 0 && stopped.BreatherExhaustOffsetY == 0,
+            "A stopped pump closes all visible passive checks");
+    }
+
+    private static void InfiniteSourceWaterHasAnEnergyFloor()
+    {
+        Check(ReciprocatingPumpMath.InfiniteLiquidSourceSuctionKPa >=
+              ReciprocatingPumpMath.FutureRapidWaterEnergyBudgetJoulesPerLitre,
+            "Infinite source water costs at least the reserved future rapid-water energy per litre");
+        Check(!ReciprocatingPumpMath.CanDrawInfiniteLiquid(-69.999) &&
+              ReciprocatingPumpMath.CanDrawInfiniteLiquid(-70) &&
+              ReciprocatingPumpMath.InfiniteLiquidIntakeLitres(-70, 10, 0.2) > 0,
+            "A natural liquid source opens only under the configured strong vacuum");
+    }
+
+    private static void PumpAndCrankSchemasProtectUnknownState()
+    {
+        JObject pumpFixture = JObject.Parse(File.ReadAllText(
+            Path.Combine(AppContext.BaseDirectory, "fixtures", "reciprocating-pump-schema1.json")));
+        JObject crankFixture = JObject.Parse(File.ReadAllText(
+            Path.Combine(AppContext.BaseDirectory, "fixtures", "lateral-crank-schema1.json")));
+        Check(pumpFixture.Value<int>("schemaVersion") == 1 &&
+              pumpFixture.Value<string>("contentCode") == "game:waterportion" &&
+              pumpFixture.SelectToken("futureData.keep")?.Value<bool>() == true,
+            "The first reciprocating-pump fixture preserves chamber and unknown state");
+        Check(crankFixture.Value<int>("schemaVersion") == 1 &&
+              crankFixture.Value<double>("phaseOffsetDegrees") == 135 &&
+              crankFixture.SelectToken("futureData.keep")?.Value<bool>() == true,
+            "The first lateral-crank fixture preserves its independent journal angle");
+
+        TreeAttribute pump = new();
+        pump.SetInt("schemaVersion", 1);
+        pump.SetString("futureField", "keep");
+        ITreeAttribute readablePump = ReciprocatingPumpStateSchema.PrepareForRead(
+            pump, out bool pumpCanWrite, out _);
+        Check(pumpCanWrite && readablePump.GetString("futureField") == "keep",
+            "Current pump state preserves unrecognized fields");
+
+        TreeAttribute crank = new();
+        crank.SetInt("schemaVersion", 2);
+        crank.SetDouble("phaseOffsetDegrees", 135);
+        ITreeAttribute futureCrank = LateralCrankStateSchema.PrepareForRead(
+            crank, out bool crankCanWrite, out string? crankProblem);
+        Check(!crankCanWrite && crankProblem == "newer" &&
+              futureCrank.GetDouble("phaseOffsetDegrees") == 135,
+            "Future crank state remains byte-for-byte eligible for read-only preservation");
+    }
+
+    private static void DashedDriveShaftCodeKeepsItsFullBaseName()
+    {
+        Check(MechanicalCodes.LateralCrankVariantPath("ns") == "lateral-crank-ns" &&
+              MechanicalCodes.LateralCrankVariantPath("we") == "lateral-crank-we",
+            "Drive-shaft placement retains the dashed public asset code when selecting its rotation");
+    }
+
+    private static void RuntimeMechanismAnimationsGenerateEveryEngineFrame()
+    {
+        foreach (string fileName in new[]
+        {
+            "lateral-crank-one-sided.json",
+            "lateral-crank-through.json",
+            "reciprocating-pump-mechanism.json"
+        })
+        {
+            string path = Path.Combine(AppContext.BaseDirectory, "runtime-shapes", fileName);
+            try
+            {
+                Shape? shape = JsonConvert.DeserializeObject<Shape>(File.ReadAllText(path));
+                if (shape?.Animations == null)
+                {
+                    Check(false, $"Runtime animation shape loads: {fileName}");
+                    continue;
+                }
+                shape.InitForAnimations(new SilentLogger(), fileName);
+                foreach (Animation animation in shape.Animations)
+                {
+                    animation.GenerateAllFrames(shape.Elements, shape.JointsById);
+                }
+                Check(true, $"Vintage Story generates every animation frame: {fileName}");
+            }
+            catch (Exception exception)
+            {
+                Console.Error.WriteLine(
+                    $"Animation frame generation failed for {fileName}: " +
+                    $"{exception.GetType().Name}: {exception.Message}");
+                Check(false, $"Vintage Story generates every animation frame: {fileName}");
+            }
+        }
+    }
+
     private static void AirNozzlesRespectPhaseAndOpeningHeight()
     {
         Check(HydraulicMath.LiquidOverflowLitres(9.5) == 0 &&
@@ -643,5 +1184,10 @@ internal static class Program
         {
             Check(true, name);
         }
+    }
+
+    private sealed class SilentLogger : LoggerBase
+    {
+        protected override void LogImpl(EnumLogType logType, string format, params object[] args) { }
     }
 }

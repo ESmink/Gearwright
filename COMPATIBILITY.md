@@ -29,6 +29,12 @@ Future entity, block-entity, item-stack, and player data must follow the same be
 
 Hydraulic block entities currently use schema 7. Schema 6 migrates additively: existing port and attachment values keep their numeric meaning, the Copper Plate Flange uses the new attachment value 4, and newly placed Irrigator Pipes add orientation, visible-support, and support-plank fields. Older pipe fields and unknown fields remain intact.
 
+The coupled pressure solver changes no storage schema. `contentAmountLitres` still stores liquid litres or gas standard litres, including amounts above nominal pipe volume. Pressure is derived from those contents during simulation; the existing `networkPressure` field remains a local gauge-pressure cache. Driven suction is transient and rebuilds after loading. Hydraulic schema 7, pump schema 1, all asset codes and packet fields retain their meanings.
+
+The Reciprocating Drive Shaft (`gearwright:lateral-crank-*`) and Reciprocating Pump each begin with independent schema 1 tree attributes. Current readers preserve unknown fields. Missing state creates defaults, while malformed, unsupported, or future schema values remain read-only and are written back untouched. Their first-release fixtures live beside the hydraulic compatibility fixtures.
+
+The pump's swept volume is now 4 L with 0.05 L clearance. Saved `amountLitres` still means literal liquid litres or gas standard litres; existing amounts above the smaller chamber volume remain stored and can discharge normally. The derived `lastVolumeLitres` cache is bounded to the current piston range. Capacity tuning changes no fields or schemas, and runtime save/load contracts retain an older 8 L fill and unknown fields. Pipes retain their 10 L nominal volume.
+
 ## Change checklist
 
 Before releasing a persistence change:

@@ -1,0 +1,129 @@
+{
+  "textureWidth": 32,
+  "textureHeight": 32,
+  "textures": {
+    "gw-oak": "game:block/wood/debarked/oak",
+    "gw-iron": "game:block/metal/sheet-plain/iron2",
+    "gw-bronze": "game:block/metal/sheet/tinbronze1",
+    "gw-copper": "game:block/metal/sheet/copper1",
+    "gw-glass": "gearwright:block/inspection-glass",
+    "gw-shadow": "gearwright:block/inspection-shadow"
+  },
+  "textureSizes": {
+    "gw-oak": [
+      32,
+      32
+    ],
+    "gw-iron": [
+      32,
+      32
+    ],
+    "gw-bronze": [
+      32,
+      32
+    ],
+    "gw-copper": [
+      32,
+      32
+    ],
+    "gw-glass": [
+      16,
+      16
+    ],
+    "gw-shadow": [
+      4,
+      4
+    ]
+  },
+  "elements": [
+    {
+      "name": "gw-breather-exhaust-check-motion",
+      "from": [
+        10.65,
+        14.16,
+        6.45
+      ],
+      "to": [
+        10.65,
+        14.16,
+        6.45
+      ],
+      "rotationOrigin": [
+        10.65,
+        14.16,
+        6.45
+      ],
+      "group": "pump-breather",
+      "children": [
+        {
+          "name": "gw-breather-exhaust-check-disc",
+          "from": [
+            -0.44,
+            -0.1,
+            -0.44
+          ],
+          "to": [
+            0.44,
+            0.1,
+            0.44
+          ],
+          "group": "pump-breather",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-breather-exhaust-guide-sleeve",
+          "from": [
+            -0.13,
+            -0.13,
+            -0.13
+          ],
+          "to": [
+            0.13,
+            0.17,
+            0.13
+          ],
+          "group": "pump-breather-guide",
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

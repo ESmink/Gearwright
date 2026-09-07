@@ -1,0 +1,16 @@
+[
+  {
+    "ingredientPattern": "IGI,CBC,POP",
+    "ingredients": {
+      "I": { "type": "item", "code": "game:metalplate-iron", "quantity": 2 },
+      "G": { "type": "block", "code": "game:glass-plain" },
+      "C": { "type": "item", "code": "game:metalplate-copper", "quantity": 2 },
+      "B": { "type": "item", "code": "game:metalplate-tinbronze", "quantity": 2 },
+      "P": { "type": "item", "code": "game:plank-oak", "quantity": 2 },
+      "O": { "type": "block", "code": "game:woodenaxle-ud" }
+    },
+    "width": 3,
+    "height": 3,
+    "output": { "type": "block", "code": "gearwright:reciprocating-pump" }
+  }
+]

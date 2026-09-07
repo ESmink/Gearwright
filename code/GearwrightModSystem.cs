@@ -28,11 +28,19 @@ public sealed class GearwrightModSystem : ModSystem
         api.RegisterBlockEntityClass(HydraulicCodes.CreativePumpEntityClass, typeof(BlockEntityCreativeFluidPump));
         api.RegisterBlockClass(HydraulicCodes.PassivePumpClass, typeof(BlockPassiveFluidPump));
         api.RegisterBlockEntityClass(HydraulicCodes.PassivePumpEntityClass, typeof(BlockEntityPassiveFluidPump));
+        api.RegisterBlockClass(HydraulicCodes.ReciprocatingPumpClass, typeof(BlockReciprocatingPump));
+        api.RegisterBlockEntityClass(
+            HydraulicCodes.ReciprocatingPumpEntityClass,
+            typeof(BlockEntityReciprocatingPump));
         api.RegisterCropBehavior(HydraulicCodes.CropBehaviorClass, typeof(CropBehaviorFluidExposure));
         api.RegisterBlockClass(MechanicalCodes.FlywheelBlockClass, typeof(BlockSmallFlywheel));
         api.RegisterBlockEntityBehaviorClass(
             MechanicalCodes.FlywheelBehaviorClass,
             typeof(BEBehaviorMPSmallFlywheel));
+        api.RegisterBlockClass(MechanicalCodes.LateralCrankBlockClass, typeof(BlockLateralCrank));
+        api.RegisterBlockEntityBehaviorClass(
+            MechanicalCodes.LateralCrankBehaviorClass,
+            typeof(BEBehaviorMPLateralCrank));
         api.RegisterBlockClass(
             MechanicalCodes.ControlledTransmissionBlockClass,
             typeof(BlockControlledTransmission));

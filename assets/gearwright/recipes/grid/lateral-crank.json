@@ -1,0 +1,14 @@
+[
+  {
+    "ingredientPattern": "IBI,OAO",
+    "ingredients": {
+      "I": { "type": "item", "code": "game:metalplate-iron" },
+      "B": { "type": "item", "code": "game:metalplate-tinbronze" },
+      "O": { "type": "block", "code": "game:debarkedlog-oak-ud" },
+      "A": { "type": "block", "code": "game:woodenaxle-ud" }
+    },
+    "width": 3,
+    "height": 2,
+    "output": { "type": "block", "code": "gearwright:lateral-crank-ns" }
+  }
+]

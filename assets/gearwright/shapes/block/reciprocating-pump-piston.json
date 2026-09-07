@@ -1,0 +1,367 @@
+{
+  "textureWidth": 32,
+  "textureHeight": 32,
+  "textures": {
+    "gw-oak": "game:block/wood/debarked/oak",
+    "gw-iron": "game:block/metal/sheet-plain/iron2",
+    "gw-bronze": "game:block/metal/sheet/tinbronze1",
+    "gw-copper": "game:block/metal/sheet/copper1",
+    "gw-glass": "gearwright:block/inspection-glass",
+    "gw-shadow": "gearwright:block/inspection-shadow"
+  },
+  "textureSizes": {
+    "gw-oak": [
+      32,
+      32
+    ],
+    "gw-iron": [
+      32,
+      32
+    ],
+    "gw-bronze": [
+      32,
+      32
+    ],
+    "gw-copper": [
+      32,
+      32
+    ],
+    "gw-glass": [
+      16,
+      16
+    ],
+    "gw-shadow": [
+      4,
+      4
+    ]
+  },
+  "elements": [
+    {
+      "name": "gw-piston-motion",
+      "from": [
+        8.0,
+        21.0,
+        8.0
+      ],
+      "to": [
+        8.0,
+        21.0,
+        8.0
+      ],
+      "rotationOrigin": [
+        8.0,
+        21.0,
+        8.0
+      ],
+      "group": "pump-motion",
+      "children": [
+        {
+          "name": "gw-crosshead-shoe-left",
+          "from": [
+            -4.05,
+            -0.55,
+            -0.55
+          ],
+          "to": [
+            -1.45,
+            0.55,
+            0.55
+          ],
+          "group": "pump-motion",
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-crosshead-shoe-right",
+          "from": [
+            1.45,
+            -0.55,
+            -0.55
+          ],
+          "to": [
+            4.05,
+            0.55,
+            0.55
+          ],
+          "group": "pump-motion",
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-crosshead-front-bridge",
+          "from": [
+            -1.45,
+            -0.55,
+            -1.35
+          ],
+          "to": [
+            1.45,
+            0.55,
+            -1.05
+          ],
+          "group": "pump-motion",
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-crosshead-back-bridge",
+          "from": [
+            -1.45,
+            -0.55,
+            1.05
+          ],
+          "to": [
+            1.45,
+            0.55,
+            1.35
+          ],
+          "group": "pump-motion",
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-crosshead-pin",
+          "from": [
+            -1.32,
+            -0.5,
+            -0.5
+          ],
+          "to": [
+            1.32,
+            0.5,
+            0.5
+          ],
+          "group": "pump-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-piston-rod",
+          "from": [
+            -0.42,
+            -7.75,
+            -0.42
+          ],
+          "to": [
+            0.42,
+            -0.62,
+            0.42
+          ],
+          "group": "pump-motion",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-piston-plate",
+          "from": [
+            -3.85,
+            -8.75,
+            -3.05
+          ],
+          "to": [
+            3.85,
+            -7.75,
+            3.05
+          ],
+          "group": "pump-piston",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-piston-upper-seal",
+          "from": [
+            -4.0,
+            -7.92,
+            -3.2
+          ],
+          "to": [
+            4.0,
+            -7.62,
+            3.2
+          ],
+          "group": "pump-piston",
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-piston-lower-seal",
+          "from": [
+            -4.0,
+            -8.78,
+            -3.2
+          ],
+          "to": [
+            4.0,
+            -8.48,
+            3.2
+          ],
+          "group": "pump-piston",
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

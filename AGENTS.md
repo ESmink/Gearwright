@@ -32,6 +32,12 @@ The maintainer may explicitly authorize a breaking change and define its scope. 
 - Avoid AI writing tropes, including canned enthusiasm, inflated claims, repetitive summaries, unnecessary scene-setting, and formulaic contrasts such as "not just X, but Y."
 - Write GitHub Wiki pages and handbook entries from the current code, assets, configuration, and maintainer direction.
 
+## Environment and tool failures
+
+- Tell the maintainer immediately when a required tool, dependency, permission, service, or environment capability is unavailable or fails.
+- State what failed and what work remains affected. Do not silently switch to another tool, workflow, or workaround.
+- Continue through a different method only after the maintainer explicitly asks or approves it.
+
 ## Repository privacy and hygiene
 
 - Never commit absolute local paths, usernames, machine names, tokens, save files, logs, crash reports, local game DLLs, or generated build output.

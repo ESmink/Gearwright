@@ -36,7 +36,10 @@ public class BlockEntityFluidPipe : BlockEntityHydraulicNode
     public double ContentTemperatureC => contentTemperatureC;
     public double ThroughputLitresPerSecond => throughputLitresPerSecond;
     public double LastSimulationTotalHours => lastSimulationTotalHours;
-    public bool HasContent => CurrentContentCode != null && contentAmountLitres > EmptyEpsilonLitres;
+    public bool HasContent => CurrentContentCode != null && contentAmountLitres > 0;
+    // Server-only derived pressure, rebuilt from pump boundaries after loading.
+    // Never seed powered extraction from an old gravity-amplified saved cache.
+    internal double DrivenSuctionKPa { get; set; }
     public PipeContentPhase ContentPhase => CurrentContentCode != null && PipeContent.IsSteam(CurrentContentCode)
         ? PipeContentPhase.Gas
         : PipeContentPhase.Liquid;
@@ -273,6 +276,13 @@ public class BlockEntityFluidPipe : BlockEntityHydraulicNode
 
     public double GetNozzleFlowRate(BlockFacing face) => nozzleFlowRates[face.Index];
 
+    internal void CommitPumpTransfer(AssetLocation code, double amount, double temperature,
+        double rate, BlockFacing direction)
+    {
+        ApplySimulationState(amount > 0 ? code : null, amount, temperature, CurrentPressure,
+            NetworkStatusCode, direction, rate, nozzleFlowRates, lastSimulationTotalHours);
+    }
+
     public double GetNozzleItemRemainder(BlockFacing face) => nozzleItemRemainders[face.Index];
 
     public void SetNozzleItemRemainder(BlockFacing face, double value)
@@ -281,7 +291,7 @@ public class BlockEntityFluidPipe : BlockEntityHydraulicNode
             double.IsFinite(value) ? value : 0, 0, 0.999999);
         if (Math.Abs(nozzleItemRemainders[face.Index] - next) < 0.000001) return;
         nozzleItemRemainders[face.Index] = next;
-        if (Api?.Side == EnumAppSide.Server) MarkHydraulicsDirty();
+        MarkSimulationDirty(true);
     }
 
     public void ApplySimulationState(
@@ -296,16 +306,13 @@ public class BlockEntityFluidPipe : BlockEntityHydraulicNode
         double totalHours)
     {
         double nextAmount = Math.Max(0, double.IsFinite(amountLitres) ? amountLitres : 0);
-        if (contentCode != null && PipeContent.Phase(Api.World, contentCode) == PipeContentPhase.Liquid)
-        {
-            nextAmount = Math.Min(HydraulicMath.PipeCapacityLitres, nextAmount);
-        }
+        // Small excesses store compression; never clip contents to nominal volume.
         double nextTemperature = double.IsFinite(temperatureC)
             ? temperatureC
             : contentCode == null ? 20 : PipeContent.DefaultTemperatureC(contentCode);
-        bool changed = Math.Abs(contentAmountLitres - nextAmount) >= 0.001 ||
-            Math.Abs(contentTemperatureC - nextTemperature) >= 0.1 ||
-            Math.Abs(throughputLitresPerSecond - throughput) >= 0.01;
+        bool changed = contentAmountLitres != nextAmount ||
+            contentTemperatureC != nextTemperature || throughputLitresPerSecond != throughput ||
+            lastSimulationTotalHours != totalHours;
 
         contentAmountLitres = nextAmount;
         contentTemperatureC = nextTemperature;
@@ -319,11 +326,12 @@ public class BlockEntityFluidPipe : BlockEntityHydraulicNode
         }
 
         SetNetworkState(contentCode, pressureKPa, statusCode, flowDirection);
-        if (changed && Api?.Side == EnumAppSide.Server) MarkHydraulicsDirty();
+        MarkSimulationDirty(changed);
     }
 
     protected override void ReadKnownState(ITreeAttribute state, IWorldAccessor world)
     {
+        DrivenSuctionKPa = 0;
         for (int i = 0; i < addons.Length; i++)
         {
             int value = state.GetInt("addon-" + i, 0);

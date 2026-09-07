@@ -38,6 +38,7 @@ public static class HydraulicCodes
     public const string IrrigatorPipeBlock = "irrigator-pipe-bronze";
     public const string CreativePumpBlock = "creative-fluid-pump";
     public const string PassivePumpBlock = "passive-fluid-pump";
+    public const string ReciprocatingPumpBlock = "reciprocating-pump";
 
     public const string PipeClass = "GearwrightFluidPipe";
     public const string PipeEntityClass = "GearwrightFluidPipeEntity";
@@ -47,6 +48,8 @@ public static class HydraulicCodes
     public const string CreativePumpEntityClass = "GearwrightCreativeFluidPumpEntity";
     public const string PassivePumpClass = "GearwrightPassiveFluidPump";
     public const string PassivePumpEntityClass = "GearwrightPassiveFluidPumpEntity";
+    public const string ReciprocatingPumpClass = "GearwrightReciprocatingPump";
+    public const string ReciprocatingPumpEntityClass = "GearwrightReciprocatingPumpEntity";
     public const string CropBehaviorClass = "GearwrightFluidExposure";
 
     public const string FreshWater = "game:waterportion";

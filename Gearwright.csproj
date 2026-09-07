@@ -25,6 +25,10 @@
       <HintPath>$(VintageStoryPath)\VintagestoryAPI.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(VintageStoryPath)\Lib\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="VSEssentials">
       <HintPath>$(VintageStoryPath)\Mods\VSEssentials.dll</HintPath>
       <Private>false</Private>
@@ -44,7 +48,7 @@
   </ItemGroup>
 
   <Target Name="CheckVintageStoryPath" BeforeTargets="ResolveReferences"
-          Condition="!Exists('$(VintageStoryPath)\VintagestoryAPI.dll') or !Exists('$(VintageStoryPath)\Mods\VSSurvivalMod.dll') or !Exists('$(VintageStoryPath)\Mods\VSEssentials.dll')">
+          Condition="!Exists('$(VintageStoryPath)\VintagestoryAPI.dll') or !Exists('$(VintageStoryPath)\Mods\VSSurvivalMod.dll') or !Exists('$(VintageStoryPath)\Mods\VSEssentials.dll') or !Exists('$(VintageStoryPath)\Lib\0Harmony.dll')">
     <Error Text="Vintage Story was not found. Set VINTAGE_STORY or pass /p:VintageStoryPath to a complete Vintage Story 1.22.3 installation." />
   </Target>
 
