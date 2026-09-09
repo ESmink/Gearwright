@@ -1,0 +1,150 @@
+{
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "wood": "game:block/wood/plainoak",
+    "woodend": "game:block/wood/treetrunk/debarked/oak"
+  },
+  "elements": [
+    {
+      "name": "deck-0",
+      "from": [
+        1.5,
+        14.5,
+        1.5
+      ],
+      "to": [
+        14.5,
+        16.0,
+        3.5
+      ],
+      "group": "top-platform",
+      "faces": {
+        "north": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            13.0,
+            1.5
+          ]
+        },
+        "east": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            2.0,
+            1.5
+          ]
+        },
+        "south": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            13.0,
+            1.5
+          ]
+        },
+        "west": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            2.0,
+            1.5
+          ]
+        },
+        "up": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            13.0,
+            2.0
+          ]
+        },
+        "down": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            13.0,
+            2.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "deck-2",
+      "from": [
+        1.5,
+        14.5,
+        12.5
+      ],
+      "to": [
+        14.5,
+        16.0,
+        14.5
+      ],
+      "group": "top-platform",
+      "faces": {
+        "north": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            13.0,
+            1.5
+          ]
+        },
+        "east": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            2.0,
+            1.5
+          ]
+        },
+        "south": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            13.0,
+            1.5
+          ]
+        },
+        "west": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            2.0,
+            1.5
+          ]
+        },
+        "up": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            13.0,
+            2.0
+          ]
+        },
+        "down": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            13.0,
+            2.0
+          ]
+        }
+      }
+    }
+  ]
+}

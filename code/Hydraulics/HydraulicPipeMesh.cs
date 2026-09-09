@@ -49,6 +49,7 @@ internal static class HydraulicPipeMesh
             combined.AddMeshData(part);
         }
 
+        if (pipe.HasWoodSupport) PipeWoodSupport.AddMeshes(pipe, tesselator, combined);
         mesher.AddMeshData(combined, 1);
         return true;
     }

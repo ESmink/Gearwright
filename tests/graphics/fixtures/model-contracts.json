@@ -1,6 +1,18 @@
 {
   "version": 1,
   "shapes": {
+    "assets/gearwright/shapes/block/pipe-support-frame.json": {"elements": 12, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pipe-support-endpoint.json": {"elements": 8, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pipe-support-nozzle-endpoint.json": {"elements": 8, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pipe-support-corners.json": {"elements": 1, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pipe-support-lining.json": {"elements": 1, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pipe-support-lining-port.json": {"elements": 4, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pipe-support-lining-nozzle.json": {"elements": 4, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pipe-support-lining-sprinkler.json": {"elements": 4, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pipe-support-top.json": {"elements": 3, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pipe-support-top-opening.json": {"elements": 2, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pipe-support-anchor.json": {"elements": 4, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pipe-support-seat.json": {"elements": 6, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/creative-fluid-pump.json": {"elements": 10, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/fluid-pipe-arm.json": {"elements": 8, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/fluid-pipe-cap.json": {"elements": 1, "textureWidth": 16, "textureHeight": 16},

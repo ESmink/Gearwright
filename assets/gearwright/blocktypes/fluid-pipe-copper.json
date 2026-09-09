@@ -8,6 +8,9 @@
     "copper": { "base": "game:block/metal/sheet/copper1" },
     "brass": { "base": "game:block/metal/ingot/brass" },
     "steel": { "base": "game:block/metal/sheet/steel1" },
+    "wood": { "base": "game:block/wood/plainoak" },
+    "woodend": { "base": "game:block/wood/treetrunk/debarked/oak" },
+    "lining": { "base": "gearwright:block/pipe-insulation" },
     "glass": { "base": "gearwright:block/inspection-glass" },
     "shadow": { "base": "gearwright:block/inspection-shadow" }
   },

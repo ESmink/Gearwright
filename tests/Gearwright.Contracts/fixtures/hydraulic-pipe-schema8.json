@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 8,
+  "port-0": 1,
+  "port-2": 1,
+  "woodSupportStack": {
+    "type": "item",
+    "code": "game:plank-oak",
+    "stackSize": 1,
+    "attributes": { "owner-mark": "original-frame" }
+  },
+  "networkContent": "game:waterportion",
+  "contentAmountLitres": 6.5,
+  "contentTemperatureC": 28,
+  "futureData": { "keep": true }
+}

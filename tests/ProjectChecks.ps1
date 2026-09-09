@@ -164,7 +164,7 @@ Assert-Project (@(Get-ChildItem $root -Recurse -Filter "*.cmd" -File).Count -eq 
 
 $allowedToolScripts = @(
     "Build-Mod.ps1", "Common.ps1", "Install-Mod.ps1", "Test-Project.ps1", "Test-ServerSmoke.ps1",
-    "Inspect-MechanicalRotation.ps1",
+    "Inspect-MechanicalRotation.ps1", "Inspect-BlockBehavior.ps1",
     "graphics\Build-Graphics.ps1",
     "graphics\Build-Texture.ps1", "graphics\Find-GameAsset.ps1", "graphics\Graphics.Common.ps1",
     "graphics\Invoke-Photoshoot.ps1", "graphics\Review-Model.ps1",
@@ -714,11 +714,15 @@ Assert-Project (
 ) "Nozzles use bright translucent content colors, fourfold peak jet power, and zero-gravity cone intake particles"
 $hydraulicStateText = Get-Content -Raw (Join-Path $root "code\Hydraulics\HydraulicStateSchema.cs")
 Assert-Project (
-    $hydraulicStateText -match 'CurrentVersion\s*=\s*7' -and
-    $hydraulicStateText -match 'schema is 1 or 2 or 3 or 4 or 5 or 6' -and
+    $hydraulicStateText -match 'CurrentVersion\s*=\s*9' -and
+    $hydraulicStateText -match 'schema is 1 or 2 or 3 or 4 or 5 or 6 or 7 or 8' -and
     $hydraulicStateText -match 'explicitly authorized breaking pipe rework' -and
-    $hydraulicStateText -match 'Irrigator Pipe''s additive orientation'
-) "Hydraulic state reaches additive Irrigator Pipe schema 7 through sequential migrations"
+    $hydraulicStateText -match 'Irrigator Pipe''s additive orientation' -and
+    $hydraulicStateText -match 'if \(version == 7\)' -and
+    $hydraulicStateText -match 'Schema 8 adds the optional original plank stack' -and
+    $hydraulicStateText -match 'if \(version == 8\)' -and
+    $hydraulicStateText -match 'woodInsulationStack'
+) "Hydraulic state retains earlier migrations and reaches additive wooden insulation schema 9"
 
 $graphicsRecipes = Get-ChildItem (Join-Path $root "graphics\recipes") -Filter "*.json" -File
 foreach ($graphicsRecipe in $graphicsRecipes) {

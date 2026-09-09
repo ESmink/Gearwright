@@ -18,6 +18,9 @@
     <Compile Include="PumpRuntimeFixture.cs" />
     <Compile Include="PumpTimingFixture.cs" />
     <Compile Include="PipePressureFixture.cs" />
+    <Compile Include="PipeAddonFixture.cs" />
+    <Compile Include="PipeSupportFixture.cs" />
+    <Compile Include="PipeRoomFixture.cs" />
     <Compile Include="HydraulicRuntimeFixture.cs" />
     <Reference Include="VSSurvivalMod">
       <HintPath>$(VintageStoryPath)\Mods\VSSurvivalMod.dll</HintPath>

@@ -24,6 +24,8 @@ The scripts discover Vintage Story from `-VintageStoryPath`, `VINTAGE_STORY`, or
 
 `Build-Mod.ps1` writes the package to `dist/`. `Test-Project.ps1` checks repository structure, privacy rules, graphics recipes, save migrations, downgrade protection, and the release build. `Install-Mod.ps1` installs the newest package and verifies its hash. `Test-ServerSmoke.ps1` boots the package with an isolated temporary data folder, waits for `WorldReady`, checks the logs, and removes the temporary world.
 
+`Inspect-BlockBehavior.ps1 -TypeName Vintagestory.API.Common.Block -MethodName GetRetention` inspects the installed SDK's block and room hooks without storing engine code or binaries in the repository. Use `-ListMembers` to find methods before selecting one.
+
 ## Release
 
 The release workflow runs for pushes to `main` and for `v<version>` tags. An untagged `main` commit updates the rolling `indev` prerelease and its checksum. If the matching version tag already points to the commit, the indev build is skipped.

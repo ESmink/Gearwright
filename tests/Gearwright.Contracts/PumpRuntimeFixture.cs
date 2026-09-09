@@ -33,8 +33,10 @@ internal static class PumpRuntimeFixture
                 ? EnumBlockMaterial.Stone : EnumBlockMaterial.Air },
             _ => null
         });
+        ILogger logger = Stub.Create<ILogger>((_, _) => null);
         IWorldAccessor world = Stub.Create<IWorldAccessor>((method, _) => method.Name switch
         {
+            "get_Logger" => logger,
             "get_BlockAccessor" => accessor,
             "GetItem" => water,
             _ => null
@@ -367,6 +369,7 @@ internal static class PumpRuntimeFixture
         IGameCalendar calendar = Stub.Create<IGameCalendar>((_, _) => null);
         IServerWorldAccessor serverWorld = Stub.Create<IServerWorldAccessor>((method, _) => method.Name switch
         {
+            "get_Logger" => world.Logger,
             "get_BlockAccessor" => accessor,
             "get_Calendar" => calendar,
             "GetItem" => world.GetItem(new AssetLocation("game:waterportion")),

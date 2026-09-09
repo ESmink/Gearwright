@@ -30,6 +30,7 @@ public sealed class BlockFluidPipe : Block
             new AssetLocation(GearwrightModSystem.ModId, HydraulicCodes.PipeNozzleItem)) == true;
         bool installingFlange = held?.Collectible.Code.Equals(
             new AssetLocation("game", "metalplate-copper")) == true;
+        bool installingSupport = BlockEntityFluidPipe.IsSupportPlank(held);
         HydraulicFaceAddon addon = installingSprinkler
             ? HydraulicFaceAddon.Sprinkler
             : installingWindow
@@ -40,14 +41,19 @@ public sealed class BlockFluidPipe : Block
                         ? HydraulicFaceAddon.CopperFlange
                         : HydraulicFaceAddon.None;
 
-        if (!togglingPort && !removing && addon == HydraulicFaceAddon.None) return false;
+        if (!togglingPort && !removing && !installingSupport && addon == HydraulicFaceAddon.None) return false;
         if (world.Side == EnumAppSide.Client) return true;
         if (!world.Claims.TryAccess(byPlayer, blockSel.Position, EnumBlockAccessFlags.BuildOrBreak)) return true;
 
-        bool changed = togglingPort
+        bool selectingSupport = pipe.HasWoodSupport && blockSel.SelectionBoxIndex >= GetPipeBoxes(world.BlockAccessor, blockSel.Position).Length;
+        bool changed = installingSupport
+            ? (pipe.HasWoodSupport ? pipe.TryInstallWoodInsulation(held!) : pipe.TryInstallWoodSupport(held!))
+            : togglingPort
             ? pipe.TryTogglePort(blockSel.Face, byPlayer)
             : removing
-                ? pipe.TryRemoveAddon(blockSel.Face, byPlayer)
+                ? (pipe.HasWoodInsulation ? pipe.TryRemoveWoodInsulation(byPlayer) :
+                    selectingSupport || pipe.GetAddon(blockSel.Face) == HydraulicFaceAddon.None
+                    ? pipe.TryRemoveWoodSupport(byPlayer) : pipe.TryRemoveAddon(blockSel.Face, byPlayer))
                 : pipe.TryInstallAddon(blockSel.Face, held!, addon, byPlayer);
 
         if (changed && !togglingPort && !removing &&
@@ -64,7 +70,7 @@ public sealed class BlockFluidPipe : Block
         GetStateBoxes(blockAccessor, pos);
 
     public override Cuboidf[] GetCollisionBoxes(IBlockAccessor blockAccessor, BlockPos pos) =>
-        GetStateBoxes(blockAccessor, pos);
+        GetStateBoxes(blockAccessor, pos, collision: true);
 
     public override Cuboidf[] GetParticleCollisionBoxes(IBlockAccessor blockAccessor, BlockPos pos) =>
         GetStateBoxes(blockAccessor, pos);
@@ -85,7 +91,48 @@ public sealed class BlockFluidPipe : Block
         });
     }
 
-    private static Cuboidf[] GetStateBoxes(IBlockAccessor blockAccessor, BlockPos pos)
+    public override bool SideIsSolid(IBlockAccessor accessor, BlockPos pos, int faceIndex) =>
+        accessor.GetBlockEntity(pos) is BlockEntityFluidPipe pipe &&
+        (pipe.HasWoodInsulation || faceIndex == BlockFacing.UP.Index && pipe.HasSupportPlatform(accessor));
+
+    public override bool SideIsSolid(BlockPos pos, int faceIndex) => SideIsSolid(api.World.BlockAccessor, pos, faceIndex);
+
+    public override bool CanAttachBlockAt(IBlockAccessor accessor, Block block, BlockPos pos,
+        BlockFacing face, Cuboidi? attachmentArea = null) => SideIsSolid(accessor, pos, face.Index);
+
+    public override int GetRetention(BlockPos pos, BlockFacing facing, EnumRetentionType type) =>
+        api.World.BlockAccessor.GetBlockEntity(pos) is BlockEntityFluidPipe { HasWoodInsulation: true }
+            ? type == EnumRetentionType.Sound ? 10 : 1
+            : base.GetRetention(pos, facing, type);
+
+    public override int GetLightAbsorption(IBlockAccessor accessor, BlockPos pos) =>
+        accessor.GetBlockEntity(pos) is BlockEntityFluidPipe { HasWoodInsulation: true } ? 32 : LightAbsorption;
+
+    public override int GetLightAbsorption(IWorldChunk chunk, BlockPos pos) =>
+        chunk.GetLocalBlockEntityAtBlockPos(pos) is BlockEntityFluidPipe { HasWoodInsulation: true } ? 32 : LightAbsorption;
+
+    public override void OnNeighbourBlockChange(IWorldAccessor world, BlockPos pos, BlockPos neibpos)
+    {
+        base.OnNeighbourBlockChange(world, pos, neibpos);
+        if (world.BlockAccessor.GetBlockEntity(pos) is BlockEntityFluidPipe { HasWoodSupport: true, CanWriteState: true } pipe)
+            pipe.MarkDirty(true);
+    }
+
+    private static Cuboidf[] GetStateBoxes(IBlockAccessor accessor, BlockPos pos, bool collision = false)
+    {
+        List<Cuboidf> boxes = new(GetPipeBoxes(accessor, pos));
+        if (accessor.GetBlockEntity(pos) is BlockEntityFluidPipe { HasWoodInsulation: true })
+        {
+            // Keep protruding nozzle hitboxes; the casing itself is a full block.
+            boxes.Add(Box(0, 0, 0, 16, 16, 16));
+            return boxes.ToArray();
+        }
+        if (accessor.GetBlockEntity(pos) is BlockEntityFluidPipe { HasWoodSupport: true } pipe)
+            PipeWoodSupport.AddBoxes(pipe, accessor, boxes, collision);
+        return boxes.ToArray();
+    }
+
+    private static Cuboidf[] GetPipeBoxes(IBlockAccessor blockAccessor, BlockPos pos)
     {
         List<Cuboidf> boxes = new()
         {

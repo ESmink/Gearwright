@@ -1,0 +1,291 @@
+{
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "wood": "game:block/wood/plainoak",
+    "woodend": "game:block/wood/treetrunk/debarked/oak",
+    "lining": "gearwright:block/pipe-insulation"
+  },
+  "elements": [
+    {
+      "name": "lining-0",
+      "from": [
+        1.5,
+        1.5,
+        1.5
+      ],
+      "to": [
+        14.5,
+        4.5,
+        2.0
+      ],
+      "group": "lining",
+      "faces": {
+        "north": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            11.5,
+            14.5,
+            14.5
+          ]
+        },
+        "east": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            11.5,
+            14.5,
+            14.5
+          ]
+        },
+        "south": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            11.5,
+            14.5,
+            14.5
+          ]
+        },
+        "west": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            11.5,
+            14.5,
+            14.5
+          ]
+        },
+        "up": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            11.5,
+            14.5,
+            14.5
+          ]
+        },
+        "down": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            11.5,
+            14.5,
+            14.5
+          ]
+        }
+      }
+    },
+    {
+      "name": "lining-1",
+      "from": [
+        1.5,
+        11.5,
+        1.5
+      ],
+      "to": [
+        14.5,
+        14.5,
+        2.0
+      ],
+      "group": "lining",
+      "faces": {
+        "north": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            1.5,
+            14.5,
+            4.5
+          ]
+        },
+        "east": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            1.5,
+            14.5,
+            4.5
+          ]
+        },
+        "south": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            1.5,
+            14.5,
+            4.5
+          ]
+        },
+        "west": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            1.5,
+            14.5,
+            4.5
+          ]
+        },
+        "up": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            1.5,
+            14.5,
+            4.5
+          ]
+        },
+        "down": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            1.5,
+            14.5,
+            4.5
+          ]
+        }
+      }
+    },
+    {
+      "name": "lining-2",
+      "from": [
+        1.5,
+        4.5,
+        1.5
+      ],
+      "to": [
+        4.5,
+        11.5,
+        2.0
+      ],
+      "group": "lining",
+      "faces": {
+        "north": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            4.5,
+            4.5,
+            11.5
+          ]
+        },
+        "east": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            4.5,
+            4.5,
+            11.5
+          ]
+        },
+        "south": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            4.5,
+            4.5,
+            11.5
+          ]
+        },
+        "west": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            4.5,
+            4.5,
+            11.5
+          ]
+        },
+        "up": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            4.5,
+            4.5,
+            11.5
+          ]
+        },
+        "down": {
+          "texture": "#lining",
+          "uv": [
+            1.5,
+            4.5,
+            4.5,
+            11.5
+          ]
+        }
+      }
+    },
+    {
+      "name": "lining-3",
+      "from": [
+        11.5,
+        4.5,
+        1.5
+      ],
+      "to": [
+        14.5,
+        11.5,
+        2.0
+      ],
+      "group": "lining",
+      "faces": {
+        "north": {
+          "texture": "#lining",
+          "uv": [
+            11.5,
+            4.5,
+            14.5,
+            11.5
+          ]
+        },
+        "east": {
+          "texture": "#lining",
+          "uv": [
+            11.5,
+            4.5,
+            14.5,
+            11.5
+          ]
+        },
+        "south": {
+          "texture": "#lining",
+          "uv": [
+            11.5,
+            4.5,
+            14.5,
+            11.5
+          ]
+        },
+        "west": {
+          "texture": "#lining",
+          "uv": [
+            11.5,
+            4.5,
+            14.5,
+            11.5
+          ]
+        },
+        "up": {
+          "texture": "#lining",
+          "uv": [
+            11.5,
+            4.5,
+            14.5,
+            11.5
+          ]
+        },
+        "down": {
+          "texture": "#lining",
+          "uv": [
+            11.5,
+            4.5,
+            14.5,
+            11.5
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 7,
+  "port-0": 1,
+  "port-1": 0,
+  "addon-1": 1,
+  "addonStack-1": { "type": "block", "code": "game:glass-plain", "stackSize": 1 },
+  "networkContent": "game:waterportion",
+  "contentAmountLitres": 7.25,
+  "contentTemperatureC": 36,
+  "futureData": { "keep": true }
+}

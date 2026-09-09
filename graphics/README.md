@@ -12,7 +12,7 @@ Find and inspect source textures before authoring:
 .\tools\graphics\Find-GameAsset.ps1 -Type Texture -Query "wood/planks/oak"
 ```
 
-Edit one logical family in `graphics/models/`. The current definitions are `pottery_profile_tool.py`, `fluid_pipe.py`, `sprinkler.py`, `creative_fluid_pump.py`, and `passive_fluid_pump.py`. A definition may emit several runtime shapes and named review scenes.
+Edit one logical family in `graphics/models/`. The inventory command below lists the current definitions and their outputs. A definition may emit several runtime shapes and named review scenes.
 
 Validate the definitions, inspect the exact owner of every runtime shape, and run the focused tests:
 
@@ -68,7 +68,7 @@ $env:PYTHONPATH = "tools/graphics"
 python -m gearwright_graphics.review_model --review generated/<feature>-review
 ```
 
-The reviewer keeps one OpenGL viewport alive. It loads a shape once, updates animation poses in memory, uses a depth buffer for opaque and cutout geometry, and draws sorted transparent faces afterward. Left-drag orbits, middle- or right-drag pans, the wheel zooms, the view buttons provide exact sides, and Fit model restores framing. Copy review reference puts the selected package, candidate, state, animation frame, and camera on the clipboard so approval points to an exact view. The candidate list refreshes when shape files change.
+The reviewer keeps one OpenGL viewport alive. It loads a shape once, updates animation poses in memory, uses a depth buffer for opaque and cutout geometry, and draws sorted transparent faces afterward. Left-drag orbits, middle- or right-drag pans, the wheel zooms, the view buttons provide exact sides, and Fit model restores framing. Switching candidates preserves the camera and the selected state when that state exists in both candidates, so mounting arrangements can be compared directly. Copy review reference puts the selected package, candidate, state, animation frame, and camera on the clipboard so approval points to an exact view. The candidate list refreshes when shape files change.
 
 The OpenGL preview is closer to the game's depth, culling, nearest-texture sampling, and flat directional lighting than the photoshoot. Vintage Story remains authoritative for atlas behavior, particles, dynamic lighting, and runtime animation startup.
 

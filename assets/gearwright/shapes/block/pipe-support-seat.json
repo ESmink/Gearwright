@@ -1,0 +1,458 @@
+{
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "wood": "game:block/wood/plainoak",
+    "woodend": "game:block/wood/treetrunk/debarked/oak"
+  },
+  "elements": [
+    {
+      "name": "saddle-6",
+      "from": [
+        6.0,
+        4.5,
+        0.75
+      ],
+      "to": [
+        7.5,
+        6.0,
+        15.25
+      ],
+      "group": "seat",
+      "faces": {
+        "north": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            1.5,
+            1.5
+          ]
+        },
+        "east": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            14.5,
+            1.5
+          ]
+        },
+        "south": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            1.5,
+            1.5
+          ]
+        },
+        "west": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            14.5,
+            1.5
+          ]
+        },
+        "up": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            1.5,
+            14.5
+          ],
+          "rotation": 90
+        },
+        "down": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            1.5,
+            14.5
+          ],
+          "rotation": 90
+        }
+      }
+    },
+    {
+      "name": "seat-knee-6-0.75",
+      "from": [
+        0.75,
+        0.15,
+        0.15
+      ],
+      "to": [
+        8.25,
+        1.35,
+        1.35
+      ],
+      "rotationOrigin": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "rotationZ": 36.8698976458,
+      "group": "seat",
+      "faces": {
+        "north": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            7.5,
+            1.2
+          ]
+        },
+        "east": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            1.2,
+            1.2
+          ]
+        },
+        "south": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            7.5,
+            1.2
+          ]
+        },
+        "west": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            1.2,
+            1.2
+          ]
+        },
+        "up": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            7.5,
+            1.2
+          ]
+        },
+        "down": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            7.5,
+            1.2
+          ]
+        }
+      }
+    },
+    {
+      "name": "seat-knee-6-15.25",
+      "from": [
+        0.75,
+        0.15,
+        14.65
+      ],
+      "to": [
+        8.25,
+        1.35,
+        15.85
+      ],
+      "rotationOrigin": [
+        0.75,
+        0.75,
+        15.25
+      ],
+      "rotationZ": 36.8698976458,
+      "group": "seat",
+      "faces": {
+        "north": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            7.5,
+            1.2
+          ]
+        },
+        "east": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            1.2,
+            1.2
+          ]
+        },
+        "south": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            7.5,
+            1.2
+          ]
+        },
+        "west": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            1.2,
+            1.2
+          ]
+        },
+        "up": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            7.5,
+            1.2
+          ]
+        },
+        "down": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            7.5,
+            1.2
+          ]
+        }
+      }
+    },
+    {
+      "name": "saddle-8.5",
+      "from": [
+        8.5,
+        4.5,
+        0.75
+      ],
+      "to": [
+        10.0,
+        6.0,
+        15.25
+      ],
+      "group": "seat",
+      "faces": {
+        "north": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            1.5,
+            1.5
+          ]
+        },
+        "east": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            14.5,
+            1.5
+          ]
+        },
+        "south": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            1.5,
+            1.5
+          ]
+        },
+        "west": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            14.5,
+            1.5
+          ]
+        },
+        "up": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            1.5,
+            14.5
+          ],
+          "rotation": 90
+        },
+        "down": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            1.5,
+            14.5
+          ],
+          "rotation": 90
+        }
+      }
+    },
+    {
+      "name": "seat-knee-8.5-0.75",
+      "from": [
+        15.25,
+        0.15,
+        0.15
+      ],
+      "to": [
+        22.75,
+        1.35,
+        1.35
+      ],
+      "rotationOrigin": [
+        15.25,
+        0.75,
+        0.75
+      ],
+      "rotationZ": 143.1301023542,
+      "group": "seat",
+      "faces": {
+        "north": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            7.5,
+            1.2
+          ]
+        },
+        "east": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            1.2,
+            1.2
+          ]
+        },
+        "south": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            7.5,
+            1.2
+          ]
+        },
+        "west": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            1.2,
+            1.2
+          ]
+        },
+        "up": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            7.5,
+            1.2
+          ]
+        },
+        "down": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            7.5,
+            1.2
+          ]
+        }
+      }
+    },
+    {
+      "name": "seat-knee-8.5-15.25",
+      "from": [
+        15.25,
+        0.15,
+        14.65
+      ],
+      "to": [
+        22.75,
+        1.35,
+        15.85
+      ],
+      "rotationOrigin": [
+        15.25,
+        0.75,
+        15.25
+      ],
+      "rotationZ": 143.1301023542,
+      "group": "seat",
+      "faces": {
+        "north": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            7.5,
+            1.2
+          ]
+        },
+        "east": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            1.2,
+            1.2
+          ]
+        },
+        "south": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            7.5,
+            1.2
+          ]
+        },
+        "west": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            1.2,
+            1.2
+          ]
+        },
+        "up": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            7.5,
+            1.2
+          ]
+        },
+        "down": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            7.5,
+            1.2
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -66,7 +66,7 @@ public abstract class BlockEntityHydraulicNode : BlockEntity, IHydraulicNetworkN
                 "[Gearwright] Hydraulic state at {0} has a {1} schema ({2}). The original data will remain read-only.",
                 Pos, problem, storedSchema?.ToString() ?? "non-integer");
         }
-        else if (storedSchema is 1 or 2 or 3 or 4 or 5 or 6)
+        else if (storedSchema is 1 or 2 or 3 or 4 or 5 or 6 or 7 or 8)
         {
             worldAccessForResolve.Logger.Notification(
                 "[Gearwright] Migrated hydraulic state at {0} from schema {1} to schema {2}.",
@@ -75,6 +75,9 @@ public abstract class BlockEntityHydraulicNode : BlockEntity, IHydraulicNetworkN
 
         ReadNetworkCache(preservedState);
         ReadKnownState(preservedState, worldAccessForResolve);
+        // A subclass may reject malformed data after migration. Keep the actual
+        // source document, including its old version, when writes are disabled.
+        if (!canWrite) preservedState = state.Clone();
     }
 
     public override void ToTreeAttributes(ITreeAttribute tree)
@@ -114,6 +117,12 @@ public abstract class BlockEntityHydraulicNode : BlockEntity, IHydraulicNetworkN
     }
 
     protected virtual void ReadKnownState(ITreeAttribute state, IWorldAccessor world) { }
+
+    protected void ProtectStoredState(IWorldAccessor world, string problem)
+    {
+        canWrite = false;
+        world.Logger.Error("[Gearwright] Hydraulic state at {0}: {1}. The original data remains read-only.", Pos, problem);
+    }
     protected virtual void WriteKnownState(ITreeAttribute state) { }
 
     private void ReadNetworkCache(ITreeAttribute state)

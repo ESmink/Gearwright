@@ -1,0 +1,15 @@
+{
+  "kind": "texture",
+  "output": "assets/gearwright/textures/block/pipe-insulation.png",
+  "width": 16,
+  "height": 16,
+  "background": "#715136",
+  "layers": [
+    { "source": "survival:textures/block/wood/planks/oak1.png", "sourceRect": [0, 0, 32, 8], "destination": [0, 0, 16, 3], "mode": "stretch" },
+    { "source": "survival:textures/block/wood/planks/oak1.png", "sourceRect": [0, 16, 32, 8], "destination": [0, 3, 16, 2], "mode": "stretch" },
+    { "source": "survival:textures/block/wood/planks/oak1.png", "sourceRect": [0, 8, 32, 8], "destination": [0, 5, 16, 3], "mode": "stretch" },
+    { "source": "survival:textures/block/wood/planks/oak1.png", "sourceRect": [0, 24, 32, 8], "destination": [0, 8, 16, 3], "mode": "stretch" },
+    { "source": "survival:textures/block/wood/planks/oak1.png", "sourceRect": [0, 0, 32, 8], "destination": [0, 11, 16, 2], "mode": "stretch" },
+    { "source": "survival:textures/block/wood/planks/oak1.png", "sourceRect": [0, 16, 32, 8], "destination": [0, 13, 16, 3], "mode": "stretch" }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "wood": "game:block/wood/plainoak",
+    "woodend": "game:block/wood/treetrunk/debarked/oak"
+  },
+  "elements": [
+    {
+      "name": "diagonal-brace",
+      "from": [
+        0.75,
+        0.15,
+        0.15
+      ],
+      "to": [
+        21.2560966544,
+        1.35,
+        1.35
+      ],
+      "rotationOrigin": [
+        0.75,
+        0.75,
+        0.75
+      ],
+      "rotationZ": 45.0,
+      "group": "diagonal-brace",
+      "faces": {
+        "north": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            20.5060966544,
+            1.2
+          ]
+        },
+        "east": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            1.2,
+            1.2
+          ]
+        },
+        "south": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            20.5060966544,
+            1.2
+          ]
+        },
+        "west": {
+          "texture": "#woodend",
+          "uv": [
+            0,
+            0,
+            1.2,
+            1.2
+          ]
+        },
+        "up": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            20.5060966544,
+            1.2
+          ]
+        },
+        "down": {
+          "texture": "#wood",
+          "uv": [
+            0,
+            0,
+            20.5060966544,
+            1.2
+          ]
+        }
+      }
+    }
+  ]
+}

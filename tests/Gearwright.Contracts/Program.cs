@@ -36,6 +36,9 @@ internal static class Program
         PipeFlowPlanningIsConservative();
         PipePressureFixture.Run(Check);
         HydraulicRuntimeFixture.Run(Check);
+        PipeAddonFixture.Run(Check);
+        PipeSupportFixture.Run(Check);
+        PipeRoomFixture.Run(Check);
         PressureControlsConsumerWaterUse();
         SprinklerReachUsesStablePressureBands();
         AmbientAudioTracksPressureAndFlow();
@@ -1112,7 +1115,7 @@ internal static class Program
         ITreeAttribute migratedFromFive = HydraulicStateSchema.PrepareForRead(
             schemaFive, out bool schemaFiveCanWrite, out string? schemaFiveProblem);
         Check(schemaFiveCanWrite && schemaFiveProblem == null &&
-              migratedFromFive.GetInt("schemaVersion") == 7 &&
+              migratedFromFive.GetInt("schemaVersion") == HydraulicStateSchema.CurrentVersion &&
               migratedFromFive.GetInt("port-0") == 1 &&
               migratedFromFive.GetInt("port-4") == 0,
             "Schema 5 free faces become explicit ports while attachment faces remain closed");
@@ -1123,7 +1126,7 @@ internal static class Program
         ITreeAttribute migratedFromSix = HydraulicStateSchema.PrepareForRead(
             schemaSix, out bool schemaSixCanWrite, out string? schemaSixProblem);
         Check(schemaSixCanWrite && schemaSixProblem == null &&
-              migratedFromSix.GetInt("schemaVersion") == 7 &&
+              migratedFromSix.GetInt("schemaVersion") == HydraulicStateSchema.CurrentVersion &&
               migratedFromSix.GetString("unknownPipeValue") == "preserved",
             "Schema 6 migrates additively for flanges and Irrigator Pipe state");
 

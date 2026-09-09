@@ -237,7 +237,8 @@ class ReviewModelWindow(QMainWindow):
         if index < 0:
             return
         self.candidate_id = str(self.candidate_box.itemData(index))
-        self.stage_id = ""
+        # Keep a shared state (for example wall-mounted) for direct comparison.
+        # _populate_stages selects the default if the new candidate lacks it.
         self.animation_code = ""
         self.frame_value = 0.0
         self._populate_stages()

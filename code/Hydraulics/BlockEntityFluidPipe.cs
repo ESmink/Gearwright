@@ -9,7 +9,7 @@ using Vintagestory.API.MathTools;
 
 namespace Gearwright.Hydraulics;
 
-public class BlockEntityFluidPipe : BlockEntityHydraulicNode
+public partial class BlockEntityFluidPipe : BlockEntityHydraulicNode
 {
     private const double EmptyEpsilonLitres = 0.000001;
     private static readonly AssetLocation AttachmentInstallSound =
@@ -228,6 +228,7 @@ public class BlockEntityFluidPipe : BlockEntityHydraulicNode
                     Api.World.SpawnItemEntity(stack.Clone(), Pos.ToVec3d().Add(0.5, 0.5, 0.5));
                 }
             }
+            DropWoodSupport(byPlayer);
         }
         StopClientPresentation();
         base.OnBlockBroken(byPlayer);
@@ -248,6 +249,8 @@ public class BlockEntityFluidPipe : BlockEntityHydraulicNode
     public override void GetBlockInfo(IPlayer forPlayer, StringBuilder dsc)
     {
         base.GetBlockInfo(forPlayer, dsc);
+        if (HasWoodSupport) dsc.AppendLine(Lang.Get(HasWoodInsulation
+            ? "gearwright:pipe-wood-insulation-installed" : "gearwright:pipe-wood-support-installed"));
         List<string> openPorts = new();
         foreach (BlockFacing face in BlockFacing.ALLFACES)
         {
@@ -331,6 +334,7 @@ public class BlockEntityFluidPipe : BlockEntityHydraulicNode
 
     protected override void ReadKnownState(ITreeAttribute state, IWorldAccessor world)
     {
+        ReadWoodSupport(state, world);
         DrivenSuctionKPa = 0;
         for (int i = 0; i < addons.Length; i++)
         {
@@ -352,6 +356,7 @@ public class BlockEntityFluidPipe : BlockEntityHydraulicNode
 
     protected override void WriteKnownState(ITreeAttribute state)
     {
+        WriteWoodSupport(state);
         for (int i = 0; i < addons.Length; i++)
         {
             state.SetInt("addon-" + i, (int)addons[i]);
