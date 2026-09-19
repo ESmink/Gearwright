@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Gearwright.Hydraulics;
 using Vintagestory.API.Client;
@@ -22,8 +24,9 @@ public sealed class BEBehaviorMPLateralCrank : BEBehaviorMPBase
     public BEBehaviorMPLateralCrank(BlockEntity blockentity) : base(blockentity) { }
 
     public double PhaseOffsetRadians => phaseOffsetDegrees * GameMath.DEG2RAD;
-    public bool HasAttachedPump => AttachedPump != null;
-    internal float SampledFluidResistance { get; private set; }
+    public bool HasAttachedPump => AttachedDevices.Any(device => device is BlockEntityReciprocatingPump);
+    public bool HasAttachedDevice => AttachedDevices.Length > 0;
+    internal float SampledDeviceResistance { get; private set; }
 
     private BlockFacing RotationAxis => Blockentity.Block.Variant["rotation"] == "we"
         ? BlockFacing.WEST : BlockFacing.NORTH;
@@ -33,29 +36,45 @@ public sealed class BEBehaviorMPLateralCrank : BEBehaviorMPBase
             AngleRad + PhaseOffsetRadians, RotationAxis, localX, localY);
 
     internal double PumpAngle(BlockEntityReciprocatingPump pump) =>
-        AngleInFrame(pump.OutputFace, pump.DriveFace);
+        DeviceAngle(pump);
+
+    internal double DeviceAngle(IReciprocatingDriveDevice device) =>
+        AngleInFrame(device.ShaftFace, device.DriveFace);
 
     internal double PumpTravel(BlockEntityReciprocatingPump pump, double networkTravel) =>
-        networkTravel * GearedRatio * (IsRotationReversed() ? -1 : 1) *
-        (pump.OutputFace == RotationAxis ? 1 : -1);
+        DeviceTravel(pump, networkTravel);
 
-    internal BlockEntityReciprocatingPump? AttachedPump
+    internal double DeviceTravel(IReciprocatingDriveDevice device, double networkTravel) =>
+        networkTravel * GearedRatio * (IsRotationReversed() ? -1 : 1) *
+        (device.ShaftFace == RotationAxis ? 1 : -1);
+
+    internal IReciprocatingDriveDevice[] AttachedDevices
     {
         get
         {
             EnumAxis shaftAxis = AxisFaces()[0].Axis;
-            foreach (BlockFacing face in AttachmentFaces())
+            List<IReciprocatingDriveDevice> devices = new(4);
+            foreach (BlockFacing face in ReciprocatingDriveMount.Faces(shaftAxis))
             {
-                if (Api?.World.BlockAccessor.GetBlockEntity(Position.AddCopy(face)) is
-                    BlockEntityReciprocatingPump pump &&
-                    pump.DriveFace == face.Opposite &&
-                    pump.OutputFace.Axis == shaftAxis)
+                BlockPos adjacent = Position.AddCopy(face);
+                if (Api?.World.BlockAccessor.GetChunkAtBlockPos(adjacent) != null &&
+                    Api.World.BlockAccessor.GetBlockEntity(adjacent) is IReciprocatingDriveDevice device &&
+                    device.DriveFace == face.Opposite && device.ShaftFace.Axis == shaftAxis)
                 {
-                    return pump;
+                    devices.Add(device);
                 }
             }
-            return null;
+            return devices.ToArray();
         }
+    }
+
+    internal float DeviceOffset(IReciprocatingDriveDevice device)
+    {
+        IReciprocatingDriveDevice[] devices = AttachedDevices;
+        int index = Array.IndexOf(devices, device);
+        if (index < 0) return 0;
+        float offset = ReciprocatingDriveMount.CenteredOffset(index, devices.Length);
+        return device.ShaftFace == RotationAxis ? -offset : offset;
     }
 
     public override void Initialize(ICoreAPI api, JsonObject properties)
@@ -81,22 +100,23 @@ public sealed class BEBehaviorMPLateralCrank : BEBehaviorMPBase
 
     public override float GetResistance()
     {
-        BlockEntityReciprocatingPump? pump = AttachedPump;
-        return pump == null
-            ? ReciprocatingPumpMath.BaseMechanicalResistance
-            : pump.GetMechanicalResistance(PumpAngle(pump), PumpTravel(pump, (Network?.Speed ?? 0) * .5));
+        double load = ReciprocatingDriveMount.BearingResistance;
+        foreach (IReciprocatingDriveDevice device in AttachedDevices)
+            load += Math.Max(0, device.SampleReciprocatingLoad(DeviceAngle(device),
+                DeviceTravel(device, (Network?.Speed ?? 0) * .5), .1));
+        return (float)Math.Min(float.MaxValue, load);
     }
 
     public override float GetTorque(long tick, float speed, out float resistance)
     {
         resistance = GetResistance();
-        SampledFluidResistance = Math.Max(0, resistance - ReciprocatingPumpMath.BaseMechanicalResistance);
+        SampledDeviceResistance = Math.Max(0, resistance - ReciprocatingDriveMount.BearingResistance);
         return 0;
     }
 
     public void CycleJournalAngle(IPlayer byPlayer)
     {
-        if (!canWrite || HasAttachedPump || Api?.Side != EnumAppSide.Server) return;
+        if (!canWrite || HasAttachedDevice || Api?.Side != EnumAppSide.Server) return;
         phaseOffsetDegrees = (phaseOffsetDegrees + AngleStepDegrees) % 360;
         Blockentity.MarkDirty(true);
         Api.World.PlaySoundAt(
@@ -147,7 +167,7 @@ public sealed class BEBehaviorMPLateralCrank : BEBehaviorMPBase
     {
         base.GetBlockInfo(forPlayer, sb);
         sb.AppendLine(Lang.Get("gearwright:lateral-crank-angle", phaseOffsetDegrees));
-        if (HasAttachedPump) sb.AppendLine(Lang.Get("gearwright:lateral-crank-angle-locked"));
+        if (HasAttachedDevice) sb.AppendLine(Lang.Get("gearwright:lateral-crank-angle-locked"));
         if (!canWrite) sb.AppendLine(Lang.Get("gearwright:lateral-crank-state-read-only"));
     }
 
@@ -165,10 +185,6 @@ public sealed class BEBehaviorMPLateralCrank : BEBehaviorMPBase
 
     internal BlockFacing[] AxisFaces() => BlockLateralCrank.FacesFor(
         Blockentity.Block.Variant["rotation"]);
-
-    private BlockFacing[] AttachmentFaces() => Blockentity.Block.Variant["rotation"] == "we"
-        ? new[] { BlockFacing.UP, BlockFacing.DOWN, BlockFacing.NORTH, BlockFacing.SOUTH }
-        : new[] { BlockFacing.UP, BlockFacing.DOWN, BlockFacing.WEST, BlockFacing.EAST };
 
     private void ShutdownRenderer()
     {

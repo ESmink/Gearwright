@@ -9,7 +9,7 @@ using Vintagestory.API.MathTools;
 
 namespace Gearwright.Hydraulics;
 
-public sealed class BlockEntityReciprocatingPump : BlockEntity, IHydraulicNetworkNode
+public sealed class BlockEntityReciprocatingPump : BlockEntity, IHydraulicNetworkNode, IReciprocatingDriveDevice
 {
     private const string StorageKey = "gearwrightReciprocatingPump";
     private const double EmptyEpsilonLitres = .000001;
@@ -35,11 +35,14 @@ public sealed class BlockEntityReciprocatingPump : BlockEntity, IHydraulicNetwor
     private BlockEntityFluidPipe? outputPipe;
     private double inputPressure;
     private double outputPressure;
+    private double sourceSuction;
+    internal double IntakeSuctionKPa => CurrentStroke == ReciprocatingPumpStroke.Suction ? sourceSuction : 0;
     private ReciprocatingPumpRenderer? renderer;
 
     public BlockPos Position => Pos;
     public BlockFacing DriveFace { get; private set; } = BlockFacing.UP;
     public BlockFacing OutputFace { get; private set; } = BlockFacing.EAST;
+    public BlockFacing ShaftFace => OutputFace;
     public BlockFacing InputFace => OutputFace.Opposite;
     public AssetLocation? CurrentContentCode => contentCode;
     public double ContentAmountLitres => amountLitres;
@@ -49,6 +52,7 @@ public sealed class BlockEntityReciprocatingPump : BlockEntity, IHydraulicNetwor
     public double ThroughputLitresPerSecond => throughputLitresPerSecond;
     public string StatusCode => statusCode;
     internal bool UsesNetworkSolver { get; set; }
+    internal bool DischargeIntegrated { get; private set; }
     internal bool CanWriteState => canWrite;
     public ReciprocatingPumpStroke CurrentStroke { get; private set; }
     public bool HasContent => contentCode != null && amountLitres > 0;
@@ -93,7 +97,7 @@ public sealed class BlockEntityReciprocatingPump : BlockEntity, IHydraulicNetwor
         Api?.World.BlockAccessor.TriggerNeighbourBlockUpdate(Pos);
     }
 
-    internal void PrepareSimulation(double stepSeconds = .2)
+    internal void PrepareSimulation(double stepSeconds = .2, bool mechanicalStep = false)
     {
         transferStepSeconds = double.IsFinite(stepSeconds) && stepSeconds > 0 ? stepSeconds : .2;
         throughputLitresPerSecond = 0;
@@ -116,12 +120,17 @@ public sealed class BlockEntityReciprocatingPump : BlockEntity, IHydraulicNetwor
 
         double angle = crank.PumpAngle(this);
         double nextVolume = ReciprocatingPumpMath.ChamberVolumeLitres(angle);
+        ReciprocatingPumpStroke priorStroke = CurrentStroke;
         CurrentStroke = volumeInitialized
-            ? ReciprocatingPumpMath.Stroke(previousVolumeLitres, nextVolume)
+            ? ReciprocatingPumpMath.Stroke(mechanicalStep ? chamberVolumeLitres : previousVolumeLitres, nextVolume)
             : ReciprocatingPumpStroke.Stationary;
         volumeInitialized = true;
-        previousVolumeLitres = nextVolume;
+        if (!mechanicalStep) previousVolumeLitres = nextVolume;
         chamberVolumeLitres = nextVolume;
+        // A suction stall can still admit water and release its vacuum load.
+        if (CurrentStroke == ReciprocatingPumpStroke.Stationary && priorStroke == ReciprocatingPumpStroke.Suction &&
+            amountLitres < nextVolume)
+            CurrentStroke = ReciprocatingPumpStroke.Suction;
         chamberPressureKPa = PressureAt(nextVolume);
         // A stopped, pressurized chamber must still be able to drain after the
         // outlet is unblocked; requiring fresh movement would deadlock it.
@@ -207,6 +216,7 @@ public sealed class BlockEntityReciprocatingPump : BlockEntity, IHydraulicNetwor
             statusCode = "output-overpressure";
     }
 
+    /// <summary>Legacy load diagnostic. Live shaft integration uses signed SampleReciprocatingTorque.</summary>
     public float GetMechanicalResistance(double crankAngleRadians, double travel = .01, double seconds = .1)
     {
         if (!canWrite) return ReciprocatingPumpMath.BaseMechanicalResistance;
@@ -216,7 +226,45 @@ public sealed class BlockEntityReciprocatingPump : BlockEntity, IHydraulicNetwor
             temperatureC, ContentPhase, TransferPressure(outputPipe, outputPressure), room, seconds);
     }
 
-    internal void ClearTransferPorts() { inputPipe = null; outputPipe = null; }
+    // Pressure is a signed force, not friction: it can also push a compressed
+    // piston back towards equilibrium. The shaft owns the bearing friction.
+    public float SampleReciprocatingLoad(double angle, double travel, double seconds) => 0;
+
+    public float SampleReciprocatingTorque(double angle, double travel, double seconds)
+    {
+        if (!canWrite) return 0;
+        double endAngle = angle + travel;
+        double volume = ReciprocatingPumpMath.ChamberVolumeLitres(endAngle);
+        var stroke = ReciprocatingPumpMath.Stroke(ReciprocatingPumpMath.ChamberVolumeLitres(angle), volume);
+        bool discharge = stroke == ReciprocatingPumpStroke.Pressure ||
+            stroke == ReciprocatingPumpStroke.Stationary && PressureAt(volume) > HydraulicMath.FlowDeadbandKPa;
+        double released = discharge ? ProjectDischarge(volume, seconds) : 0;
+        double suction = stroke == ReciprocatingPumpStroke.Suction ||
+            stroke == ReciprocatingPumpStroke.Stationary && CurrentStroke == ReciprocatingPumpStroke.Suction ? sourceSuction : 0;
+        // The implicit valve exchange is committed by StepDrivenPump with the
+        // chosen angle. Its receiver pressure includes every transferred litre.
+        return ReciprocatingPumpMath.PressureTorque(
+            ReciprocatingPumpMath.ChamberPressureKPa(amountLitres - released, temperatureC, ContentPhase, volume, suction), endAngle);
+    }
+
+    private double ProjectDischarge(double volume, double seconds) => !HasContent || !ValidPipe(outputPipe, OutputFace)
+        ? 0 : ReciprocatingPumpMath.DischargeIntoPipe(amountLitres, temperatureC, ContentPhase, volume,
+            outputPipe!.ContentAmountLitres, outputPipe.ContentTemperatureC,
+            UsesNetworkSolver ? outputPipe.DrivenSuctionKPa : outputPressure,
+            UsesNetworkSolver ? double.PositiveInfinity : Math.Max(0, OutputCapacity() - outputPipe.ContentAmountLitres),
+            seconds, UsesNetworkSolver);
+
+    internal void FinishHydraulicStep() => DischargeIntegrated = false;
+
+    public void StepReciprocatingDrive(double seconds) => StepDrivenPump(seconds);
+
+    internal void ClearTransferPorts() { inputPipe = null; outputPipe = null; SetSourceSuction(0); }
+
+    internal void SetSourceSuction(double suction)
+    {
+        sourceSuction = double.IsFinite(suction) ? Math.Clamp(suction, -98, 0) : 0;
+        chamberPressureKPa = PressureAt(chamberVolumeLitres);
+    }
 
     internal void SetTransferPort(BlockFacing face, BlockEntityFluidPipe pipe, double pressure)
     {
@@ -245,9 +293,8 @@ public sealed class BlockEntityReciprocatingPump : BlockEntity, IHydraulicNetwor
 
     internal void StepDrivenPump(double seconds)
     {
-        if (UsesNetworkSolver) return;
-        PrepareSimulation(seconds);
-        if (CurrentStroke == ReciprocatingPumpStroke.Suction && ValidPipe(inputPipe, InputFace) &&
+        PrepareSimulation(seconds, mechanicalStep: true);
+        if (!UsesNetworkSolver && CurrentStroke == ReciprocatingPumpStroke.Suction && ValidPipe(inputPipe, InputFace) &&
             inputPipe!.CurrentContentCode is AssetLocation incoming)
         {
             double wanted = HydraulicMath.BoundedTransferLitres(TransferPressure(inputPipe, inputPressure) - chamberPressureKPa,
@@ -260,23 +307,23 @@ public sealed class BlockEntityReciprocatingPump : BlockEntity, IHydraulicNetwor
         }
         if (CurrentStroke == ReciprocatingPumpStroke.Pressure && HasContent && ValidPipe(outputPipe, OutputFace))
         {
-            double pressure = TransferPressure(outputPipe, outputPressure);
-            double wanted = Math.Min(amountLitres, Math.Min(
-                Math.Max(0, OutputCapacity() - outputPipe!.ContentAmountLitres),
-                ReciprocatingPumpMath.RequestedDischargeLitres(chamberPressureKPa - pressure, seconds, ContentPhase)));
-            wanted = Math.Min(wanted, ReciprocatingPumpMath.DischargeToEquilibriumLitres(
-                amountLitres, temperatureC, ContentPhase, chamberVolumeLitres, pressure));
+            double wanted = ProjectDischarge(chamberVolumeLitres, seconds);
             AssetLocation outgoing = contentCode!;
             double sent = Provide(outgoing, wanted);
             if (sent > 0)
             {
-                double total = outputPipe.ContentAmountLitres + sent;
+                double total = outputPipe!.ContentAmountLitres + sent;
                 double temperature = (outputPipe.ContentAmountLitres * outputPipe.ContentTemperatureC + sent * temperatureC) / total;
                 outputPipe.CommitPumpTransfer(outgoing, total, temperature, sent / seconds, OutputFace);
             }
         }
         FinishSimulation(ValidPipe(inputPipe, InputFace), ValidPipe(outputPipe, OutputFace));
-        AccumulatePresentation(seconds);
+        if (UsesNetworkSolver)
+        {
+            DischargeIntegrated = true;
+            if (outputOpen) frameOutputLitres += throughputLitresPerSecond * seconds;
+        }
+        else AccumulatePresentation(seconds);
     }
 
     internal void AccumulatePresentation(double seconds)
@@ -292,8 +339,10 @@ public sealed class BlockEntityReciprocatingPump : BlockEntity, IHydraulicNetwor
         {
             X = Pos.X, Y = Pos.Y, Z = Pos.Z, Dimension = Pos.dimension,
             Angle = crank.PumpAngle(this), Ratio = crank.PumpTravel(this, 1), Amount = amountLitres,
+            RodOffsetX = crank.DeviceOffset(this),
             Content = contentCode?.ToString() ?? "", Temperature = temperatureC, Volume = chamberVolumeLitres,
             Throughput = frameSeconds > 0 ? (frameIntakeLitres + frameOutputLitres) / frameSeconds : 0,
+            IntakeThroughput = frameSeconds > 0 ? frameIntakeLitres / frameSeconds : 0,
             Stroke = (int)CurrentStroke,
             IntakeOpen = frameIntakeLitres > 0, OutputOpen = frameOutputLitres > 0
         };
@@ -418,7 +467,7 @@ public sealed class BlockEntityReciprocatingPump : BlockEntity, IHydraulicNetwor
     private double PressureAt(double volume)
     {
         return ReciprocatingPumpMath.ChamberPressureKPa(
-            amountLitres, temperatureC, ContentPhase, volume);
+            amountLitres, temperatureC, ContentPhase, volume, IntakeSuctionKPa);
     }
 
     private bool HasDownwardStandSupport()

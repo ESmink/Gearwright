@@ -29,6 +29,20 @@ public sealed partial class HydraulicNetworkSystem
         List<(ReciprocatingPumpPort Port, int Link)> pumpLinks = new();
         double[] suction = new double[pipes.Count];
         var portsByPipe = ports.ToLookup(port => port.PipeIndex);
+        // This is the already bounded, loaded input component. Only a real,
+        // matching natural-source nozzle enables the sustained suction law.
+        int? sourceY = null;
+        if (phase == PipeContentPhase.Liquid)
+            foreach (var pipe in pipes)
+            foreach (var face in BlockFacing.ALLFACES)
+                if (pipe.GetAddon(face) == HydraulicFaceAddon.PipeNozzle &&
+                    GetNaturalLiquidSource(pipe, face) is { } natural && natural.ContentCode.Equals(content))
+                    sourceY = Math.Max(sourceY ?? int.MinValue, pipe.Pos.Y);
+        foreach (var port in ports)
+            if (port.PumpFace == port.Pump.InputFace)
+                port.Pump.SetSourceSuction(sourceY.HasValue &&
+                    (port.Pump.CurrentContentCode == null || port.Pump.CurrentContentCode.Equals(content))
+                    ? ReciprocatingPumpMath.SourceSuctionKPa(port.Pump.Pos.Y - sourceY.Value) : 0);
         for (int i = 0; i < pipes.Count; i++)
         {
             if (phase == PipeContentPhase.Liquid)
@@ -117,18 +131,26 @@ public sealed partial class HydraulicNetworkSystem
             var pump = port.Pump;
             if (!pump.CanWriteState || (pump.CurrentContentCode != null && !pump.CurrentContentCode.Equals(content))) continue;
             bool intake = port.PumpFace == pump.InputFace && pump.CurrentStroke == ReciprocatingPumpStroke.Suction;
-            bool output = port.PumpFace == pump.OutputFace && pump.CurrentStroke == ReciprocatingPumpStroke.Pressure;
+            bool output = port.PumpFace == pump.OutputFace && pump.CurrentStroke == ReciprocatingPumpStroke.Pressure &&
+                !pump.DischargeIntegrated;
             if (!intake && !output) continue;
             int pumpIndex = cells.Count;
             cells.Add(new(pump.ContentAmountLitres, pump.ContentTemperatureC,
-                pump.ChamberVolumeLitres, pump.Pos.Y, phase, Pump: true));
+                pump.ChamberVolumeLitres, pump.Pos.Y, phase, Pump: true, Suction: pump.IntakeSuctionKPa));
             double room = intake && phase == PipeContentPhase.Liquid
-                ? Math.Max(0, pump.ChamberVolumeLitres - pump.ContentAmountLitres) : double.PositiveInfinity;
+                ? Math.Max(0, pump.ChamberVolumeLitres - pump.ContentAmountLitres)
+                : intake ? double.PositiveInfinity
+                : ReciprocatingPumpMath.DisplaceableLitres(pump.ContentAmountLitres, pump.ChamberVolumeLitres, phase);
             pumpLinks.Add((port, links.Count));
             links.Add(intake ? new(port.PipeIndex, pumpIndex, conductance, true, room)
-                : new(pumpIndex, port.PipeIndex, ReciprocatingPumpMath.DischargeConductance(phase), true));
+                : new(pumpIndex, port.PipeIndex, ReciprocatingPumpMath.DischargeConductance(phase), true, room));
         }
-        if (!PipePressureSolver.TryStep(cells, links, boundaries, SimulationStepSeconds, out var solved)) return false;
+        if (!PipePressureSolver.TryStep(cells, links, boundaries, SimulationStepSeconds, out var solved))
+        {
+            foreach (var port in ports)
+                if (port.PumpFace == port.Pump.InputFace) port.Pump.SetSourceSuction(0);
+            return false;
+        }
 
         for (int i = 0; i < pipes.Count; i++)
         {

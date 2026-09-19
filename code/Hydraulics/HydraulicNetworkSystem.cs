@@ -150,6 +150,7 @@ public sealed partial class HydraulicNetworkSystem : ModSystem
                 IsPumpPortConnected(pump, pump.InputFace),
                 IsPumpPortConnected(pump, pump.OutputFace));
             pump.AccumulatePresentation(SimulationStepSeconds);
+            pump.FinishHydraulicStep();
             if (simulationTick % 5 == 0) pump.MarkDirty(false);
         }
         if (simulationTick % 5 == 0) PumpTimingSystem.PublishHydraulicFrames(pumps);

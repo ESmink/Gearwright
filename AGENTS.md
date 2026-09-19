@@ -34,9 +34,20 @@ The maintainer may explicitly authorize a breaking change and define its scope. 
 
 ## Environment and tool failures
 
+- Do not use Computer Use or desktop UI automation in this project, including for Vintage Story and the model reviewer. Use repository tooling, SDK tests, logs and deterministic renders for agent verification; leave interactive in-game visual checks to the maintainer. This restriction takes precedence over any skill instructions to automate a desktop application.
 - Tell the maintainer immediately when a required tool, dependency, permission, service, or environment capability is unavailable or fails.
 - State what failed and what work remains affected. Do not silently switch to another tool, workflow, or workaround.
 - Continue through a different method only after the maintainer explicitly asks or approves it.
+
+## PowerShell execution for agents
+
+- Run commands directly in the provided PowerShell session, with the repository as the working directory. Do not nest `powershell -Command`, `pwsh -Command`, `cmd /c`, or Bash around ordinary commands. For a suspected shell problem, inspect `$PSVersionTable.PSVersion`, `Get-ExecutionPolicy -List`, and `Get-Command <tool>` once; use the observed result instead of speculating about policy or PATH.
+- Use literal single-quoted strings for paths and search expressions. Invoke a quoted executable or script with `&`. Use `apply_patch` for edits and checked-in scripts for substantial logic; avoid nested quoting, encoded commands, and inline Python programs. Never reuse automatic variables such as `$HOME`, `$PID`, or `$PROFILE`.
+- PowerShell does not expand file wildcards for native tools. Search with `rg -n 'pattern' code/Hydraulics -g '*Pump*.cs'`, not `rg 'pattern' code/Hydraulics/*Pump*.cs`. Use `rg --files` before reading an uncertain filename. For `rg`, exit 1 means no matches; exit 2 means a command or access error.
+- Check `$LASTEXITCODE` immediately after native tools. A successful trailing `Get-Content` does not prove an earlier build passed. Use `$ErrorActionPreference = 'Stop'` for scripts and throw on a failed required native command. For logs, capture the command's exit code before reading its tail and return that code afterward.
+- A returned process/session ID means the command is still running. Resume that same session with the tool's polling facility; do not restart the command. Check a small log tail when useful, give progress updates, and avoid rapid polling. The interactive model reviewer intentionally stays running until its window closes; readiness is a loaded window, not process exit.
+- Correct an agent-authored syntax, quoting, or filename mistake once within the same tool and workflow. This does not require permission. If the same error repeats, stop retrying, report the exact failure and affected work, and diagnose it with one small command. A real missing dependency, denied permission, or service failure still follows the environment-failure rule above; changing tools or policies requires approval.
+- Do not change execution policy or add `-ExecutionPolicy Bypass` to make a command run. If graphics wrappers are blocked, the direct Python reviewer command below is already authorized. If a required build/check is blocked, report that specific blocker and request the needed permission. Filesystem approval and PowerShell execution policy are separate controls.
 
 ## Repository privacy and hygiene
 

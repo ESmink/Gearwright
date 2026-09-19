@@ -38,11 +38,15 @@ public sealed class PumpPresentation
     [ProtoMember(12)] public int Stroke { get; set; }
     [ProtoMember(13)] public bool IntakeOpen { get; set; }
     [ProtoMember(14)] public bool OutputOpen { get; set; }
+    [ProtoMember(15)] public float RodOffsetX { get; set; }
+    [ProtoMember(16)] public double IntakeThroughput { get; set; }
 
     internal bool IsValid => double.IsFinite(Angle) && double.IsFinite(Ratio) &&
         double.IsFinite(Amount) && Amount >= 0 && double.IsFinite(Temperature) &&
         double.IsFinite(Volume) && Volume >= ReciprocatingPumpMath.ClearanceVolumeLitres &&
-        double.IsFinite(Throughput) && Throughput >= 0 && Stroke is >= 0 and <= 2 && Content != null;
+        double.IsFinite(Throughput) && Throughput >= 0 && Stroke is >= 0 and <= 2 && Content != null &&
+        float.IsFinite(RodOffsetX) && Math.Abs(RodOffsetX) <= Mechanics.ReciprocatingDriveMount.MaximumOffset + 1e-6 &&
+        double.IsFinite(IntakeThroughput) && IntakeThroughput >= 0;
 
     internal PumpPresentation Copy() => (PumpPresentation)MemberwiseClone();
     internal bool SamePump(PumpPresentation other) => X == other.X && Y == other.Y &&
@@ -56,14 +60,32 @@ internal sealed class PumpPresentationTimeline
     private PumpNetworkFrame? latest;
     private long receivedAt;
     private double progress = 1;
+    private bool stale;
+    private long interval;
     public double Angle { get; private set; }
     public float Speed { get; private set; }
     public long LastReceivedAt => receivedAt;
 
+    internal bool HasMatchingPump(Func<PumpPresentation, bool> matches) =>
+        latest?.Pumps.Any(matches) == true;
+
     public bool Push(PumpNetworkFrame frame, long now)
     {
         if (!frame.IsValid || (latest != null && frame.Sequence <= latest.Sequence)) return false;
-        previous = latest ?? frame;
+        long nextInterval = latest == null ? 0 : frame.ServerMilliseconds - latest.ServerMilliseconds;
+        if (latest == null) previous = frame;
+        else
+        {
+            // Receipt jitter must not teleport the water or piston to the
+            // last packet's endpoint. Start at the state on screen right now.
+            Advance(now);
+            previous = new PumpNetworkFrame
+            {
+                Angle = Angle, Speed = Speed,
+                Pumps = latest.Pumps.Select(p => TryPump(p.X, p.Y, p.Z, p.Dimension, out var shown) ? shown : p.Copy()).ToArray()
+            };
+        }
+        interval = nextInterval;
         latest = frame;
         receivedAt = now;
         Advance(now);
@@ -73,13 +95,13 @@ internal sealed class PumpPresentationTimeline
     public void Advance(long now)
     {
         if (latest == null || previous == null) return;
-        long interval = latest.ServerMilliseconds - previous.ServerMilliseconds;
-        // Do not extrapolate through an unknown stall or a lost packet. A stop
-        // snaps the complete frame, including contents, to authoritative contact.
-        progress = Math.Abs(latest.Speed) < .001 || interval <= 0 || interval > 500
+        // Never extrapolate through an unknown stall. Moving and stopped
+        // snapshots use the same continuous clock, including their contents.
+        progress = interval <= 0 || interval > 500
             ? 1 : Math.Clamp((double)(now - receivedAt) / interval, 0, 1);
+        stale = now - receivedAt > Math.Max(250, Math.Min(500, interval) * 2);
         Angle = previous.Angle + (latest.Angle - previous.Angle) * progress;
-        Speed = progress >= 1 ? latest.Speed :
+        Speed = stale ? 0 : progress >= 1 ? latest.Speed :
             (float)(previous.Speed + (latest.Speed - previous.Speed) * progress);
     }
 
@@ -89,6 +111,12 @@ internal sealed class PumpPresentationTimeline
         PumpPresentation? end = latest?.Pumps.FirstOrDefault(p => p.X == x && p.Y == y && p.Z == z && p.Dimension == dimension);
         if (end == null || latest == null || previous == null) return false;
         result = end.Copy();
+        if (stale)
+        {
+            result.Throughput = 0;
+            result.IntakeThroughput = 0;
+            result.IntakeOpen = result.OutputOpen = false;
+        }
         result.Angle = end.Angle + (Angle - latest.Angle) * end.Ratio;
         result.Volume = ReciprocatingPumpMath.ChamberVolumeLitres(result.Angle);
         // Air checks follow actual piston travel, not residual pressure that
@@ -96,10 +124,14 @@ internal sealed class PumpPresentationTimeline
         result.Stroke = Math.Abs(Speed) < .001 ? (int)ReciprocatingPumpStroke.Stationary :
             (int)ReciprocatingPumpMath.Stroke(result.Volume,
                 ReciprocatingPumpMath.ChamberVolumeLitres(result.Angle + Math.Sign(Speed * end.Ratio) * .0001));
-        result.IntakeOpen &= result.Stroke == (int)ReciprocatingPumpStroke.Suction;
+        result.IntakeOpen &= result.Stroke != (int)ReciprocatingPumpStroke.Pressure;
         result.OutputOpen &= result.Stroke != (int)ReciprocatingPumpStroke.Suction;
         PumpPresentation? start = previous.Pumps.FirstOrDefault(end.SamePump);
         if (start == null || progress >= 1 || start.Ratio != end.Ratio) return true;
+        // Device angles come from atan2 and wrap at +/- pi. Reconstruct the
+        // start from the continuous shaft clock, in the endpoint's angle frame,
+        // so a small bottom-dead-centre crossing is not a nearly full turn.
+        double startAngle = end.Angle + (previous.Angle - latest.Angle) * end.Ratio;
         // A content identity change is discrete. Keep the old contents until
         // this clock reaches the snapshot that changed them, never half-mix it.
         if (start.Content != end.Content)
@@ -108,22 +140,33 @@ internal sealed class PumpPresentationTimeline
             result.Amount = start.Amount;
             result.Temperature = start.Temperature;
             result.Throughput = 0;
+            result.IntakeThroughput = 0;
             result.IntakeOpen = result.OutputOpen = false;
             return true;
         }
         double fraction = progress;
-        if (end.Amount < start.Amount && end.Volume < start.Volume &&
-            end.Content != HydraulicCodes.Steam)
+        if (end.Amount > start.Amount && end.Content != HydraulicCodes.Steam)
+        {
+            // An interval can straddle top dead centre. Attribute intake to
+            // its expansion half, so the remaining water cannot appear to
+            // enter only after the piston has started moving down.
+            double expansion = ReciprocatingPumpMath.ExpansionVolume(startAngle, end.Angle);
+            if (expansion > 1e-9)
+                fraction = Math.Clamp(ReciprocatingPumpMath.ExpansionVolume(startAngle, result.Angle) / expansion, 0, 1);
+        }
+        if (end.Amount < start.Amount && end.Content != HydraulicCodes.Steam)
         {
             // Empty piston travel cannot visually evacuate water. Use displaced
             // wet volume, not elapsed time, between two discharge snapshots.
-            double contact = Math.Min(start.Volume, start.Amount);
-            if (contact > end.Volume + 1e-9)
-                fraction = Math.Clamp((contact - result.Volume) / (contact - end.Volume), 0, 1);
+            double contraction = ReciprocatingPumpMath.WetContractionVolume(startAngle, end.Angle, start.Amount);
+            if (contraction > 1e-9)
+                fraction = Math.Clamp(ReciprocatingPumpMath.WetContractionVolume(startAngle, result.Angle, start.Amount) / contraction, 0, 1);
         }
         result.Amount = start.Amount + (end.Amount - start.Amount) * fraction;
         result.Temperature = start.Temperature + (end.Temperature - start.Temperature) * progress;
         result.Throughput = start.Throughput + (end.Throughput - start.Throughput) * progress;
+        result.IntakeThroughput = result.IntakeOpen
+            ? start.IntakeThroughput + (end.IntakeThroughput - start.IntakeThroughput) * progress : 0;
         if (end.Amount < start.Amount)
         {
             result.IntakeOpen = false;

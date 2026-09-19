@@ -16,6 +16,7 @@
     <Compile Include="PumpCircuitFixture.cs" />
     <Compile Include="..\..\code\**\*.cs" LinkBase="Runtime" />
     <Compile Include="PumpRuntimeFixture.cs" />
+    <Compile Include="ReciprocatingDriveFixture.cs" />
     <Compile Include="PumpTimingFixture.cs" />
     <Compile Include="PipePressureFixture.cs" />
     <Compile Include="PipeAddonFixture.cs" />

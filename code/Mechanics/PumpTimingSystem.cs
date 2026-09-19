@@ -7,6 +7,7 @@ using Gearwright.Hydraulics;
 using HarmonyLib;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
+using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using Vintagestory.GameContent.Mechanics;
 
@@ -105,10 +106,14 @@ public sealed class PumpTimingSystem : ModSystem
             timeline.TryPump(pump.Pos.X, pump.Pos.Y, pump.Pos.Z, pump.Pos.dimension, out presentation);
     }
 
+    internal static bool HasPresentationNetwork(BlockEntityReciprocatingPump pump) =>
+        pump.FindCrank()?.Network is MechanicalNetwork network &&
+        client?.timelines.ContainsKey(network.networkId) == true;
+
     private static bool BeforeServerTick(MechanicalNetwork __instance, float __0, long __1)
     {
         var drives = __instance.nodes.Values.OfType<BEBehaviorMPLateralCrank>()
-            .Select(d => (Drive: d, Pump: d.AttachedPump)).Where(p => p.Pump != null).ToArray();
+            .Select(d => (Drive: d, Devices: d.AttachedDevices)).Where(p => p.Devices.Length > 0).ToArray();
         if (drives.Length == 0 || server == null)
         {
             server?.driveLoads.Remove(__instance);
@@ -123,7 +128,7 @@ public sealed class PumpTimingSystem : ModSystem
             float incomingSpeed = __instance.DirectionHasReversed ? -__instance.Speed : __instance.Speed;
             updateNetwork(__instance, __1);
             driveLoad.NonFluidResistance = Math.Max(0, __instance.NetworkResistance -
-                drives.Sum(p => Math.Abs(p.Drive.GearedRatio) * (double)p.Drive.SampledFluidResistance));
+                drives.Sum(p => Math.Abs(p.Drive.GearedRatio) * (double)p.Drive.SampledDeviceResistance));
             // Retain vanilla's torque sampling and bookkeeping, then integrate
             // its cached drive torque against live fluid load below. Applying
             // its capped speed impulse as well would count motor work twice.
@@ -138,57 +143,67 @@ public sealed class PumpTimingSystem : ModSystem
         for (int i = 0; i < 256 && remaining > 1e-8; i++)
         {
             double speed = __instance.Speed;
-            double direction = speed == 0 ? Math.Sign(__instance.NetworkTorque) : Math.Sign(speed);
-            if (direction == 0) direction = 1;
             // At most .01 speed can be gained in a 20 ms substep. Include it
             // when bounding journal travel, including a geared start from rest.
             float seconds = (float)Math.Min(remaining, Math.Min(.02,
                 .05 / Math.Max(1e-9, (Math.Abs(speed) + .01) * 5 * maximumRatio)));
-            double FluidResistance(double magnitude)
+            (double Torque, double Friction) DeviceForces(double trial)
             {
-                double load = 0;
+                double torque = 0, load = 0;
                 foreach (var pair in drives)
+                foreach (IReciprocatingDriveDevice device in pair.Devices)
                 {
-                    double travel = pair.Drive.PumpTravel(pair.Pump!,
-                        direction * Math.Max(magnitude * seconds * 5, 1e-8));
+                    double ratio = pair.Drive.DeviceTravel(device, 1);
+                    double travel = ratio * trial * seconds * 5;
+                    torque += ratio * device.SampleReciprocatingTorque(pair.Drive.DeviceAngle(device), travel, seconds);
                     load += Math.Abs(pair.Drive.GearedRatio) * Math.Max(0,
-                        pair.Pump!.GetMechanicalResistance(pair.Drive.PumpAngle(pair.Pump), travel, seconds) -
-                        ReciprocatingPumpMath.BaseMechanicalResistance);
+                        device.SampleReciprocatingLoad(pair.Drive.DeviceAngle(device), travel, seconds));
                 }
-                return load;
+                return (torque, load);
             }
-            // Solve against the load produced by the candidate displacement.
-            // Keep vanilla's acceleration cap and node-count inertia, but cap
-            // braking AFTER inertia scaling so a finite load can stop the shaft.
-            // Opposing motor torque, as in vanilla, starts driving after rest.
-            double magnitude = Math.Abs(speed);
+            // Backward Euler against the actual stored fluid at the proposed
+            // end angle. Signed pressure can brake, hold or reverse the shaft.
+            // Bound acceleration away from rest as vanilla does, but allow
+            // pressure to consume all incoming momentum within this substep.
             double impulseScale = seconds / .1 / inertia;
-            double drivingForce = Math.Max(0, __instance.NetworkTorque * direction) - driveLoad.NonFluidResistance;
             double accelerationCap = .05 * seconds / .1;
-            double lower = 0, upper = magnitude + Math.Min(accelerationCap, Math.Max(0, drivingForce * impulseScale));
-            double Residual(double trial) => trial - magnitude -
-                Math.Min(accelerationCap, (drivingForce - FluidResistance(trial)) * impulseScale);
-            if (Residual(0) >= 0) upper = 0;
-            else if (Residual(upper) > 0)
+            double minimum = Math.Min(0, speed) - accelerationCap;
+            double maximum = Math.Max(0, speed) + accelerationCap;
+            double lower = minimum, upper = maximum;
+            double Residual(double trial)
             {
-                for (int iteration = 0; iteration < 20; iteration++)
+                var force = DeviceForces(trial);
+                double net = __instance.NetworkTorque + force.Torque -
+                    Math.Sign(trial) * (driveLoad.NonFluidResistance + force.Friction);
+                return trial - Math.Clamp(speed + net * impulseScale, minimum, maximum);
+            }
+            var rest = DeviceForces(0);
+            double nextSpeed;
+            if (Math.Abs(speed / impulseScale + __instance.NetworkTorque + rest.Torque) <=
+                driveLoad.NonFluidResistance + rest.Friction) nextSpeed = 0;
+            else
+            {
+                for (int iteration = 0; iteration < 32; iteration++)
                 {
                     double trial = (lower + upper) * .5;
                     if (Residual(trial) > 0) upper = trial;
                     else lower = trial;
                 }
-                upper = lower;
+                nextSpeed = (lower + upper) * .5;
             }
-            lastFluidResistance = FluidResistance(upper);
-            __instance.Speed = (float)(upper * direction);
+            lastFluidResistance = DeviceForces(nextSpeed).Friction;
+            __instance.Speed = (float)nextSpeed;
             updateAngle(__instance, __instance.Speed * seconds * 50);
-            foreach (var pair in drives) pair.Pump!.StepDrivenPump(seconds);
+            foreach (var pair in drives)
+                foreach (IReciprocatingDriveDevice device in pair.Devices) device.StepReciprocatingDrive(seconds);
             remaining -= seconds;
         }
         __instance.NetworkResistance = (float)(driveLoad.NonFluidResistance + lastFluidResistance);
         __instance.TurnDir = __instance.Speed < 0 ? EnumRotDirection.Counterclockwise : EnumRotDirection.Clockwise;
-        if (__1 % 5 == 0 && drives.All(p => !p.Pump!.UsesNetworkSolver))
-            server.Publish(__instance, drives.Select(p => p.Pump!.CapturePresentation(p.Drive)).ToArray());
+        var pumps = drives.SelectMany(pair => pair.Devices.OfType<BlockEntityReciprocatingPump>()
+            .Select(pump => (pair.Drive, Pump: pump))).ToArray();
+        if (__1 % 5 == 0 && pumps.Length > 0 && pumps.All(p => !p.Pump.UsesNetworkSolver))
+            server.Publish(__instance, pumps.Select(p => p.Pump.CapturePresentation(p.Drive)).ToArray());
         // Standard packets still supply non-pump clients with torque and speed.
         if (__1 % 40 == 0) broadcastData(__instance);
         return false;
@@ -221,7 +236,7 @@ public sealed class PumpTimingSystem : ModSystem
         if (client?.capi == null || !client.timelines.TryGetValue(__instance.networkId, out var timeline)) return true;
         // Removing the last pump must immediately give its network back to the
         // vanilla clock instead of freezing it on the last pump snapshot.
-        if (!__instance.nodes.Values.OfType<BEBehaviorMPLateralCrank>().Any(d => d.AttachedPump != null))
+        if (!client.HasLoadedPump(timeline, __instance))
         {
             client.timelines.Remove(__instance.networkId);
             return true;
@@ -234,10 +249,30 @@ public sealed class PumpTimingSystem : ModSystem
 
     private static void AfterNetworkPacket(MechanicalNetwork __instance, MechNetworkPacket __0)
     {
+        if (client?.capi != null && client.timelines.TryGetValue(__instance.networkId, out var timeline) &&
+            client.HasLoadedPump(timeline, __instance))
+        {
+            // Vanilla packets have no sequence tied to the pump's contents.
+            // They still supply torque/topology, but cannot move the axle off
+            // the combined presentation clock, even between client ticks.
+            timeline.Advance(client.capi.World.ElapsedMilliseconds);
+            __instance.AngleRad = (float)timeline.Angle;
+            __instance.Speed = Math.Abs(timeline.Speed);
+            return;
+        }
         if (Math.Abs(__0.speed) >= .001 || !__instance.nodes.Values.Any(n => n is BEBehaviorMPLateralCrank)) return;
         // Also fix stopped angles before the first combined snapshot arrives.
         __instance.AngleRad = __0.angle;
     }
+
+    private bool HasLoadedPump(PumpPresentationTimeline timeline, MechanicalNetwork network) =>
+        // Client devices can join via their saved network ID without entering
+        // MechanicalNetwork.nodes, which is used for server simulation. Resolve
+        // the bounded snapshot positions against loaded entities instead, and
+        // verify their current network so removal/reconnection releases the clock.
+        timeline.HasMatchingPump(p => capi!.World.BlockAccessor.GetBlockEntity(
+            new BlockPos(p.X, p.Y, p.Z, p.Dimension)) is BlockEntityReciprocatingPump pump &&
+            ReferenceEquals(pump.FindCrank()?.Network, network));
 
     public override void Dispose()
     {

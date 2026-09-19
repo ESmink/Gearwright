@@ -1,4 +1,4 @@
-"""Approved A11 lateral crank and compact reciprocating pump runtime shapes.
+"""Approved pump wet end and centered shared-drive mount A.
 
 The approval model uses the crank block at y=0 and the pump block below it.
 Runtime shapes split those two blocks and translate each into a 0..16 block.
@@ -20,6 +20,8 @@ from graphics.review.lateral_motion_system import (
     _singleacting_pump_shape,
     _slider_state,
 )
+from graphics.models.parts.reciprocating_pump_wet_end import rebuild_wet_end
+from graphics.models.parts.reciprocating_drive import rebuild_crank, rebuild_dry_adapter
 
 
 APPROVED = "a11-one-block-full-frame"
@@ -124,6 +126,7 @@ def _copy_animations(source: Shape, target: Shape, names: set[str]) -> None:
 
 def _crank(shape_id: str, *, through: bool, animated: bool = True) -> Shape:
     source = _crank_state(through=through, throw=SINGLE_CRANK_THROW)
+    rebuild_crank(source, through=through)
     target = Shape(shape_id, source.texture_width, source.texture_height)
     names = {element.name for element in source.elements}
     _copy_elements(source, target, names, root_offset=CRANK_OFFSET)
@@ -214,6 +217,8 @@ def _direct_pose_scene(phase: int) -> ReviewScene:
 
 def build() -> ModelPackage:
     approved = _singleacting_pump_shape(APPROVED, label="pump-bottom")
+    rebuild_wet_end(approved)
+    rebuild_dry_adapter(approved)
     package = ModelPackage("reciprocating_pump")
     package.shape(
         Shape("gearwright-empty"),

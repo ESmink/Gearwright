@@ -30,6 +30,8 @@ Build textures first and then every model definition:
 
 Build one family with `-Model fluid_pipe` or one project-relative definition with `-Definition graphics/models/fluid_pipe.py`. `-Recipe` remains available for individual texture recipes. Generated shape JSON under `assets/gearwright/shapes/` is reviewable build output; do not hand-edit it. A full build fails if two definitions claim the same output; full validation fails if a runtime shape has no definition owner. Ordinary mod packaging never executes Python.
 
+After a model change is approved, update only its changed semantic fixtures with `python tools/graphics/update_model_contracts.py --model <family> --shape <exact-runtime-shape-path>`. Repeat `--shape` for each approved output. Review the fixture diff; this command does not approve a model or update unrelated shapes.
+
 ## Authoring contract
 
 Definitions use Vintage Story model units: 16 model units equal one block. `Vec3` values in definitions are model units. UV rectangles are texture pixels. Animation offsets are model units. Renderer camera coordinates are block units and never appear in model definitions.

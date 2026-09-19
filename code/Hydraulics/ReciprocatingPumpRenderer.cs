@@ -69,7 +69,8 @@ internal sealed class ReciprocatingPumpRenderer : IRenderer, IDisposable
                 WetOutputOffsetY = presentation.OutputOpen ? -.36f / 16 : 0
             };
         }
-        RenderMechanism(pose);
+        float rodOffset = synchronized ? presentation.RodOffsetX : pump.FindCrank()?.DeviceOffset(pump) ?? 0;
+        RenderMechanism(pose, rodOffset, synchronized || !PumpTimingSystem.HasPresentationNetwork(pump));
 
         AssetLocation? content = synchronized
             ? string.IsNullOrEmpty(presentation.Content) ? null : new AssetLocation(presentation.Content)
@@ -84,7 +85,7 @@ internal sealed class ReciprocatingPumpRenderer : IRenderer, IDisposable
         float target = throughput <= 0
             ? 0
             : (float)HydraulicMath.TextureScrollCyclesPerSecond(
-                throughput, phase) * 8;
+                throughput, phase) * 8 * (displayedStroke == ReciprocatingPumpStroke.Suction ? -1 : 1);
         float response = 1 - MathF.Exp(-Math.Min(deltaTime, .25f) * 8);
         displayedScrollSpeed += (target - displayedScrollSpeed) * response;
         texturePhase = (texturePhase + deltaTime * displayedScrollSpeed) % 1;
@@ -98,7 +99,7 @@ internal sealed class ReciprocatingPumpRenderer : IRenderer, IDisposable
         contentSurface.Update(
             texturePhase,
             horizontal: true,
-            reverse: displayedStroke == ReciprocatingPumpStroke.Suction,
+            reverse: false,
             minYOverride: ReciprocatingPumpLiquidGeometry.Bottom,
             maxYOverride: visibleTop);
         float opacity = gas ? .08f + .30f * (float)(1 - Math.Exp(-amount / ReciprocatingPumpMath.StrokeCapacityLitres)) : .48f;
@@ -111,7 +112,7 @@ internal sealed class ReciprocatingPumpRenderer : IRenderer, IDisposable
             if (!gas && contentTopSurface != null)
             {
                 contentTopSurface.Update(texturePhase, horizontal: true,
-                    reverse: displayedStroke == ReciprocatingPumpStroke.Suction);
+                    reverse: false);
                 ReciprocatingPumpLiquidGeometry.ApplyTopPose(BeginModel(), visibleTop);
                 RenderContentMesh(contentTopSurface.MeshRef, opacity, contentTopSurface.TextureId);
             }
@@ -147,7 +148,7 @@ internal sealed class ReciprocatingPumpRenderer : IRenderer, IDisposable
         return modelMatrix;
     }
 
-    private void RenderMechanism(ReciprocatingPumpVisualPose pose)
+    private void RenderMechanism(ReciprocatingPumpVisualPose pose, float rodOffset, bool showRod)
     {
         IStandardShaderProgram shader = capi.Render.PreparedStandardShader(
             pump.Pos.X, pump.Pos.Y, pump.Pos.Z, new Vec4f(1, 1, 1, 1));
@@ -159,9 +160,9 @@ internal sealed class ReciprocatingPumpRenderer : IRenderer, IDisposable
         RenderSlidingPart(shader, pistonMesh, pose.PistonOffsetY);
         // The approved rod is centered at (8,24,8), with its two bearings
         // three model units above/below that pivot. Translate AND rotate it.
-        PumpOrientation.ApplyConnectingRodPose(BeginModel(), pose);
+        PumpOrientation.ApplyConnectingRodPose(BeginModel().Translate(rodOffset, 0, 0), pose);
         shader.ModelMatrix = modelMatrix.Values;
-        capi.Render.RenderMesh(connectingRodMesh);
+        if (showRod) capi.Render.RenderMesh(connectingRodMesh);
         RenderSlidingPart(shader, wetIntakeMesh, pose.WetIntakeOffsetY);
         RenderSlidingPart(shader, wetOutputMesh, pose.WetOutputOffsetY);
         RenderSlidingPart(shader, breatherIntakeMesh, pose.BreatherIntakeOffsetY);

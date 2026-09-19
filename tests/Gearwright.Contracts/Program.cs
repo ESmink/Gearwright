@@ -54,6 +54,7 @@ internal static class Program
         PumpOverloadIsProgressiveAndFinite();
         PassiveHeightCannotCreatePrimingVacuum();
         PumpRuntimeFixture.Run(Check);
+        ReciprocatingDriveFixture.Run(Check);
         PumpTimingFixture.Run(Check);
         PumpLiquidSurfaceMeetsItsSidesBelowThePiston();
         ReciprocatingLinkageRemainsConnectedInEveryOrientation();
@@ -703,6 +704,19 @@ internal static class Program
         }
         Check(filledToPiston, "A liquid-filled chamber meets the piston at every height, including short strokes");
 
+        bool fixedHeight = true;
+        foreach (double amount in new[] { .05, .5, 2, 4 })
+        for (int degrees = 0; degrees <= 180; degrees++)
+        {
+            double angle = degrees * Math.PI / 180;
+            double volume = ReciprocatingPumpMath.ChamberVolumeLitres(angle);
+            float piston = upper + ReciprocatingPumpMath.VisualPose(angle, 0).PistonOffsetY;
+            float expected = bottom + (float)(amount / ReciprocatingPumpMath.StrokeCapacityLitres) * (6f / 16);
+            if (expected < piston - ReciprocatingPumpLiquidGeometry.PistonInset)
+                fixedHeight &= Math.Abs(ReciprocatingPumpLiquidGeometry.SurfaceHeight(amount, piston, volume) - expected) < 1e-7;
+        }
+        Check(fixedHeight, "Each stored liquid amount keeps a fixed height until the descending piston makes contact");
+
         bool aligned = true;
         foreach (BlockFacing output in BlockFacing.ALLFACES)
         foreach (BlockFacing drive in BlockFacing.ALLFACES.Where(face => face.Axis != output.Axis))
@@ -740,10 +754,12 @@ internal static class Program
         foreach (BlockFacing shaftSide in new[] { axis, axis.Opposite })
         foreach (BlockFacing output in new[] { axis, axis.Opposite })
         foreach (BlockFacing drive in BlockFacing.ALLFACES.Where(face => face.Axis != axis.Axis))
+        foreach (int seat in new[] { -3, -2, -1, 0, 1, 2, 3 })
         // Negative angles also exercise reverse-running networks and wraparound.
         for (int degrees = -360; degrees <= 360; degrees += 5)
         {
             double mechanicalAngle = degrees * Math.PI / 180;
+            float seatOffset = seat * .7f / 16;
             double pumpAngle = LateralCrankMotion.AngleInFrame(mechanicalAngle, axis, output, drive);
             double shaftAngle = LateralCrankMotion.AngleInFrame(
                 mechanicalAngle, axis, shaftSide.Opposite, BlockFacing.UP);
@@ -753,7 +769,8 @@ internal static class Program
             Matrixf shaft = new();
             shaft.Set(PumpOrientation.Matrix(shaftSide.Opposite, BlockFacing.UP));
             shaft.Translate(.5f, .5f, .5f).RotateX((float)shaftAngle).Translate(-.5f, -.5f, -.5f);
-            float[] pin = TransformPoint(shaft, .5f, .5f + 3f / 16, .5f);
+            float shaftSeat = output == shaftSide.Opposite ? seatOffset : -seatOffset;
+            float[] pin = TransformPoint(shaft, .5f + shaftSeat, .5f + 3f / 16, .5f);
 
             Matrixf pumpFrame = new();
             // Put the pump one block away from the crank along its local -Y.
@@ -761,11 +778,12 @@ internal static class Program
             Mat4f.Multiply(pumpFrame.Values, pumpFrame.Values, PumpOrientation.Matrix(output, drive));
             Matrixf rod = new();
             rod.Set(pumpFrame.Values);
+            rod.Translate(seatOffset, 0, 0);
             PumpOrientation.ApplyConnectingRodPose(rod, pose);
             float[] rodTop = TransformPoint(rod, .5f, 1.5f + 3f / 16, .5f);
             float[] rodBottom = TransformPoint(rod, .5f, 1.5f - 3f / 16, .5f);
             pumpFrame.Translate(0, pose.PistonOffsetY, 0);
-            float[] crosshead = TransformPoint(pumpFrame, .5f, 21f / 16, .5f);
+            float[] crosshead = TransformPoint(pumpFrame, .5f + seatOffset, 21f / 16, .5f);
             double error = Math.Max(PointDistance(pin, rodTop), PointDistance(crosshead, rodBottom));
             largestError = Math.Max(largestError, error);
             connected &= error < .000002 && Math.Abs(PointDistance(rodTop, rodBottom) - 6.0 / 16) < .000002;
@@ -773,15 +791,15 @@ internal static class Program
             // An independent world-axis oracle: UP rotated around vanilla AxisSign.
             float[] expectedPin =
             {
-                (float)(.5 - axis.Normali.Z * Math.Sin(mechanicalAngle) * 3 / 16),
+                (float)(.5 - axis.Normali.Z * Math.Sin(mechanicalAngle) * 3 / 16) + output.Normali.X * seatOffset,
                 (float)(.5 + Math.Cos(mechanicalAngle) * 3 / 16),
-                (float)(.5 + axis.Normali.X * Math.Sin(mechanicalAngle) * 3 / 16)
+                (float)(.5 + axis.Normali.X * Math.Sin(mechanicalAngle) * 3 / 16) + output.Normali.Z * seatOffset
             };
             sameDirection &= PointDistance(pin, expectedPin) < .000002;
             volumeMatchesPiston &= Math.Abs(ReciprocatingPumpMath.PistonVolumeFraction(pumpAngle) -
                 (1 + pose.PistonOffsetY / (6.0 / 16))) < .000002;
         }
-        Check(connected, $"Both rod bearings stay pinned for all mount/output/axle sides and reverse rotation (max error {largestError:E2} blocks)");
+        Check(connected, $"Both rod bearings stay pinned at all seven centered seats, mount/output/axle sides and reverse rotation (max error {largestError:E2} blocks)");
         Check(sameDirection, "One-sided and through-shaft poses follow the signed vanilla rotation axis without mirroring their orbit");
         Check(volumeMatchesPiston, "Hydraulic chamber volume follows the exact slider-crank piston height");
         Check(Math.Abs(ReciprocatingPumpMath.VisualPose(0, 0).PistonOffsetY) < .000001 &&

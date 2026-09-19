@@ -59,7 +59,7 @@
           "name": "gw-connecting-rod-spine",
           "from": [
             -0.5,
-            -1.9,
+            -2.65,
             -0.5
           ],
           "to": [
@@ -228,14 +228,14 @@
         {
           "name": "gw-connecting-rod-crosshead-bearing-top",
           "from": [
-            -0.58,
-            -2.35,
-            -1.08
+            -0.25,
+            -2.7,
+            -0.4
           ],
           "to": [
-            0.58,
-            -1.95,
-            1.08
+            0.25,
+            -2.6,
+            0.4
           ],
           "group": "pump-bearing",
           "faces": {
@@ -262,14 +262,14 @@
         {
           "name": "gw-connecting-rod-crosshead-bearing-bottom",
           "from": [
-            -0.58,
-            -4.05,
-            -1.08
+            -0.25,
+            -3.4,
+            -0.4
           ],
           "to": [
-            0.58,
-            -3.65,
-            1.08
+            0.25,
+            -3.3,
+            0.4
           ],
           "group": "pump-bearing",
           "faces": {
@@ -296,14 +296,14 @@
         {
           "name": "gw-connecting-rod-crosshead-bearing-front",
           "from": [
-            -0.58,
-            -3.65,
-            -1.08
+            -0.25,
+            -3.3,
+            -0.4
           ],
           "to": [
-            0.58,
-            -2.35,
-            -0.65
+            0.25,
+            -2.7,
+            -0.3
           ],
           "group": "pump-bearing",
           "faces": {
@@ -330,14 +330,14 @@
         {
           "name": "gw-connecting-rod-crosshead-bearing-back",
           "from": [
-            -0.58,
-            -3.65,
-            0.65
+            -0.25,
+            -3.3,
+            0.3
           ],
           "to": [
-            0.58,
-            -2.35,
-            1.08
+            0.25,
+            -2.7,
+            0.4
           ],
           "group": "pump-bearing",
           "faces": {

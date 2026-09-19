@@ -173,13 +173,111 @@ internal static class HydraulicRuntimeFixture
                 solved &= pipes.All(p => p.NetworkStatusCode != "flow-solving");
             }
             Console.WriteLine($"[MEASURE] actual dry lifted intake: drawn {drawn:F3} L, delivered {discharged:F3} L, peak chamber {peakFill:F3} L");
-            check(solved && balanced && drawn > 1 && peakFill > .1 && discharged > .1 && source.LiquidLevel == 7,
+            check(solved && balanced && drawn > 1 && peakFill > 3.9 && discharged > .1 && source.LiquidLevel == 7,
                 "A real pump primes a long dry intake with one-block lift, delivers water and conserves all extracted litres");
+
+            MechanicalPowerMod manager = new();
+            PumpRuntimeFixture.Set(manager, "serverNwChannel", Stub.Create<IServerNetworkChannel>((_, _) => null));
+            PumpRuntimeFixture.Set(network, "mechanicalPowerMod", manager);
+            int motorDirection = 1;
+            network.nodes.Add(new(2, 2, 0), Stub.Create<IMechanicalPowerNode>((method, args) =>
+            {
+                if (method.Name == "get_GearedRatio") return 1f;
+                if (method.Name == "GetTorque")
+                { args![2] = 0f; return motorDirection * .065f * Math.Max(0, 1 - motorDirection * network.Speed / .4f); }
+                return null;
+            }));
+            PumpTimingSystem timing = new(); timing.Start(api);
+            try
+            {
+                foreach (int direction in new[] { 1, -1 })
+                {
+                    double localDirection = direction * Math.Sign(drive.PumpTravel(pump, 1));
+                    motorDirection = direction; network.Speed = direction * .2f;
+                    network.AngleRad = direction * 3.3f;
+                    pump.PrepareSimulation();
+                    peakFill = 0;
+                    double minimumTopFill = 1, startDelivery = discharged, intakeSpeed = 0;
+                    int completedIntakes = 0, intakeSamples = 0;
+                    bool upstrokeRetains = true, extraLoad = false;
+                    for (int i = 1; i <= 3000; i++)
+                    {
+                        double beforeAngle = drive.PumpAngle(pump), beforeAmount = pump.ContentAmountLitres;
+                        double beforeVolume = ReciprocatingPumpMath.ChamberVolumeLitres(beforeAngle);
+                        network.ServerTick(.02f, i);
+                        Step();
+                        double afterAngle = drive.PumpAngle(pump);
+                        drawn -= intake.GetNozzleFlowRate(BlockFacing.WEST) * .02;
+                        discharged += output.GetNozzleFlowRate(BlockFacing.EAST) * .02;
+                        balanced &= Math.Abs(drawn - discharged - pipes.Sum(p => p.ContentAmountLitres) - pump.ContentAmountLitres) < 1e-8;
+                        solved &= pipes.All(p => p.NetworkStatusCode != "flow-solving");
+                        peakFill = Math.Max(peakFill, pump.ContentAmountLitres);
+                        if (ReciprocatingPumpMath.VolumeDerivative(beforeAngle) * localDirection > 0 &&
+                            ReciprocatingPumpMath.VolumeDerivative(afterAngle) * localDirection > 0 &&
+                            Math.Abs(afterAngle - beforeAngle) < .1 && pump.ChamberVolumeLitres > beforeVolume)
+                        {
+                            upstrokeRetains &= pump.ContentAmountLitres >= beforeAmount - 1e-10;
+                            intakeSpeed += Math.Abs(network.Speed); intakeSamples++;
+                            extraLoad |= pump.IntakeSuctionKPa < -70 && pump.ContentAmountLitres / pump.ChamberVolumeLitres > .5;
+                        }
+                        if (i > 100 && ReciprocatingPumpMath.VolumeDerivative(beforeAngle) * localDirection > 0 &&
+                            ReciprocatingPumpMath.VolumeDerivative(afterAngle) * localDirection < 0 && beforeVolume > 4)
+                        { completedIntakes++; minimumTopFill = Math.Min(minimumTopFill, beforeAmount / beforeVolume); }
+                    }
+                    Console.WriteLine($"[MEASURE] source with actual motor, direction {direction}: intakes {completedIntakes}, minimum fill {minimumTopFill:P2}, intake speed {intakeSpeed / Math.Max(1, intakeSamples):F3}, delivered {discharged - startDelivery:F3} L; solved {solved}, balanced {balanced}, upstroke retains {upstrokeRetains}, loaded {extraLoad}");
+                    check(solved && balanced && upstrokeRetains && extraLoad && completedIntakes >= 3 && minimumTopFill > .98 &&
+                        discharged - startDelivery > 8 && intakeSpeed / Math.Max(1, intakeSamples) < .35,
+                        $"Source suction loads the actual shaft, fills each chamber, delivers only on contraction and conserves liquid, direction {direction}");
+                }
+            }
+            finally { timing.Dispose(); }
+            network.AngleRad = 4; Step();
+            network.AngleRad = 4.01f; Step();
+            check(pump.IntakeSuctionKPa < -70, "A connected natural nozzle enables sustained suction on the rising stroke");
+            blocks.Remove(new(-8, 0, 0)); Step();
+            check(pump.IntakeSuctionKPa == 0, "Removing the world source clears its derived suction load on the next hydraulic step");
+            blocks[new(-8, 0, 0)] = source;
             system.UnregisterPump(pump);
             foreach (var pipe in pipes) { TreeAttribute tree = new(); pipe.ToTreeAttributes(tree); pipe.FromTreeAttributes(tree, world); }
             drawn = 0;
             for (int i = 0; i < 100; i++) { Step(); drawn -= intake.GetNozzleFlowRate(BlockFacing.WEST) * .02; }
             check(drawn == 0, "Reloading an unpowered intake clears driven suction and cannot extract free natural water");
+
+            // Exercise the independent hydraulic tick too: a downstream pipe
+            // can carry strong suction from another pump or a connected loop.
+            foreach (int direction in new[] { -1, 1 })
+            {
+                Clear();
+                pump = new BlockEntityReciprocatingPump { Api = api, Pos = new(0, 1, 0) };
+                PumpRuntimeFixture.Set(pump, "Block", new BlockReciprocatingPump { Code = new("gearwright:reciprocating-pump") });
+                TreeAttribute chamberTree = new(); chamberTree.SetInt("posy", 1);
+                TreeAttribute chamberState = new(); chamberState.SetInt("schemaVersion", 1);
+                chamberState.SetString("contentCode", "game:waterportion");
+                chamberState.SetDouble("amountLitres", 2); chamberState.SetDouble("lastVolumeLitres", 4.05);
+                chamberTree["gearwrightReciprocatingPump"] = chamberState;
+                pump.FromTreeAttributes(chamberTree, world);
+                entities[pump.Pos] = pump; entities[driveEntity.Pos] = driveEntity;
+                system.RegisterPump(pump);
+                output = Pipe(1, 1, 0, "game:waterportion", BlockFacing.WEST, BlockFacing.EAST);
+                var vacuumPipe = Pipe(2, 1, 0, "game:waterportion", BlockFacing.WEST);
+                network.AngleRad = 0; Step();
+                bool contactBound = true;
+                for (int degree = 1; degree <= 180; degree++)
+                {
+                    vacuumPipe.DrivenSuctionKPa = -98;
+                    double before = pump.ContentAmountLitres;
+                    network.AngleRad = direction * degree * GameMath.DEG2RAD;
+                    Step();
+                    contactBound &= pump.ContentAmountLitres >= Math.Min(before, pump.ChamberVolumeLitres) - 1e-10 &&
+                        Math.Abs(pump.ContentAmountLitres + pipes.Sum(p => p.ContentAmountLitres) - 2) < 1e-8 &&
+                        pipes.All(p => p.NetworkStatusCode != "flow-solving");
+                    if (degree == 1) check(pump.ContentAmountLitres == 2,
+                        "The hydraulic solver retains all liquid at the handle-away apex despite outlet suction");
+                }
+                check(contactBound && pipes.Sum(p => p.ContentAmountLitres) > 1.9,
+                    $"The independent pipe solver discharges only displaced liquid with downstream vacuum, direction {direction}");
+                system.UnregisterPump(pump);
+            }
 
             // A charged supply line must fill the chamber on each intake even
             // when the crank turns much faster than the dry-priming circuit.

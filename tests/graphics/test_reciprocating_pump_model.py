@@ -34,9 +34,22 @@ class ReciprocatingPumpRuntimeModelTests(unittest.TestCase):
             shape = package.outputs[f"assets/gearwright/shapes/block/reciprocating-pump-{suffix}.json"]
             for triangle in triangles(compile_shape(shape)):
                 vertices.setdefault(triangle.name, []).extend(triangle.vertices)
-        self.assertAlmostEqual(bound("MinX"), np.max(vertices["gw-single-cylinder-input-wall-solid"], axis=0)[0])
-        self.assertAlmostEqual(bound("MaxX"), np.min(vertices["gw-single-cylinder-output-wall-solid"], axis=0)[0])
-        self.assertAlmostEqual(bound("Bottom"), np.max(vertices["gw-cylinder-bottom-cap-front"], axis=0)[1])
+        body = compile_shape(package.outputs['assets/gearwright/shapes/block/reciprocating-pump-body.json'])
+        def nearest_wall(axis, direction, probe):
+            hits = []
+            for triangle in triangles(body):
+                if not triangle.name.startswith('gw-pump-wet-body-'):
+                    continue
+                lo, hi = triangle.vertices.min(axis=0), triangle.vertices.max(axis=0)
+                if hi[axis] - lo[axis] > 1e-8 or (lo[axis] - probe[axis]) * direction <= 0:
+                    continue
+                if all(lo[d] - 1e-8 <= probe[d] <= hi[d] + 1e-8 for d in range(3) if d != axis):
+                    hits.append(lo[axis])
+            self.assertTrue(hits)
+            return min(hits, key=lambda value: abs(value - probe[axis]))
+        self.assertAlmostEqual(bound("MinX"), nearest_wall(0, -1, (.5, .625, .5)))
+        self.assertAlmostEqual(bound("MaxX"), nearest_wall(0, 1, (.5, .625, .5)))
+        self.assertAlmostEqual(bound("Bottom"), nearest_wall(1, -1, (.5, .625, 5 / 16)))
         self.assertAlmostEqual(bound("UpperPistonBottom"), np.min(vertices["gw-piston-lower-seal"], axis=0)[1])
         # One thousandth of a model unit inside the glass avoids z-fighting.
         body_elements = {element.name: element for element in package.outputs[

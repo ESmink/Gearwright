@@ -736,380 +736,6 @@
           }
         },
         {
-          "name": "gw-cylinder-bottom-cap-front",
-          "from": [
-            -4.5,
-            -19.0,
-            -3.8
-          ],
-          "to": [
-            4.5,
-            -18.35,
-            -1.5
-          ],
-          "group": "pump-wet-end",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-cylinder-bottom-cap-back",
-          "from": [
-            -4.5,
-            -19.0,
-            1.5
-          ],
-          "to": [
-            4.5,
-            -18.35,
-            3.8
-          ],
-          "group": "pump-wet-end",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-cylinder-bottom-cap-left-web",
-          "from": [
-            -4.5,
-            -19.0,
-            -1.5
-          ],
-          "to": [
-            -4.0,
-            -18.35,
-            1.5
-          ],
-          "group": "pump-wet-end",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-cylinder-bottom-cap-center-web",
-          "from": [
-            -1.0,
-            -19.0,
-            -1.5
-          ],
-          "to": [
-            1.0,
-            -18.35,
-            1.5
-          ],
-          "group": "pump-wet-end",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-cylinder-bottom-cap-right-web",
-          "from": [
-            4.0,
-            -19.0,
-            -1.5
-          ],
-          "to": [
-            4.5,
-            -18.35,
-            1.5
-          ],
-          "group": "pump-wet-end",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-single-cylinder-input-wall-solid",
-          "from": [
-            -4.5,
-            -18.35,
-            -3.15
-          ],
-          "to": [
-            -4.15,
-            -10.2,
-            3.15
-          ],
-          "group": "pump-pressure-body",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-single-cylinder-output-wall-solid",
-          "from": [
-            4.15,
-            -18.35,
-            -3.15
-          ],
-          "to": [
-            4.5,
-            -10.2,
-            3.15
-          ],
-          "group": "pump-pressure-body",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-cylinder-corner-input-front",
-          "from": [
-            -4.5,
-            -18.45,
-            -3.8
-          ],
-          "to": [
-            -4.15,
-            -10.0,
-            -3.15
-          ],
-          "group": "pump-pressure-body",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-cylinder-corner-input-back",
-          "from": [
-            -4.5,
-            -18.45,
-            3.15
-          ],
-          "to": [
-            -4.15,
-            -10.0,
-            3.8
-          ],
-          "group": "pump-pressure-body",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-cylinder-corner-output-front",
-          "from": [
-            4.15,
-            -18.45,
-            -3.8
-          ],
-          "to": [
-            4.5,
-            -10.0,
-            -3.15
-          ],
-          "group": "pump-pressure-body",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-cylinder-corner-output-back",
-          "from": [
-            4.15,
-            -18.45,
-            3.15
-          ],
-          "to": [
-            4.5,
-            -10.0,
-            3.8
-          ],
-          "group": "pump-pressure-body",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
           "name": "gw-cylinder-front-left-rail",
           "from": [
             -4.5,
@@ -1430,7 +1056,7 @@
           ],
           "to": [
             -4.02,
-            -1.85,
+            -2.6,
             0.62
           ],
           "group": "pump-guide",
@@ -1464,7 +1090,7 @@
           ],
           "to": [
             4.45,
-            -1.85,
+            -2.6,
             0.62
           ],
           "group": "pump-guide",
@@ -1554,584 +1180,6 @@
             },
             "down": {
               "texture": "#gw-iron"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-upper-stub-top",
-          "from": [
-            -8.0,
-            -14.5,
-            -2.0
-          ],
-          "to": [
-            -4.5,
-            -14.0,
-            2.0
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-upper-stub-bottom-outer",
-          "from": [
-            -8.0,
-            -18.0,
-            -2.0
-          ],
-          "to": [
-            -7.5,
-            -17.5,
-            2.0
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-upper-stub-front",
-          "from": [
-            -8.0,
-            -17.5,
-            -2.0
-          ],
-          "to": [
-            -4.5,
-            -14.5,
-            -1.5
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-upper-stub-back",
-          "from": [
-            -8.0,
-            -17.5,
-            1.5
-          ],
-          "to": [
-            -4.5,
-            -14.5,
-            2.0
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-outer-drop-outer-wall",
-          "from": [
-            -8.0,
-            -22.75,
-            -2.0
-          ],
-          "to": [
-            -7.5,
-            -14.5,
-            2.0
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-outer-drop-inner-wall-lower",
-          "from": [
-            -4.5,
-            -22.75,
-            -2.0
-          ],
-          "to": [
-            -4.0,
-            -19.0,
-            2.0
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-outer-drop-front",
-          "from": [
-            -7.5,
-            -22.75,
-            -2.0
-          ],
-          "to": [
-            -4.5,
-            -14.5,
-            -1.5
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-outer-drop-back",
-          "from": [
-            -7.5,
-            -22.75,
-            1.5
-          ],
-          "to": [
-            -4.5,
-            -14.5,
-            2.0
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-lower-run-bottom",
-          "from": [
-            -7.5,
-            -23.25,
-            -2.0
-          ],
-          "to": [
-            -0.5,
-            -22.75,
-            2.0
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-lower-run-top-0",
-          "from": [
-            -4.5,
-            -19.75,
-            -2.0
-          ],
-          "to": [
-            -4.0,
-            -19.25,
-            2.0
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-lower-run-top-1",
-          "from": [
-            -1.0,
-            -19.75,
-            -2.0
-          ],
-          "to": [
-            -0.5,
-            -19.25,
-            2.0
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-lower-run-front",
-          "from": [
-            -7.5,
-            -22.75,
-            -2.0
-          ],
-          "to": [
-            -0.5,
-            -19.75,
-            -1.5
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-lower-run-back",
-          "from": [
-            -7.5,
-            -22.75,
-            1.5
-          ],
-          "to": [
-            -0.5,
-            -19.75,
-            2.0
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-floor-riser-left",
-          "from": [
-            -4.5,
-            -22.75,
-            -2.0
-          ],
-          "to": [
-            -4.0,
-            -18.35,
-            2.0
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-floor-riser-right",
-          "from": [
-            -1.0,
-            -22.75,
-            -2.0
-          ],
-          "to": [
-            -0.5,
-            -18.35,
-            2.0
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-floor-riser-front",
-          "from": [
-            -4.0,
-            -22.75,
-            -2.0
-          ],
-          "to": [
-            -1.0,
-            -18.35,
-            -1.5
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-floor-riser-back",
-          "from": [
-            -4.0,
-            -22.75,
-            1.5
-          ],
-          "to": [
-            -1.0,
-            -18.35,
-            2.0
-          ],
-          "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
             }
           }
         },
@@ -2250,603 +1298,6 @@
             2.5
           ],
           "group": "pump-input",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-input-shadow",
-          "from": [
-            -8.09,
-            -17.45,
-            -1.45
-          ],
-          "to": [
-            -8.0,
-            -14.55,
-            1.45
-          ],
-          "group": "pump-input",
-          "faces": {
-            "west": {
-              "texture": "#gw-shadow"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-upper-stub-top",
-          "from": [
-            4.5,
-            -14.5,
-            -2.0
-          ],
-          "to": [
-            8.0,
-            -14.0,
-            2.0
-          ],
-          "group": "pump-output",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-upper-stub-bottom-outer",
-          "from": [
-            7.5,
-            -18.0,
-            -2.0
-          ],
-          "to": [
-            8.0,
-            -17.5,
-            2.0
-          ],
-          "group": "pump-output",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-upper-stub-front",
-          "from": [
-            4.5,
-            -17.5,
-            -2.0
-          ],
-          "to": [
-            8.0,
-            -14.5,
-            -1.5
-          ],
-          "group": "pump-output",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-upper-stub-back",
-          "from": [
-            4.5,
-            -17.5,
-            1.5
-          ],
-          "to": [
-            8.0,
-            -14.5,
-            2.0
-          ],
-          "group": "pump-output",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-outer-drop-outer-wall",
-          "from": [
-            7.5,
-            -22.75,
-            -2.0
-          ],
-          "to": [
-            8.0,
-            -14.5,
-            2.0
-          ],
-          "group": "pump-output",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-outer-drop-inner-wall-lower",
-          "from": [
-            4.0,
-            -22.75,
-            -2.0
-          ],
-          "to": [
-            4.5,
-            -19.0,
-            2.0
-          ],
-          "group": "pump-output",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-outer-drop-front",
-          "from": [
-            4.5,
-            -22.75,
-            -2.0
-          ],
-          "to": [
-            7.5,
-            -14.5,
-            -1.5
-          ],
-          "group": "pump-output",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-outer-drop-back",
-          "from": [
-            4.5,
-            -22.75,
-            1.5
-          ],
-          "to": [
-            7.5,
-            -14.5,
-            2.0
-          ],
-          "group": "pump-output",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-lower-run-bottom",
-          "from": [
-            0.5,
-            -23.25,
-            -2.0
-          ],
-          "to": [
-            7.5,
-            -22.75,
-            2.0
-          ],
-          "group": "pump-output",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-lower-run-top-0",
-          "from": [
-            0.5,
-            -19.75,
-            -2.0
-          ],
-          "to": [
-            1.0,
-            -19.25,
-            2.0
-          ],
-          "group": "pump-output",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-lower-run-top-1",
-          "from": [
-            4.0,
-            -19.75,
-            -2.0
-          ],
-          "to": [
-            4.5,
-            -19.25,
-            2.0
-          ],
-          "group": "pump-output",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-lower-run-front",
-          "from": [
-            0.5,
-            -22.75,
-            -2.0
-          ],
-          "to": [
-            7.5,
-            -19.75,
-            -1.5
-          ],
-          "group": "pump-output",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-lower-run-back",
-          "from": [
-            0.5,
-            -22.75,
-            1.5
-          ],
-          "to": [
-            7.5,
-            -19.75,
-            2.0
-          ],
-          "group": "pump-output",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-floor-riser-left",
-          "from": [
-            0.5,
-            -22.75,
-            -2.0
-          ],
-          "to": [
-            1.0,
-            -18.35,
-            2.0
-          ],
-          "group": "pump-output",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-floor-riser-right",
-          "from": [
-            4.0,
-            -22.75,
-            -2.0
-          ],
-          "to": [
-            4.5,
-            -18.35,
-            2.0
-          ],
-          "group": "pump-output",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-floor-riser-front",
-          "from": [
-            1.0,
-            -22.75,
-            -2.0
-          ],
-          "to": [
-            4.0,
-            -18.35,
-            -1.5
-          ],
-          "group": "pump-output",
-          "faces": {
-            "north": {
-              "texture": "#gw-copper"
-            },
-            "east": {
-              "texture": "#gw-copper"
-            },
-            "south": {
-              "texture": "#gw-copper"
-            },
-            "west": {
-              "texture": "#gw-copper"
-            },
-            "up": {
-              "texture": "#gw-copper"
-            },
-            "down": {
-              "texture": "#gw-copper"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-floor-riser-back",
-          "from": [
-            1.0,
-            -22.75,
-            1.5
-          ],
-          "to": [
-            4.0,
-            -18.35,
-            2.0
-          ],
-          "group": "pump-output",
           "faces": {
             "north": {
               "texture": "#gw-copper"
@@ -3001,25 +1452,6 @@
             },
             "down": {
               "texture": "#gw-bronze"
-            }
-          }
-        },
-        {
-          "name": "gw-pump-output-shadow",
-          "from": [
-            8.0,
-            -17.45,
-            -1.45
-          ],
-          "to": [
-            8.09,
-            -14.55,
-            1.45
-          ],
-          "group": "pump-output",
-          "faces": {
-            "east": {
-              "texture": "#gw-shadow"
             }
           }
         },
@@ -5196,6 +3628,3684 @@
             },
             "down": {
               "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-0",
+          "from": [
+            -8.0,
+            -18.0,
+            -2.0
+          ],
+          "to": [
+            -7.1,
+            -17.855,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-1",
+          "from": [
+            -8.0,
+            -18.0,
+            -1.5
+          ],
+          "to": [
+            -7.1,
+            -17.855,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-2",
+          "from": [
+            -8.0,
+            -18.0,
+            1.5
+          ],
+          "to": [
+            -7.1,
+            -17.855,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-3",
+          "from": [
+            -8.0,
+            -17.855,
+            -2.0
+          ],
+          "to": [
+            -7.1,
+            -17.5,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-4",
+          "from": [
+            -8.0,
+            -17.855,
+            -1.5
+          ],
+          "to": [
+            -7.1,
+            -17.845,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-5",
+          "from": [
+            -8.0,
+            -17.855,
+            1.5
+          ],
+          "to": [
+            -7.1,
+            -17.5,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-6",
+          "from": [
+            -8.0,
+            -17.845,
+            -1.5
+          ],
+          "to": [
+            -7.1,
+            -17.5,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-7",
+          "from": [
+            -8.0,
+            -17.5,
+            -2.0
+          ],
+          "to": [
+            -7.1,
+            -14.5,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-8",
+          "from": [
+            -8.0,
+            -17.5,
+            1.5
+          ],
+          "to": [
+            -7.1,
+            -14.5,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-9",
+          "from": [
+            -8.0,
+            -14.5,
+            -2.0
+          ],
+          "to": [
+            -7.1,
+            -14.0,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-10",
+          "from": [
+            -8.0,
+            -14.5,
+            -1.5
+          ],
+          "to": [
+            -7.1,
+            -14.0,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-11",
+          "from": [
+            -8.0,
+            -14.5,
+            1.5
+          ],
+          "to": [
+            -7.1,
+            -14.0,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-12",
+          "from": [
+            -7.1,
+            -23.25,
+            -2.0
+          ],
+          "to": [
+            -6.6,
+            -22.75,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-13",
+          "from": [
+            -7.1,
+            -23.25,
+            -1.5
+          ],
+          "to": [
+            -6.6,
+            -22.75,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-14",
+          "from": [
+            -7.1,
+            -23.25,
+            1.5
+          ],
+          "to": [
+            -6.6,
+            -22.75,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-15",
+          "from": [
+            -7.1,
+            -22.75,
+            -2.0
+          ],
+          "to": [
+            -6.6,
+            -18.0,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-16",
+          "from": [
+            -7.1,
+            -22.75,
+            -1.5
+          ],
+          "to": [
+            -6.6,
+            -18.0,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-17",
+          "from": [
+            -7.1,
+            -22.75,
+            1.5
+          ],
+          "to": [
+            -6.6,
+            -18.0,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-18",
+          "from": [
+            -7.1,
+            -18.0,
+            -2.0
+          ],
+          "to": [
+            -6.6,
+            -17.5,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-19",
+          "from": [
+            -7.1,
+            -18.0,
+            -1.5
+          ],
+          "to": [
+            -6.6,
+            -17.845,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-20",
+          "from": [
+            -7.1,
+            -18.0,
+            1.5
+          ],
+          "to": [
+            -6.6,
+            -17.5,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-21",
+          "from": [
+            -7.1,
+            -17.845,
+            -1.5
+          ],
+          "to": [
+            -6.6,
+            -17.5,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-22",
+          "from": [
+            -7.1,
+            -17.5,
+            -2.0
+          ],
+          "to": [
+            -5.0,
+            -14.5,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-23",
+          "from": [
+            -7.1,
+            -17.5,
+            1.5
+          ],
+          "to": [
+            -5.0,
+            -14.5,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-24",
+          "from": [
+            -7.1,
+            -14.5,
+            -2.0
+          ],
+          "to": [
+            -4.5,
+            -14.0,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-25",
+          "from": [
+            -7.1,
+            -14.5,
+            -1.5
+          ],
+          "to": [
+            -5.0,
+            -14.0,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "up": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-26",
+          "from": [
+            -7.1,
+            -14.5,
+            1.5
+          ],
+          "to": [
+            -4.5,
+            -14.0,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-27",
+          "from": [
+            -6.6,
+            -23.25,
+            -2.0
+          ],
+          "to": [
+            -1.0,
+            -22.75,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-28",
+          "from": [
+            -6.6,
+            -23.25,
+            -1.5
+          ],
+          "to": [
+            -1.0,
+            -22.75,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "up": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-29",
+          "from": [
+            -6.6,
+            -23.25,
+            1.5
+          ],
+          "to": [
+            -1.0,
+            -22.75,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-30",
+          "from": [
+            -6.6,
+            -22.75,
+            -2.0
+          ],
+          "to": [
+            -1.0,
+            -19.75,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-31",
+          "from": [
+            -6.6,
+            -22.75,
+            1.5
+          ],
+          "to": [
+            -1.0,
+            -19.75,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-32",
+          "from": [
+            -6.6,
+            -19.75,
+            -2.0
+          ],
+          "to": [
+            -5.0,
+            -17.5,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-33",
+          "from": [
+            -6.6,
+            -19.75,
+            1.5
+          ],
+          "to": [
+            -5.0,
+            -17.5,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-34",
+          "from": [
+            -5.0,
+            -19.75,
+            -2.0
+          ],
+          "to": [
+            -4.0,
+            -19.0,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-35",
+          "from": [
+            -5.0,
+            -19.75,
+            -1.5
+          ],
+          "to": [
+            -4.5,
+            -19.25,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-36",
+          "from": [
+            -5.0,
+            -19.75,
+            1.5
+          ],
+          "to": [
+            -4.0,
+            -19.0,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-37",
+          "from": [
+            -5.0,
+            -19.25,
+            -1.5
+          ],
+          "to": [
+            -4.5,
+            -14.5,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-38",
+          "from": [
+            -5.0,
+            -19.0,
+            -2.0
+          ],
+          "to": [
+            -4.5,
+            -14.5,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-39",
+          "from": [
+            -5.0,
+            -19.0,
+            1.5
+          ],
+          "to": [
+            -4.5,
+            -14.5,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-40",
+          "from": [
+            -5.0,
+            -14.5,
+            -1.5
+          ],
+          "to": [
+            -4.5,
+            -14.0,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-41",
+          "from": [
+            -4.5,
+            -19.75,
+            -1.5
+          ],
+          "to": [
+            -4.15,
+            -19.25,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-42",
+          "from": [
+            -4.5,
+            -19.0,
+            -3.8
+          ],
+          "to": [
+            -4.15,
+            -18.45,
+            -3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-43",
+          "from": [
+            -4.5,
+            -19.0,
+            -3.15
+          ],
+          "to": [
+            -4.15,
+            -18.45,
+            -2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-44",
+          "from": [
+            -4.5,
+            -19.0,
+            2.0
+          ],
+          "to": [
+            -4.15,
+            -18.45,
+            3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-45",
+          "from": [
+            -4.5,
+            -19.0,
+            3.15
+          ],
+          "to": [
+            -4.15,
+            -18.45,
+            3.8
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-46",
+          "from": [
+            -4.5,
+            -18.45,
+            -3.8
+          ],
+          "to": [
+            -4.15,
+            -17.855,
+            -3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-47",
+          "from": [
+            -4.5,
+            -18.45,
+            -3.15
+          ],
+          "to": [
+            -4.15,
+            -17.855,
+            -2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-48",
+          "from": [
+            -4.5,
+            -18.45,
+            2.0
+          ],
+          "to": [
+            -4.15,
+            -17.855,
+            3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-49",
+          "from": [
+            -4.5,
+            -18.45,
+            3.15
+          ],
+          "to": [
+            -4.15,
+            -17.855,
+            3.8
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-50",
+          "from": [
+            -4.5,
+            -17.855,
+            -3.8
+          ],
+          "to": [
+            -4.15,
+            -10.2,
+            -3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-51",
+          "from": [
+            -4.5,
+            -17.855,
+            -3.15
+          ],
+          "to": [
+            -4.15,
+            -14.0,
+            -2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-52",
+          "from": [
+            -4.5,
+            -17.855,
+            -2.0
+          ],
+          "to": [
+            -4.15,
+            -14.0,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-53",
+          "from": [
+            -4.5,
+            -17.855,
+            2.0
+          ],
+          "to": [
+            -4.15,
+            -14.0,
+            3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-54",
+          "from": [
+            -4.5,
+            -17.855,
+            3.15
+          ],
+          "to": [
+            -4.15,
+            -10.2,
+            3.8
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-55",
+          "from": [
+            -4.5,
+            -14.0,
+            -3.15
+          ],
+          "to": [
+            -4.15,
+            -10.2,
+            3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-56",
+          "from": [
+            -4.5,
+            -10.2,
+            -3.8
+          ],
+          "to": [
+            -4.15,
+            -10.0,
+            -3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-57",
+          "from": [
+            -4.5,
+            -10.2,
+            3.15
+          ],
+          "to": [
+            -4.15,
+            -10.0,
+            3.8
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-58",
+          "from": [
+            -4.15,
+            -19.75,
+            -1.5
+          ],
+          "to": [
+            -4.0,
+            -19.25,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-59",
+          "from": [
+            -4.15,
+            -19.25,
+            -1.5
+          ],
+          "to": [
+            -4.0,
+            -18.0,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-60",
+          "from": [
+            -4.15,
+            -19.0,
+            -3.8
+          ],
+          "to": [
+            4.15,
+            -18.45,
+            -3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-61",
+          "from": [
+            -4.15,
+            -19.0,
+            -3.15
+          ],
+          "to": [
+            4.15,
+            -18.45,
+            -2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-62",
+          "from": [
+            -4.15,
+            -19.0,
+            2.0
+          ],
+          "to": [
+            4.15,
+            -18.45,
+            3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-63",
+          "from": [
+            -4.15,
+            -19.0,
+            3.15
+          ],
+          "to": [
+            4.15,
+            -18.45,
+            3.8
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-64",
+          "from": [
+            -4.15,
+            -18.45,
+            -3.8
+          ],
+          "to": [
+            4.15,
+            -18.0,
+            -3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-65",
+          "from": [
+            -4.15,
+            -18.45,
+            3.15
+          ],
+          "to": [
+            4.15,
+            -18.0,
+            3.8
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-66",
+          "from": [
+            -4.15,
+            -18.0,
+            -3.8
+          ],
+          "to": [
+            4.15,
+            -17.855,
+            -3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-67",
+          "from": [
+            -4.15,
+            -18.0,
+            -3.15
+          ],
+          "to": [
+            4.15,
+            -17.855,
+            -2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-68",
+          "from": [
+            -4.15,
+            -18.0,
+            -2.0
+          ],
+          "to": [
+            -4.0,
+            -17.855,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-69",
+          "from": [
+            -4.15,
+            -18.0,
+            -1.5
+          ],
+          "to": [
+            -4.0,
+            -17.855,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-70",
+          "from": [
+            -4.15,
+            -18.0,
+            1.5
+          ],
+          "to": [
+            -4.0,
+            -17.855,
+            3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-71",
+          "from": [
+            -4.15,
+            -18.0,
+            3.15
+          ],
+          "to": [
+            4.15,
+            -17.855,
+            3.8
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-72",
+          "from": [
+            -4.0,
+            -19.75,
+            -2.0
+          ],
+          "to": [
+            -1.0,
+            -19.0,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-73",
+          "from": [
+            -4.0,
+            -19.75,
+            1.5
+          ],
+          "to": [
+            -1.0,
+            -19.0,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-74",
+          "from": [
+            -4.0,
+            -19.0,
+            -2.0
+          ],
+          "to": [
+            -1.0,
+            -18.0,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-75",
+          "from": [
+            -4.0,
+            -19.0,
+            1.5
+          ],
+          "to": [
+            -1.0,
+            -18.0,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-76",
+          "from": [
+            -4.0,
+            -18.0,
+            -2.0
+          ],
+          "to": [
+            -1.0,
+            -17.855,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-77",
+          "from": [
+            -4.0,
+            -18.0,
+            1.5
+          ],
+          "to": [
+            -1.0,
+            -17.855,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-78",
+          "from": [
+            -4.0,
+            -18.0,
+            2.0
+          ],
+          "to": [
+            4.15,
+            -17.855,
+            3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-79",
+          "from": [
+            -1.0,
+            -23.25,
+            -2.0
+          ],
+          "to": [
+            -0.5,
+            -22.75,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-80",
+          "from": [
+            -1.0,
+            -23.25,
+            -1.5
+          ],
+          "to": [
+            -0.5,
+            -22.75,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-81",
+          "from": [
+            -1.0,
+            -23.25,
+            1.5
+          ],
+          "to": [
+            -0.5,
+            -22.75,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-82",
+          "from": [
+            -1.0,
+            -22.75,
+            -2.0
+          ],
+          "to": [
+            -0.5,
+            -19.0,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-83",
+          "from": [
+            -1.0,
+            -22.75,
+            -1.5
+          ],
+          "to": [
+            -0.5,
+            -19.0,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-84",
+          "from": [
+            -1.0,
+            -22.75,
+            1.5
+          ],
+          "to": [
+            -0.5,
+            -19.0,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-85",
+          "from": [
+            -1.0,
+            -19.0,
+            -1.5
+          ],
+          "to": [
+            -0.5,
+            -18.0,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-86",
+          "from": [
+            -1.0,
+            -18.0,
+            -2.0
+          ],
+          "to": [
+            1.0,
+            -17.855,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-87",
+          "from": [
+            -1.0,
+            -18.0,
+            -1.5
+          ],
+          "to": [
+            -0.5,
+            -17.855,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-88",
+          "from": [
+            -1.0,
+            -18.0,
+            1.5
+          ],
+          "to": [
+            1.0,
+            -17.855,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-89",
+          "from": [
+            -0.5,
+            -19.0,
+            -2.0
+          ],
+          "to": [
+            0.5,
+            -18.45,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-90",
+          "from": [
+            -0.5,
+            -18.0,
+            -1.5
+          ],
+          "to": [
+            0.5,
+            -17.855,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-91",
+          "from": [
+            0.5,
+            -23.25,
+            -2.0
+          ],
+          "to": [
+            1.0,
+            -22.75,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-92",
+          "from": [
+            0.5,
+            -23.25,
+            -1.5
+          ],
+          "to": [
+            1.0,
+            -22.75,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-93",
+          "from": [
+            0.5,
+            -23.25,
+            1.5
+          ],
+          "to": [
+            1.0,
+            -22.75,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-94",
+          "from": [
+            0.5,
+            -22.75,
+            -2.0
+          ],
+          "to": [
+            1.0,
+            -19.0,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-95",
+          "from": [
+            0.5,
+            -22.75,
+            -1.5
+          ],
+          "to": [
+            1.0,
+            -19.0,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-96",
+          "from": [
+            0.5,
+            -22.75,
+            1.5
+          ],
+          "to": [
+            1.0,
+            -19.0,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-97",
+          "from": [
+            0.5,
+            -19.0,
+            -1.5
+          ],
+          "to": [
+            1.0,
+            -18.0,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-98",
+          "from": [
+            0.5,
+            -18.0,
+            -1.5
+          ],
+          "to": [
+            1.0,
+            -17.855,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-99",
+          "from": [
+            1.0,
+            -23.25,
+            -2.0
+          ],
+          "to": [
+            6.6,
+            -22.75,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-100",
+          "from": [
+            1.0,
+            -23.25,
+            -1.5
+          ],
+          "to": [
+            6.6,
+            -22.75,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "up": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-101",
+          "from": [
+            1.0,
+            -23.25,
+            1.5
+          ],
+          "to": [
+            6.6,
+            -22.75,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-102",
+          "from": [
+            1.0,
+            -22.75,
+            -2.0
+          ],
+          "to": [
+            6.6,
+            -19.75,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-103",
+          "from": [
+            1.0,
+            -22.75,
+            1.5
+          ],
+          "to": [
+            6.6,
+            -19.75,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-104",
+          "from": [
+            1.0,
+            -19.75,
+            -2.0
+          ],
+          "to": [
+            4.0,
+            -19.0,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-105",
+          "from": [
+            1.0,
+            -19.75,
+            1.5
+          ],
+          "to": [
+            4.0,
+            -19.0,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-106",
+          "from": [
+            1.0,
+            -19.0,
+            -2.0
+          ],
+          "to": [
+            4.0,
+            -18.0,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-107",
+          "from": [
+            1.0,
+            -19.0,
+            1.5
+          ],
+          "to": [
+            4.0,
+            -18.0,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-108",
+          "from": [
+            1.0,
+            -18.0,
+            -2.0
+          ],
+          "to": [
+            4.0,
+            -17.855,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-109",
+          "from": [
+            1.0,
+            -18.0,
+            1.5
+          ],
+          "to": [
+            4.0,
+            -17.855,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-110",
+          "from": [
+            4.0,
+            -19.75,
+            -2.0
+          ],
+          "to": [
+            5.0,
+            -19.0,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-111",
+          "from": [
+            4.0,
+            -19.75,
+            -1.5
+          ],
+          "to": [
+            4.15,
+            -19.25,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-112",
+          "from": [
+            4.0,
+            -19.75,
+            1.5
+          ],
+          "to": [
+            5.0,
+            -19.0,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-113",
+          "from": [
+            4.0,
+            -19.25,
+            -1.5
+          ],
+          "to": [
+            4.15,
+            -18.0,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-114",
+          "from": [
+            4.0,
+            -18.0,
+            -2.0
+          ],
+          "to": [
+            4.15,
+            -17.855,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-115",
+          "from": [
+            4.0,
+            -18.0,
+            -1.5
+          ],
+          "to": [
+            4.15,
+            -17.855,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-116",
+          "from": [
+            4.0,
+            -18.0,
+            1.5
+          ],
+          "to": [
+            4.15,
+            -17.855,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-117",
+          "from": [
+            4.15,
+            -19.75,
+            -1.5
+          ],
+          "to": [
+            4.5,
+            -19.25,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-118",
+          "from": [
+            4.15,
+            -19.0,
+            -3.8
+          ],
+          "to": [
+            4.5,
+            -18.45,
+            -3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-119",
+          "from": [
+            4.15,
+            -19.0,
+            -3.15
+          ],
+          "to": [
+            4.5,
+            -18.45,
+            -2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-120",
+          "from": [
+            4.15,
+            -19.0,
+            2.0
+          ],
+          "to": [
+            4.5,
+            -18.45,
+            3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-121",
+          "from": [
+            4.15,
+            -19.0,
+            3.15
+          ],
+          "to": [
+            4.5,
+            -18.45,
+            3.8
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-122",
+          "from": [
+            4.15,
+            -18.45,
+            -3.8
+          ],
+          "to": [
+            4.5,
+            -17.855,
+            -3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-123",
+          "from": [
+            4.15,
+            -18.45,
+            -3.15
+          ],
+          "to": [
+            4.5,
+            -17.855,
+            -2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-124",
+          "from": [
+            4.15,
+            -18.45,
+            2.0
+          ],
+          "to": [
+            4.5,
+            -17.855,
+            3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-125",
+          "from": [
+            4.15,
+            -18.45,
+            3.15
+          ],
+          "to": [
+            4.5,
+            -17.855,
+            3.8
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-126",
+          "from": [
+            4.15,
+            -17.855,
+            -3.8
+          ],
+          "to": [
+            4.5,
+            -10.2,
+            -3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-127",
+          "from": [
+            4.15,
+            -17.855,
+            -3.15
+          ],
+          "to": [
+            4.5,
+            -14.0,
+            -2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-128",
+          "from": [
+            4.15,
+            -17.855,
+            -2.0
+          ],
+          "to": [
+            4.5,
+            -14.0,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-129",
+          "from": [
+            4.15,
+            -17.855,
+            2.0
+          ],
+          "to": [
+            4.5,
+            -14.0,
+            3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-130",
+          "from": [
+            4.15,
+            -17.855,
+            3.15
+          ],
+          "to": [
+            4.5,
+            -10.2,
+            3.8
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-131",
+          "from": [
+            4.15,
+            -14.0,
+            -3.15
+          ],
+          "to": [
+            4.5,
+            -10.2,
+            3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-132",
+          "from": [
+            4.15,
+            -10.2,
+            -3.8
+          ],
+          "to": [
+            4.5,
+            -10.0,
+            -3.15
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-133",
+          "from": [
+            4.15,
+            -10.2,
+            3.15
+          ],
+          "to": [
+            4.5,
+            -10.0,
+            3.8
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-134",
+          "from": [
+            4.5,
+            -19.75,
+            -1.5
+          ],
+          "to": [
+            5.0,
+            -19.25,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-135",
+          "from": [
+            4.5,
+            -19.25,
+            -1.5
+          ],
+          "to": [
+            5.0,
+            -14.5,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-136",
+          "from": [
+            4.5,
+            -19.0,
+            -2.0
+          ],
+          "to": [
+            5.0,
+            -14.5,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-137",
+          "from": [
+            4.5,
+            -19.0,
+            1.5
+          ],
+          "to": [
+            5.0,
+            -14.5,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-138",
+          "from": [
+            4.5,
+            -14.5,
+            -2.0
+          ],
+          "to": [
+            7.1,
+            -14.0,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-139",
+          "from": [
+            4.5,
+            -14.5,
+            -1.5
+          ],
+          "to": [
+            5.0,
+            -14.0,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-140",
+          "from": [
+            4.5,
+            -14.5,
+            1.5
+          ],
+          "to": [
+            7.1,
+            -14.0,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-141",
+          "from": [
+            5.0,
+            -19.75,
+            -2.0
+          ],
+          "to": [
+            6.6,
+            -14.5,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-142",
+          "from": [
+            5.0,
+            -19.75,
+            1.5
+          ],
+          "to": [
+            6.6,
+            -14.5,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-143",
+          "from": [
+            5.0,
+            -14.5,
+            -1.5
+          ],
+          "to": [
+            7.1,
+            -14.0,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "up": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-144",
+          "from": [
+            6.6,
+            -23.25,
+            -2.0
+          ],
+          "to": [
+            7.1,
+            -22.75,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-145",
+          "from": [
+            6.6,
+            -23.25,
+            -1.5
+          ],
+          "to": [
+            7.1,
+            -22.75,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-146",
+          "from": [
+            6.6,
+            -23.25,
+            1.5
+          ],
+          "to": [
+            7.1,
+            -22.75,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-147",
+          "from": [
+            6.6,
+            -22.75,
+            -2.0
+          ],
+          "to": [
+            7.1,
+            -18.0,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-148",
+          "from": [
+            6.6,
+            -22.75,
+            -1.5
+          ],
+          "to": [
+            7.1,
+            -18.0,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-149",
+          "from": [
+            6.6,
+            -22.75,
+            1.5
+          ],
+          "to": [
+            7.1,
+            -18.0,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-150",
+          "from": [
+            6.6,
+            -18.0,
+            -2.0
+          ],
+          "to": [
+            7.1,
+            -17.5,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-151",
+          "from": [
+            6.6,
+            -18.0,
+            -1.5
+          ],
+          "to": [
+            7.1,
+            -17.845,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-152",
+          "from": [
+            6.6,
+            -18.0,
+            1.5
+          ],
+          "to": [
+            7.1,
+            -17.5,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-153",
+          "from": [
+            6.6,
+            -17.845,
+            -1.5
+          ],
+          "to": [
+            7.1,
+            -17.5,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "west": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-154",
+          "from": [
+            6.6,
+            -17.5,
+            -2.0
+          ],
+          "to": [
+            7.1,
+            -14.5,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-155",
+          "from": [
+            6.6,
+            -17.5,
+            1.5
+          ],
+          "to": [
+            7.1,
+            -14.5,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-156",
+          "from": [
+            7.1,
+            -18.0,
+            -2.0
+          ],
+          "to": [
+            8.0,
+            -17.855,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-157",
+          "from": [
+            7.1,
+            -18.0,
+            -1.5
+          ],
+          "to": [
+            8.0,
+            -17.855,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-158",
+          "from": [
+            7.1,
+            -18.0,
+            1.5
+          ],
+          "to": [
+            8.0,
+            -17.855,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-159",
+          "from": [
+            7.1,
+            -17.855,
+            -2.0
+          ],
+          "to": [
+            8.0,
+            -17.5,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-160",
+          "from": [
+            7.1,
+            -17.855,
+            -1.5
+          ],
+          "to": [
+            8.0,
+            -17.845,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-161",
+          "from": [
+            7.1,
+            -17.855,
+            1.5
+          ],
+          "to": [
+            8.0,
+            -17.5,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-162",
+          "from": [
+            7.1,
+            -17.845,
+            -1.5
+          ],
+          "to": [
+            8.0,
+            -17.5,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-163",
+          "from": [
+            7.1,
+            -17.5,
+            -2.0
+          ],
+          "to": [
+            8.0,
+            -14.5,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-164",
+          "from": [
+            7.1,
+            -17.5,
+            1.5
+          ],
+          "to": [
+            8.0,
+            -14.5,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-165",
+          "from": [
+            7.1,
+            -14.5,
+            -2.0
+          ],
+          "to": [
+            8.0,
+            -14.0,
+            -1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "north": {
+              "texture": "#gw-copper"
+            },
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-166",
+          "from": [
+            7.1,
+            -14.5,
+            -1.5
+          ],
+          "to": [
+            8.0,
+            -14.0,
+            1.5
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
+            },
+            "down": {
+              "texture": "#gw-copper"
+            }
+          }
+        },
+        {
+          "name": "gw-pump-wet-body-167",
+          "from": [
+            7.1,
+            -14.5,
+            1.5
+          ],
+          "to": [
+            8.0,
+            -14.0,
+            2.0
+          ],
+          "group": "pump-wet-body",
+          "faces": {
+            "east": {
+              "texture": "#gw-copper"
+            },
+            "south": {
+              "texture": "#gw-copper"
+            },
+            "up": {
+              "texture": "#gw-copper"
             }
           }
         }

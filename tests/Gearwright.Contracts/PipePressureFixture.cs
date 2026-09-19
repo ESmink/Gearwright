@@ -18,6 +18,16 @@ internal static class PipePressureFixture
                 "Stored amount and pressure invert without reinterpreting litres or losing compressed contents");
 
         FluidCell[] full = { new(4, 20, 3.9, 0, PipeContentPhase.Liquid, true), Cell(10), Cell(10), Cell(10) };
+        foreach (double sourceSuction in new[] { -82.0, -92, -98 })
+        foreach (double fill in new[] { .0, .1, .5, .98, .995, 1.01 })
+        {
+            var sourceCell = new FluidCell(fill * 4, 20, 4, 0, PipeContentPhase.Liquid, true, sourceSuction);
+            double pressure = sourceCell.Pressure(sourceCell.Amount);
+            double derivative = (sourceCell.AmountAt(pressure + .0001) - sourceCell.AmountAt(pressure)) / .0001;
+            check(Math.Abs(sourceCell.AmountAt(pressure) - sourceCell.Amount) < 1e-10 &&
+                Math.Abs(sourceCell.Compliance(pressure) - derivative) < 1e-7 && pressure >= -HydraulicMath.AmbientPressureKPa,
+                "Source-aware chamber pressure, inverse and compliance agree through intake and compression");
+        }
         FluidLink[] path = { new(0, 1, .5, true), new(1, 2, .5), new(2, 3, .5) };
         FluidBoundary[] outlet = { new(3, 0, .5, false) };
         bool success = PipePressureSolver.TryStep(full, path, outlet, .02, out var first);

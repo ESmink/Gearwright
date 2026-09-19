@@ -6,7 +6,7 @@ using Vintagestory.GameContent.Mechanics;
 
 namespace Gearwright.Mechanics;
 
-/// <summary>An inline axle with one adjustable reciprocating-drive journal.</summary>
+/// <summary>An inline axle with one journal shared by up to four radial devices.</summary>
 public sealed class BlockLateralCrank : BlockAxle
 {
     public bool AlongX => Variant["rotation"] == "we";
@@ -19,7 +19,7 @@ public sealed class BlockLateralCrank : BlockAxle
         if (byPlayer.InventoryManager.ActiveHotbarSlot.Itemstack != null) return false;
         BEBehaviorMPLateralCrank? crank = world.BlockAccessor.GetBlockEntity(blockSel.Position)?
             .GetBehavior<BEBehaviorMPLateralCrank>();
-        if (crank == null || crank.HasAttachedPump) return false;
+        if (crank == null || crank.HasAttachedDevice) return false;
         if (world.Side == EnumAppSide.Server) crank.CycleJournalAngle(byPlayer);
         return true;
     }
@@ -34,9 +34,9 @@ public sealed class BlockLateralCrank : BlockAxle
         string? connectedRotation = FindConnectedRotation(world, blockSel.Position);
         string? pumpRotation = FindPlannedPumpRotation(
             world, blockSel.Position, out int matchingPumps, out bool conflictingPumps);
-        if (conflictingPumps || matchingPumps > 1)
+        if (conflictingPumps)
         {
-            failureCode = "gearwright-reciprocating-drive-multiple-pumps";
+            failureCode = "gearwright-reciprocating-drive-misaligned-pump";
             return false;
         }
         if (connectedRotation != null && pumpRotation != null && connectedRotation != pumpRotation)
@@ -111,14 +111,14 @@ public sealed class BlockLateralCrank : BlockAxle
         foreach (BlockFacing face in BlockFacing.ALLFACES)
         {
             if (world.BlockAccessor.GetBlockEntity(position.AddCopy(face)) is not
-                BlockEntityReciprocatingPump pump ||
+                IReciprocatingDriveDevice pump ||
                 pump.DriveFace != face.Opposite)
             {
                 continue;
             }
 
             matchingPumps++;
-            string candidate = pump.OutputFace.Axis == EnumAxis.X ? "we" : "ns";
+            string candidate = pump.ShaftFace.Axis == EnumAxis.X ? "we" : "ns";
             if (rotation != null && rotation != candidate) conflicting = true;
             rotation ??= candidate;
         }

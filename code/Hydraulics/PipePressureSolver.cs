@@ -9,7 +9,7 @@ internal readonly record struct FluidCell(double Amount, double Temperature, dou
 {
     public double Head => Phase == PipeContentPhase.Liquid ? Y * HydraulicMath.WaterHeadKPaPerBlock : 0;
     public double Pressure(double amount) => Pump
-        ? ReciprocatingPumpMath.ChamberPressureKPa(amount, Temperature, Phase, Volume)
+        ? ReciprocatingPumpMath.ChamberPressureKPa(amount, Temperature, Phase, Volume, Suction)
         : HydraulicMath.StoredPressure(amount, Temperature, Phase, Suction);
 
     public double AmountAt(double pressure)
@@ -20,7 +20,7 @@ internal readonly record struct FluidCell(double Amount, double Temperature, dou
         double full = Pump ? 0 : HydraulicMath.LiquidFullnessPressureKPa;
         if (pressure >= full)
             return Volume * (1 + (pressure - full) / ReciprocatingPumpMath.LiquidCompressionStiffnessKPa);
-        if (Pump) return Math.Max(0, Volume * (1 + pressure / HydraulicMath.AmbientPressureKPa));
+        if (Pump) return Volume * ReciprocatingPumpMath.LiquidVacuumFill(pressure, Suction);
         double suction = Math.Clamp(Suction, -HydraulicMath.AmbientPressureKPa, 0);
         double a = HydraulicMath.LiquidFullnessPressureKPa - HydraulicMath.EmptyPipeSuctionKPa + suction;
         double b = 2 * (HydraulicMath.EmptyPipeSuctionKPa - suction);
@@ -35,7 +35,7 @@ internal readonly record struct FluidCell(double Amount, double Temperature, dou
             return Volume / (HydraulicMath.AmbientPressureKPa * Math.Max(1, Temperature + 273.15) / HydraulicMath.ReferenceTemperatureKelvin);
         if (pressure >= (Pump ? 0 : HydraulicMath.LiquidFullnessPressureKPa))
             return Volume / ReciprocatingPumpMath.LiquidCompressionStiffnessKPa;
-        if (Pump) return Volume / HydraulicMath.AmbientPressureKPa;
+        if (Pump) return Volume * ReciprocatingPumpMath.LiquidVacuumCompliance(pressure, Suction);
         double fill = AmountAt(pressure) / Volume;
         double suction = Math.Clamp(Suction, -HydraulicMath.AmbientPressureKPa, 0);
         return Volume / (2 * HydraulicMath.LiquidFullnessPressureKPa * fill +

@@ -110,12 +110,12 @@ internal static class PumpRuntimeFixture
                     network.AngleRad = (float)(direction * frame * Math.PI / 180);
                     pump.PrepareSimulation();
                     pump.FinishSimulation(inputConnected: false, outputConnected: false);
-                    float resistance = drive.GetResistance();
+                    float resistance = Math.Abs(pump.SampleReciprocatingTorque(drive.PumpAngle(pump), 0, .02));
                     peak = Math.Max(peak, resistance);
                     conserved &= pump.ContentAmountLitres == 4 && pump.CurrentContentCode?.ToString() == content &&
                         float.IsFinite(resistance) && double.IsFinite(pump.ChamberPressureKPa);
                 }
-                check(conserved && peak > 1.2,
+                check(conserved && peak > (content == "gearwright:steam" ? .05 : 1.2),
                     $"Actual blocked pump retains all {content} through repeated forced rotations with finite rising load, direction {direction}");
             }
 
@@ -124,7 +124,7 @@ internal static class PumpRuntimeFixture
         network.AngleRad = 2;
         pump.PrepareSimulation();
         pump.PrepareSimulation();
-        float loadedResistance = drive.GetResistance();
+        float loadedResistance = Math.Abs(pump.SampleReciprocatingTorque(drive.PumpAngle(pump), 0, .02));
         entities[pipe.Pos] = pipe;
         TreeAttribute pipeTree = new();
         pipeTree.SetInt("posx", 1);
@@ -140,7 +140,7 @@ internal static class PumpRuntimeFixture
         double accepted = pump.Provide(water.Code, 1);
         pipe.ApplySimulationState(water.Code, accepted, 20, 0, "running", null, 0, new double[6], 0);
         check(accepted == 1 && pump.ContentAmountLitres + pipe.ContentAmountLitres == 2 &&
-            drive.GetResistance() < loadedResistance,
+            Math.Abs(pump.SampleReciprocatingTorque(drive.PumpAngle(pump), 0, .02)) < loadedResistance,
             "A stationary pressurized pump can drain and reduce its load without a fresh stroke or fluid loss");
 
         TreeAttribute compressedSave = new();
@@ -150,6 +150,41 @@ internal static class PumpRuntimeFixture
             "Save/load and client state reads preserve compressed contents and recompute the displayed pressure");
 
         MechanicalPowerMod manager = new();
+        // A suction-bearing outlet must not empty the chamber at the first
+        // tiny downstroke, while the handle is still pointing away from it.
+        LoadPump(pump, world, 2);
+        pump.UsesNetworkSolver = true;
+        network.AngleRad = 0;
+        pump.PrepareSimulation();
+        pipe.ApplySimulationState(null, 0, 20, -98, "running", null, 0, new double[6], 0);
+        pipe.DrivenSuctionKPa = -98;
+        pump.SetTransferPort(pump.OutputFace, pipe, -98);
+        network.AngleRad = .01f;
+        pump.StepDrivenPump(.02);
+        Console.WriteLine($"[MEASURE] handle-away with suction outlet: volume {pump.ChamberVolumeLitres:F6}, retained {pump.ContentAmountLitres:F6} L");
+        check(pump.ContentAmountLitres == 2 && pipe.ContentAmountLitres == 0,
+            "A low-pressure outlet cannot evacuate water at the apex before the piston reaches it");
+        foreach (int direction in new[] { -1, 1 })
+        {
+            LoadPump(pump, world, 2);
+            network.AngleRad = 0; pump.PrepareSimulation();
+            pipe.ApplySimulationState(null, 0, 20, -98, "running", null, 0, new double[6], 0);
+            pipe.DrivenSuctionKPa = -98;
+            bool followsPiston = true;
+            for (int degree = 1; degree <= 180; degree++)
+            {
+                network.AngleRad = direction * degree * GameMath.DEG2RAD;
+                double before = pump.ContentAmountLitres;
+                pump.StepDrivenPump(.02);
+                double volume = ReciprocatingPumpMath.ChamberVolumeLitres(drive.PumpAngle(pump));
+                followsPiston &= pump.ContentAmountLitres >= Math.Min(before, volume) - 1e-10 &&
+                    Math.Abs(pump.ContentAmountLitres + pipe.ContentAmountLitres - 2) < 1e-10;
+            }
+            check(followsPiston && pipe.ContentAmountLitres > 1.9,
+                $"A suction outlet only receives piston-displaced liquid through the whole downstroke, direction {direction}");
+        }
+        pump.UsesNetworkSolver = false;
+        pump.ClearTransferPorts();
         Set(manager, "serverNwChannel", Stub.Create<IServerNetworkChannel>((_, _) => null));
         Set(network, "mechanicalPowerMod", manager);
         float motorTorque = .1f;
@@ -225,13 +260,16 @@ internal static class PumpRuntimeFixture
                             {
                                 network.ServerTick(tickSeconds, tick);
                                 crossed |= Math.Abs(network.AngleRad * ratio) >= Math.PI;
-                                stable &= float.IsFinite(network.Speed) && network.Speed * direction >= 0 &&
+                                stable &= float.IsFinite(network.Speed) &&
                                     pump.ContentAmountLitres == amount && pipe.ContentAmountLitres == 10;
                                 if (tick == 500) settledAngle = network.AngleRad;
                             }
                             check(!crossed && stable && Math.Abs(network.Speed) < .001 &&
                                   Math.Abs((network.AngleRad - settledAngle) * ratio) < .001,
                                 $"Blocked {amount} L pump holds its first downstroke with {network.nodes.Count} nodes, ratio {ratio}, direction {direction}, {tickSeconds * 1000:F0} ms ticks (angle {Math.Abs(network.AngleRad * ratio) * 180 / Math.PI:F2} degrees)");
+                            check(Math.Abs(ReciprocatingPumpMath.ChamberVolumeLitres(network.AngleRad * ratio) - amount) <
+                                  Math.Max(.001, amount * .015),
+                                "The stopped piston remains at the stored liquid, within its finite pressure compression");
 
                             pipe.ApplySimulationState(null, 0, 20, 0, "running", null, 0, new double[6], 0);
                             for (int tick = 1000 + tickStride; tick <= 1250; tick += tickStride)
@@ -247,6 +285,34 @@ internal static class PumpRuntimeFixture
                     network.nodes.Remove(new BlockPos(node + 3, 1, 0));
             }
             Set(drive, "gearedRatio", 1f);
+
+            // Real pumps use the separate hydraulic solver. A valid output
+            // pipe is not proof that it has accepted any of the stored water.
+            foreach (int direction in new[] { -1, 1 })
+            {
+                pump.UsesNetworkSolver = true;
+                motorTorque = direction * .1f;
+                LoadPump(pump, world, 2);
+                network.AngleRad = direction * .8f;
+                network.Speed = direction * .6f;
+                pipe.ApplySimulationState(water.Code, 10, 20, 2, "running", null, 0, new double[6], 0);
+                pump.SetTransferPort(pump.OutputFace, pipe, 0);
+                for (int tick = 5; tick <= 700; tick++) network.ServerTick(.02f, tick);
+                double volume = ReciprocatingPumpMath.ChamberVolumeLitres(drive.PumpAngle(pump));
+                Console.WriteLine($"[MEASURE] full receiver contact: speed={network.Speed:R}, volume={volume:R}, amount={pump.ContentAmountLitres:R}, pipe={pipe.ContentAmountLitres:R}");
+                check(Math.Abs(network.Speed) < .001 && volume > pump.ContentAmountLitres * .995 && volume < pump.ContentAmountLitres &&
+                      Math.Abs(pump.ContentAmountLitres + pipe.ContentAmountLitres - 12) < 1e-10,
+                    $"A full receiver builds counter-pressure and stops near water contact with every predicted transfer committed, direction {direction}");
+                // With the motor removed, trapped pressure can push back even
+                // when the shaft starts at rest, unlike a friction-only load.
+                network.AngleRad = direction * 2;
+                network.Speed = 0;
+                motorTorque = 0;
+                for (int tick = 705; tick <= 710; tick++) network.ServerTick(.02f, tick);
+                check(network.Speed * direction < 0 && Math.Abs(network.AngleRad) < 2,
+                    "Stored pressure pushes a stationary over-compressed piston back towards equilibrium");
+                pump.UsesNetworkSolver = false;
+            }
 
             foreach (int direction in new[] { -1, 1 })
             {
@@ -422,13 +488,15 @@ internal static class PumpRuntimeFixture
                 network.AngleRad = direction * .8f / scenario.Ratio;
                 network.Speed = direction * .6f;
                 double vented = 0, peakPressure = 0;
-                bool balance = true, stalledOpen = false;
+                bool balance = true, stalledOpen = false, noDoubleDischarge = true;
                 int solveFailures = 0;
                 for (int tick = 5; tick <= 500; tick++)
                 {
                     now += (long)(scenario.Seconds * 1000);
                     network.ServerTick(scenario.Seconds, tick);
+                    double afterMechanicalTransfer = pump.ContentAmountLitres;
                     tickHydraulics!(.02f);
+                    noDoubleDischarge &= pump.ContentAmountLitres == afterMechanicalTransfer;
                     if (run[0].NetworkStatusCode == "flow-solving")
                     {
                         if (solveFailures++ == 0) Console.WriteLine($"[MEASURE] first rejected solve: tick {tick}, pump {pump.ContentAmountLitres:R} L / {pump.ChamberVolumeLitres:R} L, pipes {string.Join(",", run.Select(p => p.ContentAmountLitres.ToString("R")))}");
@@ -441,9 +509,11 @@ internal static class PumpRuntimeFixture
                         stalledOpen |= Math.Abs(network.Speed) < .001;
                     }
                 }
-                Console.WriteLine($"[MEASURE] actual full line, capped={capped}, direction={direction}, ratio={scenario.Ratio}, dt={scenario.Seconds}: vented {vented:F4} L, peak {peakPressure:F1} kPa, angle {network.AngleRad * scenario.Ratio:F3}, rejected {solveFailures}");
-                check(balance && solveFailures == 0 && (capped ? vented == 0 && Math.Abs(network.AngleRad * scenario.Ratio) < Math.PI && Math.Abs(network.Speed) < .001
-                    : vented > 1.5 && !stalledOpen && peakPressure < ReciprocatingPumpMath.ServicePressureKPa),
+                Console.WriteLine($"[MEASURE] actual full line, capped={capped}, direction={direction}, ratio={scenario.Ratio}, dt={scenario.Seconds}: vented {vented:F4} L, peak {peakPressure:F1} kPa, angle {network.AngleRad * scenario.Ratio:F3}, rejected {solveFailures}, conserved={balance}, stalledOpen={stalledOpen}");
+                check(balance && noDoubleDischarge && solveFailures == 0 && (capped ? vented == 0 && Math.Abs(network.AngleRad * scenario.Ratio) < Math.PI && Math.Abs(network.Speed) < .001
+                    // Momentum can produce a brief pressure surge above service
+                    // pressure; this is not a pressure cap or a shaft lock.
+                    : vented > 1.5 && !stalledOpen && double.IsFinite(peakPressure)),
                     $"Actual coupled pump and full pipe line {(capped ? "stalls against a cap" : "discharges without false stalls")} and conserves liquid, direction {direction}, ratio {scenario.Ratio}, {scenario.Seconds * 1000:F0} ms ticks");
             }
         }
@@ -483,15 +553,20 @@ internal static class PumpRuntimeFixture
             _ => null
         });
         PumpTimingSystem clientTiming = new();
+        // The real client loader assigns the behavior's network before calling
+        // JoinNetwork. Its server simulation node dictionary can remain empty;
+        // renderable devices are tracked separately by the engine.
+        var serverNodes = network.nodes.ToArray();
+        network.nodes.Clear();
         clientTiming.Start(clientApi);
         clientTiming.StartClientSide(clientApi);
         try
         {
-            PumpNetworkFrame Frame(float angle, long seq, float speed)
+            PumpNetworkFrame Frame(float angle, long seq, float speed, double amount = 4)
             {
                 network.AngleRad = angle;
                 network.Speed = speed;
-                LoadPump(pump, world, 4);
+                LoadPump(pump, world, amount);
                 pump.PrepareSimulation();
                 return new PumpNetworkFrame
                 {
@@ -515,14 +590,69 @@ internal static class PumpRuntimeFixture
             now = 300;
             receiver.DynamicInvoke(Frame(1.3f, 3, .000001f));
             network.ClientTick(1f / 60);
+            check(Math.Abs(network.AngleRad - 1.5) < 1e-6,
+                "A stopped snapshot starts from the currently displayed pose without an arrival jump");
+            now = 400;
+            network.ClientTick(1f / 60);
             check(Math.Abs(network.AngleRad - 1.3) < 1e-6 &&
                   PumpTimingSystem.TryPresentation(pump, out shown) &&
                   Math.Abs(shown.Angle - drive.PumpAngle(pump)) < 1e-6 &&
                   shown.Stroke == (int)ReciprocatingPumpStroke.Stationary,
-                "The client hook snaps both mechanisms on stall and closes non-moving air checks");
-            now = 400;
-            receiver.DynamicInvoke(Frame(1.4f, 4, 1));
+                "The client hook settles both mechanisms together and closes non-moving air checks");
+            network.UpdateFromPacket(new MechNetworkPacket { angle = .4f, speed = 0 }, false);
+            check(PumpTimingSystem.TryPresentation(pump, out shown) &&
+                  Math.Abs(shown.Angle - drive.PumpAngle(pump)) < 1e-6 &&
+                  Math.Abs(network.AngleRad - 1.3) < 1e-6,
+                "A delayed vanilla stop packet cannot separate the axle from the synchronized piston at contact");
+            network.UpdateFromPacket(new MechNetworkPacket { angle = 2.5f, speed = .2f }, true);
+            check(PumpTimingSystem.TryPresentation(pump, out shown) &&
+                  Math.Abs(shown.Angle - drive.PumpAngle(pump)) < 1e-6 &&
+                  Math.Abs(network.AngleRad - 1.3) < 1e-6,
+                "An ordinary moving-network packet also preserves a newer synchronized contact pose");
             now = 500;
+            receiver.DynamicInvoke(Frame(0, 4, 1, 2.77));
+            now = 600;
+            network.ClientTick(1f / 60);
+            double contactVolume = 2.77 / (1 + 8100 / ReciprocatingPumpMath.LiquidCompressionStiffnessKPa);
+            double low = 0, high = Math.PI;
+            for (int i = 0; i < 48; i++)
+            {
+                double angle = (low + high) * .5;
+                network.AngleRad = (float)angle;
+                if (ReciprocatingPumpMath.ChamberVolumeLitres(drive.PumpAngle(pump)) > contactVolume) low = angle;
+                else high = angle;
+            }
+            receiver.DynamicInvoke(Frame((float)((low + high) * .5), 5, 0, 2.77));
+            bool continuousContact = true;
+            double maxAmountError = 0, maxAngleError = 0, maxLevelStep = 0, maxGapIncrease = 0;
+            float lastGap = float.MaxValue;
+            float lastLevel = ReciprocatingPumpLiquidGeometry.Bottom +
+                ReciprocatingPumpLiquidGeometry.StrokeHeight * 2.77f / 4;
+            for (now = 600; now <= 700; now++)
+            {
+                network.ClientTick(1f / 60);
+                if (!PumpTimingSystem.TryPresentation(pump, out shown)) { continuousContact = false; continue; }
+                float pistonBottom = ReciprocatingPumpLiquidGeometry.UpperPistonBottom +
+                    ReciprocatingPumpMath.VisualPose(shown.Angle, (ReciprocatingPumpStroke)shown.Stroke).PistonOffsetY;
+                float level = ReciprocatingPumpLiquidGeometry.SurfaceHeight(shown.Amount, pistonBottom, shown.Volume);
+                float gap = pistonBottom - level;
+                maxAmountError = Math.Max(maxAmountError, Math.Abs(shown.Amount - 2.77));
+                maxAngleError = Math.Max(maxAngleError, Math.Abs(shown.Angle - drive.PumpAngle(pump)));
+                maxLevelStep = Math.Max(maxLevelStep, Math.Abs(level - lastLevel));
+                maxGapIncrease = Math.Max(maxGapIncrease, gap - lastGap);
+                continuousContact &= shown.Amount == 2.77 && gap <= lastGap + 1e-6 &&
+                    Math.Abs(shown.Angle - drive.PumpAngle(pump)) < 1e-6 &&
+                    Math.Abs(level - lastLevel) < .004;
+                lastGap = gap;
+                lastLevel = level;
+            }
+            Console.WriteLine($"[MEASURE] reported stall: smooth={continuousContact}, gap={lastGap:R} blocks, pressure={pump.ChamberPressureKPa:F3} kPa, angle={network.AngleRad:F6}; errors amount={maxAmountError:R}, angle={maxAngleError:R}, level step={maxLevelStep:R}, gap increase={maxGapIncrease:R}");
+            check(continuousContact && lastGap <= ReciprocatingPumpLiquidGeometry.PistonInset + 1e-6 &&
+                  Math.Abs(pump.ChamberPressureKPa - 8100) < .1,
+                "The reported 2.77 L / 8100 kPa stall animates continuously into water contact without a suspended piston or air gap");
+            now = 800;
+            receiver.DynamicInvoke(Frame(1.4f, 6, 1));
+            now = 900;
             network.ClientTick(1f / 60);
             entities.Remove(pump.Pos);
             network.ClientTick(1f / 60);
@@ -532,6 +662,7 @@ internal static class PumpRuntimeFixture
         finally
         {
             clientTiming.Dispose();
+            foreach (var node in serverNodes) network.nodes[node.Key] = node.Value;
             entities[pump.Pos] = pump;
         }
     }

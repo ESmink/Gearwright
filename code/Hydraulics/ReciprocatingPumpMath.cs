@@ -39,6 +39,39 @@ public static class ReciprocatingPumpMath
     public const double MechanicalResistancePerJoulePerRadian = 0.00025;
     public const float MaximumMechanicalResistance = 1000000f;
     public const double MotionEpsilon = 0.000001;
+    internal const double SourceIntakeFullness = .99;
+
+    // A source-connected suction stroke keeps its vacuum until the chamber is
+    // almost full. The last percent smoothly closes the inlet; no water is
+    // created here, and suction can never exceed atmospheric pressure.
+    internal static double SourceSuctionKPa(double lift) => -Math.Min(98,
+        InfiniteLiquidSourceSuctionKPa + Math.Max(0, lift) * HydraulicMath.WaterHeadKPaPerBlock + 12);
+
+    internal static double LiquidVacuumPressure(double fill, double suction)
+    {
+        double target = Math.Clamp(-suction, 0, 98);
+        if (target == 0) return -HydraulicMath.AmbientPressureKPa * (1 - fill);
+        return fill < SourceIntakeFullness
+            ? -HydraulicMath.AmbientPressureKPa + (HydraulicMath.AmbientPressureKPa - target) * fill / SourceIntakeFullness
+            : -target * (1 - fill) / (1 - SourceIntakeFullness);
+    }
+
+    internal static double LiquidVacuumFill(double pressure, double suction)
+    {
+        double target = Math.Clamp(-suction, 0, 98);
+        return Math.Max(0, target == 0 ? 1 + pressure / HydraulicMath.AmbientPressureKPa
+            : pressure < -target
+                ? SourceIntakeFullness * (pressure + HydraulicMath.AmbientPressureKPa) / (HydraulicMath.AmbientPressureKPa - target)
+                : 1 + pressure * (1 - SourceIntakeFullness) / target);
+    }
+
+    internal static double LiquidVacuumCompliance(double pressure, double suction)
+    {
+        double target = Math.Clamp(-suction, 0, 98);
+        return target == 0 ? 1 / HydraulicMath.AmbientPressureKPa
+            : pressure < -target ? SourceIntakeFullness / (HydraulicMath.AmbientPressureKPa - target)
+            : (1 - SourceIntakeFullness) / target;
+    }
 
     // Intake follows the faster pipe supply. Keep exhaust and its predicted
     // mechanical load at the established valve conductance.
@@ -48,6 +81,14 @@ public static class ReciprocatingPumpMath
     internal static double RequestedDischargeLitres(double pressureDifference, double seconds, PipeContentPhase phase) =>
         Math.Max(0, (double.IsFinite(pressureDifference) ? pressureDifference : 0) - HydraulicMath.FlowDeadbandKPa) *
         Math.Max(0, double.IsFinite(seconds) ? seconds : 0) * DischargeConductance(phase);
+
+    // The outlet belongs to the pressure stroke. Downstream vacuum must not
+    // siphon through its check while the piston is still crossing empty space.
+    // Liquid release is bounded by actual piston displacement, including any
+    // stored compression that can relax after a stopped outlet is reopened.
+    internal static double DisplaceableLitres(double amount, double volume, PipeContentPhase phase) =>
+        phase == PipeContentPhase.Gas ? Math.Max(0, amount) :
+        Math.Max(0, amount - Math.Max(ClearanceVolumeLitres, volume));
 
     public static double PistonVolumeFraction(double crankAngleRadians)
     {
@@ -59,6 +100,30 @@ public static class ReciprocatingPumpMath
 
     public static double ChamberVolumeLitres(double crankAngleRadians) =>
         ClearanceVolumeLitres + StrokeCapacityLitres * PistonVolumeFraction(crankAngleRadians);
+
+    internal static double ExpansionVolume(double start, double end)
+        => SweptVolume(start, end, double.PositiveInfinity, expansion: true);
+
+    internal static double WetContractionVolume(double start, double end, double contact)
+        => SweptVolume(start, end, contact, expansion: false);
+
+    private static double SweptVolume(double start, double end, double contact, bool expansion)
+    {
+        if (!double.IsFinite(start) || !double.IsFinite(end) || Math.Abs(end - start) > Math.PI * 2) return 0;
+        if (start == end) return 0;
+        int direction = Math.Sign(end - start);
+        double nextTurn = direction > 0 ? (Math.Floor(start / Math.PI) + 1) * Math.PI
+            : (Math.Ceiling(start / Math.PI) - 1) * Math.PI;
+        double volume = Math.Min(contact, ChamberVolumeLitres(start)), swept = 0;
+        int sign = expansion ? 1 : -1;
+        for (int i = 0; i < 3 && (end - nextTurn) * direction > 0; i++, nextTurn += direction * Math.PI)
+        {
+            double nextVolume = Math.Min(contact, ChamberVolumeLitres(nextTurn));
+            swept += Math.Max(0, sign * (nextVolume - volume));
+            volume = nextVolume;
+        }
+        return swept + Math.Max(0, sign * (Math.Min(contact, ChamberVolumeLitres(end)) - volume));
+    }
 
     public static ReciprocatingPumpVisualPose VisualPose(
         double visualAngleRadians,
@@ -115,7 +180,7 @@ public static class ReciprocatingPumpMath
         double amountLitres,
         double temperatureC,
         PipeContentPhase phase,
-        double volumeLitres)
+        double volumeLitres, double suction = 0)
     {
         double amount = Math.Max(0, double.IsFinite(amountLitres) ? amountLitres : 0);
         double volume = Math.Max(ClearanceVolumeLitres,
@@ -131,7 +196,7 @@ public static class ReciprocatingPumpMath
         double ratio = amount / volume;
         if (ratio <= 1)
         {
-            return -HydraulicMath.AmbientPressureKPa * (1 - ratio);
+            return LiquidVacuumPressure(ratio, suction);
         }
         return Math.Min(MaximumChamberPressureKPa,
             (ratio - 1) * LiquidCompressionStiffnessKPa);
@@ -145,7 +210,7 @@ public static class ReciprocatingPumpMath
         if (!double.IsFinite(amountLitres) || !double.IsFinite(volumeLitres) ||
             !double.IsFinite(outletPressureKPa)) return 0;
         double volume = Math.Max(ClearanceVolumeLitres, volumeLitres);
-        double pressure = Math.Max(-HydraulicMath.AmbientPressureKPa, outletPressureKPa);
+        double pressure = Math.Max(phase == PipeContentPhase.Gas ? -HydraulicMath.AmbientPressureKPa : 0, outletPressureKPa);
         double retained;
         if (phase == PipeContentPhase.Gas)
         {
@@ -203,6 +268,47 @@ public static class ReciprocatingPumpMath
             BaseMechanicalResistance + (float)load,
             BaseMechanicalResistance,
             MaximumMechanicalResistance);
+    }
+
+    public static double VolumeDerivative(double angle) => StrokeCapacityLitres * .5 *
+        (-Math.Sin(angle) + VisualCrankRadius * Math.Sin(angle) * Math.Cos(angle) / RodReach(angle));
+
+    /// <summary>Pressure does work towards increasing volume; vacuum pulls towards decreasing volume.</summary>
+    public static float PressureTorque(double pressure, double angle)
+    {
+        if (!double.IsFinite(pressure) || !double.IsFinite(angle)) return 0;
+        return (float)Math.Clamp(pressure * VolumeDerivative(angle) * MechanicalResistancePerJoulePerRadian,
+            -MaximumMechanicalResistance, MaximumMechanicalResistance);
+    }
+
+    // Implicit check-valve exchange between the chamber and its actual
+    // receiver. Receiver pressure rises as it fills; a capped full pipe is
+    // never treated as an infinite sink. Callers commit this same exchange.
+    internal static double DischargeIntoPipe(double amount, double temperature, PipeContentPhase phase,
+        double volume, double pipeAmount, double pipeTemperature, double pipeSuction, double room, double seconds,
+        bool compressiblePipe)
+    {
+        double high = Math.Min(DisplaceableLitres(amount, volume, phase), Math.Max(0, room));
+        if (high <= 0 || seconds <= 0) return 0;
+        double Residual(double sent)
+        {
+            double total = pipeAmount + sent;
+            double mixed = total > 0 ? (pipeAmount * pipeTemperature + sent * temperature) / total : temperature;
+            double receiver = compressiblePipe
+                ? HydraulicMath.StoredPressure(total, mixed, phase, pipeSuction)
+                : phase == PipeContentPhase.Gas ? HydraulicMath.GasGaugePressure(total, mixed) : pipeSuction;
+            return sent - RequestedDischargeLitres(
+                ChamberPressureKPa(amount - sent, temperature, phase, volume) - receiver, seconds, phase);
+        }
+        if (Residual(0) >= 0) return 0;
+        if (Residual(high) <= 0) return high;
+        double low = 0;
+        for (int i = 0; i < 32; i++)
+        {
+            double middle = (low + high) * .5;
+            if (Residual(middle) > 0) high = middle; else low = middle;
+        }
+        return low;
     }
 
     public static float DirectionalResistance(double pressure, double angle, double travel)

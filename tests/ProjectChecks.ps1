@@ -599,7 +599,7 @@ Assert-Project (
 Assert-Project (
     $reciprocatingDriveBehaviorText -match 'protected override CompositeShape GetShape\(\) => null!;' -and
     $reciprocatingDriveBehaviorText -match 'LateralCrankRenderer' -and
-    $reciprocatingDriveBehaviorText -match 'pump\.OutputFace\.Axis == shaftAxis' -and
+    $reciprocatingDriveBehaviorText -match 'device\.ShaftFace\.Axis == shaftAxis' -and
     $reciprocatingDriveRendererText -match 'RotateX\(angle\)' -and
     $reciprocatingDriveRendererText -match 'crank\.AngleInFrame\(shaftSide\.Opposite, BlockFacing\.UP\)' -and
     $reciprocatingDriveRendererText -notmatch 'GetAnimationState|CurrentFrame|AnimationUtil'
@@ -608,7 +608,7 @@ Assert-Project (
     $reciprocatingPumpRendererText -notmatch 'GetAnimationState|CurrentFrame|AnimationUtil' -and
     $reciprocatingPumpRendererText -match 'crank\.PumpAngle\(pump\)' -and
     $reciprocatingPumpEntityText -match 'crank\.PumpAngle\(this\)' -and
-    $reciprocatingDriveBehaviorText -match 'pump\.GetMechanicalResistance\(PumpAngle\(pump\), PumpTravel\(pump,' -and
+    $reciprocatingDriveBehaviorText -match 'device\.SampleReciprocatingLoad\(DeviceAngle\(device\),' -and
     $reciprocatingPumpRendererText -match 'PumpOrientation\.ApplyConnectingRodPose' -and
     $reciprocatingPumpRendererText -match 'RenderSlidingPart\(shader, pistonMesh, pose\.PistonOffsetY\)'
 ) "The piston, rod, pressure simulation, and load use the same mount-aware journal pose without a separate animation clock"
@@ -625,12 +625,12 @@ $pumpPresentationText = Get-Content -Raw (Join-Path $root "code\Hydraulics\PumpP
 Assert-Project (
     $pumpTimingText -match 'if \(__1 % 5 == 0\)' -and
     $pumpTimingText.IndexOf('updateNetwork(__instance, __1)') -lt $pumpTimingText.IndexOf('updateAngle(__instance,') -and
-    $pumpTimingText -match 'StepDrivenPump\(seconds\)' -and
+    $pumpTimingText -match 'StepReciprocatingDrive\(seconds\)' -and
     $pumpTimingText -match '__instance.AngleRad = \(float\)timeline.Angle' -and
     $pumpTimingText -match '__instance.AngleRad = __0.angle' -and
     $reciprocatingPumpRendererText -match 'PumpTimingSystem.TryPresentation' -and
     $reciprocatingPumpRendererText -match 'presentation.Amount' -and
-    $pumpPresentationText -match 'contact - result.Volume'
+    $pumpPresentationText -match 'ReciprocatingPumpMath\.WetContractionVolume'
 ) "Pump substeps, finite pre-step load and a shared server presentation frame keep liquid and stalled mechanisms synchronized"
 Assert-Project (
     $reciprocatingDriveBlockText -match 'MechanicalCodes\.LateralCrankVariantPath\(rotation\)' -and

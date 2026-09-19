@@ -63,7 +63,7 @@
             -2.0
           ],
           "to": [
-            -2.75,
+            -3.8,
             1.0,
             2.0
           ],
@@ -97,7 +97,7 @@
             -1.0
           ],
           "to": [
-            -2.75,
+            -3.8,
             2.0,
             1.0
           ],
@@ -126,7 +126,7 @@
         {
           "name": "gw-crank-output-shaft-wide",
           "from": [
-            2.75,
+            3.8,
             -1.0,
             -2.0
           ],
@@ -160,7 +160,7 @@
         {
           "name": "gw-crank-output-shaft-tall",
           "from": [
-            2.75,
+            3.8,
             -2.0,
             -1.0
           ],
@@ -194,14 +194,14 @@
         {
           "name": "gw-crank-input-web",
           "from": [
-            -2.75,
-            -1.55,
-            -1.25
+            -3.8,
+            -1.35,
+            -0.8
           ],
           "to": [
-            -1.45,
-            3.7,
-            1.25
+            -3.0,
+            3.65,
+            0.8
           ],
           "group": "crank-load-path",
           "faces": {
@@ -222,54 +222,20 @@
             },
             "down": {
               "texture": "#gw-iron"
-            }
-          }
-        },
-        {
-          "name": "gw-crank-input-root-bush",
-          "from": [
-            -2.85,
-            -1.85,
-            -1.55
-          ],
-          "to": [
-            -1.35,
-            0.35,
-            1.55
-          ],
-          "group": "crank-bearing",
-          "faces": {
-            "north": {
-              "texture": "#gw-bronze"
-            },
-            "east": {
-              "texture": "#gw-bronze"
-            },
-            "south": {
-              "texture": "#gw-bronze"
-            },
-            "west": {
-              "texture": "#gw-bronze"
-            },
-            "up": {
-              "texture": "#gw-bronze"
-            },
-            "down": {
-              "texture": "#gw-bronze"
             }
           }
         },
         {
           "name": "gw-crank-output-web",
           "from": [
-            1.45,
-            -1.55,
-            -1.25
+            3.0,
+            -1.35,
+            -0.8
           ],
           "to": [
-            2.75,
-            3.7,
-            1.25
+            3.8,
+            3.65,
+            0.8
           ],
           "group": "crank-load-path",
           "faces": {
@@ -294,50 +260,16 @@
           }
         },
         {
-          "name": "gw-crank-output-root-bush",
-          "from": [
-            1.35,
-            -1.85,
-            -1.55
-          ],
-          "to": [
-            2.85,
-            0.35,
-            1.55
-          ],
-          "group": "crank-bearing",
-          "faces": {
-            "north": {
-              "texture": "#gw-bronze"
-            },
-            "east": {
-              "texture": "#gw-bronze"
-            },
-            "south": {
-              "texture": "#gw-bronze"
-            },
-            "west": {
-              "texture": "#gw-bronze"
-            },
-            "up": {
-              "texture": "#gw-bronze"
-            },
-            "down": {
-              "texture": "#gw-bronze"
-            }
-          }
-        },
-        {
           "name": "gw-crank-bronze-journal",
           "from": [
-            -1.45,
-            2.05,
-            -1.15
+            -3.0,
+            2.5706749483,
+            -0.8586501034
           ],
           "to": [
-            1.45,
-            3.95,
-            1.15
+            3.0,
+            3.4293250517,
+            0.8586501034
           ],
           "group": "crank-journal",
           "faces": {
@@ -357,6 +289,68 @@
               "texture": "#gw-bronze"
             },
             "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-crank-bronze-journal-low",
+          "from": [
+            -3.0,
+            2.1413498966,
+            -0.4293250517
+          ],
+          "to": [
+            3.0,
+            2.5706749483,
+            0.4293250517
+          ],
+          "group": "crank-journal",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-crank-bronze-journal-high",
+          "from": [
+            -3.0,
+            3.4293250517,
+            -0.4293250517
+          ],
+          "to": [
+            3.0,
+            3.8586501034,
+            0.4293250517
+          ],
+          "group": "crank-journal",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
               "texture": "#gw-bronze"
             }
           }

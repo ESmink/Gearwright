@@ -68,7 +68,7 @@ public sealed class BlockReciprocatingPump : Block
                 .GetBehavior<BEBehaviorMPLateralCrank>();
             if (crank == null) continue;
             BlockFacing[] axisFaces = crank.AxisFaces();
-            if (face.Axis == axisFaces[0].Axis || crank.HasAttachedPump) continue;
+            if (face.Axis == axisFaces[0].Axis) continue;
             driveFace = face;
             shaftPositive = axisFaces[1];
             return true;
