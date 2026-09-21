@@ -23,7 +23,7 @@ class LateralDriveMountReviewTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             managed = build_review(root)
-            self.assertEqual(root / 'generated/lateral-drive-mount-review/current', managed,
+            self.assertEqual((root / 'generated/lateral-drive-mount-review/current').resolve(), managed.resolve(),
                 'review candidates must use the one fixed generated/.../current directory')
             (managed / 'stale.txt').write_text('stale')
             self.assertEqual(managed, build_review(root),
