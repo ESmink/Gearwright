@@ -54,6 +54,8 @@ public sealed class BEBehaviorMPLateralCrank : BEBehaviorMPBase
         {
             EnumAxis shaftAxis = AxisFaces()[0].Axis;
             List<IReciprocatingDriveDevice> devices = new(4);
+            var bellows = Api == null ? Array.Empty<BEBehaviorLargeBellows>() :
+                BEBehaviorLargeBellows.NearCrank(Api.World, Position).ToArray();
             foreach (BlockFacing face in ReciprocatingDriveMount.Faces(shaftAxis))
             {
                 BlockPos adjacent = Position.AddCopy(face);
@@ -62,6 +64,12 @@ public sealed class BEBehaviorMPLateralCrank : BEBehaviorMPBase
                     device.DriveFace == face.Opposite && device.ShaftFace.Axis == shaftAxis)
                 {
                     devices.Add(device);
+                }
+                else
+                {
+                    var attached = bellows.FirstOrDefault(b => b.RearPosition.Equals(adjacent) &&
+                        ReferenceEquals(b.SelectedDrive(), this));
+                    if (attached != null) devices.Add(attached);
                 }
             }
             return devices.ToArray();

@@ -17,6 +17,8 @@
     <Compile Include="..\..\code\**\*.cs" LinkBase="Runtime" />
     <Compile Include="PumpRuntimeFixture.cs" />
     <Compile Include="ReciprocatingDriveFixture.cs" />
+    <Compile Include="LargeBellowsFixture.cs" />
+    <Compile Include="BellowsRendererFixture.cs" />
     <Compile Include="PumpTimingFixture.cs" />
     <Compile Include="PipePressureFixture.cs" />
     <Compile Include="PipeAddonFixture.cs" />
@@ -51,10 +53,16 @@
       <HintPath>$(VintageStoryPath)\Lib\protobuf-net.dll</HintPath>
       <Private>true</Private>
     </Reference>
+    <Reference Include="SkiaSharp">
+      <HintPath>$(VintageStoryPath)\Lib\SkiaSharp.dll</HintPath>
+      <Private>true</Private>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
     <None Include="fixtures\*.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(VintageStoryPath)\assets\game\shaders\standard.fsh"
+          Link="sdk\standard.fsh" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\assets\gearwright\shapes\block\lateral-crank-one-sided.json"
           Link="runtime-shapes\lateral-crank-one-sided.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\assets\gearwright\shapes\block\lateral-crank-through.json"

@@ -1,0 +1,63 @@
+{
+  "code": "automatic-bellow",
+  "class": "GearwrightAutomaticBellow",
+  "entityClass": "MechPoweredBellows",
+  "entityBehaviors": [
+    { "name": "Animatable" },
+    { "name": "GearwrightLargeBellows" }
+  ],
+  "variantgroups": [
+    { "code": "side", "states": ["north", "east", "south", "west"] }
+  ],
+  "behaviors": [{ "name": "UnstableFalling" }],
+  "shapeByType": {
+    "*-north": { "base": "game:block/wood/mechanics/bellowslarge", "rotateY": 270 },
+    "*-east": { "base": "game:block/wood/mechanics/bellowslarge", "rotateY": 180 },
+    "*-south": { "base": "game:block/wood/mechanics/bellowslarge", "rotateY": 90 },
+    "*-west": { "base": "game:block/wood/mechanics/bellowslarge", "rotateY": 0 }
+  },
+  "particlesTextureCode": "plainoak",
+  "textures": { "plainoak": { "base": "game:block/wood/plainoak" } },
+  "creativeinventory": {
+    "general": ["*-north"],
+    "mechanics": ["*-north"],
+    "gearwright": ["*-north"]
+  },
+  "drops": [{ "type": "block", "code": "gearwright:automatic-bellow-north" }],
+  "attributes": {
+    "reinforcable": true,
+    "partialAttachable": true,
+    "bellowAnimation": { "animation": "bellowing", "code": "bellowing", "animationSpeed": 1.5 },
+    "handbook": {
+      "include": true,
+      "groupBy": ["automatic-bellow-*"],
+      "extraSections": [{ "title": "gearwright:handbook-title-large-bellows", "text": "gearwright:handbook-text-large-bellows" }]
+    }
+  },
+  "blockmaterial": "Wood",
+  "replaceable": 900,
+  "resistance": 1.5,
+  "maxStackSize": 1,
+  "lightAbsorption": 1,
+  "sideao": { "all": false },
+  "sidesolid": { "all": false },
+  "emitsideao": { "all": false },
+  "sideopaque": { "all": false },
+  "collisionSelectionBox": { "x1": 0, "y1": 0.4375, "z1": 0, "x2": 1, "y2": 0.875, "z2": 1 },
+  "combustibleProps": { "burnTemperature": 600, "burnDuration": 20 },
+  "sounds": {
+    "place": "game:block/planks", "hit": "game:block/planks",
+    "break": "game:block/planks", "walk": "game:walk/wood"
+  },
+  "materialDensity": 600,
+  "heldTpIdleAnimation": "holdunderarm",
+  "heldRightReadyAnimation": "heldblockready",
+  "heldTpUseAnimation": "twohandplaceblock",
+  "guiTransform": { "scale": 1.39 },
+  "tpHandTransform": {
+    "translation": { "x": -1.6, "y": -0.65, "z": -0.75 },
+    "rotation": { "x": 3, "y": -101, "z": 88 },
+    "scale": 0.6
+  },
+  "groundTransform": { "origin": { "x": 0.5, "y": 0, "z": 0.5 }, "scale": 4 }
+}

@@ -55,6 +55,8 @@ internal static class Program
         PassiveHeightCannotCreatePrimingVacuum();
         PumpRuntimeFixture.Run(Check);
         ReciprocatingDriveFixture.Run(Check);
+        LargeBellowsFixture.Run(Check);
+        BellowsRendererFixture.Run(Check);
         PumpTimingFixture.Run(Check);
         PumpLiquidSurfaceMeetsItsSidesBelowThePiston();
         ReciprocatingLinkageRemainsConnectedInEveryOrientation();

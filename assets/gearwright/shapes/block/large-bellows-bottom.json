@@ -1,0 +1,1985 @@
+{
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "gw-oak": "game:block/wood/debarked/oak",
+    "gw-iron": "game:block/metal/sheet-plain/iron2",
+    "gw-bronze": "game:block/metal/sheet/tinbronze1",
+    "gw-copper": "game:block/metal/sheet/copper1",
+    "gw-glass": "gearwright:block/inspection-glass",
+    "gw-shadow": "gearwright:block/inspection-shadow",
+    "plainoak": "game:block/wood/plainoak"
+  },
+  "textureSizes": {
+    "gw-oak": [
+      32,
+      32
+    ],
+    "gw-iron": [
+      32,
+      32
+    ],
+    "gw-bronze": [
+      32,
+      32
+    ],
+    "gw-copper": [
+      32,
+      32
+    ],
+    "gw-glass": [
+      16,
+      16
+    ],
+    "gw-shadow": [
+      4,
+      4
+    ],
+    "plainoak": [
+      16,
+      16
+    ]
+  },
+  "elements": [
+    {
+      "name": "gw-bellows-rod",
+      "from": [
+        0,
+        0,
+        8.0
+      ],
+      "to": [
+        0,
+        0,
+        8.0
+      ],
+      "rotationOrigin": [
+        0,
+        0,
+        8.0
+      ],
+      "children": [
+        {
+          "name": "gw-bellows-big-end-top",
+          "from": [
+            -1.3,
+            -2.45,
+            -0.58
+          ],
+          "to": [
+            1.3,
+            -2.2,
+            0.58
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-big-end-bottom",
+          "from": [
+            -1.3,
+            -4.8,
+            -0.58
+          ],
+          "to": [
+            1.3,
+            -4.55,
+            0.58
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-big-end-left",
+          "from": [
+            -1.3,
+            -4.55,
+            -0.58
+          ],
+          "to": [
+            -1.05,
+            -2.45,
+            0.58
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-big-end-right",
+          "from": [
+            1.05,
+            -4.55,
+            -0.58
+          ],
+          "to": [
+            1.3,
+            -2.45,
+            0.58
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-small-end-top",
+          "from": [
+            -0.59,
+            3.82,
+            -0.58
+          ],
+          "to": [
+            0.59,
+            4.09,
+            0.58
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-small-end-bottom",
+          "from": [
+            -0.59,
+            2.91,
+            -0.58
+          ],
+          "to": [
+            0.59,
+            3.18,
+            0.58
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-small-end-left",
+          "from": [
+            -0.59,
+            3.18,
+            -0.58
+          ],
+          "to": [
+            -0.32,
+            3.82,
+            0.58
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-small-end-right",
+          "from": [
+            0.32,
+            3.18,
+            -0.58
+          ],
+          "to": [
+            0.59,
+            3.82,
+            0.58
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-pitman",
+          "from": [
+            -0.8,
+            -2.2,
+            -0.48
+          ],
+          "to": [
+            0.8,
+            2.91,
+            0.48
+          ],
+          "group": "bellows-pitman",
+          "faces": {
+            "north": {
+              "texture": "#plainoak"
+            },
+            "east": {
+              "texture": "#plainoak"
+            },
+            "south": {
+              "texture": "#plainoak"
+            },
+            "west": {
+              "texture": "#plainoak"
+            },
+            "up": {
+              "texture": "#plainoak"
+            },
+            "down": {
+              "texture": "#plainoak"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lower-strap-front",
+          "from": [
+            -0.8,
+            -2.2,
+            -0.56
+          ],
+          "to": [
+            0.8,
+            -1.48,
+            -0.48
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lower-strap-back",
+          "from": [
+            -0.8,
+            -2.2,
+            0.48
+          ],
+          "to": [
+            0.8,
+            -1.48,
+            0.56
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-upper-strap-front",
+          "from": [
+            -0.8,
+            2.2,
+            -0.56
+          ],
+          "to": [
+            0.8,
+            2.92,
+            -0.48
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-upper-strap-back",
+          "from": [
+            -0.8,
+            2.2,
+            0.48
+          ],
+          "to": [
+            0.8,
+            2.92,
+            0.56
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "gw-bellows-rocker",
+      "from": [
+        16.8,
+        -2.0,
+        8.0
+      ],
+      "to": [
+        16.8,
+        -2.0,
+        8.0
+      ],
+      "rotationOrigin": [
+        16.8,
+        -2.0,
+        8.0
+      ],
+      "children": [
+        {
+          "name": "gw-bellows-rocker-arm-front",
+          "from": [
+            -0.5,
+            -0.65,
+            -3.9
+          ],
+          "to": [
+            7.7,
+            0.65,
+            -3.1
+          ],
+          "faces": {
+            "north": {
+              "texture": "#plainoak"
+            },
+            "east": {
+              "texture": "#plainoak"
+            },
+            "south": {
+              "texture": "#plainoak"
+            },
+            "west": {
+              "texture": "#plainoak"
+            },
+            "up": {
+              "texture": "#plainoak"
+            },
+            "down": {
+              "texture": "#plainoak"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-strap-front-fulcrum",
+          "from": [
+            -0.4,
+            -0.71,
+            -3.94
+          ],
+          "to": [
+            0.4,
+            0.71,
+            -3.86
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-strap-front-output",
+          "from": [
+            3.92,
+            -0.71,
+            -3.94
+          ],
+          "to": [
+            4.72,
+            0.71,
+            -3.86
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-strap-front-input",
+          "from": [
+            6.8,
+            -0.71,
+            -3.94
+          ],
+          "to": [
+            7.6,
+            0.71,
+            -3.86
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-arm-back",
+          "from": [
+            -0.5,
+            -0.65,
+            3.1
+          ],
+          "to": [
+            7.7,
+            0.65,
+            3.9
+          ],
+          "faces": {
+            "north": {
+              "texture": "#plainoak"
+            },
+            "east": {
+              "texture": "#plainoak"
+            },
+            "south": {
+              "texture": "#plainoak"
+            },
+            "west": {
+              "texture": "#plainoak"
+            },
+            "up": {
+              "texture": "#plainoak"
+            },
+            "down": {
+              "texture": "#plainoak"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-strap-back-fulcrum",
+          "from": [
+            -0.4,
+            -0.71,
+            3.06
+          ],
+          "to": [
+            0.4,
+            0.71,
+            3.14
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-strap-back-output",
+          "from": [
+            3.92,
+            -0.71,
+            3.06
+          ],
+          "to": [
+            4.72,
+            0.71,
+            3.14
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-strap-back-input",
+          "from": [
+            6.8,
+            -0.71,
+            3.06
+          ],
+          "to": [
+            7.6,
+            0.71,
+            3.14
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-fulcrum",
+          "from": [
+            -0.2504396135,
+            -0.1252198067,
+            -6.7
+          ],
+          "to": [
+            0.2504396135,
+            0.1252198067,
+            6.7
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-fulcrum-low",
+          "from": [
+            -0.1252198067,
+            -0.2504396135,
+            -6.7
+          ],
+          "to": [
+            0.1252198067,
+            -0.1252198067,
+            6.7
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-fulcrum-high",
+          "from": [
+            -0.1252198067,
+            0.1252198067,
+            -6.7
+          ],
+          "to": [
+            0.1252198067,
+            0.2504396135,
+            6.7
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-output",
+          "from": [
+            4.0695603865,
+            -0.1252198067,
+            -4.0
+          ],
+          "to": [
+            4.5704396135,
+            0.1252198067,
+            4.0
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-output-low",
+          "from": [
+            4.1947801933,
+            -0.2504396135,
+            -4.0
+          ],
+          "to": [
+            4.4452198067,
+            -0.1252198067,
+            4.0
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-output-high",
+          "from": [
+            4.1947801933,
+            0.1252198067,
+            -4.0
+          ],
+          "to": [
+            4.4452198067,
+            0.2504396135,
+            4.0
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-input",
+          "from": [
+            6.9495603865,
+            -0.1252198067,
+            -4.0
+          ],
+          "to": [
+            7.4504396135,
+            0.1252198067,
+            4.0
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-input-low",
+          "from": [
+            7.0747801933,
+            -0.2504396135,
+            -4.0
+          ],
+          "to": [
+            7.3252198067,
+            -0.1252198067,
+            4.0
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-input-high",
+          "from": [
+            7.0747801933,
+            0.1252198067,
+            -4.0
+          ],
+          "to": [
+            7.3252198067,
+            0.2504396135,
+            4.0
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "gw-bellows-fulcrum-hanger-front",
+      "from": [
+        16.0,
+        -2.6,
+        1.0
+      ],
+      "to": [
+        17.6,
+        2.0,
+        1.6
+      ],
+      "faces": {
+        "north": {
+          "texture": "#gw-iron"
+        },
+        "east": {
+          "texture": "#gw-iron"
+        },
+        "south": {
+          "texture": "#gw-iron"
+        },
+        "west": {
+          "texture": "#gw-iron"
+        },
+        "up": {
+          "texture": "#gw-iron"
+        },
+        "down": {
+          "texture": "#gw-iron"
+        }
+      }
+    },
+    {
+      "name": "gw-bellows-fulcrum-hanger-back",
+      "from": [
+        16.0,
+        -2.6,
+        14.4
+      ],
+      "to": [
+        17.6,
+        2.0,
+        15.0
+      ],
+      "faces": {
+        "north": {
+          "texture": "#gw-iron"
+        },
+        "east": {
+          "texture": "#gw-iron"
+        },
+        "south": {
+          "texture": "#gw-iron"
+        },
+        "west": {
+          "texture": "#gw-iron"
+        },
+        "up": {
+          "texture": "#gw-iron"
+        },
+        "down": {
+          "texture": "#gw-iron"
+        }
+      }
+    },
+    {
+      "name": "gw-bellows-plate-pin",
+      "from": [
+        0,
+        0,
+        8.0
+      ],
+      "to": [
+        0,
+        0,
+        8.0
+      ],
+      "rotationOrigin": [
+        0,
+        0,
+        8.0
+      ],
+      "children": [
+        {
+          "name": "gw-bellows-pin",
+          "from": [
+            -0.2504396135,
+            -0.1252198067,
+            -3.5
+          ],
+          "to": [
+            0.2504396135,
+            0.1252198067,
+            3.5
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-pin-low",
+          "from": [
+            -0.1252198067,
+            -0.2504396135,
+            -3.5
+          ],
+          "to": [
+            0.1252198067,
+            -0.1252198067,
+            3.5
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-pin-high",
+          "from": [
+            -0.1252198067,
+            0.1252198067,
+            -3.5
+          ],
+          "to": [
+            0.1252198067,
+            0.2504396135,
+            3.5
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-clevis-front",
+          "from": [
+            -0.65,
+            -0.55,
+            -2.5
+          ],
+          "to": [
+            0.65,
+            1.55,
+            -2.2
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-clevis-back",
+          "from": [
+            -0.65,
+            -0.55,
+            3.1
+          ],
+          "to": [
+            0.65,
+            1.55,
+            3.4
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "gw-bellows-lift-front",
+      "from": [
+        0,
+        0,
+        5.2
+      ],
+      "to": [
+        0,
+        0,
+        5.2
+      ],
+      "rotationOrigin": [
+        0,
+        0,
+        5.2
+      ],
+      "children": [
+        {
+          "name": "gw-bellows-lift-eye-front-low-top",
+          "from": [
+            -0.52,
+            -2.98,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            -2.78,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-front-low-bottom",
+          "from": [
+            -0.52,
+            -3.82,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            -3.62,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-front-low-left",
+          "from": [
+            -0.52,
+            -3.62,
+            -0.22
+          ],
+          "to": [
+            -0.32,
+            -2.98,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-front-low-right",
+          "from": [
+            0.32,
+            -3.62,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            -2.98,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-front-high-top",
+          "from": [
+            -0.52,
+            3.62,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            3.82,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-front-high-bottom",
+          "from": [
+            -0.52,
+            2.78,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            2.98,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-front-high-left",
+          "from": [
+            -0.52,
+            2.98,
+            -0.22
+          ],
+          "to": [
+            -0.32,
+            3.62,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-front-high-right",
+          "from": [
+            0.32,
+            2.98,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            3.62,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-bar-front",
+          "from": [
+            -0.3,
+            -2.78,
+            -0.2
+          ],
+          "to": [
+            0.3,
+            2.78,
+            0.2
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "gw-bellows-lift-back",
+      "from": [
+        0,
+        0,
+        10.8
+      ],
+      "to": [
+        0,
+        0,
+        10.8
+      ],
+      "rotationOrigin": [
+        0,
+        0,
+        10.8
+      ],
+      "children": [
+        {
+          "name": "gw-bellows-lift-eye-back-low-top",
+          "from": [
+            -0.52,
+            -2.98,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            -2.78,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-back-low-bottom",
+          "from": [
+            -0.52,
+            -3.82,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            -3.62,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-back-low-left",
+          "from": [
+            -0.52,
+            -3.62,
+            -0.22
+          ],
+          "to": [
+            -0.32,
+            -2.98,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-back-low-right",
+          "from": [
+            0.32,
+            -3.62,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            -2.98,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-back-high-top",
+          "from": [
+            -0.52,
+            3.62,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            3.82,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-back-high-bottom",
+          "from": [
+            -0.52,
+            2.78,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            2.98,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-back-high-left",
+          "from": [
+            -0.52,
+            2.98,
+            -0.22
+          ],
+          "to": [
+            -0.32,
+            3.62,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-back-high-right",
+          "from": [
+            0.32,
+            2.98,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            3.62,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-bar-back",
+          "from": [
+            -0.3,
+            -2.78,
+            -0.2
+          ],
+          "to": [
+            0.3,
+            2.78,
+            0.2
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

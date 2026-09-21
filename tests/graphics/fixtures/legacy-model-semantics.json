@@ -2,6 +2,8 @@
   "version": 1,
   "description": "Canonical runtime semantics from the last accepted JSON/Blender build before the Python migration. Review-only group names and redundant zero transforms are ignored.",
   "shapes": {
+    "assets/gearwright/shapes/block/large-bellows-bottom.json": "785a853120614370b0e52a8b732a9eeeda15b6d85ec36876fef5ebb299bf3538",
+    "assets/gearwright/shapes/block/large-bellows-top.json": "2bfa347fc7c3e63378ea3ba6b18a086729277181776204cc2110c26cf7c7d6cb",
     "assets/gearwright/shapes/block/pipe-support-frame.json": "8948f483d382c49a0ddb941ff61c46bf8073a8f28c4d37422c13be99eeb52760",
     "assets/gearwright/shapes/block/pipe-support-endpoint.json": "03cc59638bf040285c394e06c119c51493194e0e8605f96db1d5eced2804937e",
     "assets/gearwright/shapes/block/pipe-support-nozzle-endpoint.json": "c50b3245effcf86c7fda27bb6f580e6472f90ea0b6e5ea7a8d7bfe6608a901cd",

@@ -324,7 +324,8 @@ $handbookAssets = @(
     "assets\gearwright\blocktypes\passive-fluid-pump.json",
     "assets\gearwright\blocktypes\overrunning-transmission.json",
     "assets\gearwright\blocktypes\lateral-crank.json",
-    "assets\gearwright\blocktypes\reciprocating-pump.json"
+    "assets\gearwright\blocktypes\reciprocating-pump.json",
+    "assets\gearwright\blocktypes\automatic-bellow.json"
 )
 foreach ($relative in $handbookAssets) {
     $asset = Get-Content -Raw (Join-Path $root $relative) | ConvertFrom-Json
@@ -337,12 +338,24 @@ foreach ($key in @(
     "handbook-text-passive-fluid-pump", "handbook-text-fluid-pipe-intake-copper",
     "handbook-text-irrigator-pipe-bronze", "handbook-text-controlled-clutch",
     "handbook-text-overrunning-transmission", "handbook-text-lateral-crank",
-    "handbook-text-reciprocating-pump"
+    "handbook-text-reciprocating-pump", "handbook-text-large-bellows"
 )) {
     Assert-Project ($languageText -match [regex]::Escape('"' + $key + '"')) "Handbook text exists: $key"
 }
 
 $creativePumpDialogText = Get-Content -Raw (Join-Path $root "code\Hydraulics\GuiDialogCreativeFluidPump.cs")
+$automaticBellow = Get-Content -Raw (Join-Path $root 'assets/gearwright/blocktypes/automatic-bellow.json') | ConvertFrom-Json
+Assert-Project (
+    $automaticBellow.code -ceq 'automatic-bellow' -and
+    $automaticBellow.class -ceq 'GearwrightAutomaticBellow' -and
+    $automaticBellow.entityClass -ceq 'MechPoweredBellows' -and
+    $automaticBellow.entityBehaviors[1].name -ceq 'GearwrightLargeBellows' -and
+    $automaticBellow.creativeinventory.general[0] -ceq '*-north' -and
+    $automaticBellow.creativeinventory.gearwright[0] -ceq '*-north' -and
+    $automaticBellow.drops[0].code -ceq 'gearwright:automatic-bellow-north' -and
+    $languageText -match '"block-automatic-bellow-\*": "Automatic Bellow"' -and
+    -not (Test-Path -LiteralPath (Join-Path $root 'assets/game/patches/gearwright-large-bellows.json'))
+) 'Automatic Bellow has its own item ID, drop and creative tabs; vanilla bellows are no longer patched'
 Assert-Project (
     $creativePumpDialogText -match 'background\.BothSizing\s*=\s*ElementSizing\.FitToChildren' -and
     $creativePumpDialogText -match 'background\.WithChildren\('

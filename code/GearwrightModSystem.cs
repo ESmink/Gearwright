@@ -20,6 +20,8 @@ public sealed class GearwrightModSystem : ModSystem
 
     public override void Start(ICoreAPI api)
     {
+        api.RegisterBlockClass("GearwrightAutomaticBellow", typeof(BlockAutomaticBellow));
+        api.RegisterBlockEntityBehaviorClass("GearwrightLargeBellows", typeof(BEBehaviorLargeBellows));
         api.RegisterBlockClass(HydraulicCodes.PipeClass, typeof(BlockFluidPipe));
         api.RegisterBlockEntityClass(HydraulicCodes.PipeEntityClass, typeof(BlockEntityFluidPipe));
         api.RegisterBlockClass(HydraulicCodes.IrrigatorPipeClass, typeof(BlockIrrigatorPipe));

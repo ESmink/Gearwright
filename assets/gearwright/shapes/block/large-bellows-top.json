@@ -1,0 +1,3015 @@
+{
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "gw-oak": "game:block/wood/debarked/oak",
+    "gw-iron": "game:block/metal/sheet-plain/iron2",
+    "gw-bronze": "game:block/metal/sheet/tinbronze1",
+    "gw-copper": "game:block/metal/sheet/copper1",
+    "gw-glass": "gearwright:block/inspection-glass",
+    "gw-shadow": "gearwright:block/inspection-shadow",
+    "plainoak": "game:block/wood/plainoak"
+  },
+  "textureSizes": {
+    "gw-oak": [
+      32,
+      32
+    ],
+    "gw-iron": [
+      32,
+      32
+    ],
+    "gw-bronze": [
+      32,
+      32
+    ],
+    "gw-copper": [
+      32,
+      32
+    ],
+    "gw-glass": [
+      16,
+      16
+    ],
+    "gw-shadow": [
+      4,
+      4
+    ],
+    "plainoak": [
+      16,
+      16
+    ]
+  },
+  "elements": [
+    {
+      "name": "gw-bellows-rod",
+      "from": [
+        0,
+        0,
+        8.0
+      ],
+      "to": [
+        0,
+        0,
+        8.0
+      ],
+      "rotationOrigin": [
+        0,
+        0,
+        8.0
+      ],
+      "children": [
+        {
+          "name": "gw-bellows-big-end-top",
+          "from": [
+            -1.3,
+            -2.45,
+            -0.58
+          ],
+          "to": [
+            1.3,
+            -2.2,
+            0.58
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-big-end-bottom",
+          "from": [
+            -1.3,
+            -4.8,
+            -0.58
+          ],
+          "to": [
+            1.3,
+            -4.55,
+            0.58
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-big-end-left",
+          "from": [
+            -1.3,
+            -4.55,
+            -0.58
+          ],
+          "to": [
+            -1.05,
+            -2.45,
+            0.58
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-big-end-right",
+          "from": [
+            1.05,
+            -4.55,
+            -0.58
+          ],
+          "to": [
+            1.3,
+            -2.45,
+            0.58
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-small-end-top",
+          "from": [
+            -0.59,
+            3.82,
+            -0.58
+          ],
+          "to": [
+            0.59,
+            4.09,
+            0.58
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-small-end-bottom",
+          "from": [
+            -0.59,
+            2.91,
+            -0.58
+          ],
+          "to": [
+            0.59,
+            3.18,
+            0.58
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-small-end-left",
+          "from": [
+            -0.59,
+            3.18,
+            -0.58
+          ],
+          "to": [
+            -0.32,
+            3.82,
+            0.58
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-small-end-right",
+          "from": [
+            0.32,
+            3.18,
+            -0.58
+          ],
+          "to": [
+            0.59,
+            3.82,
+            0.58
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-pitman",
+          "from": [
+            -0.8,
+            -2.2,
+            -0.48
+          ],
+          "to": [
+            0.8,
+            2.91,
+            0.48
+          ],
+          "group": "bellows-pitman",
+          "faces": {
+            "north": {
+              "texture": "#plainoak"
+            },
+            "east": {
+              "texture": "#plainoak"
+            },
+            "south": {
+              "texture": "#plainoak"
+            },
+            "west": {
+              "texture": "#plainoak"
+            },
+            "up": {
+              "texture": "#plainoak"
+            },
+            "down": {
+              "texture": "#plainoak"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lower-strap-front",
+          "from": [
+            -0.8,
+            -2.2,
+            -0.56
+          ],
+          "to": [
+            0.8,
+            -1.48,
+            -0.48
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lower-strap-back",
+          "from": [
+            -0.8,
+            -2.2,
+            0.48
+          ],
+          "to": [
+            0.8,
+            -1.48,
+            0.56
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-upper-strap-front",
+          "from": [
+            -0.8,
+            2.2,
+            -0.56
+          ],
+          "to": [
+            0.8,
+            2.92,
+            -0.48
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-upper-strap-back",
+          "from": [
+            -0.8,
+            2.2,
+            0.48
+          ],
+          "to": [
+            0.8,
+            2.92,
+            0.56
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "gw-bellows-rocker",
+      "from": [
+        16.8,
+        30.0,
+        8.0
+      ],
+      "to": [
+        16.8,
+        30.0,
+        8.0
+      ],
+      "rotationOrigin": [
+        16.8,
+        30.0,
+        8.0
+      ],
+      "children": [
+        {
+          "name": "gw-bellows-rocker-arm-front",
+          "from": [
+            -0.5,
+            -0.65,
+            -3.9
+          ],
+          "to": [
+            7.7,
+            0.65,
+            -3.1
+          ],
+          "faces": {
+            "north": {
+              "texture": "#plainoak"
+            },
+            "east": {
+              "texture": "#plainoak"
+            },
+            "south": {
+              "texture": "#plainoak"
+            },
+            "west": {
+              "texture": "#plainoak"
+            },
+            "up": {
+              "texture": "#plainoak"
+            },
+            "down": {
+              "texture": "#plainoak"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-strap-front-fulcrum",
+          "from": [
+            -0.4,
+            -0.71,
+            -3.94
+          ],
+          "to": [
+            0.4,
+            0.71,
+            -3.86
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-strap-front-output",
+          "from": [
+            2.6,
+            -0.71,
+            -3.94
+          ],
+          "to": [
+            3.4,
+            0.71,
+            -3.86
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-strap-front-input",
+          "from": [
+            6.8,
+            -0.71,
+            -3.94
+          ],
+          "to": [
+            7.6,
+            0.71,
+            -3.86
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-arm-back",
+          "from": [
+            -0.5,
+            -0.65,
+            3.1
+          ],
+          "to": [
+            7.7,
+            0.65,
+            3.9
+          ],
+          "faces": {
+            "north": {
+              "texture": "#plainoak"
+            },
+            "east": {
+              "texture": "#plainoak"
+            },
+            "south": {
+              "texture": "#plainoak"
+            },
+            "west": {
+              "texture": "#plainoak"
+            },
+            "up": {
+              "texture": "#plainoak"
+            },
+            "down": {
+              "texture": "#plainoak"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-strap-back-fulcrum",
+          "from": [
+            -0.4,
+            -0.71,
+            3.06
+          ],
+          "to": [
+            0.4,
+            0.71,
+            3.14
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-strap-back-output",
+          "from": [
+            2.6,
+            -0.71,
+            3.06
+          ],
+          "to": [
+            3.4,
+            0.71,
+            3.14
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-strap-back-input",
+          "from": [
+            6.8,
+            -0.71,
+            3.06
+          ],
+          "to": [
+            7.6,
+            0.71,
+            3.14
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-fulcrum",
+          "from": [
+            -0.2504396135,
+            -0.1252198067,
+            -7.5
+          ],
+          "to": [
+            0.2504396135,
+            0.1252198067,
+            7.5
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-fulcrum-low",
+          "from": [
+            -0.1252198067,
+            -0.2504396135,
+            -7.5
+          ],
+          "to": [
+            0.1252198067,
+            -0.1252198067,
+            7.5
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-fulcrum-high",
+          "from": [
+            -0.1252198067,
+            0.1252198067,
+            -7.5
+          ],
+          "to": [
+            0.1252198067,
+            0.2504396135,
+            7.5
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-output",
+          "from": [
+            2.7495603865,
+            -0.1252198067,
+            -5.5
+          ],
+          "to": [
+            3.2504396135,
+            0.1252198067,
+            5.5
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-output-low",
+          "from": [
+            2.8747801933,
+            -0.2504396135,
+            -5.5
+          ],
+          "to": [
+            3.1252198067,
+            -0.1252198067,
+            5.5
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-output-high",
+          "from": [
+            2.8747801933,
+            0.1252198067,
+            -5.5
+          ],
+          "to": [
+            3.1252198067,
+            0.2504396135,
+            5.5
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-input",
+          "from": [
+            6.9495603865,
+            -0.1252198067,
+            -4.0
+          ],
+          "to": [
+            7.4504396135,
+            0.1252198067,
+            4.0
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-input-low",
+          "from": [
+            7.0747801933,
+            -0.2504396135,
+            -4.0
+          ],
+          "to": [
+            7.3252198067,
+            -0.1252198067,
+            4.0
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-rocker-pin-input-high",
+          "from": [
+            7.0747801933,
+            0.1252198067,
+            -4.0
+          ],
+          "to": [
+            7.3252198067,
+            0.2504396135,
+            4.0
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "gw-bellows-plate-pin",
+      "from": [
+        0,
+        0,
+        8.0
+      ],
+      "to": [
+        0,
+        0,
+        8.0
+      ],
+      "rotationOrigin": [
+        0,
+        0,
+        8.0
+      ],
+      "children": [
+        {
+          "name": "gw-bellows-pin",
+          "from": [
+            -0.2504396135,
+            -0.1252198067,
+            -5.5
+          ],
+          "to": [
+            0.2504396135,
+            0.1252198067,
+            5.5
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-pin-low",
+          "from": [
+            -0.1252198067,
+            -0.2504396135,
+            -5.5
+          ],
+          "to": [
+            0.1252198067,
+            -0.1252198067,
+            5.5
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-pin-high",
+          "from": [
+            -0.1252198067,
+            0.1252198067,
+            -5.5
+          ],
+          "to": [
+            0.1252198067,
+            0.2504396135,
+            5.5
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-clevis-front",
+          "from": [
+            -0.65,
+            -1.55,
+            -4.5
+          ],
+          "to": [
+            0.65,
+            0.55,
+            -4.2
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-clevis-back",
+          "from": [
+            -0.65,
+            -1.55,
+            5.1
+          ],
+          "to": [
+            0.65,
+            0.55,
+            5.4
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "gw-bellows-lift-front",
+      "from": [
+        0,
+        0,
+        3.2
+      ],
+      "to": [
+        0,
+        0,
+        3.2
+      ],
+      "rotationOrigin": [
+        0,
+        0,
+        3.2
+      ],
+      "children": [
+        {
+          "name": "gw-bellows-lift-eye-front-low-top",
+          "from": [
+            -0.52,
+            -7.0301492581,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            -6.8301492581,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-front-low-bottom",
+          "from": [
+            -0.52,
+            -7.8701492581,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            -7.6701492581,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-front-low-left",
+          "from": [
+            -0.52,
+            -7.6701492581,
+            -0.22
+          ],
+          "to": [
+            -0.32,
+            -7.0301492581,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-front-low-right",
+          "from": [
+            0.32,
+            -7.6701492581,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            -7.0301492581,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-front-high-top",
+          "from": [
+            -0.52,
+            7.6701492581,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            7.8701492581,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-front-high-bottom",
+          "from": [
+            -0.52,
+            6.8301492581,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            7.0301492581,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-front-high-left",
+          "from": [
+            -0.52,
+            7.0301492581,
+            -0.22
+          ],
+          "to": [
+            -0.32,
+            7.6701492581,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-front-high-right",
+          "from": [
+            0.32,
+            7.0301492581,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            7.6701492581,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-bar-front",
+          "from": [
+            -0.3,
+            -6.8301492581,
+            -0.2
+          ],
+          "to": [
+            0.3,
+            6.8301492581,
+            0.2
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "gw-bellows-lift-back",
+      "from": [
+        0,
+        0,
+        12.8
+      ],
+      "to": [
+        0,
+        0,
+        12.8
+      ],
+      "rotationOrigin": [
+        0,
+        0,
+        12.8
+      ],
+      "children": [
+        {
+          "name": "gw-bellows-lift-eye-back-low-top",
+          "from": [
+            -0.52,
+            -7.0301492581,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            -6.8301492581,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-back-low-bottom",
+          "from": [
+            -0.52,
+            -7.8701492581,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            -7.6701492581,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-back-low-left",
+          "from": [
+            -0.52,
+            -7.6701492581,
+            -0.22
+          ],
+          "to": [
+            -0.32,
+            -7.0301492581,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-back-low-right",
+          "from": [
+            0.32,
+            -7.6701492581,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            -7.0301492581,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-back-high-top",
+          "from": [
+            -0.52,
+            7.6701492581,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            7.8701492581,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-back-high-bottom",
+          "from": [
+            -0.52,
+            6.8301492581,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            7.0301492581,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-back-high-left",
+          "from": [
+            -0.52,
+            7.0301492581,
+            -0.22
+          ],
+          "to": [
+            -0.32,
+            7.6701492581,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-eye-back-high-right",
+          "from": [
+            0.32,
+            7.0301492581,
+            -0.22
+          ],
+          "to": [
+            0.52,
+            7.6701492581,
+            0.22
+          ],
+          "group": "bellows-bearing",
+          "faces": {
+            "north": {
+              "texture": "#gw-bronze"
+            },
+            "east": {
+              "texture": "#gw-bronze"
+            },
+            "south": {
+              "texture": "#gw-bronze"
+            },
+            "west": {
+              "texture": "#gw-bronze"
+            },
+            "up": {
+              "texture": "#gw-bronze"
+            },
+            "down": {
+              "texture": "#gw-bronze"
+            }
+          }
+        },
+        {
+          "name": "gw-bellows-lift-bar-back",
+          "from": [
+            -0.3,
+            -6.8301492581,
+            -0.2
+          ],
+          "to": [
+            0.3,
+            6.8301492581,
+            0.2
+          ],
+          "faces": {
+            "north": {
+              "texture": "#gw-iron"
+            },
+            "east": {
+              "texture": "#gw-iron"
+            },
+            "south": {
+              "texture": "#gw-iron"
+            },
+            "west": {
+              "texture": "#gw-iron"
+            },
+            "up": {
+              "texture": "#gw-iron"
+            },
+            "down": {
+              "texture": "#gw-iron"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "gw-bellows-extension-north-rear-post-low-0",
+      "from": [
+        15.0,
+        10.5,
+        0.5
+      ],
+      "to": [
+        19.5,
+        12.5,
+        0.85
+      ],
+      "rotationOrigin": [
+        15.0,
+        11.5,
+        0.675
+      ],
+      "rotationZ": 90.0,
+      "group": "bellows-upper-frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak",
+          "uv": [
+            11.5,
+            2.0,
+            16.0,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.35,
+            10.0
+          ]
+        },
+        "south": {
+          "texture": "#plainoak",
+          "uv": [
+            11.5,
+            11.5,
+            16.0,
+            13.5
+          ]
+        },
+        "west": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.35,
+            10.0
+          ]
+        },
+        "up": {
+          "texture": "#plainoak",
+          "uv": [
+            11.5,
+            14.0,
+            16.0,
+            14.35
+          ]
+        },
+        "down": {
+          "texture": "#plainoak",
+          "uv": [
+            11.5,
+            14.5,
+            16.0,
+            14.85
+          ]
+        }
+      }
+    },
+    {
+      "name": "gw-bellows-extension-north-rear-post-low-4.5",
+      "from": [
+        15.0,
+        15.0,
+        0.5
+      ],
+      "to": [
+        19.0,
+        17.0,
+        0.85
+      ],
+      "rotationOrigin": [
+        15.0,
+        16.0,
+        0.675
+      ],
+      "rotationZ": 90.0,
+      "group": "bellows-upper-frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            2.0,
+            4.0,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.35,
+            10.0
+          ]
+        },
+        "south": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            11.5,
+            4.0,
+            13.5
+          ]
+        },
+        "west": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.35,
+            10.0
+          ]
+        },
+        "up": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.0,
+            4.0,
+            14.35
+          ]
+        },
+        "down": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.5,
+            4.0,
+            14.85
+          ]
+        }
+      }
+    },
+    {
+      "name": "gw-bellows-extension-north-rear-post-high-0",
+      "from": [
+        15.0,
+        19.0,
+        0.5
+      ],
+      "to": [
+        27.0,
+        21.0,
+        1.0
+      ],
+      "rotationOrigin": [
+        15.0,
+        20.0,
+        0.75
+      ],
+      "rotationZ": 90.0,
+      "group": "bellows-upper-frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak",
+          "uv": [
+            4.0,
+            2.0,
+            16.0,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.5,
+            10.0
+          ]
+        },
+        "south": {
+          "texture": "#plainoak",
+          "uv": [
+            4.0,
+            11.5,
+            16.0,
+            13.5
+          ]
+        },
+        "west": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.5,
+            10.0
+          ]
+        },
+        "up": {
+          "texture": "#plainoak",
+          "uv": [
+            4.0,
+            14.0,
+            16.0,
+            14.5
+          ]
+        },
+        "down": {
+          "texture": "#plainoak",
+          "uv": [
+            4.0,
+            14.5,
+            16.0,
+            15.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "gw-bellows-extension-north-bearing-seat-0",
+      "from": [
+        14.0,
+        29.0,
+        0.5
+      ],
+      "to": [
+        18.3,
+        31.0,
+        1.0
+      ],
+      "rotationOrigin": [
+        14.0,
+        30.0,
+        0.75
+      ],
+      "group": "bellows-upper-frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            2.0,
+            4.3,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.5,
+            10.0
+          ]
+        },
+        "south": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            11.5,
+            4.3,
+            13.5
+          ]
+        },
+        "west": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.5,
+            10.0
+          ]
+        },
+        "up": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.0,
+            4.3,
+            14.5
+          ]
+        },
+        "down": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.5,
+            4.3,
+            15.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "gw-bellows-extension-north-raking-brace-0",
+      "from": [
+        6.0,
+        9.5,
+        0
+      ],
+      "to": [
+        22.0,
+        11.5,
+        0.5
+      ],
+      "rotationOrigin": [
+        6.0,
+        10.5,
+        0.25
+      ],
+      "rotationZ": 59.0362434679,
+      "group": "bellows-upper-frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            2.0,
+            16.0,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.5,
+            10.0
+          ]
+        },
+        "south": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            11.5,
+            16.0,
+            13.5
+          ]
+        },
+        "west": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.5,
+            10.0
+          ]
+        },
+        "up": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.0,
+            16.0,
+            14.5
+          ]
+        },
+        "down": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.5,
+            16.0,
+            15.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "gw-bellows-extension-north-raking-brace-16",
+      "from": [
+        14.2319320868,
+        23.2198868114,
+        0
+      ],
+      "to": [
+        15.7247877714,
+        25.2198868114,
+        0.5
+      ],
+      "rotationOrigin": [
+        14.2319320868,
+        24.2198868114,
+        0.25
+      ],
+      "rotationZ": 59.0362434679,
+      "group": "bellows-upper-frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            2.0,
+            1.4928556845,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.5,
+            10.0
+          ]
+        },
+        "south": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            11.5,
+            1.4928556845,
+            13.5
+          ]
+        },
+        "west": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.5,
+            10.0
+          ]
+        },
+        "up": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.0,
+            1.4928556845,
+            14.5
+          ]
+        },
+        "down": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.5,
+            1.4928556845,
+            15.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "gw-bellows-extension-north-base-top-rail-0",
+      "from": [
+        7.0,
+        9.5,
+        0.5
+      ],
+      "to": [
+        14.0,
+        11.5,
+        0.85
+      ],
+      "rotationOrigin": [
+        7.0,
+        10.5,
+        0.675
+      ],
+      "group": "bellows-upper-frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            2.0,
+            7.0,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.35,
+            10.0
+          ]
+        },
+        "south": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            11.5,
+            7.0,
+            13.5
+          ]
+        },
+        "west": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.35,
+            10.0
+          ]
+        },
+        "up": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.0,
+            7.0,
+            14.35
+          ]
+        },
+        "down": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.5,
+            7.0,
+            14.85
+          ]
+        }
+      }
+    },
+    {
+      "name": "gw-bellows-extension-south-rear-post-low-0",
+      "from": [
+        15.0,
+        10.5,
+        15.15
+      ],
+      "to": [
+        19.5,
+        12.5,
+        15.5
+      ],
+      "rotationOrigin": [
+        15.0,
+        11.5,
+        15.325
+      ],
+      "rotationZ": 90.0,
+      "group": "bellows-upper-frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak",
+          "uv": [
+            11.5,
+            2.0,
+            16.0,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.35,
+            10.0
+          ]
+        },
+        "south": {
+          "texture": "#plainoak",
+          "uv": [
+            11.5,
+            11.5,
+            16.0,
+            13.5
+          ]
+        },
+        "west": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.35,
+            10.0
+          ]
+        },
+        "up": {
+          "texture": "#plainoak",
+          "uv": [
+            11.5,
+            14.0,
+            16.0,
+            14.35
+          ]
+        },
+        "down": {
+          "texture": "#plainoak",
+          "uv": [
+            11.5,
+            14.5,
+            16.0,
+            14.85
+          ]
+        }
+      }
+    },
+    {
+      "name": "gw-bellows-extension-south-rear-post-low-4.5",
+      "from": [
+        15.0,
+        15.0,
+        15.15
+      ],
+      "to": [
+        19.0,
+        17.0,
+        15.5
+      ],
+      "rotationOrigin": [
+        15.0,
+        16.0,
+        15.325
+      ],
+      "rotationZ": 90.0,
+      "group": "bellows-upper-frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            2.0,
+            4.0,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.35,
+            10.0
+          ]
+        },
+        "south": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            11.5,
+            4.0,
+            13.5
+          ]
+        },
+        "west": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.35,
+            10.0
+          ]
+        },
+        "up": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.0,
+            4.0,
+            14.35
+          ]
+        },
+        "down": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.5,
+            4.0,
+            14.85
+          ]
+        }
+      }
+    },
+    {
+      "name": "gw-bellows-extension-south-rear-post-high-0",
+      "from": [
+        15.0,
+        19.0,
+        15.0
+      ],
+      "to": [
+        27.0,
+        21.0,
+        15.5
+      ],
+      "rotationOrigin": [
+        15.0,
+        20.0,
+        15.25
+      ],
+      "rotationZ": 90.0,
+      "group": "bellows-upper-frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak",
+          "uv": [
+            4.0,
+            2.0,
+            16.0,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.5,
+            10.0
+          ]
+        },
+        "south": {
+          "texture": "#plainoak",
+          "uv": [
+            4.0,
+            11.5,
+            16.0,
+            13.5
+          ]
+        },
+        "west": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.5,
+            10.0
+          ]
+        },
+        "up": {
+          "texture": "#plainoak",
+          "uv": [
+            4.0,
+            14.0,
+            16.0,
+            14.5
+          ]
+        },
+        "down": {
+          "texture": "#plainoak",
+          "uv": [
+            4.0,
+            14.5,
+            16.0,
+            15.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "gw-bellows-extension-south-bearing-seat-0",
+      "from": [
+        14.0,
+        29.0,
+        15.0
+      ],
+      "to": [
+        18.3,
+        31.0,
+        15.5
+      ],
+      "rotationOrigin": [
+        14.0,
+        30.0,
+        15.25
+      ],
+      "group": "bellows-upper-frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            2.0,
+            4.3,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.5,
+            10.0
+          ]
+        },
+        "south": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            11.5,
+            4.3,
+            13.5
+          ]
+        },
+        "west": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.5,
+            10.0
+          ]
+        },
+        "up": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.0,
+            4.3,
+            14.5
+          ]
+        },
+        "down": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.5,
+            4.3,
+            15.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "gw-bellows-extension-south-raking-brace-0",
+      "from": [
+        6.0,
+        9.5,
+        15.5
+      ],
+      "to": [
+        22.0,
+        11.5,
+        16.0
+      ],
+      "rotationOrigin": [
+        6.0,
+        10.5,
+        15.75
+      ],
+      "rotationZ": 59.0362434679,
+      "group": "bellows-upper-frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            2.0,
+            16.0,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.5,
+            10.0
+          ]
+        },
+        "south": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            11.5,
+            16.0,
+            13.5
+          ]
+        },
+        "west": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.5,
+            10.0
+          ]
+        },
+        "up": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.0,
+            16.0,
+            14.5
+          ]
+        },
+        "down": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.5,
+            16.0,
+            15.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "gw-bellows-extension-south-raking-brace-16",
+      "from": [
+        14.2319320868,
+        23.2198868114,
+        15.5
+      ],
+      "to": [
+        15.7247877714,
+        25.2198868114,
+        16.0
+      ],
+      "rotationOrigin": [
+        14.2319320868,
+        24.2198868114,
+        15.75
+      ],
+      "rotationZ": 59.0362434679,
+      "group": "bellows-upper-frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            2.0,
+            1.4928556845,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.5,
+            10.0
+          ]
+        },
+        "south": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            11.5,
+            1.4928556845,
+            13.5
+          ]
+        },
+        "west": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.5,
+            10.0
+          ]
+        },
+        "up": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.0,
+            1.4928556845,
+            14.5
+          ]
+        },
+        "down": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.5,
+            1.4928556845,
+            15.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "gw-bellows-extension-south-base-top-rail-0",
+      "from": [
+        7.0,
+        9.5,
+        15.15
+      ],
+      "to": [
+        14.0,
+        11.5,
+        15.5
+      ],
+      "rotationOrigin": [
+        7.0,
+        10.5,
+        15.325
+      ],
+      "group": "bellows-upper-frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            2.0,
+            7.0,
+            4.0
+          ]
+        },
+        "east": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.35,
+            10.0
+          ]
+        },
+        "south": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            11.5,
+            7.0,
+            13.5
+          ]
+        },
+        "west": {
+          "texture": "#plainoak",
+          "uv": [
+            8.0,
+            8.0,
+            8.35,
+            10.0
+          ]
+        },
+        "up": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.0,
+            7.0,
+            14.35
+          ]
+        },
+        "down": {
+          "texture": "#plainoak",
+          "uv": [
+            0,
+            14.5,
+            7.0,
+            14.85
+          ]
+        }
+      }
+    },
+    {
+      "name": "gw-bellows-extension-top-tie",
+      "from": [
+        14.0,
+        32.0,
+        0.5
+      ],
+      "to": [
+        16.0,
+        32.5,
+        15.5
+      ],
+      "group": "bellows-upper-frame",
+      "faces": {
+        "north": {
+          "texture": "#plainoak"
+        },
+        "east": {
+          "texture": "#plainoak"
+        },
+        "south": {
+          "texture": "#plainoak"
+        },
+        "west": {
+          "texture": "#plainoak"
+        },
+        "up": {
+          "texture": "#plainoak",
+          "rotation": 90
+        },
+        "down": {
+          "texture": "#plainoak",
+          "rotation": 90
+        }
+      }
+    }
+  ]
+}

@@ -1,5 +1,7 @@
 param(
     [string]$VintageStoryPath,
+    [ValidateSet('Engine', 'Survival', 'Essentials')]
+    [string]$AssemblyName = 'Engine',
     [string]$TypeName = 'Vintagestory.Common.BlockAccessorBase',
     [string[]]$MethodName = @('MarkBlockEntityDirty', 'MarkBlockDirty', 'MarkAbsorptionChanged'),
     [switch]$ListMembers
@@ -11,7 +13,12 @@ $blockInspectionSdk = Find-VintageStoryInstall -RequestedPath $VintageStoryPath
 if (-not $blockInspectionSdk) { throw 'Vintage Story SDK not found; block inspection is unavailable.' }
 [Reflection.Assembly]::LoadFrom((Join-Path $blockInspectionSdk 'VintagestoryAPI.dll')) | Out-Null
 [Reflection.Assembly]::LoadFrom((Join-Path $blockInspectionSdk 'VintagestoryLib.dll')) | Out-Null
-$blockInspectionAssembly = [Reflection.Assembly]::LoadFrom((Join-Path $blockInspectionSdk 'VintagestoryLib.dll'))
+$blockInspectionAssembly = [Reflection.Assembly]::LoadFrom((Join-Path $blockInspectionSdk $(
+    switch ($AssemblyName) {
+        'Survival' { 'Mods/VSSurvivalMod.dll' }
+        'Essentials' { 'Mods/VSEssentials.dll' }
+        default { 'VintagestoryLib.dll' }
+    })))
 
 # Inspect the installed engine's block update and enclosure hooks without
 # distributing game binaries or retaining a decompiled copy.

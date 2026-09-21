@@ -1,6 +1,8 @@
 {
   "version": 1,
   "shapes": {
+    "assets/gearwright/shapes/block/large-bellows-bottom.json": {"elements": 60, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/large-bellows-top.json": {"elements": 73, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/pipe-support-frame.json": {"elements": 12, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/pipe-support-endpoint.json": {"elements": 8, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/pipe-support-nozzle-endpoint.json": {"elements": 8, "textureWidth": 16, "textureHeight": 16},

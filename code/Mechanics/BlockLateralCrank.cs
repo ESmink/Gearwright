@@ -122,6 +122,15 @@ public sealed class BlockLateralCrank : BlockAxle
             if (rotation != null && rotation != candidate) conflicting = true;
             rotation ??= candidate;
         }
+        foreach (var bellows in BEBehaviorLargeBellows.NearCrank(world, position))
+        {
+            // An upper placement is optional while a valid lower connection exists.
+            if (position.Y > bellows.Pos.Y && bellows.SelectedDrive()?.Position.Y < bellows.Pos.Y) continue;
+            string candidate = bellows.ShaftFace.Axis == EnumAxis.X ? "we" : "ns";
+            if (rotation != null && rotation != candidate) conflicting = true;
+            rotation ??= candidate;
+            matchingPumps++;
+        }
         return rotation;
     }
 
