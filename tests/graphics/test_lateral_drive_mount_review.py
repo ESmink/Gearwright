@@ -23,11 +23,19 @@ class LateralDriveMountReviewTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temporary:
             root = Path(temporary)
             managed = build_review(root)
-            self.assertEqual(root / 'generated/lateral-drive-mount-review/current', managed)
+            self.assertEqual(root / 'generated/lateral-drive-mount-review/current', managed,
+                'review candidates must use the one fixed generated/.../current directory')
             (managed / 'stale.txt').write_text('stale')
-            self.assertEqual(managed, build_review(root))
-            self.assertFalse((managed / 'stale.txt').exists())
-            self.assertFalse((root / 'assets').exists())
+            self.assertEqual(managed, build_review(root),
+                'rebuilding a review must replace the same managed directory')
+            self.assertFalse((managed / 'stale.txt').exists(),
+                'rebuilding a review must remove stale files from the managed directory')
+            self.assertFalse((root / 'assets').exists(),
+                'review candidates must never be emitted as runtime assets')
+            self.assertFalse((managed.parent / '.current-build').exists(),
+                'the temporary review staging directory must not remain after promotion')
+            self.assertFalse((managed.parent / '.current-old').exists(),
+                'the temporary review backup directory must not remain after promotion')
             manifest = json.loads((managed / '.gearwright-review.json').read_text())
             self.assertEqual('approved', manifest['decision']['status'])
             self.assertTrue(manifest['decision']['runtimePromotion'])
