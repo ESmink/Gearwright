@@ -1,6 +1,16 @@
 {
   "version": 1,
   "shapes": {
+    "assets/gearwright/shapes/block/pneumatic-router.json": {"elements": 786, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pneumatic-receiver-terminal.json": {"elements": 665, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pneumatic-sender-terminal.json": {"elements": 253, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pneumatic-elbow-terminal.json": {"elements": 30, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pneumatic-straight-terminal.json": {"elements": 31, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pneumatic-accumulator.json": {"elements": 564, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pneumatic-receiver.json": {"elements": 652, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pneumatic-sender.json": {"elements": 240, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pneumatic-elbow.json": {"elements": 16, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pneumatic-straight.json": {"elements": 18, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/large-bellows-bottom.json": {"elements": 60, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/large-bellows-top.json": {"elements": 73, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/pipe-support-frame.json": {"elements": 12, "textureWidth": 16, "textureHeight": 16},

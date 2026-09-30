@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "configuration": {
+    "Version": 1,
+    "Revision": 0,
+    "Policy": "priority",
+    "future": "retain",
+    "Ports": [
+      { "Role": "input", "Priority": 0, "MatchAny": false, "futurePort": "retain", "Rules": [ { "Kind": "mod", "Value": "game", "Exclude": false, "futureRule": "retain" } ] },
+      { "Role": "auto", "Priority": 0, "MatchAny": false, "Rules": [] },
+      { "Role": "output", "Priority": 0, "MatchAny": false, "Rules": [] },
+      { "Role": "auto", "Priority": 0, "MatchAny": false, "Rules": [] }
+    ]
+  }
+}

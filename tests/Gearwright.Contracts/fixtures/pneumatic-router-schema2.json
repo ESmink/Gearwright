@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 2,
+  "lost": true,
+  "configuration": {
+    "Version": 2,
+    "Revision": 7,
+    "Policy": "round-robin",
+    "future": "retain",
+    "Ports": [
+      { "Role": "input", "Priority": -2, "SortingPriority": 1, "MatchAny": false, "futurePort": "retain", "Rules": [] },
+      { "Role": "auto", "Priority": 0, "SortingPriority": 2, "MatchAny": true, "Rules": [
+        { "Kind": "material", "Value": "metal:copper", "Exclude": false, "futureRule": "retain" },
+        { "Kind": "attribute", "Value": "batch OR version (old)", "Exclude": true }
+      ] },
+      { "Role": "output", "Priority": 3, "SortingPriority": 3, "MatchAny": false, "Rules": [] },
+      { "Role": "auto", "Priority": 0, "SortingPriority": 1, "MatchAny": false, "Rules": [] }
+    ]
+  }
+}

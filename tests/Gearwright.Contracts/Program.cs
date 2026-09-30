@@ -19,8 +19,20 @@ internal static class Program
     private const string TestVersion = "9.8.7-test";
     private static int failures;
 
-    public static int Main()
+    public static int Main(string[] args)
     {
+        if (args.Length == 3 && args[0] == "--pneumatic-crash") return PneumaticPersistenceFixture.CrashChild(args[1], args[2]);
+        if (args.Contains("--router")) { PneumaticRouterFixture.Run(Check); return failures == 0 ? 0 : 1; }
+        if (args.Contains("--pneumatic"))
+        {
+            PneumaticAirFixture.Run(Check);
+            PneumaticTransportFixture.Run(Check);
+            PneumaticRouterFixture.Run(Check);
+            PneumaticPresentationFixture.Run(Check);
+            PneumaticPlacementFixture.Run(Check);
+            PneumaticPersistenceFixture.Run(Check);
+            return failures == 0 ? 0 : 1;
+        }
         NewDocumentsUseCurrentSchema();
         SchemaZeroMigratesWithoutLosingUnknownData();
         CurrentSchemaRoundTripPreservesUnknownData();
@@ -56,6 +68,12 @@ internal static class Program
         PumpRuntimeFixture.Run(Check);
         ReciprocatingDriveFixture.Run(Check);
         LargeBellowsFixture.Run(Check);
+        PneumaticAirFixture.Run(Check);
+        PneumaticTransportFixture.Run(Check);
+        PneumaticRouterFixture.Run(Check);
+        PneumaticPresentationFixture.Run(Check);
+        PneumaticPlacementFixture.Run(Check);
+        PneumaticPersistenceFixture.Run(Check);
         BellowsRendererFixture.Run(Check);
         PumpTimingFixture.Run(Check);
         PumpLiquidSurfaceMeetsItsSidesBelowThePiston();

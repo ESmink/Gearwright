@@ -1,0 +1,28 @@
+{
+  "code": "pneumatic-router",
+  "class": "GearwrightPneumaticTransport",
+  "entityClass": "GearwrightPneumaticTransport",
+  "heldPriorityInteract": true,
+  "placedPriorityInteract": true,
+  "drawtype": "json",
+  "shape": { "base": "gearwright:block/pneumatic-router" },
+  "textures": {
+    "brass": { "base": "game:block/metal/sheet/brass1" },
+    "iron": { "base": "game:block/metal/sheet-plain/iron2" },
+    "gear-iron": { "base": "game:block/metal/plate/iron" },
+    "gear-brass": { "base": "game:block/metal/plate/brass" },
+    "leather": { "base": "game:block/leather/plain" },
+    "oak": { "base": "game:block/wood/planks/oak1" },
+    "temporal": { "base": "game:item/resource/temporalgear" },
+    "glass": { "base": "gearwright:block/inspection-glass" }
+  },
+  "creativeinventory": { "general": ["*"], "gearwright": ["*"] },
+  "attributes": { "handbook": { "include": true, "extraSections": [
+    { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-pneumatic-router" }
+  ] } },
+  "blockmaterial": "Wood", "resistance": 4, "lightAbsorption": 0, "maxStackSize": 1,
+  "sidesolid": { "all": false }, "sideopaque": { "all": false }, "rainPermeable": true,
+  "collisionSelectionBox": { "x1": 0.05, "y1": 0, "z1": 0.05, "x2": 0.95, "y2": 1, "z2": 0.95 },
+  "sounds": { "place": "game:block/planks", "hit": "game:block/heavymetal-hit2", "break": "game:block/heavymetal-hit2" },
+  "guiTransform": { "rotation": { "x": -20, "y": -35, "z": 0 }, "scale": 0.85 }
+}

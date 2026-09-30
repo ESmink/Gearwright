@@ -1,0 +1,8 @@
+[
+  {
+    "file": "game:blocktypes/wood/chest.json",
+    "op": "add",
+    "path": "/entityBehaviors/-",
+    "value": { "name": "GearwrightPneumaticChest" }
+  }
+]

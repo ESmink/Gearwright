@@ -15,6 +15,7 @@ namespace Gearwright.Mechanics;
 public sealed class BEBehaviorLargeBellows : BlockEntityBehavior, IReciprocatingDriveDevice
 {
     internal const string StorageKey = "gearwrightLargeBellows";
+    internal const double MaximumOutletAirPerSecond = 2;
     private ITreeAttribute preserved = new TreeAttribute();
     private bool writable = true;
     private double air;
@@ -105,7 +106,9 @@ public sealed class BEBehaviorLargeBellows : BlockEntityBehavior, IReciprocating
         if (air > 0)
         {
             double elapsed = Math.Clamp(seconds, 0, .2f);
-            double released = Math.Min(air, elapsed * .15);
+            // The old .15 ceiling saturated below one full stroke/second.
+            // Retain real stored air, but let fast drives deliver their work.
+            double released = Math.Min(air, elapsed * MaximumOutletAirPerSecond);
             air -= released;
             Deliver(released, elapsed);
         }

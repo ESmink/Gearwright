@@ -1,0 +1,21 @@
+{
+  "code": "pneumatic-tube",
+  "class": "GearwrightPneumaticTransport",
+  "entityClass": "GearwrightPneumaticTransport",
+  "drawtype": "json",
+  "shape": { "base": "gearwright:block/pneumatic-straight" },
+  "textures": {
+    "copper": { "base": "game:block/metal/sheet/copper1" },
+    "brass": { "base": "game:block/metal/sheet/brass1" },
+    "glass": { "base": "gearwright:block/inspection-glass" }
+  },
+  "creativeinventory": { "general": ["*"], "gearwright": ["*"] },
+  "attributes": { "handbook": { "include": true, "extraSections": [
+    { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-pneumatic-tube" }
+  ] } },
+  "blockmaterial": "Glass", "resistance": 2, "lightAbsorption": 0, "maxStackSize": 64,
+  "sidesolid": { "all": false }, "sideopaque": { "all": false }, "rainPermeable": true,
+  "collisionSelectionBox": { "x1": 0, "y1": 0.28, "z1": 0.28, "x2": 1, "y2": 0.72, "z2": 0.72 },
+  "sounds": { "place": "game:block/plate", "hit": "game:block/glass", "break": "game:block/glass" },
+  "guiTransform": { "rotation": { "x": -20, "y": -35, "z": 0 }, "scale": 1.25 }
+}

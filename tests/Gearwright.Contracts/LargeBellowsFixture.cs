@@ -133,8 +133,8 @@ internal static class LargeBellowsFixture
             check(bellows.ReservoirFill > .49 && bellows.ReservoirFill < .51 && receiver.Received == before,
                 "Reverse lower strokes store one swept volume in the upper chamber before discharge");
             typeof(BEBehaviorLargeBellows).GetMethod("Tick", BindingFlags.NonPublic | BindingFlags.Instance)!.Invoke(bellows, new object[] { .1f });
-            check(receiver.Received > before && receiver.Received - before <= .015001 && bellows.ReservoirFill > 0,
-                "Stored air supplies the nozzle while the lower stroke pauses");
+            check(receiver.Received > before && receiver.Received - before <= .200001 && bellows.ReservoirFill >= 0,
+                "Stored air supplies the stronger nozzle while the lower stroke pauses");
 
             var client = Stub.Create<ICoreAPI>((method, _) => method.Name switch
                 { "get_World" => world, "get_Side" => EnumAppSide.Client, _ => null });

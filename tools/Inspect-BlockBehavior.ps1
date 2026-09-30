@@ -4,13 +4,20 @@ param(
     [string]$AssemblyName = 'Engine',
     [string]$TypeName = 'Vintagestory.Common.BlockAccessorBase',
     [string[]]$MethodName = @('MarkBlockEntityDirty', 'MarkBlockDirty', 'MarkAbsorptionChanged'),
-    [switch]$ListMembers
+    [switch]$ListMembers,
+    [switch]$LoadCompanionAssemblies
 )
 
 $ErrorActionPreference = 'Stop'
 . (Join-Path $PSScriptRoot 'Common.ps1')
 $blockInspectionSdk = Find-VintageStoryInstall -RequestedPath $VintageStoryPath
 if (-not $blockInspectionSdk) { throw 'Vintage Story SDK not found; block inspection is unavailable.' }
+if ($LoadCompanionAssemblies) {
+    foreach ($library in Get-ChildItem -LiteralPath (Join-Path $blockInspectionSdk 'Lib') -Filter '*.dll' -File) {
+        try { [Reflection.Assembly]::LoadFrom($library.FullName) | Out-Null }
+        catch [System.BadImageFormatException] { } # Native libraries have no managed metadata.
+    }
+}
 [Reflection.Assembly]::LoadFrom((Join-Path $blockInspectionSdk 'VintagestoryAPI.dll')) | Out-Null
 [Reflection.Assembly]::LoadFrom((Join-Path $blockInspectionSdk 'VintagestoryLib.dll')) | Out-Null
 $blockInspectionAssembly = [Reflection.Assembly]::LoadFrom((Join-Path $blockInspectionSdk $(
@@ -34,7 +41,7 @@ if ($ListMembers) {
         ForEach-Object { $_.ToString() }
     return
 }
-$methods = $blockInspectionType.GetMethods([Reflection.BindingFlags]'Instance,Public,NonPublic,DeclaredOnly') |
+$methods = $blockInspectionType.GetMethods([Reflection.BindingFlags]'Instance,Static,Public,NonPublic,DeclaredOnly') |
     Where-Object { $MethodName -contains $_.Name }
 if (-not $methods) { throw "No requested diagnostic method found on $TypeName." }
 foreach ($method in $methods) {

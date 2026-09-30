@@ -1,0 +1,40 @@
+[
+  {
+    "ingredientPattern": "BGB", "width": 3, "height": 1,
+    "ingredients": { "B": { "type": "item", "code": "game:metalplate-brass" }, "G": { "type": "block", "code": "game:glass-plain" } },
+    "output": { "type": "block", "code": "gearwright:pneumatic-tube", "quantity": 8 }
+  },
+  {
+    "ingredientPattern": " BT, L , I ", "width": 3, "height": 3,
+    "ingredients": {
+      "B": { "type": "item", "code": "game:metalplate-brass" }, "T": { "type": "item", "code": "game:gear-temporal" },
+      "L": { "type": "block", "code": "gearwright:pneumatic-tube" }, "I": { "type": "item", "code": "game:ingot-iron" }
+    },
+    "output": { "type": "block", "code": "gearwright:pneumatic-sender" }
+  },
+  {
+    "ingredientPattern": " I , L , BT", "width": 3, "height": 3,
+    "ingredients": {
+      "B": { "type": "item", "code": "game:metalplate-brass" }, "T": { "type": "item", "code": "game:gear-temporal" },
+      "L": { "type": "block", "code": "gearwright:pneumatic-tube" }, "I": { "type": "item", "code": "game:ingot-iron" }
+    },
+    "output": { "type": "block", "code": "gearwright:pneumatic-receiver" }
+  },
+  {
+    "ingredientPattern": " B ,LLL,SSS", "width": 3, "height": 3,
+    "ingredients": {
+      "B": { "type": "item", "code": "game:metalplate-brass" }, "L": { "type": "item", "code": "game:leather-normal-plain" },
+      "S": { "type": "item", "code": "game:stone-basalt" }
+    },
+    "output": { "type": "block", "code": "gearwright:pneumatic-accumulator" }
+  },
+  {
+    "ingredientPattern": "TBT,LIL,WWW", "width": 3, "height": 3,
+    "ingredients": {
+      "T": { "type": "item", "code": "game:gear-temporal" }, "B": { "type": "item", "code": "game:metalplate-brass" },
+      "L": { "type": "block", "code": "gearwright:pneumatic-tube" }, "I": { "type": "item", "code": "game:ingot-iron" },
+      "W": { "type": "block", "code": "game:debarkedlog-oak-ud" }
+    },
+    "output": { "type": "block", "code": "gearwright:pneumatic-router" }
+  }
+]

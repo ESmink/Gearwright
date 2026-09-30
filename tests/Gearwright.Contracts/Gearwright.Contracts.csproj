@@ -12,12 +12,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="cairo-sharp"><HintPath>$(VintageStoryPath)\Lib\cairo-sharp.dll</HintPath><Private>true</Private></Reference>
     <Compile Include="Program.cs" />
     <Compile Include="PumpCircuitFixture.cs" />
     <Compile Include="..\..\code\**\*.cs" LinkBase="Runtime" />
     <Compile Include="PumpRuntimeFixture.cs" />
     <Compile Include="ReciprocatingDriveFixture.cs" />
     <Compile Include="LargeBellowsFixture.cs" />
+    <Compile Include="PneumaticAirFixture.cs" />
+    <Compile Include="PneumaticTransportFixture.cs" />
+    <Compile Include="PneumaticRouterFixture.cs" />
+    <Compile Include="PneumaticPresentationFixture.cs" />
+    <Compile Include="PneumaticAirStreamFixture.cs" />
+    <Compile Include="PneumaticPlacementFixture.cs" />
+    <Compile Include="PneumaticPersistenceFixture.cs" />
+    <Reference Include="Microsoft.Data.Sqlite"><HintPath>$(VintageStoryPath)\Lib\Microsoft.Data.Sqlite.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="SQLitePCLRaw.core"><HintPath>$(VintageStoryPath)\Lib\SQLitePCLRaw.core.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2"><HintPath>$(VintageStoryPath)\Lib\SQLitePCLRaw.batteries_v2.dll</HintPath><Private>true</Private></Reference>
+    <Reference Include="SQLitePCLRaw.provider.e_sqlite3"><HintPath>$(VintageStoryPath)\Lib\SQLitePCLRaw.provider.e_sqlite3.dll</HintPath><Private>true</Private></Reference>
     <Compile Include="BellowsRendererFixture.cs" />
     <Compile Include="PumpTimingFixture.cs" />
     <Compile Include="PipePressureFixture.cs" />
@@ -61,6 +73,7 @@
 
   <ItemGroup>
     <None Include="fixtures\*.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(VintageStoryPath)\Lib\e_sqlite3.dll" Link="e_sqlite3.dll" CopyToOutputDirectory="PreserveNewest" Condition="Exists('$(VintageStoryPath)\Lib\e_sqlite3.dll')" />
     <None Include="$(VintageStoryPath)\assets\game\shaders\standard.fsh"
           Link="sdk\standard.fsh" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\assets\gearwright\shapes\block\lateral-crank-one-sided.json"

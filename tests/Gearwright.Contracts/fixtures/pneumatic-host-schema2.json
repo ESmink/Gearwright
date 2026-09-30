@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 2,
+  "instance": "438ba3610320474fa634b1a711bdfbdd",
+  "owner": "fixture-builder",
+  "input": "west",
+  "output": "east",
+  "inventoryFace": "up",
+  "progress": 0.0,
+  "parcel": "",
+  "future-field": "preserve"
+}

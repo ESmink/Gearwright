@@ -1,0 +1,520 @@
+{
+  "textureWidth": 16,
+  "textureHeight": 16,
+  "textures": {
+    "oak": "game:block/wood/planks/oak1",
+    "copper": "game:block/metal/sheet/copper1",
+    "brass": "game:block/metal/sheet/brass1",
+    "bronze": "game:block/metal/sheet/tinbronze1",
+    "temporal": "game:item/resource/temporalgear",
+    "glass": "gearwright:block/inspection-glass"
+  },
+  "textureSizes": {
+    "oak": [
+      32,
+      32
+    ],
+    "copper": [
+      32,
+      32
+    ],
+    "brass": [
+      32,
+      32
+    ],
+    "bronze": [
+      32,
+      32
+    ],
+    "temporal": [
+      16,
+      16
+    ],
+    "glass": [
+      16,
+      16
+    ]
+  },
+  "elements": [
+    {
+      "name": "input-bottom",
+      "from": [
+        0,
+        4.5,
+        4.5
+      ],
+      "to": [
+        0.8,
+        5.2,
+        11.5
+      ],
+      "group": "port",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "input-top",
+      "from": [
+        0,
+        10.8,
+        4.5
+      ],
+      "to": [
+        0.8,
+        11.5,
+        11.5
+      ],
+      "group": "port",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "input-front",
+      "from": [
+        0,
+        5.2,
+        4.5
+      ],
+      "to": [
+        0.8,
+        10.8,
+        5.2
+      ],
+      "group": "port",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "input-back",
+      "from": [
+        0,
+        5.2,
+        10.8
+      ],
+      "to": [
+        0.8,
+        10.8,
+        11.5
+      ],
+      "group": "port",
+      "faces": {
+        "north": {
+          "texture": "#copper"
+        },
+        "east": {
+          "texture": "#copper"
+        },
+        "south": {
+          "texture": "#copper"
+        },
+        "west": {
+          "texture": "#copper"
+        },
+        "up": {
+          "texture": "#copper"
+        },
+        "down": {
+          "texture": "#copper"
+        }
+      }
+    },
+    {
+      "name": "output-left",
+      "from": [
+        4.5,
+        15.2,
+        4.5
+      ],
+      "to": [
+        5.2,
+        16.0,
+        11.5
+      ],
+      "group": "port",
+      "faces": {
+        "north": {
+          "texture": "#brass"
+        },
+        "east": {
+          "texture": "#brass"
+        },
+        "south": {
+          "texture": "#brass"
+        },
+        "west": {
+          "texture": "#brass"
+        },
+        "up": {
+          "texture": "#brass"
+        },
+        "down": {
+          "texture": "#brass"
+        }
+      }
+    },
+    {
+      "name": "output-right",
+      "from": [
+        10.8,
+        15.2,
+        4.5
+      ],
+      "to": [
+        11.5,
+        16.0,
+        11.5
+      ],
+      "group": "port",
+      "faces": {
+        "north": {
+          "texture": "#brass"
+        },
+        "east": {
+          "texture": "#brass"
+        },
+        "south": {
+          "texture": "#brass"
+        },
+        "west": {
+          "texture": "#brass"
+        },
+        "up": {
+          "texture": "#brass"
+        },
+        "down": {
+          "texture": "#brass"
+        }
+      }
+    },
+    {
+      "name": "output-front",
+      "from": [
+        5.2,
+        15.2,
+        4.5
+      ],
+      "to": [
+        10.8,
+        16.0,
+        5.2
+      ],
+      "group": "port",
+      "faces": {
+        "north": {
+          "texture": "#brass"
+        },
+        "east": {
+          "texture": "#brass"
+        },
+        "south": {
+          "texture": "#brass"
+        },
+        "west": {
+          "texture": "#brass"
+        },
+        "up": {
+          "texture": "#brass"
+        },
+        "down": {
+          "texture": "#brass"
+        }
+      }
+    },
+    {
+      "name": "output-back",
+      "from": [
+        5.2,
+        15.2,
+        10.8
+      ],
+      "to": [
+        10.8,
+        16.0,
+        11.5
+      ],
+      "group": "port",
+      "faces": {
+        "north": {
+          "texture": "#brass"
+        },
+        "east": {
+          "texture": "#brass"
+        },
+        "south": {
+          "texture": "#brass"
+        },
+        "west": {
+          "texture": "#brass"
+        },
+        "up": {
+          "texture": "#brass"
+        },
+        "down": {
+          "texture": "#brass"
+        }
+      }
+    },
+    {
+      "name": "elbow-bottom",
+      "from": [
+        0.8,
+        4.94,
+        5.2
+      ],
+      "to": [
+        10.9,
+        5.1,
+        10.8
+      ],
+      "renderPass": 1,
+      "group": "glass",
+      "faces": {
+        "down": {
+          "texture": "#glass",
+          "uv": [
+            0,
+            0,
+            16.0,
+            16.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "elbow-outer",
+      "from": [
+        10.9,
+        5.1,
+        5.2
+      ],
+      "to": [
+        11.06,
+        15.2,
+        10.8
+      ],
+      "renderPass": 1,
+      "group": "glass",
+      "faces": {
+        "east": {
+          "texture": "#glass",
+          "uv": [
+            0,
+            0,
+            16.0,
+            16.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "elbow-inner-horizontal",
+      "from": [
+        0.8,
+        10.9,
+        5.2
+      ],
+      "to": [
+        4.9,
+        11.06,
+        10.8
+      ],
+      "renderPass": 1,
+      "group": "glass",
+      "faces": {
+        "up": {
+          "texture": "#glass",
+          "uv": [
+            0,
+            0,
+            16.0,
+            16.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "elbow-inner-vertical",
+      "from": [
+        4.94,
+        11.1,
+        5.2
+      ],
+      "to": [
+        5.1,
+        15.2,
+        10.8
+      ],
+      "renderPass": 1,
+      "group": "glass",
+      "faces": {
+        "west": {
+          "texture": "#glass",
+          "uv": [
+            0,
+            0,
+            16.0,
+            16.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "elbow-front-horizontal",
+      "from": [
+        0.8,
+        5.1,
+        4.94
+      ],
+      "to": [
+        10.9,
+        10.9,
+        5.1
+      ],
+      "renderPass": 1,
+      "group": "glass",
+      "faces": {
+        "north": {
+          "texture": "#glass",
+          "uv": [
+            0,
+            0,
+            16.0,
+            16.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "elbow-front-vertical",
+      "from": [
+        5.1,
+        10.9,
+        4.94
+      ],
+      "to": [
+        10.9,
+        15.2,
+        5.1
+      ],
+      "renderPass": 1,
+      "group": "glass",
+      "faces": {
+        "north": {
+          "texture": "#glass",
+          "uv": [
+            0,
+            0,
+            16.0,
+            16.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "elbow-back-horizontal",
+      "from": [
+        0.8,
+        5.1,
+        10.9
+      ],
+      "to": [
+        10.9,
+        10.9,
+        11.06
+      ],
+      "renderPass": 1,
+      "group": "glass",
+      "faces": {
+        "south": {
+          "texture": "#glass",
+          "uv": [
+            0,
+            0,
+            16.0,
+            16.0
+          ]
+        }
+      }
+    },
+    {
+      "name": "elbow-back-vertical",
+      "from": [
+        5.1,
+        10.9,
+        10.9
+      ],
+      "to": [
+        10.9,
+        15.2,
+        11.06
+      ],
+      "renderPass": 1,
+      "group": "glass",
+      "faces": {
+        "south": {
+          "texture": "#glass",
+          "uv": [
+            0,
+            0,
+            16.0,
+            16.0
+          ]
+        }
+      }
+    }
+  ]
+}

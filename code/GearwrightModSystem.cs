@@ -1,6 +1,7 @@
 using Gearwright.Storage;
 using Gearwright.Hydraulics;
 using Gearwright.Mechanics;
+using Gearwright.Pneumatics;
 using System;
 using System.Linq;
 using Vintagestory.API.Common;
@@ -20,6 +21,10 @@ public sealed class GearwrightModSystem : ModSystem
 
     public override void Start(ICoreAPI api)
     {
+        api.RegisterBlockClass("GearwrightPneumaticTransport", typeof(BlockPneumaticTransport));
+        api.RegisterBlockEntityClass("GearwrightPneumaticTransport", typeof(BlockEntityPneumaticTransport));
+        api.RegisterBlockEntityClass("GearwrightPneumaticAirIntake", typeof(BlockEntityPneumaticAirIntake));
+        api.RegisterBlockEntityBehaviorClass("GearwrightPneumaticChest", typeof(BEBehaviorPneumaticChest));
         api.RegisterBlockClass("GearwrightAutomaticBellow", typeof(BlockAutomaticBellow));
         api.RegisterBlockEntityBehaviorClass("GearwrightLargeBellows", typeof(BEBehaviorLargeBellows));
         api.RegisterBlockClass(HydraulicCodes.PipeClass, typeof(BlockFluidPipe));
