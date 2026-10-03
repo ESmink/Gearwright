@@ -23,6 +23,7 @@ internal static class Program
     {
         if (args.Length == 3 && args[0] == "--pneumatic-crash") return PneumaticPersistenceFixture.CrashChild(args[1], args[2]);
         if (args.Contains("--router")) { PneumaticRouterFixture.Run(Check); return failures == 0 ? 0 : 1; }
+        if (args.Contains("--glass")) { InspectionGlassFixture.Run(Check); return failures == 0 ? 0 : 1; }
         if (args.Contains("--pneumatic"))
         {
             PneumaticAirFixture.Run(Check);
@@ -75,6 +76,7 @@ internal static class Program
         PneumaticPlacementFixture.Run(Check);
         PneumaticPersistenceFixture.Run(Check);
         BellowsRendererFixture.Run(Check);
+        InspectionGlassFixture.Run(Check);
         PumpTimingFixture.Run(Check);
         PumpLiquidSurfaceMeetsItsSidesBelowThePiston();
         ReciprocatingLinkageRemainsConnectedInEveryOrientation();

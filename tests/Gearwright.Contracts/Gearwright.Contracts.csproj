@@ -31,6 +31,7 @@
     <Reference Include="SQLitePCLRaw.batteries_v2"><HintPath>$(VintageStoryPath)\Lib\SQLitePCLRaw.batteries_v2.dll</HintPath><Private>true</Private></Reference>
     <Reference Include="SQLitePCLRaw.provider.e_sqlite3"><HintPath>$(VintageStoryPath)\Lib\SQLitePCLRaw.provider.e_sqlite3.dll</HintPath><Private>true</Private></Reference>
     <Compile Include="BellowsRendererFixture.cs" />
+    <Compile Include="InspectionGlassFixture.cs" />
     <Compile Include="PumpTimingFixture.cs" />
     <Compile Include="PipePressureFixture.cs" />
     <Compile Include="PipeAddonFixture.cs" />
@@ -76,6 +77,20 @@
     <None Include="$(VintageStoryPath)\Lib\e_sqlite3.dll" Link="e_sqlite3.dll" CopyToOutputDirectory="PreserveNewest" Condition="Exists('$(VintageStoryPath)\Lib\e_sqlite3.dll')" />
     <None Include="$(VintageStoryPath)\assets\game\shaders\standard.fsh"
           Link="sdk\standard.fsh" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(VintageStoryPath)\assets\game\shaders\entityanimated.vsh"
+          Link="sdk\entityanimated.vsh" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(VintageStoryPath)\assets\game\shaders\entityanimated.fsh"
+          Link="sdk\entityanimated.fsh" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\assets\gearwright\shapes\block\fluid-pipe-window.json"
+          Link="runtime-shapes\fluid-pipe-window.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\assets\gearwright\shapes\block\creative-fluid-pump.json"
+          Link="runtime-shapes\creative-fluid-pump.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\assets\gearwright\shapes\block\passive-fluid-pump.json"
+          Link="runtime-shapes\passive-fluid-pump.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\assets\gearwright\shapes\block\reciprocating-pump-body.json"
+          Link="runtime-shapes\reciprocating-pump-body.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\..\assets\gearwright\shapes\block\reciprocating-pump-body-supported.json"
+          Link="runtime-shapes\reciprocating-pump-body-supported.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\assets\gearwright\shapes\block\lateral-crank-one-sided.json"
           Link="runtime-shapes\lateral-crank-one-sided.json" CopyToOutputDirectory="PreserveNewest" />
     <None Include="..\..\assets\gearwright\shapes\block\lateral-crank-through.json"

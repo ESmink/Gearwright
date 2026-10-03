@@ -30,6 +30,7 @@ public sealed class BlockEntityPneumaticAirIntake : BlockEntity, IAirReceiver
         {
             renderer = new PneumaticRenderer(this, client);
             client.Event.RegisterRenderer(renderer, EnumRenderStage.Opaque, "gearwright-pneumatic-accumulator");
+            client.Event.RegisterRenderer(renderer, EnumRenderStage.OIT, "gearwright-pneumatic-accumulator-glass");
         }
         else api.ModLoader.GetModSystem<PneumaticNetworkSystem>().Register(this);
     }
@@ -94,7 +95,11 @@ public sealed class BlockEntityPneumaticAirIntake : BlockEntity, IAirReceiver
     private void Unregister()
     {
         if (Api is ICoreClientAPI client && renderer != null)
-        { client.Event.UnregisterRenderer(renderer, EnumRenderStage.Opaque); renderer.Dispose(); renderer = null; }
+        {
+            client.Event.UnregisterRenderer(renderer, EnumRenderStage.Opaque);
+            client.Event.UnregisterRenderer(renderer, EnumRenderStage.OIT);
+            renderer.Dispose(); renderer = null;
+        }
         else if (Api != null) Api.ModLoader.GetModSystem<PneumaticNetworkSystem>().Unregister(this);
     }
 }

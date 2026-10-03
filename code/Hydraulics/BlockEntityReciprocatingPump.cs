@@ -435,7 +435,7 @@ public sealed class BlockEntityReciprocatingPump : BlockEntity, IHydraulicNetwor
         string shapeCode = HasDownwardStandSupport()
             ? "gearwright:shapes/block/reciprocating-pump-body-supported.json"
             : "gearwright:shapes/block/reciprocating-pump-body.json";
-        Shape shape = Shape.TryGet(Api, shapeCode);
+        Shape shape = Rendering.InspectionGlass.TerrainShape(Shape.TryGet(Api, shapeCode));
         tesselator.TesselateShape(Block, shape, out MeshData mesh, new Vec3f());
         mesh.MatrixTransform(PumpOrientation.Matrix(OutputFace, DriveFace));
         mesher.AddMeshData(mesh, 1);

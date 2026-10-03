@@ -100,4 +100,8 @@ List exact runtime ownership with `python -m gearwright_graphics.cli inventory -
 
 Texture recipes remain under `graphics/recipes/` and use logical `domain:path` references. Package contents include runtime assets only; definitions, tests, requirements, manifests, and review images are development files.
 
+Inspection glass uses a uniform tint at 25% opacity. Split panes reuse or crop the same texture with different UVs, so painted borders, gradients and glints expose their joins. Keep the shared glass texture uniform; frames and face lighting provide its edges and depth.
+
+The approved legacy definitions label glass with shape pass 1; the engine calls this `OpaqueNoCull`, which discards low-alpha pixels. `InspectionGlass.TerrainShape` clones terrain shapes and selects the native `Transparent` pass for glass-only elements. Pneumatic glass uses the native animated OIT shader with an identity joint and the renderer's existing bone transforms. Its OIT callback must preserve the engine's weighted blending and disabled depth writes. The photoshoot cannot verify engine render-pass or SSAO behavior; the SDK contracts check these paths.
+
 Run `tools/Test-Project.ps1 -RequireBuild` and then `tools/Install-Mod.ps1` before delivery. Perform final in-game checks when proportions, UVs, rotations, particles, or runtime behavior matter.

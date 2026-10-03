@@ -23,6 +23,7 @@ internal sealed class PneumaticRenderer : IRenderer
     private readonly PneumaticAirSpecks airSpecks;
     private readonly PneumaticRouterPresentation routerPresentation = new();
     private bool disposed;
+    private static readonly float[] GlassJoint = Mat4f.Create();
     private sealed class Bone
     {
         internal int Parent = -1;
@@ -135,7 +136,11 @@ internal sealed class PneumaticRenderer : IRenderer
         foreach (var b in bones)
         {
             if (b.Mesh.VerticesCount > 0) b.Uploaded = api.Render.UploadMultiTextureMesh(b.Mesh);
-            if (b.Glass.VerticesCount > 0) b.UploadedGlass = api.Render.UploadMultiTextureMesh(b.Glass);
+            if (b.Glass.VerticesCount > 0)
+            {
+                Rendering.InspectionGlass.PrepareAnimatedMesh(b.Glass);
+                b.UploadedGlass = api.Render.UploadMultiTextureMesh(b.Glass);
+            }
             b.Mesh = b.Glass = null!;
         }
         prepared = kind == "router" ? kind + "|" + connections : kind;
@@ -184,6 +189,9 @@ internal sealed class PneumaticRenderer : IRenderer
 
     public void OnRenderFrame(float dt, EnumRenderStage stage)
     {
+        if (disposed) return;
+        if (stage == EnumRenderStage.OIT) { RenderGlass(); return; }
+        if (stage != EnumRenderStage.Opaque) return;
         var host = entity as BlockEntityPneumaticTransport;
         var accumulator = entity as BlockEntityPneumaticAirIntake;
         string kind = accumulator != null ? "accumulator" : host!.Kind == PneumaticLineKind.Router ? "router" : host!.Kind == PneumaticLineKind.Sender ? "sender" :
@@ -257,13 +265,6 @@ internal sealed class PneumaticRenderer : IRenderer
                 shader.ModelMatrix = model.Values;
                 api.Render.RenderMultiTextureMesh(info.ModelRef, "tex");
             }
-            // Glass follows the real item draw and does not write depth. Its
-            // transparent pixels cannot hide the cargo behind the front pane.
-            api.Render.GlToggleBlend(true, EnumBlendMode.Standard);
-            api.Render.GLDepthMask(false);
-            foreach (var bone in bones)
-                if (bone.UploadedGlass != null)
-                { shader.ModelMatrix = bone.World; api.Render.RenderMultiTextureMesh(bone.UploadedGlass, "tex"); }
         }
         finally { api.Render.GLDepthMask(true); api.Render.GlToggleBlend(false, EnumBlendMode.Standard); shader.Stop(); api.Render.GlEnableCullFace(); }
         if (host?.Kind == PneumaticLineKind.Router && host.SelectedRouterPort > 0)
@@ -274,6 +275,54 @@ internal sealed class PneumaticRenderer : IRenderer
             var points = new float[4][];
             for (int i = 0; i < 4; i++) { points[i] = new[] { center.X, center.Y, center.Z }; points[i][axes[0]] += i == 0 || i == 3 ? -.23f : .23f; points[i][axes[1]] += i < 2 ? -.23f : .23f; }
             for (int i = 0; i < 4; i++) { var a = points[i]; var b = points[(i + 1) % 4]; api.Render.RenderLine(host.Pos, a[0], a[1], a[2], b[0], b[1], b[2], unchecked((int)0xffffce5a)); }
+        }
+    }
+
+    private void RenderGlass()
+    {
+        if (!bones.Any(bone => bone.UploadedGlass != null)) return;
+        // Standard's opaque outputs also write SSAO normals and positions,
+        // even with depth writes disabled. The native OIT shader blends glass
+        // with terrain glass without putting panes into those opaque buffers.
+        IRenderAPI render = api.Render;
+        IShaderProgram? previous = render.CurrentActiveShader;
+        previous?.Stop();
+        IShaderProgram shader = render.GetEngineShader(EnumShaderProgram.Entityanimated_Oit);
+        shader.Use();
+        render.GlDisableCullFace();
+        render.GLDepthMask(false);
+        try
+        {
+            shader.Uniform("rgbaAmbientIn", render.AmbientColor);
+            shader.Uniform("rgbaFogIn", render.FogColor);
+            shader.Uniform("fogMinIn", render.FogMin);
+            shader.Uniform("fogDensityIn", render.FogDensity);
+            shader.Uniform("rgbaLightIn", api.World.BlockAccessor.GetLightRGBs(entity.Pos.X, entity.Pos.Y, entity.Pos.Z));
+            shader.Uniform("renderColor", new Vec4f(1, 1, 1, 1));
+            shader.Uniform("extraGlow", 0);
+            shader.Uniform("addRenderFlags", 0);
+            shader.Uniform("alphaTest", .02f);
+            shader.Uniform("frostAlpha", 0f);
+            shader.Uniform("glitchEffectStrength", 0f);
+            shader.Uniform("entityId", 0);
+            shader.Uniform("glitchFlicker", 0);
+            shader.UniformMatrix("viewMatrix", render.CameraMatrixOriginf);
+            shader.UniformMatrix("projectionMatrix", render.CurrentProjectionMatrix);
+            shader.UBOs["Animation"].Update(GlassJoint, 0, GlassJoint.Length * sizeof(float));
+            foreach (var bone in bones)
+                if (bone.UploadedGlass != null)
+                {
+                    shader.UniformMatrix("modelMatrix", bone.World);
+                    render.RenderMultiTextureMesh(bone.UploadedGlass, "entityTex");
+                }
+        }
+        finally
+        {
+            // OIT owns a depth-read-only stage. Leave writes off for the next
+            // transparent renderer; the engine restores them after the stage.
+            render.GlEnableCullFace();
+            shader.Stop();
+            previous?.Use();
         }
     }
 

@@ -19,6 +19,14 @@ public sealed class BlockEntityCreativeFluidPump : BlockEntityHydraulicPump
     public double ConfiguredPressure => configuredPressure;
     public double ConfiguredTemperatureC => PipeContent.DefaultTemperatureC(contentCode);
 
+    public override bool OnTesselation(ITerrainMeshPool mesher, ITesselatorAPI tesselator)
+    {
+        MeshData mesh = HydraulicPipeMesh.Tesselate(
+            this, tesselator, "gearwright:shapes/block/creative-fluid-pump.json");
+        mesher.AddMeshData(mesh, 1);
+        return true;
+    }
+
     public override PumpOffer GetOffer()
     {
         if (!PipeContent.IsValid(Api.World, contentCode))

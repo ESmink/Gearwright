@@ -38,6 +38,7 @@ public sealed partial class BlockEntityPneumaticTransport : BlockEntity
         {
             renderer = new PneumaticRenderer(this, client);
             client.Event.RegisterRenderer(renderer, EnumRenderStage.Opaque, "gearwright-pneumatic");
+            client.Event.RegisterRenderer(renderer, EnumRenderStage.OIT, "gearwright-pneumatic-glass");
         }
         else api.ModLoader.GetModSystem<PneumaticNetworkSystem>().Register(this);
     }
@@ -74,7 +75,11 @@ public sealed partial class BlockEntityPneumaticTransport : BlockEntity
     {
         routerDialog?.TryClose(); routerDialog?.Dispose(); routerDialog = null;
         if (Api is ICoreClientAPI client && renderer != null)
-        { client.Event.UnregisterRenderer(renderer, EnumRenderStage.Opaque); renderer.Dispose(); renderer = null; }
+        {
+            client.Event.UnregisterRenderer(renderer, EnumRenderStage.Opaque);
+            client.Event.UnregisterRenderer(renderer, EnumRenderStage.OIT);
+            renderer.Dispose(); renderer = null;
+        }
         else if (Api != null) Api.ModLoader.GetModSystem<PneumaticNetworkSystem>().Unregister(this);
     }
     public override void GetBlockInfo(IPlayer player, StringBuilder text)

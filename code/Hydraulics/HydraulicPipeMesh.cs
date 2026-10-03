@@ -56,7 +56,7 @@ internal static class HydraulicPipeMesh
 
     internal static MeshData Tesselate(BlockEntityHydraulicNode node, ITesselatorAPI tesselator, string shapeCode)
     {
-        Shape shape = Shape.TryGet(node.Api, shapeCode);
+        Shape shape = Rendering.InspectionGlass.TerrainShape(Shape.TryGet(node.Api, shapeCode));
         tesselator.TesselateShape(node.Block, shape, out MeshData mesh, new Vec3f(), null, null);
         return mesh;
     }
