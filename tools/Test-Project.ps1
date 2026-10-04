@@ -10,6 +10,14 @@ param(
 $root = Get-GearwrightRoot
 & (Join-Path $root "tests\ProjectChecks.ps1")
 if ($LASTEXITCODE -ne 0) { throw "The project checks failed." }
+& (Join-Path $root 'tools\audio\Build-MachineSounds.ps1') -Verify
+if ($LASTEXITCODE -ne 0) { throw 'The machine sound assets failed verification.' }
+
+$gamePath = Find-VintageStoryInstall $VintageStoryPath
+if ($null -ne $gamePath) {
+    & (Join-Path $root 'tests/ContractDependencyChecks.ps1') -VintageStoryPath $gamePath
+    if ($LASTEXITCODE -ne 0) { throw 'The contract dependency checks failed.' }
+}
 
 . (Join-Path $root "tools\graphics\Graphics.Common.ps1")
 $python = Resolve-GearwrightPython -PythonPath $PythonPath
@@ -18,7 +26,6 @@ $env:PYTHONPATH = Join-Path $root "tools\graphics"
 $pythonTests = Invoke-GearwrightPython $python @("-m", "unittest", "discover", "tests/graphics", "-v")
 if ($pythonTests -ne 0) { throw "The Python graphics tests failed." }
 
-$gamePath = Find-VintageStoryInstall $VintageStoryPath
 if ($null -ne $gamePath) {
     if ($SkipGraphicsBuild) {
         Write-Host "[SKIP] Graphics build: using the committed runtime assets." -ForegroundColor Yellow

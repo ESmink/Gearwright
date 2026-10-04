@@ -84,7 +84,10 @@ public sealed partial class PneumaticNetworkSystem
                 }
         });
         SetStatus(receiver, ok ? "ordered" : "save-paused");
-        if (ok) receiver.PreferOutlet = !outlet;
+        if (ok)
+        {
+            receiver.PreferOutlet = !outlet;
+        }
         return true;
     }
 

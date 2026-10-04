@@ -9,6 +9,7 @@ using Vintagestory.API.MathTools;
 using Vintagestory.API.Server;
 using Vintagestory.API.Common.Entities;
 using Vintagestory.GameContent;
+using Gearwright.Audio;
 
 namespace Gearwright.Pneumatics;
 
@@ -139,7 +140,10 @@ public sealed partial class PneumaticNetworkSystem : ModSystem
                 h.State.ReturnProgress = Math.Min(1, h.State.ReturnProgress + f.Movement / 2);
                 if (h.State.ReturnProgress >= 1 - 1e-8) { h.State.Returning = false; h.State.ReturnProgress = 0; }
             }
-            else if (h.State.Cargo != null) h.State.Progress += f.Movement / 2;
+            else if (h.State.Cargo != null)
+            {
+                h.State.Progress += f.Movement / 2;
+            }
             if (!supplied || h.NextAdvance <= api.World.ElapsedMilliseconds)
                 SetStatus(h, supplied ? h.State.Cargo == null ? "idle" : "moving" : "no-air");
             if (h.Kind == PneumaticLineKind.Router && h.State.Cargo != null && h.Router.Lost) SetStatus(h, "lost");
@@ -251,7 +255,10 @@ public sealed partial class PneumaticNetworkSystem : ModSystem
                     state.Outstanding = parcel; state.OrderRoute = route; state.Receipt = receipt;
                 });
                 SetStatus(receiver, ok ? "ordered" : "save-paused");
-                if (ok) receiver.PreferOutlet = !outlet;
+                if (ok)
+                {
+                    receiver.PreferOutlet = !outlet;
+                }
                 return true;
             }
         }
@@ -273,8 +280,9 @@ public sealed partial class PneumaticNetworkSystem : ModSystem
             { SetStatus(host, "inventory-changed"); return false; }
             if (!InventoryAccess(s.Owner, target)) { SetStatus(host, "protected-route"); return false; }
             if (target.Capacity(api!.World, s.Cargo!) == 0) { SetStatus(host, "destination-full"); return false; }
+            bool audibleOutlet = s.DeliveryOutlet && !s.Loading;
             string receipt = Guid.NewGuid().ToString("N");
-            return Transfer(new BlockEntity[] { host, target.Chest }, () =>
+            bool delivered = Transfer(new BlockEntity[] { host, target.Chest }, () =>
             {
                 var slot = new DummySlot(s.Cargo);
                 target.Insert(api.World, slot); s.Cargo = slot.Itemstack;
@@ -286,6 +294,9 @@ public sealed partial class PneumaticNetworkSystem : ModSystem
                     s.ClearCargo();
                 }
             });
+            if (delivered && s.Cargo == null && audibleOutlet)
+                MachineSoundPolicy.Information(api.World, host.Pos, "outlet-arrival");
+            return delivered;
         }
         if (last) { SetStatus(host, "route-broken"); return false; }
         var nextPos = ParsePosition(s.Route[s.RouteIndex + 1])!;

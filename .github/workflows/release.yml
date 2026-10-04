@@ -105,7 +105,7 @@ jobs:
           & python -m pip install --disable-pip-version-check -r tools/graphics/requirements.txt
           if ($LASTEXITCODE -ne 0) { throw "Graphics test dependency installation failed." }
 
-      - name: Download the Vintage Story server package
+      - name: Download the Windows Vintage Story server package
         if: steps.metadata.outputs.publish == 'true'
         shell: pwsh
         env:
@@ -113,17 +113,16 @@ jobs:
         run: |
           $gameVersion = $env:GAME_VERSION
           $serverPath = Join-Path $env:RUNNER_TEMP "vintagestory-$gameVersion"
-          $archivePath = Join-Path $env:RUNNER_TEMP "vs_server_linux-x64_$gameVersion.tar.gz"
-          $archiveUrl = "https://cdn.vintagestory.at/gamefiles/stable/vs_server_linux-x64_$gameVersion.tar.gz"
+          $archivePath = Join-Path $env:RUNNER_TEMP "vs_server_win-x64_$gameVersion.zip"
+          $archiveUrl = "https://cdn.vintagestory.at/gamefiles/stable/vs_server_win-x64_$gameVersion.zip"
 
           New-Item -ItemType Directory -Force -Path $serverPath | Out-Null
           & curl.exe --fail --location --retry 3 --output $archivePath $archiveUrl
           if ($LASTEXITCODE -ne 0) { throw "Vintage Story server download failed." }
 
-          & tar.exe -xzf $archivePath -C $serverPath
-          if ($LASTEXITCODE -ne 0) { throw "Vintage Story server extraction failed." }
+          Expand-Archive -LiteralPath $archivePath -DestinationPath $serverPath
 
-          foreach ($relative in @("VintagestoryAPI.dll", "Lib\Newtonsoft.Json.dll", "assets\survival")) {
+          foreach ($relative in @("VintagestoryAPI.dll", "Lib\Newtonsoft.Json.dll", "Lib\e_sqlite3.dll", "assets\survival")) {
               if (-not (Test-Path -LiteralPath (Join-Path $serverPath $relative))) {
                   throw "Vintage Story server package is missing $relative."
               }

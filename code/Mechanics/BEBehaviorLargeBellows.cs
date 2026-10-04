@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Gearwright.Air;
+using Gearwright.Audio;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -22,6 +23,7 @@ public sealed class BEBehaviorLargeBellows : BlockEntityBehavior, IReciprocating
     private double syncSeconds;
     private double lastSentAir = -1;
     private LargeBellowsRenderer? renderer;
+    private LocalMachineLoop? motionSound;
     private BEBehaviorMPLateralCrank? displayedDrive;
     public BEBehaviorLargeBellows(BlockEntity blockentity) : base(blockentity) { }
     public BlockPos Position => Pos;
@@ -39,6 +41,7 @@ public sealed class BEBehaviorLargeBellows : BlockEntityBehavior, IReciprocating
         {
             renderer = new(this, client);
             client.Event.RegisterRenderer(renderer, EnumRenderStage.Opaque, "gearwright-large-bellows");
+            motionSound = new(client, RearPosition, "bellows");
         }
     }
 
@@ -97,6 +100,12 @@ public sealed class BEBehaviorLargeBellows : BlockEntityBehavior, IReciprocating
     private void Tick(float seconds)
     {
         var drive = SelectedDrive();
+        if (Api is ICoreClientAPI)
+        {
+            double rotations = Math.Abs((drive?.Network?.Speed ?? 0) * (drive?.GearedRatio ?? 1) * 5 / (Math.PI * 2));
+            double phase = drive == null ? 0 : LargeBellowsMotion.Phase(drive.DeviceAngle(this), DriveFace == BlockFacing.UP);
+            motionSound?.Update(seconds, MachineSoundPolicy.Intensity(rotations) * (.35 + .65 * Math.Abs(Math.Sin(phase))));
+        }
         if (Api is ICoreClientAPI && !ReferenceEquals(drive, displayedDrive))
         {
             displayedDrive = drive;
@@ -166,6 +175,7 @@ public sealed class BEBehaviorLargeBellows : BlockEntityBehavior, IReciprocating
     public override void OnBlockUnloaded() { Shutdown(); base.OnBlockUnloaded(); }
     private void Shutdown()
     {
+        motionSound?.Dispose(); motionSound = null;
         if (renderer == null || Api is not ICoreClientAPI client) return;
         client.Event.UnregisterRenderer(renderer, EnumRenderStage.Opaque);
         renderer.Dispose(); renderer = null;

@@ -14,6 +14,8 @@
   <ItemGroup>
     <Reference Include="cairo-sharp"><HintPath>$(VintageStoryPath)\Lib\cairo-sharp.dll</HintPath><Private>true</Private></Reference>
     <Compile Include="Program.cs" />
+    <Compile Include="MachineAudioFixture.cs" />
+    <Compile Include="MechanicalAudioFixture.cs" />
     <Compile Include="PumpCircuitFixture.cs" />
     <Compile Include="..\..\code\**\*.cs" LinkBase="Runtime" />
     <Compile Include="PumpRuntimeFixture.cs" />
@@ -102,5 +104,11 @@
   <Target Name="CheckVintageStoryPath" BeforeTargets="ResolveReferences"
           Condition="!Exists('$(VintageStoryPath)\VintagestoryAPI.dll') or !Exists('$(VintageStoryPath)\Mods\VSSurvivalMod.dll') or !Exists('$(VintageStoryPath)\Mods\VSEssentials.dll') or !Exists('$(VintageStoryPath)\VintagestoryLib.dll') or !Exists('$(VintageStoryPath)\Lib\Newtonsoft.Json.dll') or !Exists('$(VintageStoryPath)\Lib\protobuf-net.dll') or !Exists('$(VintageStoryPath)\Lib\0Harmony.dll')">
     <Error Text="Vintage Story was not found. The runtime and compatibility contracts require a complete Vintage Story 1.22.3 installation." />
+  </Target>
+
+  <Target Name="CheckNativeSqlite" BeforeTargets="PrepareForBuild"
+          Condition="'$(OS)' == 'Windows_NT'">
+    <Error Code="GWCT001" Condition="!Exists('$(VintageStoryPath)\Lib\e_sqlite3.dll')"
+           Text="The Windows compatibility contracts require Lib/e_sqlite3.dll from the Windows Vintage Story SDK. A Linux server package cannot supply this native DLL. Set VintageStoryPath or VINTAGE_STORY to a complete Windows installation." />
   </Target>
 </Project>

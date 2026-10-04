@@ -30,6 +30,7 @@ internal sealed class OverrunningTransmissionRenderer : IRenderer, IDisposable
     private OverrunningRotorState lastState;
     private int handedness = 1;
     private bool overrunPose;
+    private readonly OverrunningTransmissionSoundController sound;
 
     public OverrunningTransmissionRenderer(
         BEBehaviorMPOverrunningTransmission transmission,
@@ -37,6 +38,7 @@ internal sealed class OverrunningTransmissionRenderer : IRenderer, IDisposable
     {
         this.transmission = transmission;
         this.capi = capi;
+        sound = new(capi, transmission.Owner.Pos);
         inputMeshes = UploadPair("overrunning-transmission-input");
         outputMeshes = UploadPair("overrunning-transmission-output");
         pawlMeshes = new MeshRef[2][];
@@ -62,7 +64,8 @@ internal sealed class OverrunningTransmissionRenderer : IRenderer, IDisposable
 
     public void OnRenderFrame(float deltaTime, EnumRenderStage stage)
     {
-        if (transmission.TryGetRotorState(out OverrunningRotorState current))
+        bool available = transmission.TryGetRotorState(out OverrunningRotorState current);
+        if (available)
         {
             lastState = current;
         }
@@ -86,6 +89,8 @@ internal sealed class OverrunningTransmissionRenderer : IRenderer, IDisposable
         {
             overrunPose = false;
         }
+
+        sound.Update(deltaTime, available ? lastState : null, handedness, overrunPose);
 
         int handIndex = handedness < 0 ? 1 : 0;
         float yaw = FacingYaw(transmission.InputFace);
@@ -229,6 +234,7 @@ internal sealed class OverrunningTransmissionRenderer : IRenderer, IDisposable
 
     public void Dispose()
     {
+        sound.Dispose();
         foreach (MeshRef mesh in inputMeshes) mesh.Dispose();
         foreach (MeshRef mesh in outputMeshes) mesh.Dispose();
         foreach (MeshRef[] hand in pawlMeshes)

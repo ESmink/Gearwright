@@ -54,7 +54,7 @@ public sealed class BlockIrrigatorPipe : Block
         {
             world.PlaySoundAt(
                 PlaceSound, blockSel.Position, 0, null,
-                randomizePitch: false, range: 18, volume: .95f);
+                randomizePitch: false, range: Gearwright.Audio.MachineSoundPolicy.InformationalRange, volume: .5f);
         }
         return true;
     }

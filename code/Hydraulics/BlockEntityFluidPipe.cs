@@ -142,7 +142,7 @@ public partial class BlockEntityFluidPipe : BlockEntityHydraulicNode
         {
             Api.World.PlaySoundAt(
                 new AssetLocation("game:sounds/block/metaldoor"), Pos, 0, null,
-                randomizePitch: false, range: 14, volume: 0.8f);
+                randomizePitch: false, range: Gearwright.Audio.MachineSoundPolicy.InformationalRange, volume: 0.5f);
         }
         return true;
     }
@@ -168,7 +168,7 @@ public partial class BlockEntityFluidPipe : BlockEntityHydraulicNode
         if (Api.Side == EnumAppSide.Server)
         {
             Api.World.PlaySoundAt(
-                AttachmentInstallSound, Pos, 0, null, randomizePitch: false, range: 14, volume: 0.9f);
+                AttachmentInstallSound, Pos, 0, null, randomizePitch: false, range: Gearwright.Audio.MachineSoundPolicy.InformationalRange, volume: 0.5f);
         }
         MarkHydraulicsDirty(true);
         Api.World.BlockAccessor.MarkBlockDirty(Pos.AddCopy(face));
@@ -198,7 +198,7 @@ public partial class BlockEntityFluidPipe : BlockEntityHydraulicNode
         if (Api?.Side == EnumAppSide.Server)
         {
             Api.World.PlaySoundAt(
-                AttachmentRemoveSound, Pos, 0, null, randomizePitch: false, range: 14, volume: 0.9f);
+                AttachmentRemoveSound, Pos, 0, null, randomizePitch: false, range: Gearwright.Audio.MachineSoundPolicy.InformationalRange, volume: 0.5f);
         }
 
         if (returned != null && byPlayer.WorldData.CurrentGameMode != EnumGameMode.Creative &&
@@ -218,7 +218,7 @@ public partial class BlockEntityFluidPipe : BlockEntityHydraulicNode
         if (Api?.Side == EnumAppSide.Server)
         {
             Api.World.PlaySoundAt(
-                PipeRemoveSound, Pos, 0, null, randomizePitch: false, range: 18, volume: 0.95f);
+                PipeRemoveSound, Pos, 0, null, randomizePitch: false, range: Gearwright.Audio.MachineSoundPolicy.InformationalRange, volume: 0.5f);
             for (int i = 0; i < addonStacks.Length; i++)
             {
                 ItemStack? stack = addonStacks[i];

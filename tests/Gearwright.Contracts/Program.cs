@@ -22,6 +22,7 @@ internal static class Program
     public static int Main(string[] args)
     {
         if (args.Length == 3 && args[0] == "--pneumatic-crash") return PneumaticPersistenceFixture.CrashChild(args[1], args[2]);
+        if (args.Contains("--audio")) { MachineAudioFixture.Run(Check); PneumaticTransportFixture.Run(Check); return failures == 0 ? 0 : 1; }
         if (args.Contains("--router")) { PneumaticRouterFixture.Run(Check); return failures == 0 ? 0 : 1; }
         if (args.Contains("--glass")) { InspectionGlassFixture.Run(Check); return failures == 0 ? 0 : 1; }
         if (args.Contains("--pneumatic"))
@@ -55,6 +56,7 @@ internal static class Program
         PressureControlsConsumerWaterUse();
         SprinklerReachUsesStablePressureBands();
         AmbientAudioTracksPressureAndFlow();
+        MachineAudioFixture.Run(Check);
         IrrigatorSupportsRespectSpanRules();
         HydraulicSchemasMigrateAdditively();
         HydraulicSchemaOneFixturesStayReadable();
@@ -1015,9 +1017,9 @@ internal static class Program
                   HydraulicMath.LocalAmbientAudioRangeBlocks &&
               HydraulicMath.AmbientAudioRange(1) ==
                   HydraulicMath.ExtremeAmbientAudioRangeBlocks &&
-              HydraulicMath.LocalAmbientAudioRangeBlocks == 2.8 &&
-              HydraulicMath.ExtremeAmbientAudioRangeBlocks == 16,
-            "Ambient sounds use doubled local and extreme ranges without changing their intensity band");
+              HydraulicMath.LocalAmbientAudioRangeBlocks == 2 &&
+              HydraulicMath.ExtremeAmbientAudioRangeBlocks == 2,
+            "Constant hydraulic sound never expands beyond two blocks at extreme flow");
     }
 
     private static void PipeFlowPlanningIsConservative()

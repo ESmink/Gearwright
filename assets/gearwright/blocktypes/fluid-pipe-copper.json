@@ -18,7 +18,8 @@
     "handbook": {
       "include": true,
       "extraSections": [
-        { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-fluid-pipe-copper" }
+        { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-fluid-pipe-copper" },
+        { "title": "gearwright:handbook-title-sounds", "text": "gearwright:handbook-audio-fluid-pipe-copper" }
       ]
     }
   },

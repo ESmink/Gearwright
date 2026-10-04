@@ -5,6 +5,7 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
 using Vintagestory.API.Config;
+using Gearwright.Audio;
 
 namespace Gearwright.Pneumatics;
 
@@ -17,6 +18,9 @@ public sealed partial class BlockEntityPneumaticTransport : BlockEntity
     internal long NextAdvance;
     internal bool PreferOutlet;
     private PneumaticRenderer? renderer;
+    private LocalMachineLoop? airflowSound;
+    private PneumaticMachineSoundController? workSound;
+    private long soundTick;
     internal PneumaticLineKind Kind => Block.Code.Path == "pneumatic-router" ? PneumaticLineKind.Router :
         Block.Code.Path == "pneumatic-sender" ? PneumaticLineKind.Sender :
         Block.Code.Path == "pneumatic-receiver" ? PneumaticLineKind.InlineReceiver : PneumaticLineKind.Tube;
@@ -39,6 +43,13 @@ public sealed partial class BlockEntityPneumaticTransport : BlockEntity
             renderer = new PneumaticRenderer(this, client);
             client.Event.RegisterRenderer(renderer, EnumRenderStage.Opaque, "gearwright-pneumatic");
             client.Event.RegisterRenderer(renderer, EnumRenderStage.OIT, "gearwright-pneumatic-glass");
+            airflowSound = new(client, Pos, "airflow");
+            workSound = new(this, client);
+            soundTick = RegisterGameTickListener(seconds =>
+            {
+                airflowSound?.Update(seconds, CanWrite ? Math.Sqrt(Math.Clamp(Air / PneumaticAir.OutletUnitsPerSecond, 0, 1)) : 0);
+                workSound?.Update(seconds);
+            }, 100);
         }
         else api.ModLoader.GetModSystem<PneumaticNetworkSystem>().Register(this);
     }
@@ -73,6 +84,9 @@ public sealed partial class BlockEntityPneumaticTransport : BlockEntity
     public override void OnBlockUnloaded() { Unregister(); base.OnBlockUnloaded(); }
     private void Unregister()
     {
+        if (soundTick != 0) { UnregisterGameTickListener(soundTick); soundTick = 0; }
+        airflowSound?.Dispose(); airflowSound = null;
+        workSound?.Dispose(); workSound = null;
         routerDialog?.TryClose(); routerDialog?.Dispose(); routerDialog = null;
         if (Api is ICoreClientAPI client && renderer != null)
         {

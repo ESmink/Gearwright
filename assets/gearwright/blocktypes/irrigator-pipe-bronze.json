@@ -13,7 +13,8 @@
     "handbook": {
       "include": true,
       "extraSections": [
-        { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-irrigator-pipe-bronze" }
+        { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-irrigator-pipe-bronze" },
+        { "title": "gearwright:handbook-title-sounds", "text": "gearwright:handbook-audio-irrigator-pipe-bronze" }
       ]
     }
   },

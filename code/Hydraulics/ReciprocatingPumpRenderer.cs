@@ -27,11 +27,13 @@ internal sealed class ReciprocatingPumpRenderer : IRenderer, IDisposable
     private float displayedScrollSpeed;
     private double? previousVolume;
     private ReciprocatingPumpStroke displayedStroke;
+    private readonly ReciprocatingPumpSoundController sound;
 
     public ReciprocatingPumpRenderer(BlockEntityReciprocatingPump pump, ICoreClientAPI capi)
     {
         this.pump = pump;
         this.capi = capi;
+        sound = new(capi, pump.Pos);
         pistonMesh = Upload("piston");
         connectingRodMesh = Upload("connecting-rod");
         wetIntakeMesh = Upload("wet-intake-check");
@@ -77,6 +79,10 @@ internal sealed class ReciprocatingPumpRenderer : IRenderer, IDisposable
             : pump.CurrentContentCode;
         double amount = synchronized ? presentation.Amount : pump.ContentAmountLitres;
         double throughput = synchronized ? presentation.Throughput : pump.ThroughputLitresPerSecond;
+        bool liquid = content != null && !PipeContent.IsSteam(content);
+        sound.Update(deltaTime, angle, displayedStroke,
+            pose.WetIntakeOffsetY != 0, pose.WetOutputOffsetY != 0, liquid,
+            synchronized ? Math.Max(throughput, presentation.IntakeThroughput) : throughput);
         if (content == null || amount <= 0) return;
         EnsureContentSurface(content);
         if (contentSurface == null) return;
@@ -263,6 +269,7 @@ internal sealed class ReciprocatingPumpRenderer : IRenderer, IDisposable
 
     public void Dispose()
     {
+        sound.Dispose();
         pistonMesh.Dispose();
         connectingRodMesh.Dispose();
         wetIntakeMesh.Dispose();

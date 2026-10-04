@@ -204,5 +204,19 @@
   "hydraulic-status-no-pressure": "The network has no pressure.",
   "hydraulic-status-no-source": "No usable liquid container is connected.",
   "hydraulic-status-reserve-reached": "The old horizontal reserve has been reached.",
-  "hydraulic-status-deprecated": "This Gravity Drain is deprecated; use a Copper Pipe Nozzle."
+  "hydraulic-status-deprecated": "This Gravity Drain is deprecated; use a Copper Pipe Nozzle.",
+  "handbook-title-sounds": "Operating sounds",
+  "handbook-audio-pneumatic-tube": "Listen close for airflow. A tube outlet receiving into a chest gives a sliding and settling cue after the whole batch is inserted.",
+  "handbook-audio-pneumatic-sender": "Listen for the rack's tooth contacts, the tray reaching its stop, the air launch, and the lighter empty return. Movement sound pauses with the mechanism.",
+  "handbook-audio-pneumatic-receiver": "Listen for the geared rhythm, the gate moving, the item being caught, and the soft roller feed into the chest. Movement sound pauses with the mechanism.",
+  "handbook-audio-pneumatic-router": "Listen for gate contacts and the carriage indexing as the Router prepares and routes a batch. Movement sound pauses with the mechanism.",
+  "handbook-audio-pneumatic-accumulator": "Listen close for air leaving the reservoir. The running noise weakens as the reserve empties.",
+  "handbook-audio-large-bellows": "Listen close for motion while the driven shaft turns. The running sound fades after the shaft stops.",
+  "handbook-audio-fluid-pipe-copper": "Listen close for moving liquid. Creaks indicate high pressure; check the outlet and drive. Pipes do not currently take pressure damage.",
+  "handbook-audio-irrigator-pipe-bronze": "Listen close for the trickle while liquid and pressure are available.",
+  "handbook-audio-sprinkler-brass": "Listen close for running water while liquid and pressure are available.",
+  "handbook-audio-fluid-pipe-intake-copper": "Listen close for liquid moving through the nozzle.",
+  "handbook-audio-small-flywheel": "Listen close for the wheel's quiet running sound. It fades as the wheel slows, including while coasting.",
+  "handbook-audio-reciprocating-pump": "Listen close for the piston strokes and soft valve contacts. Moving liquid adds a flow sound; a dry chamber can still make mechanical sounds.",
+  "handbook-audio-overrunning-transmission": "Listen close for pawl taps while the output overtakes the input. A separate contact marks the ratchet engaging or releasing."
 }

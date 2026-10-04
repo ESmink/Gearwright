@@ -140,6 +140,15 @@ $required = @(
     "code\Hydraulics\ReciprocatingPumpRenderer.cs", "code\Hydraulics\ReciprocatingPumpStateSchema.cs",
     "tools\Common.ps1", "tools\Build-Mod.ps1", "tools\Test-Project.ps1", "tools\Install-Mod.ps1",
     "tools\Test-ServerSmoke.ps1",
+    "tools\audio\Build-PneumaticSoundReview.ps1", "tools\audio\pneumatic_sound_review.py",
+    "tools\audio\requirements.txt",
+    "tools\audio\Build-MachineSounds.ps1", "tools\audio\machine_sound_assets.py", "tools\audio\SOUND-DESIGN.md",
+    "code\Audio\MachineSoundPolicy.cs", "code\Audio\LocalMachineLoop.cs",
+    "code\Audio\LocalMachineContacts.cs", "code\Audio\MachineMotionAudio.cs",
+    "code\Hydraulics\ReciprocatingPumpSoundController.cs", "code\Mechanics\OverrunningTransmissionSoundController.cs",
+    "tests\Gearwright.Contracts\MechanicalAudioFixture.cs", "tests\ContractDependencyChecks.ps1",
+    "code\Pneumatics\PneumaticMachineSoundController.cs",
+    "tests\Gearwright.Contracts\MachineAudioFixture.cs", "tools\audio\machine-sounds.manifest.json",
     "tools\graphics\Build-Graphics.ps1",
     "tools\graphics\Build-Texture.ps1", "tools\graphics\Find-GameAsset.ps1",
     "tools\graphics\Graphics.Common.ps1",
@@ -165,6 +174,8 @@ Assert-Project (@(Get-ChildItem $root -Recurse -Filter "*.cmd" -File).Count -eq 
 $allowedToolScripts = @(
     "Build-Mod.ps1", "Common.ps1", "Install-Mod.ps1", "Test-Project.ps1", "Test-ServerSmoke.ps1",
     "Inspect-MechanicalRotation.ps1", "Inspect-BlockBehavior.ps1",
+    "audio\Build-PneumaticSoundReview.ps1",
+    "audio\Build-MachineSounds.ps1",
     "graphics\Build-Graphics.ps1",
     "graphics\Build-Texture.ps1", "graphics\Find-GameAsset.ps1", "graphics\Graphics.Common.ps1",
     "graphics\Invoke-Photoshoot.ps1", "graphics\Review-Model.ps1",
@@ -223,7 +234,14 @@ Assert-Project (
     $releaseWorkflowText -match 'cache-dependency-path: tools/graphics/requirements\.txt' -and
     $releaseWorkflowText -match 'python -m pip install --disable-pip-version-check -r tools/graphics/requirements\.txt'
 ) "Release workflow provisions the bounded Python graphics dependencies"
-Assert-Project ($releaseWorkflowText -match 'vs_server_linux-x64_\$gameVersion\.tar\.gz' -and $releaseWorkflowText -match 'Test-Project\.ps1 -RequireBuild -SkipGraphicsBuild') "Release workflow builds against the declared Vintage Story version"
+Assert-Project (
+    $releaseWorkflowText -match 'runs-on: windows-latest' -and
+    $releaseWorkflowText -match 'vs_server_win-x64_\$gameVersion\.zip' -and
+    $releaseWorkflowText -notmatch 'vs_server_linux-x64' -and
+    $releaseWorkflowText -match 'Expand-Archive -LiteralPath \$archivePath -DestinationPath \$serverPath' -and
+    $releaseWorkflowText.Contains('"Lib\e_sqlite3.dll"') -and
+    $releaseWorkflowText -match 'Test-Project\.ps1 -RequireBuild -SkipGraphicsBuild'
+) "The Windows release runner uses the declared Windows server SDK and requires native SQLite"
 Assert-Project ($releaseWorkflowText -match 'gh release create' -and $releaseWorkflowText -match '--verify-tag' -and $releaseWorkflowText -match 'Get-FileHash -Algorithm SHA256') "Release workflow verifies and publishes the package"
 Assert-Project (
     $releaseWorkflowText -match 'git fetch --force --tags origin' -and
@@ -422,20 +440,15 @@ Assert-Project (
     $pipeSoundText -match 'AudioFlowIntensity' -and
     $pipeSoundText -match 'PressureWarningStartKPa' -and
     $pipeSoundText -match 'PressureCreakLimiter' -and
-    $pipeSoundText -match 'SetPitch' -and
-    $pipeSoundText -match 'SetVolume' -and
-    $pipeSoundText -match 'EnumSoundType\.Ambient' -and
-    $pipeSoundText -match 'AmbientVolumeMultiplier = 2' -and
-    $pipeSoundText -match 'LoopReferenceDistanceBlocks = 0\.9f' -and
-    $pipeSoundText -match 'PressureReferenceDistanceBlocks = 1' -and
-    $pipeSoundText -match 'SprinklerLocations' -and
-    $pipeSoundText -match 'sprinkler\.ogg' -and
-    $pipeSoundText -match 'IrrigatorLocations' -and
+    $pipeSoundText -match 'LocalMachineLoop' -and
+    $pipeSoundText -match 'MachineSoundPolicy.InformationalRange' -and
+    $pipeSoundText -match 'water-sprinkler' -and
+    $pipeSoundText -match 'water-irrigator' -and
     $pipeSoundText -match 'pipe is BlockEntityIrrigatorPipe' -and
     $pipeSoundText -match 'pipe is not BlockEntityIrrigatorPipe' -and
     $pipeSoundText -match 'IrrigatorPerformance' -and
-    $pipeSoundText -match 'ref irrigatorSound, IrrigatorLocations'
-) "Pipe, nozzle, sprinkler, irrigator, and rate-limited pressure audio vary with live state at doubled volume and range"
+    $pipeSoundText -notmatch 'sounds/hydraulics/'
+) "Hydraulic audio uses original local water beds and informational pressure cues without third-party samples"
 Assert-Project (
     $pipeEntityText -match 'port-' -and
     $pipeEntityText -match 'IsPortEnabled' -and

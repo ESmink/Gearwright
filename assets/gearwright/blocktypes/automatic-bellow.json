@@ -31,7 +31,10 @@
     "handbook": {
       "include": true,
       "groupBy": ["automatic-bellow-*"],
-      "extraSections": [{ "title": "gearwright:handbook-title-large-bellows", "text": "gearwright:handbook-text-large-bellows" }]
+      "extraSections": [
+        { "title": "gearwright:handbook-title-large-bellows", "text": "gearwright:handbook-text-large-bellows" },
+        { "title": "gearwright:handbook-title-sounds", "text": "gearwright:handbook-audio-large-bellows" }
+      ]
     }
   },
   "blockmaterial": "Wood",

@@ -102,7 +102,7 @@ public partial class BlockEntityFluidPipe
         MarkHydraulicsDirty(true);
         Api.World.BlockAccessor.TriggerNeighbourBlockUpdate(Pos);
         Api.World.PlaySoundAt(new AssetLocation("game:sounds/block/planks"), Pos, 0, null,
-            randomizePitch: false, range: 14, volume: .8f);
+            randomizePitch: false, range: Gearwright.Audio.MachineSoundPolicy.InformationalRange, volume: .5f);
     }
 
     private void DropWoodSupport(IPlayer? player)

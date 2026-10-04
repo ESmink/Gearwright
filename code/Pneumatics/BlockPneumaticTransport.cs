@@ -90,7 +90,8 @@ public sealed class BlockPneumaticTransport : Block
         }
         if (world.Side == EnumAppSide.Server && player.WorldData.CurrentGameMode != EnumGameMode.Creative)
         { slot.TakeOut(1); slot.MarkDirty(); }
-        if (Sounds?.Place != null) world.PlaySoundAt(Sounds.Place, plan.Selection.Position, 0, player);
+        if (Sounds?.Place != null) world.PlaySoundAt(Sounds.Place.Location, plan.Selection.Position, 0, player,
+            randomizePitch: false, range: Gearwright.Audio.MachineSoundPolicy.InformationalRange, volume: .5f);
     }
 
     public override bool OnHeldInteractStep(float secondsUsed, ItemSlot slot, EntityAgent byEntity,

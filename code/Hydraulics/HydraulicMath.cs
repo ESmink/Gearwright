@@ -59,8 +59,8 @@ public static class HydraulicMath
     public const double AssumedPipeFailurePressureKPa = 150;
     public const double ExtremeAudioFlowLitresPerSecond = 8;
     public const double DistantAudioIntensityThreshold = 0.75;
-    public const double LocalAmbientAudioRangeBlocks = 2.8;
-    public const double ExtremeAmbientAudioRangeBlocks = 16;
+    public const double LocalAmbientAudioRangeBlocks = Gearwright.Audio.MachineSoundPolicy.ConstantRange;
+    public const double ExtremeAmbientAudioRangeBlocks = Gearwright.Audio.MachineSoundPolicy.ConstantRange;
 
     public static double Performance(double consumerPressure) =>
         Math.Clamp(consumerPressure / FullSprinklerPressure, 0, 1);
@@ -101,12 +101,7 @@ public static class HydraulicMath
 
     public static double AmbientAudioRange(double intensity)
     {
-        double level = Math.Clamp(double.IsFinite(intensity) ? intensity : 0, 0, 1);
-        if (level <= DistantAudioIntensityThreshold) return LocalAmbientAudioRangeBlocks;
-        double distant = (level - DistantAudioIntensityThreshold) /
-            (1 - DistantAudioIntensityThreshold);
-        return LocalAmbientAudioRangeBlocks +
-            (ExtremeAmbientAudioRangeBlocks - LocalAmbientAudioRangeBlocks) * distant * distant;
+        return LocalAmbientAudioRangeBlocks;
     }
 
     public static double GasGaugePressure(double standardLitres, double temperatureC)

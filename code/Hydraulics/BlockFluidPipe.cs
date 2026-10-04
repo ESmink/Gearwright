@@ -225,7 +225,7 @@ public sealed class BlockFluidPipe : Block
             }
             world.PlaySoundAt(
                 PipePlaceSound, blockSel.Position, 0, null,
-                randomizePitch: false, range: 18, volume: 0.95f);
+                randomizePitch: false, range: Gearwright.Audio.MachineSoundPolicy.InformationalRange, volume: 0.5f);
         }
         return true;
     }

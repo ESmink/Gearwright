@@ -9,7 +9,8 @@
     "handbook": {
       "include": true,
       "extraSections": [
-        { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-sprinkler-brass" }
+        { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-sprinkler-brass" },
+        { "title": "gearwright:handbook-title-sounds", "text": "gearwright:handbook-audio-sprinkler-brass" }
       ]
     }
   },

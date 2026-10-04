@@ -24,7 +24,7 @@ The scripts discover Vintage Story from `-VintageStoryPath`, `VINTAGE_STORY`, or
 .\tools\Test-ServerSmoke.ps1
 ```
 
-`Build-Mod.ps1` writes the package to `dist/`. `Test-Project.ps1` checks repository structure, privacy rules, graphics recipes, save migrations, downgrade protection, and the release build. `Install-Mod.ps1` installs the newest package and verifies its hash. `Test-ServerSmoke.ps1` boots the package with an isolated temporary data folder, waits for `WorldReady`, checks the logs, and removes the temporary world.
+`Build-Mod.ps1` writes the package to `dist/`. `Test-Project.ps1` checks repository structure, privacy rules, graphics recipes, save migrations, downgrade protection, and the release build. Windows compatibility tests require the Windows game or server SDK, including `Lib/e_sqlite3.dll`; the test build copies that native library into its output folder. `Install-Mod.ps1` installs the newest package and verifies its hash. `Test-ServerSmoke.ps1` boots the package with an isolated temporary data folder, waits for `WorldReady`, checks the logs, and removes the temporary world.
 
 `Inspect-BlockBehavior.ps1 -TypeName Vintagestory.API.Common.Block -MethodName GetRetention` inspects the installed SDK's block and room hooks without storing engine code or binaries in the repository. Use `-ListMembers` to find methods before selecting one.
 
@@ -41,7 +41,7 @@ git tag -a v0.1.0 -m "Gearwright 0.1.0"
 git push origin v0.1.0
 ```
 
-GitHub Actions downloads the matching official Vintage Story server package, runs the project checks and compatibility contracts, builds the mod with the committed runtime graphics, verifies the zip contents, writes a SHA-256 checksum, and attaches both files to a GitHub Release. Local completion checks still rebuild graphics from the full game installation.
+GitHub Actions runs on Windows and downloads the matching official Windows Vintage Story server ZIP. It verifies that the SDK includes native SQLite, runs the project checks and compatibility contracts, builds the mod with the committed runtime graphics, verifies the zip contents, writes a SHA-256 checksum, and attaches both files to a GitHub Release. Local completion checks still rebuild graphics from the full game installation.
 
 ## Repository layout
 

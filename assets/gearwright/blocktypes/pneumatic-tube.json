@@ -11,7 +11,8 @@
   },
   "creativeinventory": { "general": ["*"], "gearwright": ["*"] },
   "attributes": { "handbook": { "include": true, "extraSections": [
-    { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-pneumatic-tube" }
+    { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-pneumatic-tube" },
+    { "title": "gearwright:handbook-title-sounds", "text": "gearwright:handbook-audio-pneumatic-tube" }
   ] } },
   "blockmaterial": "Glass", "resistance": 2, "lightAbsorption": 0, "maxStackSize": 64,
   "sidesolid": { "all": false }, "sideopaque": { "all": false }, "rainPermeable": true,

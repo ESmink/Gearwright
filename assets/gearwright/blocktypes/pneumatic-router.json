@@ -18,7 +18,8 @@
   },
   "creativeinventory": { "general": ["*"], "gearwright": ["*"] },
   "attributes": { "handbook": { "include": true, "extraSections": [
-    { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-pneumatic-router" }
+    { "title": "gearwright:handbook-title-how-to-use", "text": "gearwright:handbook-text-pneumatic-router" },
+    { "title": "gearwright:handbook-title-sounds", "text": "gearwright:handbook-audio-pneumatic-router" }
   ] } },
   "blockmaterial": "Wood", "resistance": 4, "lightAbsorption": 0, "maxStackSize": 1,
   "sidesolid": { "all": false }, "sideopaque": { "all": false }, "rainPermeable": true,

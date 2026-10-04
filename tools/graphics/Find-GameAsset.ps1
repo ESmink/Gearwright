@@ -1,6 +1,6 @@
 param(
     [Parameter(Mandatory = $true)][string]$Query,
-    [ValidateSet("Texture", "Shape", "Any")][string]$Type = "Any",
+    [ValidateSet("Texture", "Shape", "Sound", "Any")][string]$Type = "Any",
     [string]$Domain = "",
     [int]$Limit = 50,
     [string]$VintageStoryPath = ""
@@ -24,14 +24,16 @@ foreach ($file in [IO.Directory]::EnumerateFiles($assetsRoot, "*", [IO.SearchOpt
     if (-not [string]::IsNullOrWhiteSpace($Domain) -and $assetDomain -ine $Domain) { continue }
     $isTexture = $assetPath.StartsWith("textures/", [StringComparison]::OrdinalIgnoreCase) -and $assetPath.EndsWith(".png", [StringComparison]::OrdinalIgnoreCase)
     $isShape = $assetPath.StartsWith("shapes/", [StringComparison]::OrdinalIgnoreCase) -and $assetPath.EndsWith(".json", [StringComparison]::OrdinalIgnoreCase)
+    $isSound = $assetPath.StartsWith("sounds/", [StringComparison]::OrdinalIgnoreCase) -and $assetPath.EndsWith(".ogg", [StringComparison]::OrdinalIgnoreCase)
     if ($Type -eq "Texture" -and -not $isTexture) { continue }
     if ($Type -eq "Shape" -and -not $isShape) { continue }
+    if ($Type -eq "Sound" -and -not $isSound) { continue }
     if ($Type -eq "Any" -and -not ($isTexture -or $isShape)) { continue }
     $reference = "$assetDomain`:$assetPath"
     if (-not $reference.ToLowerInvariant().Contains($queryText)) { continue }
     $matches.Add([pscustomobject]@{
         Reference = $reference
-        Kind = if ($isTexture) { "Texture" } else { "Shape" }
+        Kind = if ($isTexture) { "Texture" } elseif ($isSound) { "Sound" } else { "Shape" }
     })
     if ($matches.Count -ge $Limit) { break }
 }

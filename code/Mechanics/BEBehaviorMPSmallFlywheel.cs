@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Gearwright.Audio;
 using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 using Vintagestory.API.Config;
@@ -21,6 +22,10 @@ public sealed class BEBehaviorMPSmallFlywheel : BEBehaviorMPBase
     private FlywheelExchange lastExchange;
     private long lastDirtyTick;
     private long networkMaintenanceListenerId;
+    private long soundListenerId;
+    private LocalMachineLoop? motionSound;
+    private MechanicalNetwork? soundNetwork;
+    private double? previousSoundAngle;
 
     public BEBehaviorMPSmallFlywheel(BlockEntity blockentity) : base(blockentity) { }
 
@@ -35,6 +40,11 @@ public sealed class BEBehaviorMPSmallFlywheel : BEBehaviorMPBase
             networkMaintenanceListenerId = Blockentity.RegisterGameTickListener(
                 MaintainNetwork,
                 200);
+        }
+        else if (api is ICoreClientAPI client)
+        {
+            motionSound = new(client, Position, "flywheel");
+            soundListenerId = Blockentity.RegisterGameTickListener(UpdateSound, 50);
         }
     }
 
@@ -153,12 +163,14 @@ public sealed class BEBehaviorMPSmallFlywheel : BEBehaviorMPBase
 
     public override void OnBlockRemoved()
     {
+        StopSound();
         StopNetworkMaintenance();
         base.OnBlockRemoved();
     }
 
     public override void OnBlockUnloaded()
     {
+        StopSound();
         StopNetworkMaintenance();
         base.OnBlockUnloaded();
     }
@@ -251,6 +263,26 @@ public sealed class BEBehaviorMPSmallFlywheel : BEBehaviorMPBase
         if (networkMaintenanceListenerId == 0) return;
         Blockentity.UnregisterGameTickListener(networkMaintenanceListenerId);
         networkMaintenanceListenerId = 0;
+    }
+
+    private void UpdateSound(float seconds)
+    {
+        MechanicalNetwork? current = Network?.Valid == true ? Network : null;
+        if (!ReferenceEquals(soundNetwork, current)) previousSoundAngle = null;
+        double angle = current == null ? 0 : current.AngleRad * GearedRatio;
+        double speed = current != null && previousSoundAngle.HasValue
+            ? MachineMotionAudio.Speed(MachineMotionAudio.Travel(previousSoundAngle.Value, angle), seconds) : 0;
+        // Eight broad spokes move air; bearings remain softer between passages.
+        motionSound?.Update(seconds, MachineMotionAudio.Gain(speed) * (.7 + .3 * Math.Abs(Math.Sin(angle * 4))));
+        soundNetwork = current;
+        previousSoundAngle = current != null && double.IsFinite(angle) ? angle : null;
+    }
+
+    private void StopSound()
+    {
+        if (soundListenerId != 0) Blockentity.UnregisterGameTickListener(soundListenerId);
+        soundListenerId = 0; motionSound?.Dispose(); motionSound = null;
+        soundNetwork = null; previousSoundAngle = null;
     }
 
     private sealed record ConnectedNeighbour(

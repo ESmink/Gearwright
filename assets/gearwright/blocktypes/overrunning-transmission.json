@@ -33,6 +33,10 @@
         {
           "title": "gearwright:handbook-title-how-to-use",
           "text": "gearwright:handbook-text-overrunning-transmission"
+        },
+        {
+          "title": "gearwright:handbook-title-operating-sounds",
+          "text": "gearwright:handbook-audio-overrunning-transmission"
         }
       ]
     }

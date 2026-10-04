@@ -5,6 +5,8 @@ using Vintagestory.API.MathTools;
 using Vintagestory.API.Client;
 using Vintagestory.API.Config;
 using System.Text;
+using System;
+using Gearwright.Audio;
 
 namespace Gearwright.Pneumatics;
 
@@ -17,6 +19,8 @@ public sealed class BlockEntityPneumaticAirIntake : BlockEntity, IAirReceiver
     internal const string StorageKey = "gearwrightPneumaticIntake";
     private PneumaticIntakeState state = PneumaticIntakeState.Read(null);
     private PneumaticRenderer? renderer;
+    private LocalMachineLoop? airflowSound;
+    private long soundTick;
 
     public bool CanWriteState => state.CanWrite;
     public BlockFacing Outlet => state.Outlet;
@@ -31,6 +35,10 @@ public sealed class BlockEntityPneumaticAirIntake : BlockEntity, IAirReceiver
             renderer = new PneumaticRenderer(this, client);
             client.Event.RegisterRenderer(renderer, EnumRenderStage.Opaque, "gearwright-pneumatic-accumulator");
             client.Event.RegisterRenderer(renderer, EnumRenderStage.OIT, "gearwright-pneumatic-accumulator-glass");
+            airflowSound = new(client, Pos, "airflow");
+            soundTick = RegisterGameTickListener(seconds => airflowSound?.Update(seconds,
+                state.CanWrite && (!GroundedAccumulator || Outlet.IsHorizontal)
+                    ? Math.Sqrt(PneumaticAir.OutletRate(StoredAir) / PneumaticAir.OutletUnitsPerSecond) : 0), 100);
         }
         else api.ModLoader.GetModSystem<PneumaticNetworkSystem>().Register(this);
     }
@@ -94,6 +102,8 @@ public sealed class BlockEntityPneumaticAirIntake : BlockEntity, IAirReceiver
     public override void OnBlockUnloaded() { Unregister(); base.OnBlockUnloaded(); }
     private void Unregister()
     {
+        if (soundTick != 0) { UnregisterGameTickListener(soundTick); soundTick = 0; }
+        airflowSound?.Dispose(); airflowSound = null;
         if (Api is ICoreClientAPI client && renderer != null)
         {
             client.Event.UnregisterRenderer(renderer, EnumRenderStage.Opaque);

@@ -35,6 +35,7 @@ internal static class PneumaticTransportFixture
         internal readonly Dictionary<BlockPos, BlockEntity> Entities = new();
         internal readonly HashSet<BlockPos> Unloaded = new(), Denied = new(), Locked = new();
         internal readonly List<ItemStack> Drops = new();
+        internal readonly List<AssetLocation> Sounds = new();
         internal readonly List<BlockEntityPneumaticTransport> Hosts = new();
         internal readonly MemoryStore Store = new();
         internal readonly ModSystemBlockReinforcement Reinforcement = new();
@@ -66,6 +67,8 @@ internal static class PneumaticTransportFixture
             var registry = Stub.Create<IClassRegistryAPI>((m, _) => m.ReturnType == typeof(IInventoryNetworkUtil) ? inventoryNetwork : null);
             var loader = Stub.Create<IModLoader>((m, _) => m.ReturnType == typeof(ModSystemBlockReinforcement) ? Reinforcement : null);
             World = Stub.Create<IServerWorldAccessor>((m, a) => m.Name switch {
+                "get_Side" => EnumAppSide.Server,
+                "PlaySoundAt" => RecordSound((AssetLocation)a![0]!),
                 "get_BlockAccessor" => accessor, "get_Claims" => claims, "PlayerByUid" => player,
                 "get_Logger" => logger, "get_Calendar" => calendar, "get_ElapsedMilliseconds" => now, "get_ClassRegistry" => registry,
                 "GetItem" => Item, "SpawnItemEntity" => AddDrop((ItemStack)a![0]!), _ => null });
@@ -112,6 +115,7 @@ internal static class PneumaticTransportFixture
         }
         internal int Total => Source.Inventory.Sum(s => s.StackSize) + Target.Inventory.Sum(s => s.StackSize) +
             Hosts.Sum(h => h.State.Cargo?.StackSize ?? 0) + Drops.Sum(s => s.StackSize);
+        private object? RecordSound(AssetLocation location) { Sounds.Add(location); return null; }
         internal void Fill(int count = 64) { Source.Inventory[0].Itemstack = new ItemStack(Item, count); Source.Inventory[0].Itemstack!.Attributes.SetString("provenance", "original stack"); }
         internal void Reload()
         {
@@ -130,6 +134,8 @@ internal static class PneumaticTransportFixture
             using var rig = new Rig(elbows); rig.Fill();
             bool conserved = true, seenCargo = false, boundedHops = true;
             var previousHosts = new Dictionary<string, int>();
+            var senderCycles = new HashSet<string>();
+            var receiverCycles = new HashSet<string>();
             for (int tick = 0; tick < 1200; tick++)
             {
                 rig.Step(); conserved &= rig.Total == 64;
@@ -138,6 +144,8 @@ internal static class PneumaticTransportFixture
                     seenCargo = true;
                     if (previousHosts.TryGetValue(h.State.Parcel, out int previous)) boundedHops &= h.State.RouteIndex - previous <= 1;
                     previousHosts[h.State.Parcel] = h.State.RouteIndex;
+                    if (PneumaticMachineSoundController.Describe(h)?.Cue == "sender-work") senderCycles.Add(h.State.Parcel);
+                    if (PneumaticMachineSoundController.Describe(h)?.Cue == "receiver-work") receiverCycles.Add(h.State.Parcel);
                 }
                 if (tick % 11 == 0) rig.Reload();
             }
@@ -145,12 +153,15 @@ internal static class PneumaticTransportFixture
                 "Runtime " + (elbows ? "vertical elbow" : "straight") + " rig delivers all 64 with one owner, one hop per tick and repeated native save/load");
             check(rig.Target.Inventory.Where(s => !s.Empty).All(s => s.Itemstack!.Attributes.GetString("provenance") == "original stack"),
                 "Runtime cargo keeps actual stack attributes through native extraction and insertion");
+            check(senderCycles.Count == 8 && receiverCycles.Count == 8 && rig.Sounds.Count == 0,
+                "Each committed batch exposes Sender and Receiver motion phases without duplicate server clicks across save/load");
         }
         using (var r = new Rig())
         {
             r.Fill(); r.System.Unregister(r.Receiver);
             for (int i = 0; i < 80; i++) r.Step();
             check(r.Source.Inventory[0].StackSize == 64 && r.Hosts.All(h => h.State.Cargo == null), "A stocked sender never extracts without a receiver order");
+            check(r.Sounds.Count == 0, "Idle and blocked senders do not repeat informational audio");
         }
         using (var r = new Rig())
         {
@@ -200,6 +211,9 @@ internal static class PneumaticTransportFixture
         using (var r = new Rig())
         {
             r.Fill(); r.Store.Fail = true;
+            r.Step();
+            check(r.Sounds.Count == 0 && r.Hosts.All(h => h.State.Cargo == null),
+                "Aborted extraction rolls back before any Sender cue is broadcast");
             for (int i = 0; i < 12; i++) r.Step();
             check(r.Total == 64, "An aborted extraction transaction restores native source and host state");
             var h = r.Hosts.FirstOrDefault(h => h.State.Cargo != null);
@@ -376,6 +390,8 @@ internal static class PneumaticTransportFixture
                 r.Target.Inventory.Sum(s => s.StackSize) + outlet.Inventory.Sum(s => s.StackSize) == 64 &&
                 (kind != "receiver" || r.Target.Inventory.Sum(s => s.StackSize) > 0),
                 "A " + kind + " main outlet receives automatically while retaining its branch role and all cargo through reload");
+            check(r.Sounds.Count(s => s.Path.EndsWith("outlet-arrival.ogg")) == outlet.Inventory.Sum(s => s.StackSize) / 8,
+                "A " + kind + " outlet gives one settling cue per committed batch without imitating its unused branch mechanism");
         }
         using (var r = new Rig())
         {
@@ -386,6 +402,7 @@ internal static class PneumaticTransportFixture
             for (int i = 0; i < 500; i++) { r.Step(); sawReturn |= r.Sender.State.Returning; }
             check(r.Source.Inventory.All(s => s.Empty) && outlet.Inventory.Sum(s => s.StackSize) == 8 && sawReturn,
                 "A sender loads directly from its branch into its own outlet chest, then returns the empty tray");
+            check(r.Sounds.Count == 0, "Direct Sender delivery uses its complete tray sequence without a duplicate arrival cue");
         }
         using (var r = new Rig())
         {

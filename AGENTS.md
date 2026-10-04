@@ -32,6 +32,18 @@ The maintainer may explicitly authorize a breaking change and define its scope. 
 - Avoid AI writing tropes, including canned enthusiasm, inflated claims, repetitive summaries, unnecessary scene-setting, and formulaic contrasts such as "not just X, but Y."
 - Write GitHub Wiki pages and handbook entries from the current code, assets, configuration, and maintainer direction.
 
+## Sound design
+
+- Implement the best current sound choice for in-game listening; standalone previews do not require maintainer selection before integration.
+- Constant machine noise (Automatic Bellow, water streaming, airflow) must stay within 2 blocks, remain fairly quiet, avoid persistent tones and sharp or irritating textures, and contain at least 3 minutes of varied source content before repeating. Pitch or volume jitter alone does not satisfy the content requirement.
+- Constant noise must be audible at normal head height beside a working machine. Use one distance fade; do not stack quiet source levels, a small reference distance, and another full-range fade until the result is inaudible.
+- Informational sounds (pressure creaks, Sender and Receiver work) have a 5-block range. Keep them restrained, distinct and useful, with softened transients. Match their texture, duration and phases to the actual model and animation: lift, gear motion, gate movement, air launch, rollers, and return. Pause movement audio when authoritative progress stalls; do not replace the entire mechanism with a short generic click.
+- Avoid steady static-like air and broadband rubbing as the main voice of machinery. Air should have soft, changing pressure and timbre; gear teeth, frame contacts, gate stops and roller movement should have distinct material responses and gaps. Vary work recordings between batches without changing their animation timing. Current airflow needs a lower gain than the other continuous machine sounds.
+- Warning sounds (for example a future pipe burst) have a 20-block range, normal volume, and may be sharper. Sound rules do not authorize adding new failure mechanics.
+- Use original audio or installed vanilla samples for new work. Do not use or sample the existing third-party recordings; retain their files and attribution until their removal is explicitly authorized.
+- Keep `tools/audio/SOUND-DESIGN.md` and these rules current when the maintainer gives audio feedback. Update implementation and relevant checks to match accepted feedback.
+- The current pneumatic and hydraulic timbres are accepted provisionally. Preserve that baseline when extending sound to other machines unless new feedback asks for a change. Match recurring contacts to live motion and use quieter bearing layers for rotating equipment.
+
 ## Environment and tool failures
 
 - Do not use Computer Use or desktop UI automation in this project, including for Vintage Story and the model reviewer. Use repository tooling, SDK tests, logs and deterministic renders for agent verification; leave interactive in-game visual checks to the maintainer. This restriction takes precedence over any skill instructions to automate a desktop application.

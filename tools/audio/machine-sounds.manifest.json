@@ -1,0 +1,663 @@
+{
+  "schemaVersion": 1,
+  "builderSha256": "0185ab7897e37b71300954f3bc06768ba350a0aea14d3ee75e3bd9024496e3a9",
+  "provenance": "Original deterministic synthesis. No game or third-party recordings were used.",
+  "files": {
+    "airflow.ogg": {
+      "kind": "constant",
+      "sha256": "7ef33a3a147af17f5f967c5cd893815bebac94941f0f76f69799566703d50327",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 240.0
+      },
+      "decodedPeak": 0.447602,
+      "decodedRms": 0.094233,
+      "character": {
+        "energyAbove1800Hz": 8.1e-05,
+        "midbandFlatness": 0.036326,
+        "envelopeVariation": 0.419494
+      }
+    },
+    "bellows.ogg": {
+      "kind": "constant",
+      "sha256": "241fbf76bc31f38fbd125f14aa825091c826650859a17ac987b9361170213a27",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 240.0
+      },
+      "decodedPeak": 0.515283,
+      "decodedRms": 0.104141,
+      "character": {
+        "energyAbove1800Hz": 7.9e-05,
+        "midbandFlatness": 0.036048,
+        "envelopeVariation": 0.409351
+      }
+    },
+    "water-pipe.ogg": {
+      "kind": "constant",
+      "sha256": "150d919f90a71e5e1ee881f10aa2aab76d5ab8052aaddcbfcfff091d213e8d5f",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 240.0
+      },
+      "decodedPeak": 0.701298,
+      "decodedRms": 0.038291,
+      "character": {
+        "energyAbove1800Hz": 0.073505,
+        "midbandFlatness": 0.513842,
+        "envelopeVariation": 0.580156
+      }
+    },
+    "water-outlet.ogg": {
+      "kind": "constant",
+      "sha256": "e2e2ad7d98e64e443147b03805de6f93bbec4fc9e5d48ef950938d9d864108cd",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 240.0
+      },
+      "decodedPeak": 0.714881,
+      "decodedRms": 0.048803,
+      "character": {
+        "energyAbove1800Hz": 0.15156,
+        "midbandFlatness": 0.46256,
+        "envelopeVariation": 0.608612
+      }
+    },
+    "water-sprinkler.ogg": {
+      "kind": "constant",
+      "sha256": "d2282fc2a33d79c50bf88c1afad521b56395f51d24c19a36e2e0b2b6d514d747",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 240.0
+      },
+      "decodedPeak": 0.704749,
+      "decodedRms": 0.052639,
+      "character": {
+        "energyAbove1800Hz": 0.111341,
+        "midbandFlatness": 0.430602,
+        "envelopeVariation": 0.551418
+      }
+    },
+    "water-irrigator.ogg": {
+      "kind": "constant",
+      "sha256": "1f50750da351768e4365ed90147ea3745857d0e1810af5825b81d4b7fb15274b",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 240.0
+      },
+      "decodedPeak": 0.690097,
+      "decodedRms": 0.045963,
+      "character": {
+        "energyAbove1800Hz": 0.117816,
+        "midbandFlatness": 0.484123,
+        "envelopeVariation": 0.656304
+      }
+    },
+    "flywheel.ogg": {
+      "kind": "constant",
+      "sha256": "d01555d27cabc61ee0ef19ea9063c3de911f7f83d725ff139ca402642e73e967",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 240.0
+      },
+      "decodedPeak": 0.422836,
+      "decodedRms": 0.041389,
+      "character": {
+        "energyAbove1800Hz": 7e-05,
+        "midbandFlatness": 0.035851,
+        "envelopeVariation": 1.04116
+      }
+    },
+    "pump-mechanism.ogg": {
+      "kind": "constant",
+      "sha256": "1775b66da8ea8a5eb99fe6ce075112548bb51ec7814f75f71839c5b3d2fac1ac",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 240.0
+      },
+      "decodedPeak": 0.42483,
+      "decodedRms": 0.037223,
+      "character": {
+        "energyAbove1800Hz": 2.4e-05,
+        "midbandFlatness": 0.051988,
+        "envelopeVariation": 1.19463
+      }
+    },
+    "transmission-bearing.ogg": {
+      "kind": "constant",
+      "sha256": "24b04d37223c883a6c2eacbc1cfd8785588cf2100914b9dade49687915397c65",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 240.0
+      },
+      "decodedPeak": 0.421346,
+      "decodedRms": 0.03403,
+      "character": {
+        "energyAbove1800Hz": 6.1e-05,
+        "midbandFlatness": 0.052625,
+        "envelopeVariation": 1.233789
+      }
+    },
+    "sender-work.ogg": {
+      "kind": "informational",
+      "sha256": "7dffb20fb49c688f71ed0acf9bf661c33387815fa2b3a49f2a561fda798d8ca8",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 1.6
+      },
+      "decodedPeak": 0.552938,
+      "decodedRms": 0.084885,
+      "character": {
+        "energyAbove1800Hz": 0.000696,
+        "midbandFlatness": 0.056006,
+        "envelopeVariation": 0.773136
+      }
+    },
+    "receiver-work.ogg": {
+      "kind": "informational",
+      "sha256": "1505aee14247ff73e40a4c328657ba1d2cb2e021cb158965b98d3e5799113e44",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 1.6
+      },
+      "decodedPeak": 0.546218,
+      "decodedRms": 0.074263,
+      "character": {
+        "energyAbove1800Hz": 0.000285,
+        "midbandFlatness": 0.054168,
+        "envelopeVariation": 0.639759
+      }
+    },
+    "router-turn.ogg": {
+      "kind": "informational",
+      "sha256": "a9344330f91641f84d1d48763145c0b8bccd1295cb41d654a5e1d563c50052dd",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 1.0
+      },
+      "decodedPeak": 0.546193,
+      "decodedRms": 0.09149,
+      "character": {
+        "energyAbove1800Hz": 0.000228,
+        "midbandFlatness": 0.049601,
+        "envelopeVariation": 0.664361
+      }
+    },
+    "pressure-creak1.ogg": {
+      "kind": "informational",
+      "sha256": "b9851340b77fffc91959e7f0cd678b4569b91152f0452f3c184d18add2b91045",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 1.8
+      },
+      "decodedPeak": 0.553645,
+      "decodedRms": 0.069157,
+      "character": {
+        "energyAbove1800Hz": 9.7e-05,
+        "midbandFlatness": 0.033812,
+        "envelopeVariation": 0.917662
+      }
+    },
+    "pressure-creak2.ogg": {
+      "kind": "informational",
+      "sha256": "a54426ca94cb9df7c7000fb8283c1887d0416c5c70bb7e7dd411af68868e3659",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 1.8
+      },
+      "decodedPeak": 0.545084,
+      "decodedRms": 0.071329,
+      "character": {
+        "energyAbove1800Hz": 0.000231,
+        "midbandFlatness": 0.026674,
+        "envelopeVariation": 0.932278
+      }
+    },
+    "pressure-creak3.ogg": {
+      "kind": "informational",
+      "sha256": "dcd3de3a3478c32a0233edd037b5b676d0ab6fd3d00efe0bc9b1f410dd117456",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 1.8
+      },
+      "decodedPeak": 0.54674,
+      "decodedRms": 0.068128,
+      "character": {
+        "energyAbove1800Hz": 0.000169,
+        "midbandFlatness": 0.040507,
+        "envelopeVariation": 0.979558
+      }
+    },
+    "router-prepare.ogg": {
+      "kind": "informational",
+      "sha256": "962a2efaa54f381f5b1d4c248b0d995f45743f63021d6017f845b72577210824",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.4
+      },
+      "decodedPeak": 0.556231,
+      "decodedRms": 0.118961,
+      "character": {
+        "energyAbove1800Hz": 0.001141,
+        "midbandFlatness": 0.050927,
+        "envelopeVariation": 0.427424
+      }
+    },
+    "outlet-arrival.ogg": {
+      "kind": "informational",
+      "sha256": "9f83f303303a0ff348481bac3c523fccc6fb9837b81b04f73e10cd8bfba8fad1",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.9
+      },
+      "decodedPeak": 0.549959,
+      "decodedRms": 0.065365,
+      "character": {
+        "energyAbove1800Hz": 7.7e-05,
+        "midbandFlatness": 0.044453,
+        "envelopeVariation": 0.673368
+      }
+    },
+    "pump-valve.ogg": {
+      "kind": "constant",
+      "sha256": "ab12c5d50f18f26c293df9ceb7d459dc2ac1a0c9eed1c996d232c820b052b668",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.14
+      },
+      "decodedPeak": 0.548452,
+      "decodedRms": 0.134425,
+      "character": {
+        "energyAbove1800Hz": 0.000108,
+        "midbandFlatness": 0.010941,
+        "envelopeVariation": 0.48775
+      }
+    },
+    "ratchet-pawl.ogg": {
+      "kind": "constant",
+      "sha256": "b002697bd5d26c79d59770424e5936b0c6c12cafb62b4bb67c08bda1c6647e2a",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.1
+      },
+      "decodedPeak": 0.550027,
+      "decodedRms": 0.126733,
+      "character": {
+        "energyAbove1800Hz": 0.000499,
+        "midbandFlatness": 0.037616,
+        "envelopeVariation": 0.0
+      }
+    },
+    "ratchet-engage.ogg": {
+      "kind": "informational",
+      "sha256": "89fddff40328e05fec81d2ec98202b60f30dc2291b31d020f59e6d4d04a36178",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.4
+      },
+      "decodedPeak": 0.555478,
+      "decodedRms": 0.064065,
+      "character": {
+        "energyAbove1800Hz": 0.000161,
+        "midbandFlatness": 0.041611,
+        "envelopeVariation": 1.096557
+      }
+    },
+    "sender-work-2.ogg": {
+      "kind": "informational",
+      "sha256": "ed6454ae7c93f521d257436d2c044f4f77a68d45bbf833c825cca5ad9e77b351",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 1.6
+      },
+      "decodedPeak": 0.545507,
+      "decodedRms": 0.079861,
+      "character": {
+        "energyAbove1800Hz": 0.00042,
+        "midbandFlatness": 0.058809,
+        "envelopeVariation": 0.925136
+      }
+    },
+    "sender-work-3.ogg": {
+      "kind": "informational",
+      "sha256": "eb6a440fc588a9ab8452398b02e550d37fb115ac278f41dddd1467ff5e9701ff",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 1.6
+      },
+      "decodedPeak": 0.559801,
+      "decodedRms": 0.068572,
+      "character": {
+        "energyAbove1800Hz": 0.000485,
+        "midbandFlatness": 0.040491,
+        "envelopeVariation": 0.812846
+      }
+    },
+    "sender-work-4.ogg": {
+      "kind": "informational",
+      "sha256": "d6883673feb3907d7e3dc246ecf43073a426830647527ad28dc52891078ebac7",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 1.6
+      },
+      "decodedPeak": 0.549517,
+      "decodedRms": 0.070849,
+      "character": {
+        "energyAbove1800Hz": 0.000297,
+        "midbandFlatness": 0.052909,
+        "envelopeVariation": 0.928664
+      }
+    },
+    "receiver-work-2.ogg": {
+      "kind": "informational",
+      "sha256": "562c0bc4fa39d0c8d9d1498d359d59e3b8bcb850711c2d82daeddaad8294814c",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 1.6
+      },
+      "decodedPeak": 0.553117,
+      "decodedRms": 0.070155,
+      "character": {
+        "energyAbove1800Hz": 0.000372,
+        "midbandFlatness": 0.049095,
+        "envelopeVariation": 0.602489
+      }
+    },
+    "receiver-work-3.ogg": {
+      "kind": "informational",
+      "sha256": "b76f2dada194741a75afb27b598649f4e4e6c2122830d7eaaad5cd45eefaa4ee",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 1.6
+      },
+      "decodedPeak": 0.552195,
+      "decodedRms": 0.073087,
+      "character": {
+        "energyAbove1800Hz": 0.000328,
+        "midbandFlatness": 0.047039,
+        "envelopeVariation": 0.631767
+      }
+    },
+    "receiver-work-4.ogg": {
+      "kind": "informational",
+      "sha256": "ca3c3044f1f69b059c1cf6fa93b04a2383361a0cc45b35136ca37155f144c73a",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 1.6
+      },
+      "decodedPeak": 0.551274,
+      "decodedRms": 0.081021,
+      "character": {
+        "energyAbove1800Hz": 0.000367,
+        "midbandFlatness": 0.052008,
+        "envelopeVariation": 0.640384
+      }
+    },
+    "router-turn-2.ogg": {
+      "kind": "informational",
+      "sha256": "164652914b67201eb37fa22866b42bd6d2921bf2a439dac19e6b4c1c85cfa47b",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 1.0
+      },
+      "decodedPeak": 0.544251,
+      "decodedRms": 0.112636,
+      "character": {
+        "energyAbove1800Hz": 0.000317,
+        "midbandFlatness": 0.057617,
+        "envelopeVariation": 0.584556
+      }
+    },
+    "router-turn-3.ogg": {
+      "kind": "informational",
+      "sha256": "1296488996e42904a79b7e4b59c37d3e1d95d990f53fc9e0a37c0d0563600f23",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 1.0
+      },
+      "decodedPeak": 0.572,
+      "decodedRms": 0.090982,
+      "character": {
+        "energyAbove1800Hz": 0.000326,
+        "midbandFlatness": 0.04768,
+        "envelopeVariation": 0.595835
+      }
+    },
+    "router-turn-4.ogg": {
+      "kind": "informational",
+      "sha256": "b9d5bf3f153db528e00f1844e763b88a5cdfa75d0d88340c9937b2891d4a283b",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 1.0
+      },
+      "decodedPeak": 0.549899,
+      "decodedRms": 0.103805,
+      "character": {
+        "energyAbove1800Hz": 0.000371,
+        "midbandFlatness": 0.05266,
+        "envelopeVariation": 0.549401
+      }
+    },
+    "router-prepare-2.ogg": {
+      "kind": "informational",
+      "sha256": "2cef9fc82e6a587a6c7d62b9474f050d4a64e56807fa726128490097193d8fdd",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.4
+      },
+      "decodedPeak": 0.553503,
+      "decodedRms": 0.098927,
+      "character": {
+        "energyAbove1800Hz": 0.001205,
+        "midbandFlatness": 0.050869,
+        "envelopeVariation": 0.518197
+      }
+    },
+    "router-prepare-3.ogg": {
+      "kind": "informational",
+      "sha256": "10437039b9d379dc0451e65e7e950cb6c1fb5ce12fe410f84c5bbf3138d683d2",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.4
+      },
+      "decodedPeak": 0.549282,
+      "decodedRms": 0.10569,
+      "character": {
+        "energyAbove1800Hz": 0.001054,
+        "midbandFlatness": 0.062825,
+        "envelopeVariation": 0.454394
+      }
+    },
+    "router-prepare-4.ogg": {
+      "kind": "informational",
+      "sha256": "034b91c411bc096a805fefda68adabd9c5f07242884c817c466410402e22118e",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.4
+      },
+      "decodedPeak": 0.553002,
+      "decodedRms": 0.116184,
+      "character": {
+        "energyAbove1800Hz": 0.000763,
+        "midbandFlatness": 0.059447,
+        "envelopeVariation": 0.459369
+      }
+    },
+    "pump-valve-2.ogg": {
+      "kind": "constant",
+      "sha256": "5b3a8188f4781f32004d1b7b09f1d51a650f5e9f806a85c6a827badbb896c341",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.14
+      },
+      "decodedPeak": 0.553506,
+      "decodedRms": 0.133128,
+      "character": {
+        "energyAbove1800Hz": 8.4e-05,
+        "midbandFlatness": 0.007748,
+        "envelopeVariation": 0.454154
+      }
+    },
+    "pump-valve-3.ogg": {
+      "kind": "constant",
+      "sha256": "b3449219730922dcbf2584694ad8aded9c97d76be0fd0a9d925e83829b48d323",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.14
+      },
+      "decodedPeak": 0.552803,
+      "decodedRms": 0.111286,
+      "character": {
+        "energyAbove1800Hz": 9.8e-05,
+        "midbandFlatness": 0.006895,
+        "envelopeVariation": 0.470992
+      }
+    },
+    "pump-valve-4.ogg": {
+      "kind": "constant",
+      "sha256": "7b9aa9b59ae93c31da2a2240e681d7d49c0af5c9ec2a264db75e159b3f0b455d",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.14
+      },
+      "decodedPeak": 0.546316,
+      "decodedRms": 0.104236,
+      "character": {
+        "energyAbove1800Hz": 9.4e-05,
+        "midbandFlatness": 0.007533,
+        "envelopeVariation": 0.443066
+      }
+    },
+    "ratchet-pawl-2.ogg": {
+      "kind": "constant",
+      "sha256": "8d61db749515271a3e5b80682cff4fe478d172c1ce73ef13edf1dd99cae375b0",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.1
+      },
+      "decodedPeak": 0.548735,
+      "decodedRms": 0.126364,
+      "character": {
+        "energyAbove1800Hz": 0.000194,
+        "midbandFlatness": 0.008488,
+        "envelopeVariation": 0.458024
+      }
+    },
+    "ratchet-pawl-3.ogg": {
+      "kind": "constant",
+      "sha256": "fbacd8e57419e2498197dfea6101361433adcd854ade0498b54804cea4a12e0c",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.1
+      },
+      "decodedPeak": 0.534424,
+      "decodedRms": 0.127538,
+      "character": {
+        "energyAbove1800Hz": 0.000482,
+        "midbandFlatness": 0.040975,
+        "envelopeVariation": 0.0
+      }
+    },
+    "ratchet-pawl-4.ogg": {
+      "kind": "constant",
+      "sha256": "b233b523a6b8cf0e04a6d6b48577187f83cf26647d9b3397ed8d032bad78e112",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.1
+      },
+      "decodedPeak": 0.545229,
+      "decodedRms": 0.142662,
+      "character": {
+        "energyAbove1800Hz": 0.000355,
+        "midbandFlatness": 0.013157,
+        "envelopeVariation": 0.0
+      }
+    },
+    "ratchet-engage-2.ogg": {
+      "kind": "informational",
+      "sha256": "f2e90783eb692896bbbf158f8f15bbbdda9cdcbf4581f5656daf67ebef092ebc",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.4
+      },
+      "decodedPeak": 0.558868,
+      "decodedRms": 0.071083,
+      "character": {
+        "energyAbove1800Hz": 0.000148,
+        "midbandFlatness": 0.031961,
+        "envelopeVariation": 1.13667
+      }
+    },
+    "ratchet-engage-3.ogg": {
+      "kind": "informational",
+      "sha256": "100297961e15e22bf5652246bb0752de1740558aa70f42ee77cf134cac22154d",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.4
+      },
+      "decodedPeak": 0.552312,
+      "decodedRms": 0.068772,
+      "character": {
+        "energyAbove1800Hz": 0.000134,
+        "midbandFlatness": 0.036732,
+        "envelopeVariation": 1.120669
+      }
+    },
+    "ratchet-engage-4.ogg": {
+      "kind": "informational",
+      "sha256": "154dcce0b24298af4c61ff74038da69d4a2f7ccf847335939544fa3b0b1ae013",
+      "format": {
+        "sampleRate": 24000,
+        "channels": 1,
+        "seconds": 0.4
+      },
+      "decodedPeak": 0.549208,
+      "decodedRms": 0.076399,
+      "character": {
+        "energyAbove1800Hz": 0.000153,
+        "midbandFlatness": 0.037261,
+        "envelopeVariation": 1.158545
+      }
+    }
+  }
+}
