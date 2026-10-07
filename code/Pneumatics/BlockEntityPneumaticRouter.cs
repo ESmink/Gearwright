@@ -28,6 +28,7 @@ public sealed partial class BlockEntityPneumaticTransport
     public override void OnReceivedClientPacket(IPlayer fromPlayer, int packetid, byte[] data)
     {
         base.OnReceivedClientPacket(fromPlayer, packetid, data);
+        if (packetid == 2103) { ReceiveStockkeeperConfiguration(fromPlayer, data); return; }
         if (Api.Side != EnumAppSide.Server || packetid != 2102 || Kind != PneumaticLineKind.Router || !CanWrite || data.Length > 16384 ||
             !PneumaticPlacement.InReach(fromPlayer, Pos) || !Api.World.Claims.TryAccess(fromPlayer, Pos, EnumBlockAccessFlags.Use) ||
             Router.NextConfiguration > Api.World.ElapsedMilliseconds) return;

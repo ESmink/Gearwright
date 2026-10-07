@@ -35,7 +35,7 @@ class PneumaticRuntimeModelTests(unittest.TestCase):
             source = shape_for('a-brass-sleeve', state)
             approved = shape_for('a-brass-sleeve', state, repaired=False)
             self.assertEqual(digest, hashlib.sha256(json_bytes(compile_shape(approved))).hexdigest(), state)
-            runtime = hardware('straight-terminal' if state == 'terminal' else state)
+            runtime = hardware('straight-terminal' if state == 'terminal' else state, reinforced=False)
             self.assertEqual([e for e in source.elements if e.group != 'cargo' and 'representative-cargo' not in e.name], runtime.elements)
             self.assertEqual(source.textures, runtime.textures)
             for a, b in zip(source.animations, runtime.animations):

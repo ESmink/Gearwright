@@ -15,7 +15,9 @@
     <Reference Include="cairo-sharp"><HintPath>$(VintageStoryPath)\Lib\cairo-sharp.dll</HintPath><Private>true</Private></Reference>
     <Compile Include="Program.cs" />
     <Compile Include="MachineAudioFixture.cs" />
+    <Compile Include="HydraulicAudioFixture.cs" />
     <Compile Include="MechanicalAudioFixture.cs" />
+    <Compile Include="OverrunningTransmissionFixture.cs" />
     <Compile Include="PumpCircuitFixture.cs" />
     <Compile Include="..\..\code\**\*.cs" LinkBase="Runtime" />
     <Compile Include="PumpRuntimeFixture.cs" />
@@ -23,6 +25,8 @@
     <Compile Include="LargeBellowsFixture.cs" />
     <Compile Include="PneumaticAirFixture.cs" />
     <Compile Include="PneumaticTransportFixture.cs" />
+    <Compile Include="PneumaticStockkeeperFixture.cs" />
+    <Compile Include="PneumaticPrinterPaperFixture.cs" />
     <Compile Include="PneumaticRouterFixture.cs" />
     <Compile Include="PneumaticPresentationFixture.cs" />
     <Compile Include="PneumaticAirStreamFixture.cs" />
@@ -76,6 +80,7 @@
 
   <ItemGroup>
     <None Include="fixtures\*.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="$(VintageStoryPath)\Lib\libcairo-2.dll" Link="libcairo-2.dll" CopyToOutputDirectory="PreserveNewest" Condition="Exists('$(VintageStoryPath)\Lib\libcairo-2.dll')" />
     <None Include="$(VintageStoryPath)\Lib\e_sqlite3.dll" Link="e_sqlite3.dll" CopyToOutputDirectory="PreserveNewest" Condition="Exists('$(VintageStoryPath)\Lib\e_sqlite3.dll')" />
     <None Include="$(VintageStoryPath)\assets\game\shaders\standard.fsh"
           Link="sdk\standard.fsh" CopyToOutputDirectory="PreserveNewest" />

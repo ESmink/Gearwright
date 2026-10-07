@@ -15,6 +15,10 @@ New names may be added. Existing names must not be repurposed for different mean
 
 ## Storage strategy
 
+Overrunning Transmission block-entity packet `2110` adds transient server presentation only. Version 1 is 19 bytes: version `1`, flags (bit 0 available, bit 1 engaged), handedness (`0` reverse, `1` forward), then input and output network IDs as little-endian 64-bit integers. Unknown versions and malformed frames are ignored; snapshots must match both live networks and expire after three seconds. The server sends changes at most ten times per second and a one-second heartbeat for new observers. No saved attributes, existing packet layouts or mechanical solver rules change.
+
+The Smart Receiver adds `gearwright:pneumatic-smart-receiver` and an independent tree at `gearwrightPneumaticStockkeeper`. Schema 1 → 2 preserves its four ghost samples and targets, revision, print ID/progress, accumulated reel angle and legacy visible-row count, then adds paper grain phase, the active receipt and up to ten previous receipts. Each receipt retains a display-only item sample and actual batch quantity; it is never inventory or recoverable cargo. Clients resolve the displayed item name in their own language. Old documents keep their targets and current cycle, with blank history because schema 1 did not record ordered items. Missing state defaults to four inactive rows; malformed and newer documents remain byte-for-byte protected. Unknown document, configuration-row and receipt fields survive writes and receipt movement. `pneumatic-stockkeeper-schema1.json`, `pneumatic-stockkeeper-schema2.json` and `PneumaticStockkeeperFixture` cover migration/reload, bounded receipt history and atomic reservation rollback. Existing transport schema 3, router schema 2 and chest schema 1 are unchanged.
+
 The first world document is UTF-8 JSON with an integer `schemaVersion`. The loader retains unknown object fields when it saves the document again.
 
 Loading follows these rules:

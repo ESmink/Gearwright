@@ -134,6 +134,7 @@ public sealed partial class PneumaticNetworkSystem : ModSystem
         {
             bool supplied = flow.Sections.TryGetValue(h.Position, out var f) && f.Received > h.Node.LossPerSecond * seconds;
             h.Air = supplied ? f.Received / seconds : 0;
+            if (h.IsSmartReceiver && supplied && Access(h.State.Owner, h.Pos)) h.Stockkeeper.AdvancePrint(seconds);
             if (h.Kind == PneumaticLineKind.Router) h.Router.SupplyPort = f.SelectedInput == null ? 0 : h.Router.Port(f.SelectedInput);
             if (h.State.Returning)
             {
@@ -183,6 +184,7 @@ public sealed partial class PneumaticNetworkSystem : ModSystem
     private void Order(BlockEntityPneumaticTransport receiver)
     {
         var state = receiver.State;
+        if (receiver.IsSmartReceiver) RefreshStockkeeper(receiver);
         if (state.Outstanding != "")
         {
             // The frozen route contains every possible host. A missing or
@@ -193,11 +195,11 @@ public sealed partial class PneumaticNetworkSystem : ModSystem
             Transfer(new[] { receiver }, () => { state.Outstanding = ""; state.OrderRoute = Array.Empty<string>(); });
         }
         if (state.Outstanding != "" || state.Cargo != null || state.Returning || receiver.Air <= 0 ||
-            hosts.Values.Count(h => h.State.Cargo != null) >= 64) return;
+            receiver.IsSmartReceiver && receiver.Stockkeeper.Printing || hosts.Values.Count(h => h.State.Cargo != null) >= 64) return;
         var destinations = new List<(PneumaticInventory Inventory, BlockFacing Face, bool Outlet)>();
         if (receiver.Kind == PneumaticLineKind.InlineReceiver && receiver.Chest is { } branch)
             destinations.Add((branch, state.InventoryFace, false));
-        if (receiver.OutletChest is { } outlet) destinations.Add((outlet, state.Output, true));
+        if (!receiver.IsSmartReceiver && receiver.OutletChest is { } outlet) destinations.Add((outlet, state.Output, true));
         if (destinations.Count == 0) { SetStatus(receiver, "no-inventory"); return; }
         // Alternate between branch and mainline outlet; a full branch does not
         // suppress a usable terminal inventory on the same physical machine.
@@ -235,6 +237,7 @@ public sealed partial class PneumaticNetworkSystem : ModSystem
                 var sourceSlot = source.Inventory[slotIndex];
                 if (sourceSlot.Empty || !sourceSlot.CanTake() || !PneumaticInventory.Supported(sourceSlot.Itemstack)) continue;
                 int count = Math.Min(8, Math.Min(sourceSlot.StackSize, destination.Capacity(api!.World, sourceSlot.Itemstack)));
+                count = LimitStockOrder(receiver, sourceSlot.Itemstack, count);
                 if (count <= 0) continue;
                 var route = path.AsEnumerable().Reverse().Select(h => Encode(h.Pos)).ToArray();
                 string parcel = Guid.NewGuid().ToString("N"), receipt = Guid.NewGuid().ToString("N");
@@ -253,6 +256,7 @@ public sealed partial class PneumaticNetworkSystem : ModSystem
                     sender.NextAdvance = 0;
                     source.Receipt.Receipt = receipt;
                     state.Outstanding = parcel; state.OrderRoute = route; state.Receipt = receipt;
+                    if (receiver.IsSmartReceiver) receiver.Stockkeeper.BeginOrder(parcel, cargo.Itemstack!);
                 });
                 SetStatus(receiver, ok ? "ordered" : "save-paused");
                 if (ok)

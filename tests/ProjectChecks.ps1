@@ -131,6 +131,8 @@ $required = @(
     "code\Mechanics\BlockOverrunningTransmission.cs",
     "code\Mechanics\BEBehaviorOverrunningTransmission.cs",
     "code\Mechanics\OverrunningCouplingMath.cs",
+    "code\Mechanics\OverrunningDriveState.cs",
+    "tests\Gearwright.Contracts\OverrunningTransmissionFixture.cs",
     "code\Mechanics\OverrunningTransmissionRenderer.cs",
     "code\Mechanics\BlockLateralCrank.cs", "code\Mechanics\BEBehaviorMPLateralCrank.cs",
     "code\Mechanics\LateralCrankRenderer.cs", "code\Mechanics\LateralCrankStateSchema.cs",
@@ -143,6 +145,7 @@ $required = @(
     "tools\audio\Build-PneumaticSoundReview.ps1", "tools\audio\pneumatic_sound_review.py",
     "tools\audio\requirements.txt",
     "tools\audio\Build-MachineSounds.ps1", "tools\audio\machine_sound_assets.py", "tools\audio\SOUND-DESIGN.md",
+    "tools\audio\water_sound_sources.py",
     "code\Audio\MachineSoundPolicy.cs", "code\Audio\LocalMachineLoop.cs",
     "code\Audio\LocalMachineContacts.cs", "code\Audio\MachineMotionAudio.cs",
     "code\Hydraulics\ReciprocatingPumpSoundController.cs", "code\Mechanics\OverrunningTransmissionSoundController.cs",
@@ -314,7 +317,10 @@ Assert-Project (
     $overrunningMathText -match 'ContactThreat' -and
     $overrunningMathText -match 'inputLead >= EngageSpeedDifference' -and
     $overrunningMathText -match 'OverrunningPawlMath' -and
-    $overrunningRendererText -match 'directedOutput - directedInput' -and
+    $overrunningRendererText -match 'transmission\.TryGetDriveState' -and
+    $overrunningRendererText -match 'overrunPose = driveAvailable && !drive\.Engaged' -and
+    $overrunningRendererText -notmatch 'directedOutput - directedInput' -and
+    $overrunningBehaviorText -match 'BroadcastDriveStateIfDue' -and
     $overrunningRendererText -match 'handedness \* \(lastState\.OutputAngle - lastState\.InputAngle\)' -and
     $overrunningRendererText -match 'OverrunningPawlMath\.Lift' -and
     $overrunningRendererText -match 'UploadPair' -and
@@ -448,7 +454,7 @@ Assert-Project (
     $pipeSoundText -match 'pipe is not BlockEntityIrrigatorPipe' -and
     $pipeSoundText -match 'IrrigatorPerformance' -and
     $pipeSoundText -notmatch 'sounds/hydraulics/'
-) "Hydraulic audio uses original local water beds and informational pressure cues without third-party samples"
+) "Hydraulic audio uses local water beds and informational pressure cues without third-party samples"
 Assert-Project (
     $pipeEntityText -match 'port-' -and
     $pipeEntityText -match 'IsPortEnabled' -and

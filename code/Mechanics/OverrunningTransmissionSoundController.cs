@@ -15,13 +15,14 @@ internal sealed class OverrunningTransmissionSoundController : IDisposable
     private OverrunningRotorState? previous;
     private bool previousOverrun;
     private int previousHand;
+    private float engagementCooldown;
 
     internal OverrunningTransmissionSoundController(ICoreClientAPI api, BlockPos position)
     {
         this.api = api; this.position = position.Copy();
         bearings = new(api, position, "transmission-bearing");
-        pawls = new(api, position, "ratchet-pawl", maximumVolume: .18f);
-        engagement = new(api, position, "ratchet-engage", MachineSoundKind.Informational, .27f);
+        pawls = new(api, position, "ratchet-pawl", maximumVolume: .12f);
+        engagement = new(api, position, "ratchet-engage", MachineSoundKind.Informational, .17f);
     }
 
     internal void Update(float seconds, OverrunningRotorState? state, int hand, bool overrun) =>
@@ -30,6 +31,8 @@ internal sealed class OverrunningTransmissionSoundController : IDisposable
     internal void UpdateAtDistance(float seconds, OverrunningRotorState? state, int hand, bool overrun, double distance)
     {
         pawls.UpdateAtDistance(seconds, distance); engagement.UpdateAtDistance(seconds, distance);
+        if (float.IsFinite(seconds) && seconds > 0)
+            engagementCooldown = Math.Max(0, engagementCooldown - Math.Min(seconds, .25f));
         double gain = 0;
         if (state.HasValue && previous.HasValue && hand == previousHand)
         {
@@ -43,9 +46,13 @@ internal sealed class OverrunningTransmissionSoundController : IDisposable
                 if (overrun && previousOverrun && MachineMotionAudio.CrossedTooth(
                     hand * (before.OutputAngle - before.InputAngle),
                     hand * (outputTravel - inputTravel), OverrunningPawlMath.ToothPitch))
-                    pawls.Trigger(.35 + .65 * gain);
-                if (overrun != previousOverrun)
+                    pawls.Trigger(.2 + .55 * MachineMotionAudio.Gain(
+                        MachineMotionAudio.Speed(outputTravel - inputTravel, seconds)));
+                if (overrun != previousOverrun && engagementCooldown <= 0)
+                {
                     engagement.Trigger(overrun ? .45 : .85, overrun ? .95f : 1);
+                    engagementCooldown = .75f;
+                }
             }
         }
         bearings.UpdateAtDistance(seconds, gain * .65, 1, distance);

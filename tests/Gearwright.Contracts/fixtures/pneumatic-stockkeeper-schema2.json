@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 2,
+  "revision": 3,
+  "printing": true,
+  "printProgress": 0.7,
+  "paperAngle": 193.37325585665283,
+  "paperPhase": 2.7,
+  "printedRows": 2,
+  "printId": "0123456789abcdef0123456789abcdef",
+  "historyCount": 2,
+  "activePrint": { "amount": 3, "sampleVariant": 7, "futureInk": "preserve-active" },
+  "printHistory0": { "amount": 8, "sampleVariant": 4, "futureInk": "preserve-newest" },
+  "printHistory1": { "amount": 6, "sampleVariant": 2, "futureInk": "preserve-oldest" },
+  "futureSetting": "preserve"
+}

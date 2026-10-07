@@ -1,662 +1,760 @@
 {
   "schemaVersion": 1,
-  "builderSha256": "0185ab7897e37b71300954f3bc06768ba350a0aea14d3ee75e3bd9024496e3a9",
-  "provenance": "Original deterministic synthesis. No game or third-party recordings were used.",
+  "builderSha256": "6d40afdaf0c6697a5e0477ad7a1df0205d04df80574ab5746a34a8b18a7cc0b8",
+  "provenance": "Original deterministic mechanism synthesis; irrigation uses composed excerpts of installed Vintage Story water recordings. No third-party recordings were used.",
+  "irrigationSources": [
+    {
+      "reference": "survival:sounds/effect/watering-loop.ogg",
+      "sha256": "b0ef96abc75758d6a8fa091a333650207c5d449b9818e9e020a277efb86dcd75",
+      "seconds": 7.122,
+      "rms": 0.00646,
+      "energyAbove6000Hz": 0.479135
+    },
+    {
+      "reference": "survival:sounds/effect/water-pour.ogg",
+      "sha256": "e1bffb596194122f38f15160908c214b5d573f047c9f633c19332ce2f1a6e74d",
+      "seconds": 1.174,
+      "rms": 0.004013,
+      "energyAbove6000Hz": 0.077257
+    }
+  ],
   "files": {
     "airflow.ogg": {
       "kind": "constant",
-      "sha256": "7ef33a3a147af17f5f967c5cd893815bebac94941f0f76f69799566703d50327",
+      "sha256": "ef5063bbcb46b13e86132a69105e187b93a2a05aea44bb579a120b93f28f518a",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 240.0
       },
-      "decodedPeak": 0.447602,
-      "decodedRms": 0.094233,
+      "decodedPeak": 0.503541,
+      "decodedRms": 0.099782,
       "character": {
-        "energyAbove1800Hz": 8.1e-05,
-        "midbandFlatness": 0.036326,
-        "envelopeVariation": 0.419494
+        "energyAbove1800Hz": 0.000153,
+        "midbandFlatness": 0.041588,
+        "envelopeVariation": 0.453356,
+        "energyAbove6000Hz": 0.0,
+        "peak50msRms": 0.252238
       }
     },
     "bellows.ogg": {
       "kind": "constant",
-      "sha256": "241fbf76bc31f38fbd125f14aa825091c826650859a17ac987b9361170213a27",
+      "sha256": "80f5768d9a0283d55988d3a40817186d74f4e354723aed9430e2e68518803276",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 240.0
       },
-      "decodedPeak": 0.515283,
-      "decodedRms": 0.104141,
+      "decodedPeak": 0.568869,
+      "decodedRms": 0.109831,
       "character": {
-        "energyAbove1800Hz": 7.9e-05,
-        "midbandFlatness": 0.036048,
-        "envelopeVariation": 0.409351
+        "energyAbove1800Hz": 0.000151,
+        "midbandFlatness": 0.039772,
+        "envelopeVariation": 0.445492,
+        "energyAbove6000Hz": 0.0,
+        "peak50msRms": 0.257492
       }
     },
     "water-pipe.ogg": {
       "kind": "constant",
-      "sha256": "150d919f90a71e5e1ee881f10aa2aab76d5ab8052aaddcbfcfff091d213e8d5f",
+      "sha256": "265b8b9806b3b75d4bb95531313f906eeee91cef6a5d3549b5c1ac7278609c12",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 240.0
       },
-      "decodedPeak": 0.701298,
-      "decodedRms": 0.038291,
+      "decodedPeak": 0.537757,
+      "decodedRms": 0.050453,
       "character": {
-        "energyAbove1800Hz": 0.073505,
-        "midbandFlatness": 0.513842,
-        "envelopeVariation": 0.580156
+        "energyAbove1800Hz": 0.264946,
+        "midbandFlatness": 0.5277,
+        "envelopeVariation": 0.340605,
+        "energyAbove6000Hz": 0.000198,
+        "peak50msRms": 0.112768
       }
     },
     "water-outlet.ogg": {
       "kind": "constant",
-      "sha256": "e2e2ad7d98e64e443147b03805de6f93bbec4fc9e5d48ef950938d9d864108cd",
+      "sha256": "cb875c521f7abd558aee97b557c62c6f61d9765ca5cf67d097f56833e85d776e",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 240.0
       },
-      "decodedPeak": 0.714881,
-      "decodedRms": 0.048803,
+      "decodedPeak": 0.543328,
+      "decodedRms": 0.052307,
       "character": {
-        "energyAbove1800Hz": 0.15156,
-        "midbandFlatness": 0.46256,
-        "envelopeVariation": 0.608612
+        "energyAbove1800Hz": 0.505202,
+        "midbandFlatness": 0.540137,
+        "envelopeVariation": 0.310637,
+        "energyAbove6000Hz": 0.008715,
+        "peak50msRms": 0.116571
       }
     },
     "water-sprinkler.ogg": {
       "kind": "constant",
-      "sha256": "d2282fc2a33d79c50bf88c1afad521b56395f51d24c19a36e2e0b2b6d514d747",
+      "sha256": "d3343e36ad0ebf62d5de27de30dc8fc34d18bce0ef23fd45fdb672cac764a2dd",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 240.0
       },
-      "decodedPeak": 0.704749,
-      "decodedRms": 0.052639,
+      "decodedPeak": 0.361378,
+      "decodedRms": 0.051219,
       "character": {
-        "energyAbove1800Hz": 0.111341,
-        "midbandFlatness": 0.430602,
-        "envelopeVariation": 0.551418
+        "energyAbove1800Hz": 0.881973,
+        "midbandFlatness": 0.344087,
+        "envelopeVariation": 0.286898,
+        "energyAbove6000Hz": 0.000631,
+        "peak50msRms": 0.111158
       }
     },
     "water-irrigator.ogg": {
       "kind": "constant",
-      "sha256": "1f50750da351768e4365ed90147ea3745857d0e1810af5825b81d4b7fb15274b",
+      "sha256": "710fb662745f064ed20b6632d3ad824168f6b329841c7886ec150194472edd7c",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 240.0
       },
-      "decodedPeak": 0.690097,
-      "decodedRms": 0.045963,
+      "decodedPeak": 0.2645,
+      "decodedRms": 0.044039,
       "character": {
-        "energyAbove1800Hz": 0.117816,
-        "midbandFlatness": 0.484123,
-        "envelopeVariation": 0.656304
+        "energyAbove1800Hz": 0.882443,
+        "midbandFlatness": 0.281788,
+        "envelopeVariation": 0.142082,
+        "energyAbove6000Hz": 0.000666,
+        "peak50msRms": 0.065705
       }
     },
     "flywheel.ogg": {
       "kind": "constant",
-      "sha256": "d01555d27cabc61ee0ef19ea9063c3de911f7f83d725ff139ca402642e73e967",
+      "sha256": "544e125639896d56dbc9dd3b7d0d6f72ab34fe6ca8be0fc681cca2013e030ece",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 240.0
       },
-      "decodedPeak": 0.422836,
-      "decodedRms": 0.041389,
+      "decodedPeak": 0.329323,
+      "decodedRms": 0.041044,
       "character": {
-        "energyAbove1800Hz": 7e-05,
-        "midbandFlatness": 0.035851,
-        "envelopeVariation": 1.04116
+        "energyAbove1800Hz": 0.000277,
+        "midbandFlatness": 0.053658,
+        "envelopeVariation": 0.581067,
+        "energyAbove6000Hz": 0.0,
+        "peak50msRms": 0.110005
       }
     },
     "pump-mechanism.ogg": {
       "kind": "constant",
-      "sha256": "1775b66da8ea8a5eb99fe6ce075112548bb51ec7814f75f71839c5b3d2fac1ac",
+      "sha256": "0f4e8030a73449bf40d37ae7c9d99adb9979fb167a5aef80ebda5adb5234af32",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 240.0
       },
-      "decodedPeak": 0.42483,
-      "decodedRms": 0.037223,
+      "decodedPeak": 0.244264,
+      "decodedRms": 0.036013,
       "character": {
-        "energyAbove1800Hz": 2.4e-05,
-        "midbandFlatness": 0.051988,
-        "envelopeVariation": 1.19463
+        "energyAbove1800Hz": 0.000394,
+        "midbandFlatness": 0.109577,
+        "envelopeVariation": 0.454821,
+        "energyAbove6000Hz": 1e-06,
+        "peak50msRms": 0.085752
       }
     },
     "transmission-bearing.ogg": {
       "kind": "constant",
-      "sha256": "24b04d37223c883a6c2eacbc1cfd8785588cf2100914b9dade49687915397c65",
+      "sha256": "c1b7f3204961f05f2fb2246db5d2d586604cf2cee2fa9c73d62236cbb16435d8",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 240.0
       },
-      "decodedPeak": 0.421346,
-      "decodedRms": 0.03403,
+      "decodedPeak": 0.258985,
+      "decodedRms": 0.027997,
       "character": {
-        "energyAbove1800Hz": 6.1e-05,
-        "midbandFlatness": 0.052625,
-        "envelopeVariation": 1.233789
+        "energyAbove1800Hz": 0.001133,
+        "midbandFlatness": 0.173907,
+        "envelopeVariation": 1.200752,
+        "energyAbove6000Hz": 0.0,
+        "peak50msRms": 0.111598
       }
     },
     "sender-work.ogg": {
       "kind": "informational",
-      "sha256": "7dffb20fb49c688f71ed0acf9bf661c33387815fa2b3a49f2a561fda798d8ca8",
+      "sha256": "0a3daa3a74e2ca77a948c594c1ff17b654c7045fbafb02cf3ba27bbb57ce62b2",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 1.6
       },
-      "decodedPeak": 0.552938,
-      "decodedRms": 0.084885,
+      "decodedPeak": 0.549914,
+      "decodedRms": 0.079866,
       "character": {
-        "energyAbove1800Hz": 0.000696,
-        "midbandFlatness": 0.056006,
-        "envelopeVariation": 0.773136
+        "energyAbove1800Hz": 0.00146,
+        "midbandFlatness": 0.068878,
+        "envelopeVariation": 0.832364,
+        "energyAbove6000Hz": 3e-06,
+        "peak50msRms": 0.206052
       }
     },
     "receiver-work.ogg": {
       "kind": "informational",
-      "sha256": "1505aee14247ff73e40a4c328657ba1d2cb2e021cb158965b98d3e5799113e44",
+      "sha256": "5a754fa775d7c0bba15cdcd1042db7809989ff198677672ee57818db2f6593f6",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 1.6
       },
-      "decodedPeak": 0.546218,
-      "decodedRms": 0.074263,
+      "decodedPeak": 0.519071,
+      "decodedRms": 0.079625,
       "character": {
-        "energyAbove1800Hz": 0.000285,
-        "midbandFlatness": 0.054168,
-        "envelopeVariation": 0.639759
+        "energyAbove1800Hz": 0.001466,
+        "midbandFlatness": 0.092709,
+        "envelopeVariation": 0.526756,
+        "energyAbove6000Hz": 3e-06,
+        "peak50msRms": 0.157576
       }
     },
     "router-turn.ogg": {
       "kind": "informational",
-      "sha256": "a9344330f91641f84d1d48763145c0b8bccd1295cb41d654a5e1d563c50052dd",
+      "sha256": "7a76ed2f30f1f081d67383584ee4210b079256a4a889057a2a83f1583e78e88e",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 1.0
       },
-      "decodedPeak": 0.546193,
-      "decodedRms": 0.09149,
+      "decodedPeak": 0.491708,
+      "decodedRms": 0.080112,
       "character": {
-        "energyAbove1800Hz": 0.000228,
-        "midbandFlatness": 0.049601,
-        "envelopeVariation": 0.664361
+        "energyAbove1800Hz": 0.001014,
+        "midbandFlatness": 0.078344,
+        "envelopeVariation": 0.571554,
+        "energyAbove6000Hz": 2e-06,
+        "peak50msRms": 0.134681
       }
     },
     "pressure-creak1.ogg": {
       "kind": "informational",
-      "sha256": "b9851340b77fffc91959e7f0cd678b4569b91152f0452f3c184d18add2b91045",
+      "sha256": "fd46604e7cf93aefcd2c55e3369fbf6f5563f6e01947a17799d418395ea56fc0",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 1.8
       },
-      "decodedPeak": 0.553645,
-      "decodedRms": 0.069157,
+      "decodedPeak": 0.562029,
+      "decodedRms": 0.079746,
       "character": {
-        "energyAbove1800Hz": 9.7e-05,
-        "midbandFlatness": 0.033812,
-        "envelopeVariation": 0.917662
+        "energyAbove1800Hz": 0.004137,
+        "midbandFlatness": 0.114682,
+        "envelopeVariation": 0.634661,
+        "energyAbove6000Hz": 4e-06,
+        "peak50msRms": 0.179285
       }
     },
     "pressure-creak2.ogg": {
       "kind": "informational",
-      "sha256": "a54426ca94cb9df7c7000fb8283c1887d0416c5c70bb7e7dd411af68868e3659",
+      "sha256": "0c784455e6bf83c4e1c46e72a743c768fba447c5977b50018340ddf5a3f319fd",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 1.8
       },
-      "decodedPeak": 0.545084,
-      "decodedRms": 0.071329,
+      "decodedPeak": 0.491901,
+      "decodedRms": 0.08003,
       "character": {
-        "energyAbove1800Hz": 0.000231,
-        "midbandFlatness": 0.026674,
-        "envelopeVariation": 0.932278
+        "energyAbove1800Hz": 0.004932,
+        "midbandFlatness": 0.121794,
+        "envelopeVariation": 0.604634,
+        "energyAbove6000Hz": 4e-06,
+        "peak50msRms": 0.150545
       }
     },
     "pressure-creak3.ogg": {
       "kind": "informational",
-      "sha256": "dcd3de3a3478c32a0233edd037b5b676d0ab6fd3d00efe0bc9b1f410dd117456",
+      "sha256": "df3a19cb0e5d75fc8c5540db37adb353c7147bd7f89cf1cdf8098c8cc7f7b460",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 1.8
       },
-      "decodedPeak": 0.54674,
-      "decodedRms": 0.068128,
+      "decodedPeak": 0.530734,
+      "decodedRms": 0.08002,
       "character": {
-        "energyAbove1800Hz": 0.000169,
-        "midbandFlatness": 0.040507,
-        "envelopeVariation": 0.979558
+        "energyAbove1800Hz": 0.00468,
+        "midbandFlatness": 0.108666,
+        "envelopeVariation": 0.574772,
+        "energyAbove6000Hz": 4e-06,
+        "peak50msRms": 0.148619
       }
     },
     "router-prepare.ogg": {
       "kind": "informational",
-      "sha256": "962a2efaa54f381f5b1d4c248b0d995f45743f63021d6017f845b72577210824",
+      "sha256": "f9e56f4950b5e3079bc4c0fffb56b091ab01a13746a1e993586281fed23518b1",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.4
       },
-      "decodedPeak": 0.556231,
-      "decodedRms": 0.118961,
+      "decodedPeak": 0.424217,
+      "decodedRms": 0.080327,
       "character": {
-        "energyAbove1800Hz": 0.001141,
-        "midbandFlatness": 0.050927,
-        "envelopeVariation": 0.427424
+        "energyAbove1800Hz": 0.003994,
+        "midbandFlatness": 0.071535,
+        "envelopeVariation": 0.697739,
+        "energyAbove6000Hz": 1.1e-05,
+        "peak50msRms": 0.138981
       }
     },
     "outlet-arrival.ogg": {
       "kind": "informational",
-      "sha256": "9f83f303303a0ff348481bac3c523fccc6fb9837b81b04f73e10cd8bfba8fad1",
+      "sha256": "ac3b76c8cbb2ca305effe63d45696c4b61fe2a86b285ae492a5d0efbe3700bd6",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.9
       },
-      "decodedPeak": 0.549959,
-      "decodedRms": 0.065365,
+      "decodedPeak": 0.555936,
+      "decodedRms": 0.077359,
       "character": {
-        "energyAbove1800Hz": 7.7e-05,
-        "midbandFlatness": 0.044453,
-        "envelopeVariation": 0.673368
+        "energyAbove1800Hz": 0.000614,
+        "midbandFlatness": 0.087221,
+        "envelopeVariation": 0.72178,
+        "energyAbove6000Hz": 0.0,
+        "peak50msRms": 0.160865
       }
     },
     "pump-valve.ogg": {
       "kind": "constant",
-      "sha256": "ab12c5d50f18f26c293df9ceb7d459dc2ac1a0c9eed1c996d232c820b052b668",
+      "sha256": "9d89837a7fc6e983a85c50b8856eca2ce8b6557e195ac2f2c9e63057e45d1a9b",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.14
       },
-      "decodedPeak": 0.548452,
-      "decodedRms": 0.134425,
+      "decodedPeak": 0.545323,
+      "decodedRms": 0.117391,
       "character": {
-        "energyAbove1800Hz": 0.000108,
-        "midbandFlatness": 0.010941,
-        "envelopeVariation": 0.48775
+        "energyAbove1800Hz": 0.00089,
+        "midbandFlatness": 0.043202,
+        "envelopeVariation": 0.381399,
+        "energyAbove6000Hz": 2e-06,
+        "peak50msRms": 0.17898
       }
     },
     "ratchet-pawl.ogg": {
       "kind": "constant",
-      "sha256": "b002697bd5d26c79d59770424e5936b0c6c12cafb62b4bb67c08bda1c6647e2a",
+      "sha256": "e42ca7838ef92aa54655abad622accf7e8df7e3e01a1c2f252ee5a31d7dea191",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.1
       },
-      "decodedPeak": 0.550027,
-      "decodedRms": 0.126733,
+      "decodedPeak": 0.324512,
+      "decodedRms": 0.043056,
       "character": {
-        "energyAbove1800Hz": 0.000499,
-        "midbandFlatness": 0.037616,
-        "envelopeVariation": 0.0
+        "energyAbove1800Hz": 0.508266,
+        "midbandFlatness": 0.481459,
+        "envelopeVariation": 0.969241,
+        "energyAbove6000Hz": 0.001424,
+        "peak50msRms": 0.060883
       }
     },
     "ratchet-engage.ogg": {
       "kind": "informational",
-      "sha256": "89fddff40328e05fec81d2ec98202b60f30dc2291b31d020f59e6d4d04a36178",
+      "sha256": "5aa409b15a59ac2d609df1ab289e16f96b4cdc067daf06b970c8492c8570981a",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.4
       },
-      "decodedPeak": 0.555478,
-      "decodedRms": 0.064065,
+      "decodedPeak": 0.331175,
+      "decodedRms": 0.037279,
       "character": {
-        "energyAbove1800Hz": 0.000161,
-        "midbandFlatness": 0.041611,
-        "envelopeVariation": 1.096557
+        "energyAbove1800Hz": 0.014099,
+        "midbandFlatness": 0.32337,
+        "envelopeVariation": 1.898887,
+        "energyAbove6000Hz": 3.4e-05,
+        "peak50msRms": 0.10099
       }
     },
     "sender-work-2.ogg": {
       "kind": "informational",
-      "sha256": "ed6454ae7c93f521d257436d2c044f4f77a68d45bbf833c825cca5ad9e77b351",
+      "sha256": "9c0b63de5eba555726a653d2c55f17f8ceb626a30c6b7607083bfbf14f343af4",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 1.6
       },
-      "decodedPeak": 0.545507,
-      "decodedRms": 0.079861,
+      "decodedPeak": 0.509944,
+      "decodedRms": 0.080197,
       "character": {
-        "energyAbove1800Hz": 0.00042,
-        "midbandFlatness": 0.058809,
-        "envelopeVariation": 0.925136
+        "energyAbove1800Hz": 0.001543,
+        "midbandFlatness": 0.076214,
+        "envelopeVariation": 0.801197,
+        "energyAbove6000Hz": 3e-06,
+        "peak50msRms": 0.213291
       }
     },
     "sender-work-3.ogg": {
       "kind": "informational",
-      "sha256": "eb6a440fc588a9ab8452398b02e550d37fb115ac278f41dddd1467ff5e9701ff",
+      "sha256": "f582471791e9ff75111495091f6fc642a76f5fc66b5b9fe6e7b2d0da038712cf",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 1.6
       },
-      "decodedPeak": 0.559801,
-      "decodedRms": 0.068572,
+      "decodedPeak": 0.510275,
+      "decodedRms": 0.079965,
       "character": {
-        "energyAbove1800Hz": 0.000485,
-        "midbandFlatness": 0.040491,
-        "envelopeVariation": 0.812846
+        "energyAbove1800Hz": 0.00148,
+        "midbandFlatness": 0.069763,
+        "envelopeVariation": 0.734724,
+        "energyAbove6000Hz": 3e-06,
+        "peak50msRms": 0.200899
       }
     },
     "sender-work-4.ogg": {
       "kind": "informational",
-      "sha256": "d6883673feb3907d7e3dc246ecf43073a426830647527ad28dc52891078ebac7",
+      "sha256": "6a554563508dafb2c9834fb378b29bc6f67ee9a76b35016bb5ef4f6b8d53bdb9",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 1.6
       },
-      "decodedPeak": 0.549517,
-      "decodedRms": 0.070849,
+      "decodedPeak": 0.528439,
+      "decodedRms": 0.079653,
       "character": {
-        "energyAbove1800Hz": 0.000297,
-        "midbandFlatness": 0.052909,
-        "envelopeVariation": 0.928664
+        "energyAbove1800Hz": 0.001539,
+        "midbandFlatness": 0.083486,
+        "envelopeVariation": 0.839653,
+        "energyAbove6000Hz": 4e-06,
+        "peak50msRms": 0.208907
       }
     },
     "receiver-work-2.ogg": {
       "kind": "informational",
-      "sha256": "562c0bc4fa39d0c8d9d1498d359d59e3b8bcb850711c2d82daeddaad8294814c",
+      "sha256": "a5de0ad8d56377bed1a5e4fd13e4c0384236b8b7b5a8eed4d43ef765d397fb51",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 1.6
       },
-      "decodedPeak": 0.553117,
-      "decodedRms": 0.070155,
+      "decodedPeak": 0.538713,
+      "decodedRms": 0.079333,
       "character": {
-        "energyAbove1800Hz": 0.000372,
-        "midbandFlatness": 0.049095,
-        "envelopeVariation": 0.602489
+        "energyAbove1800Hz": 0.001353,
+        "midbandFlatness": 0.100055,
+        "envelopeVariation": 0.559766,
+        "energyAbove6000Hz": 3e-06,
+        "peak50msRms": 0.188793
       }
     },
     "receiver-work-3.ogg": {
       "kind": "informational",
-      "sha256": "b76f2dada194741a75afb27b598649f4e4e6c2122830d7eaaad5cd45eefaa4ee",
+      "sha256": "5942bec8a7ef7ac8bb7e29be484ea664ec3f3f4d17780695b7d23026c46c0013",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 1.6
       },
-      "decodedPeak": 0.552195,
-      "decodedRms": 0.073087,
+      "decodedPeak": 0.508105,
+      "decodedRms": 0.07976,
       "character": {
-        "energyAbove1800Hz": 0.000328,
-        "midbandFlatness": 0.047039,
-        "envelopeVariation": 0.631767
+        "energyAbove1800Hz": 0.001391,
+        "midbandFlatness": 0.09426,
+        "envelopeVariation": 0.551978,
+        "energyAbove6000Hz": 3e-06,
+        "peak50msRms": 0.175703
       }
     },
     "receiver-work-4.ogg": {
       "kind": "informational",
-      "sha256": "ca3c3044f1f69b059c1cf6fa93b04a2383361a0cc45b35136ca37155f144c73a",
+      "sha256": "8305e5eb4c49df39d29634c63d75e55f9a03e1e57ad3a9e4b85956870520a151",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 1.6
       },
-      "decodedPeak": 0.551274,
-      "decodedRms": 0.081021,
+      "decodedPeak": 0.5449,
+      "decodedRms": 0.079512,
       "character": {
-        "energyAbove1800Hz": 0.000367,
-        "midbandFlatness": 0.052008,
-        "envelopeVariation": 0.640384
+        "energyAbove1800Hz": 0.001573,
+        "midbandFlatness": 0.091172,
+        "envelopeVariation": 0.522916,
+        "energyAbove6000Hz": 2e-06,
+        "peak50msRms": 0.160935
       }
     },
     "router-turn-2.ogg": {
       "kind": "informational",
-      "sha256": "164652914b67201eb37fa22866b42bd6d2921bf2a439dac19e6b4c1c85cfa47b",
+      "sha256": "fb41f6afdda201d855d19b034621c15336d962558716d3091888484dd82bebb6",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 1.0
       },
-      "decodedPeak": 0.544251,
-      "decodedRms": 0.112636,
+      "decodedPeak": 0.463958,
+      "decodedRms": 0.079836,
       "character": {
-        "energyAbove1800Hz": 0.000317,
-        "midbandFlatness": 0.057617,
-        "envelopeVariation": 0.584556
+        "energyAbove1800Hz": 0.000967,
+        "midbandFlatness": 0.066939,
+        "envelopeVariation": 0.580909,
+        "energyAbove6000Hz": 2e-06,
+        "peak50msRms": 0.148261
       }
     },
     "router-turn-3.ogg": {
       "kind": "informational",
-      "sha256": "1296488996e42904a79b7e4b59c37d3e1d95d990f53fc9e0a37c0d0563600f23",
+      "sha256": "1f626494412ea7b8e08fee4cc7dafbd7471386f1dce9bbdea17a23be6c47e5a1",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 1.0
       },
-      "decodedPeak": 0.572,
-      "decodedRms": 0.090982,
+      "decodedPeak": 0.412711,
+      "decodedRms": 0.080082,
       "character": {
-        "energyAbove1800Hz": 0.000326,
-        "midbandFlatness": 0.04768,
-        "envelopeVariation": 0.595835
+        "energyAbove1800Hz": 0.001027,
+        "midbandFlatness": 0.083288,
+        "envelopeVariation": 0.578794,
+        "energyAbove6000Hz": 2e-06,
+        "peak50msRms": 0.132669
       }
     },
     "router-turn-4.ogg": {
       "kind": "informational",
-      "sha256": "b9d5bf3f153db528e00f1844e763b88a5cdfa75d0d88340c9937b2891d4a283b",
+      "sha256": "53c0dc4c7e8711a15815bcd9800780092d24076c29892da77b56cb4d33755580",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 1.0
       },
-      "decodedPeak": 0.549899,
-      "decodedRms": 0.103805,
+      "decodedPeak": 0.490074,
+      "decodedRms": 0.07988,
       "character": {
-        "energyAbove1800Hz": 0.000371,
-        "midbandFlatness": 0.05266,
-        "envelopeVariation": 0.549401
+        "energyAbove1800Hz": 0.001168,
+        "midbandFlatness": 0.06538,
+        "envelopeVariation": 0.543705,
+        "energyAbove6000Hz": 2e-06,
+        "peak50msRms": 0.138932
       }
     },
     "router-prepare-2.ogg": {
       "kind": "informational",
-      "sha256": "2cef9fc82e6a587a6c7d62b9474f050d4a64e56807fa726128490097193d8fdd",
+      "sha256": "205e3c305e2aaab0e94f35ef844b964cb945cbd88a12c21f2813fd2fda524d45",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.4
       },
-      "decodedPeak": 0.553503,
-      "decodedRms": 0.098927,
+      "decodedPeak": 0.475626,
+      "decodedRms": 0.079803,
       "character": {
-        "energyAbove1800Hz": 0.001205,
-        "midbandFlatness": 0.050869,
-        "envelopeVariation": 0.518197
+        "energyAbove1800Hz": 0.006092,
+        "midbandFlatness": 0.089304,
+        "envelopeVariation": 0.712453,
+        "energyAbove6000Hz": 9e-06,
+        "peak50msRms": 0.141644
       }
     },
     "router-prepare-3.ogg": {
       "kind": "informational",
-      "sha256": "10437039b9d379dc0451e65e7e950cb6c1fb5ce12fe410f84c5bbf3138d683d2",
+      "sha256": "179b5d1d443df58b8fa1656ce0c23ba70a9c310023d2f44ded27ed40579b9965",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.4
       },
-      "decodedPeak": 0.549282,
-      "decodedRms": 0.10569,
+      "decodedPeak": 0.351875,
+      "decodedRms": 0.080118,
       "character": {
-        "energyAbove1800Hz": 0.001054,
-        "midbandFlatness": 0.062825,
-        "envelopeVariation": 0.454394
+        "energyAbove1800Hz": 0.005927,
+        "midbandFlatness": 0.095387,
+        "envelopeVariation": 0.595201,
+        "energyAbove6000Hz": 9e-06,
+        "peak50msRms": 0.136273
       }
     },
     "router-prepare-4.ogg": {
       "kind": "informational",
-      "sha256": "034b91c411bc096a805fefda68adabd9c5f07242884c817c466410402e22118e",
+      "sha256": "52c9722f897bbdab443bf2a1ee72ef78a6dc950d2331ab71e95b2ffb72f3db83",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.4
       },
-      "decodedPeak": 0.553002,
-      "decodedRms": 0.116184,
+      "decodedPeak": 0.455932,
+      "decodedRms": 0.079978,
       "character": {
-        "energyAbove1800Hz": 0.000763,
-        "midbandFlatness": 0.059447,
-        "envelopeVariation": 0.459369
+        "energyAbove1800Hz": 0.00348,
+        "midbandFlatness": 0.088057,
+        "envelopeVariation": 0.695005,
+        "energyAbove6000Hz": 1.3e-05,
+        "peak50msRms": 0.132055
       }
     },
     "pump-valve-2.ogg": {
       "kind": "constant",
-      "sha256": "5b3a8188f4781f32004d1b7b09f1d51a650f5e9f806a85c6a827badbb896c341",
+      "sha256": "185bc4d9fceb627fa44c5cc81dc5ed91e58b80df097a232a7d55177a5a7481b8",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.14
       },
-      "decodedPeak": 0.553506,
-      "decodedRms": 0.133128,
+      "decodedPeak": 0.551902,
+      "decodedRms": 0.116098,
       "character": {
-        "energyAbove1800Hz": 8.4e-05,
-        "midbandFlatness": 0.007748,
-        "envelopeVariation": 0.454154
+        "energyAbove1800Hz": 0.001083,
+        "midbandFlatness": 0.040589,
+        "envelopeVariation": 0.349715,
+        "energyAbove6000Hz": 2e-06,
+        "peak50msRms": 0.1746
       }
     },
     "pump-valve-3.ogg": {
       "kind": "constant",
-      "sha256": "b3449219730922dcbf2584694ad8aded9c97d76be0fd0a9d925e83829b48d323",
+      "sha256": "b305620b0ee9e595ddc9498fe67b4f28136a7b6ad13f54c1be5c47d8764ff6dc",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.14
       },
-      "decodedPeak": 0.552803,
-      "decodedRms": 0.111286,
+      "decodedPeak": 0.542354,
+      "decodedRms": 0.115399,
       "character": {
-        "energyAbove1800Hz": 9.8e-05,
-        "midbandFlatness": 0.006895,
-        "envelopeVariation": 0.470992
+        "energyAbove1800Hz": 0.00095,
+        "midbandFlatness": 0.048206,
+        "envelopeVariation": 0.394596,
+        "energyAbove6000Hz": 2e-06,
+        "peak50msRms": 0.176699
       }
     },
     "pump-valve-4.ogg": {
       "kind": "constant",
-      "sha256": "7b9aa9b59ae93c31da2a2240e681d7d49c0af5c9ec2a264db75e159b3f0b455d",
+      "sha256": "de58168b977869cb677388f06c3e40ffcb83df50559b526d660200fba3c7d7b4",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.14
       },
-      "decodedPeak": 0.546316,
-      "decodedRms": 0.104236,
+      "decodedPeak": 0.541255,
+      "decodedRms": 0.117287,
       "character": {
-        "energyAbove1800Hz": 9.4e-05,
-        "midbandFlatness": 0.007533,
-        "envelopeVariation": 0.443066
+        "energyAbove1800Hz": 0.000876,
+        "midbandFlatness": 0.042947,
+        "envelopeVariation": 0.39609,
+        "energyAbove6000Hz": 2e-06,
+        "peak50msRms": 0.179812
       }
     },
     "ratchet-pawl-2.ogg": {
       "kind": "constant",
-      "sha256": "8d61db749515271a3e5b80682cff4fe478d172c1ce73ef13edf1dd99cae375b0",
+      "sha256": "8395c504039259cf6d6bb2ffc33bde1e5e1d7278ca9310f78df8700c92b0b3de",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.1
       },
-      "decodedPeak": 0.548735,
-      "decodedRms": 0.126364,
+      "decodedPeak": 0.331161,
+      "decodedRms": 0.045106,
       "character": {
-        "energyAbove1800Hz": 0.000194,
-        "midbandFlatness": 0.008488,
-        "envelopeVariation": 0.458024
+        "energyAbove1800Hz": 0.361165,
+        "midbandFlatness": 0.609621,
+        "envelopeVariation": 0.982487,
+        "energyAbove6000Hz": 0.000491,
+        "peak50msRms": 0.063787
       }
     },
     "ratchet-pawl-3.ogg": {
       "kind": "constant",
-      "sha256": "fbacd8e57419e2498197dfea6101361433adcd854ade0498b54804cea4a12e0c",
+      "sha256": "92b9172308ba8cd3fa3c8c32e32b7a7a22235cf6e6e774227486d7b04da92982",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.1
       },
-      "decodedPeak": 0.534424,
-      "decodedRms": 0.127538,
+      "decodedPeak": 0.320128,
+      "decodedRms": 0.04209,
       "character": {
-        "energyAbove1800Hz": 0.000482,
-        "midbandFlatness": 0.040975,
-        "envelopeVariation": 0.0
+        "energyAbove1800Hz": 0.266101,
+        "midbandFlatness": 0.478723,
+        "envelopeVariation": 0.980084,
+        "energyAbove6000Hz": 0.00049,
+        "peak50msRms": 0.059521
       }
     },
     "ratchet-pawl-4.ogg": {
       "kind": "constant",
-      "sha256": "b233b523a6b8cf0e04a6d6b48577187f83cf26647d9b3397ed8d032bad78e112",
+      "sha256": "7ec36e17d1955f8c874a833353f9164d7763018f107b32ddd2d1a41e0d1fa58d",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.1
       },
-      "decodedPeak": 0.545229,
-      "decodedRms": 0.142662,
+      "decodedPeak": 0.319887,
+      "decodedRms": 0.042069,
       "character": {
-        "energyAbove1800Hz": 0.000355,
-        "midbandFlatness": 0.013157,
-        "envelopeVariation": 0.0
+        "energyAbove1800Hz": 0.210073,
+        "midbandFlatness": 0.43681,
+        "envelopeVariation": 0.975487,
+        "energyAbove6000Hz": 0.000873,
+        "peak50msRms": 0.059489
       }
     },
     "ratchet-engage-2.ogg": {
       "kind": "informational",
-      "sha256": "f2e90783eb692896bbbf158f8f15bbbdda9cdcbf4581f5656daf67ebef092ebc",
+      "sha256": "5a15b6083f1998950206cfa38e1c6c0f3962f85020f6127c800b737c3b2044ac",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.4
       },
-      "decodedPeak": 0.558868,
-      "decodedRms": 0.071083,
+      "decodedPeak": 0.315075,
+      "decodedRms": 0.038197,
       "character": {
-        "energyAbove1800Hz": 0.000148,
-        "midbandFlatness": 0.031961,
-        "envelopeVariation": 1.13667
+        "energyAbove1800Hz": 0.011636,
+        "midbandFlatness": 0.356362,
+        "envelopeVariation": 1.839184,
+        "energyAbove6000Hz": 1.7e-05,
+        "peak50msRms": 0.102966
       }
     },
     "ratchet-engage-3.ogg": {
       "kind": "informational",
-      "sha256": "100297961e15e22bf5652246bb0752de1740558aa70f42ee77cf134cac22154d",
+      "sha256": "36c89189df0f9f722c13a6f02302b72a1adc97ce900b07e0e610c4d96d34af78",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.4
       },
-      "decodedPeak": 0.552312,
-      "decodedRms": 0.068772,
+      "decodedPeak": 0.318685,
+      "decodedRms": 0.038452,
       "character": {
-        "energyAbove1800Hz": 0.000134,
-        "midbandFlatness": 0.036732,
-        "envelopeVariation": 1.120669
+        "energyAbove1800Hz": 0.015061,
+        "midbandFlatness": 0.328399,
+        "envelopeVariation": 1.770456,
+        "energyAbove6000Hz": 2.9e-05,
+        "peak50msRms": 0.10135
       }
     },
     "ratchet-engage-4.ogg": {
       "kind": "informational",
-      "sha256": "154dcce0b24298af4c61ff74038da69d4a2f7ccf847335939544fa3b0b1ae013",
+      "sha256": "b00a3c3ad62e7c3d4e6fe9ff6e78e6c9cb7407dd90cba8e378a1dcb87c25e619",
       "format": {
         "sampleRate": 24000,
         "channels": 1,
         "seconds": 0.4
       },
-      "decodedPeak": 0.549208,
-      "decodedRms": 0.076399,
+      "decodedPeak": 0.320306,
+      "decodedRms": 0.037749,
       "character": {
-        "energyAbove1800Hz": 0.000153,
-        "midbandFlatness": 0.037261,
-        "envelopeVariation": 1.158545
+        "energyAbove1800Hz": 0.01828,
+        "midbandFlatness": 0.403969,
+        "envelopeVariation": 1.767407,
+        "energyAbove6000Hz": 3.6e-05,
+        "peak50msRms": 0.099376
       }
     }
   }

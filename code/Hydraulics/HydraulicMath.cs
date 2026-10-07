@@ -55,7 +55,9 @@ public static class HydraulicMath
     public const double IrrigatorMaximumMoisture = 0.8;
 
     // These values currently drive warning audio only. Pipes do not fail yet.
-    public const double PressureWarningStartKPa = 100;
+    public const double PressureWarningStartKPa = 500;
+    public const double PressureWarningFullKPa = 2000;
+    // Retained legacy design reference; this is not an audio or damage threshold.
     public const double AssumedPipeFailurePressureKPa = 150;
     public const double ExtremeAudioFlowLitresPerSecond = 8;
     public const double DistantAudioIntensityThreshold = 0.75;
@@ -88,7 +90,7 @@ public static class HydraulicMath
         double pressure = double.IsFinite(pressureKPa) ? pressureKPa : 0;
         return Math.Clamp(
             (pressure - PressureWarningStartKPa) /
-                (AssumedPipeFailurePressureKPa - PressureWarningStartKPa),
+                (PressureWarningFullKPa - PressureWarningStartKPa),
             0,
             1);
     }

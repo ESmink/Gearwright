@@ -13,11 +13,11 @@ public sealed class BlockPneumaticTransport : Block
 {
     private readonly Dictionary<string, PneumaticPlacementPlan> plans = new();
     private PneumaticPlacementPlan? confirming;
-    internal bool IsEndpoint => Code.Path is "pneumatic-sender" or "pneumatic-receiver";
+    internal bool IsEndpoint => Code.Path is "pneumatic-sender" or "pneumatic-receiver" or "pneumatic-smart-receiver";
     public override void OnLoaded(ICoreAPI api)
     {
         base.OnLoaded(api);
-        if (Code.Path == "pneumatic-router") PlacedPriorityInteract = true;
+        if (Code.Path is "pneumatic-router" or "pneumatic-smart-receiver") PlacedPriorityInteract = true;
     }
 
     internal PneumaticPlacementPlan? Pending(IWorldAccessor world, IPlayer player)
@@ -139,6 +139,13 @@ public sealed class BlockPneumaticTransport : Block
         ItemStack? held = player.InventoryManager.ActiveHotbarSlot.Itemstack;
         bool wrench = held?.Collectible.Tool == EnumTool.Wrench;
         if (!wrench && (held == null || player.Entity.Controls.ShiftKey) &&
+            world.BlockAccessor.GetBlockEntity(selection.Position) is BlockEntityPneumaticTransport smart && smart.IsSmartReceiver)
+        {
+            if (PneumaticPlacement.InReach(player, selection.Position) && world.Claims.TryAccess(player, selection.Position, EnumBlockAccessFlags.Use) &&
+                world.Side == EnumAppSide.Client) smart.OpenStockkeeperDialog();
+            return true;
+        }
+        if (!wrench && (held == null || player.Entity.Controls.ShiftKey) &&
             world.BlockAccessor.GetBlockEntity(selection.Position) is BlockEntityPneumaticTransport router && router.Kind == PneumaticLineKind.Router)
         {
             if (PneumaticPlacement.InReach(player, selection.Position) && world.Claims.TryAccess(player, selection.Position, EnumBlockAccessFlags.Use) &&
@@ -190,7 +197,7 @@ public sealed class BlockPneumaticTransport : Block
             }
             else
             {
-                if (s.Cargo != null || s.Returning || s.Outstanding != "")
+                if (s.Cargo != null || s.Returning || s.Outstanding != "" || host.IsSmartReceiver && host.Stockkeeper.Printing)
                 {
                     (player as Vintagestory.API.Server.IServerPlayer)?.SendMessage(GlobalConstants.GeneralChatGroup,
                         Lang.Get("gearwright:pneumatic-rotate-busy"), EnumChatType.Notification);

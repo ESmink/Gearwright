@@ -12,6 +12,8 @@ $root = Get-GearwrightRoot
 if ($LASTEXITCODE -ne 0) { throw "The project checks failed." }
 & (Join-Path $root 'tools\audio\Build-MachineSounds.ps1') -Verify
 if ($LASTEXITCODE -ne 0) { throw 'The machine sound assets failed verification.' }
+& python -m unittest discover tests/audio -v
+if ($LASTEXITCODE -ne 0) { throw 'The machine audio signal and timing checks failed.' }
 
 $gamePath = Find-VintageStoryInstall $VintageStoryPath
 if ($null -ne $gamePath) {

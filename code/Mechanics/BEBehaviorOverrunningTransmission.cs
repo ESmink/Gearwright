@@ -5,6 +5,7 @@ using Vintagestory.API.Common;
 using Vintagestory.API.Config;
 using Vintagestory.API.Datastructures;
 using Vintagestory.API.MathTools;
+using Vintagestory.API.Server;
 using Vintagestory.GameContent.Mechanics;
 
 namespace Gearwright.Mechanics;
@@ -17,6 +18,9 @@ public sealed class BEBehaviorMPOverrunningTransmission : BlockEntityBehavior
 {
     private const int SolverIntervalMilliseconds = 50;
     private const long BroadcastIntervalMilliseconds = 100;
+    internal const int DriveStatePacketId = 2110;
+    private const long DriveHeartbeatMilliseconds = 1000;
+    private const long DriveExpiryMilliseconds = 3000;
 
     private readonly ClutchTerminal inputTerminal;
     private readonly ClutchTerminal outputTerminal;
@@ -30,6 +34,10 @@ public sealed class BEBehaviorMPOverrunningTransmission : BlockEntityBehavior
     private MechanicalNetwork? lockedInputNetwork;
     private MechanicalNetwork? lockedOutputNetwork;
     private OverrunningTransmissionRenderer? renderer;
+    private OverrunningDriveState sentDriveState = OverrunningDriveState.Unavailable;
+    private OverrunningDriveState receivedDriveState = OverrunningDriveState.Unavailable;
+    private bool hasSentDriveState, hasReceivedDriveState;
+    private long lastDriveBroadcastMilliseconds, lastDriveReceivedMilliseconds;
 
     public BEBehaviorMPOverrunningTransmission(BlockEntity blockentity) : base(blockentity)
     {
@@ -82,7 +90,7 @@ public sealed class BEBehaviorMPOverrunningTransmission : BlockEntityBehavior
             "gearwright:overrunning-input-face",
             Lang.Get("direction-" + InputFace.Code)));
 
-        if (!TryGetRotorState(out OverrunningRotorState state))
+        if (!TryGetRotorState(out _))
         {
             sb.AppendLine(Lang.Get("gearwright:overrunning-freewheeling"));
             sb.AppendLine(Lang.Get("gearwright:controlled-clutch-waiting"));
@@ -96,14 +104,22 @@ public sealed class BEBehaviorMPOverrunningTransmission : BlockEntityBehavior
             return;
         }
 
-        float direction = OverrunningCouplingMath.OperatingDirection(
-            state.InputSpeed,
-            state.OutputSpeed);
-        bool driving = (state.InputSpeed - state.OutputSpeed) * direction >
-            OverrunningCouplingMath.EngagementEpsilon;
-        sb.AppendLine(driving
+        if (!TryGetDriveState(out OverrunningDriveState drive))
+        {
+            sb.AppendLine(Lang.Get("gearwright:controlled-clutch-waiting"));
+            return;
+        }
+        sb.AppendLine(drive.Engaged
             ? Lang.Get("gearwright:overrunning-engaged")
             : Lang.Get("gearwright:overrunning-freewheeling"));
+    }
+
+    public override void OnReceivedServerPacket(int packetid, byte[] data)
+    {
+        base.OnReceivedServerPacket(packetid, data);
+        if (packetid != DriveStatePacketId || Api?.Side != EnumAppSide.Client) return;
+        hasReceivedDriveState = OverrunningDriveState.TryDecode(data, out receivedDriveState);
+        lastDriveReceivedMilliseconds = Api.World.ElapsedMilliseconds;
     }
 
     private void OnServerTick(float elapsedSeconds)
@@ -218,6 +234,26 @@ public sealed class BEBehaviorMPOverrunningTransmission : BlockEntityBehavior
     internal BlockFacing InputFace =>
         ((BlockOverrunningTransmission)Blockentity.Block).InputFace;
 
+    internal bool TryGetDriveState(out OverrunningDriveState state)
+    {
+        state = Api.Side == EnumAppSide.Server ? ServerDriveState() : receivedDriveState;
+        if (Api.Side == EnumAppSide.Client && (!hasReceivedDriveState ||
+            Api.World.ElapsedMilliseconds - lastDriveReceivedMilliseconds is < 0 or > DriveExpiryMilliseconds))
+            return false;
+        MechanicalNetwork? input = GetNeighbour(InputFace)?.Network;
+        MechanicalNetwork? output = GetNeighbour(InputFace.Opposite)?.Network;
+        return state.Available && input?.Valid == true && output?.Valid == true &&
+            !ReferenceEquals(input, output) && input.networkId == state.InputNetworkId &&
+            output.networkId == state.OutputNetworkId;
+    }
+
+    private OverrunningDriveState ServerDriveState() =>
+        lockState.Initialized && !bypassed && lockedInputNetwork?.Valid == true &&
+        lockedOutputNetwork?.Valid == true
+            ? new(true, lockState.Engaged, lockState.Direction < 0 ? -1 : 1,
+                lockedInputNetwork.networkId, lockedOutputNetwork.networkId)
+            : OverrunningDriveState.Unavailable;
+
     internal bool TryGetRotorState(out OverrunningRotorState state)
     {
         BEBehaviorMPBase? input = GetNeighbour(InputFace);
@@ -288,6 +324,7 @@ public sealed class BEBehaviorMPOverrunningTransmission : BlockEntityBehavior
 
     private void BroadcastIfDue()
     {
+        BroadcastDriveStateIfDue();
         if (!pendingBroadcast) return;
         long now = Api.World.ElapsedMilliseconds;
         if (now - lastBroadcastMilliseconds < BroadcastIntervalMilliseconds) return;
@@ -298,6 +335,23 @@ public sealed class BEBehaviorMPOverrunningTransmission : BlockEntityBehavior
         if (output != null && !ReferenceEquals(input, output)) output.broadcastData();
         lastBroadcastMilliseconds = now;
         pendingBroadcast = false;
+    }
+
+    private void BroadcastDriveStateIfDue()
+    {
+        if (Api is not ICoreServerAPI server) return;
+        OverrunningDriveState state = ServerDriveState();
+        long now = Api.World.ElapsedMilliseconds;
+        long elapsed = now - lastDriveBroadcastMilliseconds;
+        if (hasSentDriveState && elapsed >= 0 &&
+            (elapsed < BroadcastIntervalMilliseconds ||
+             state == sentDriveState && elapsed < DriveHeartbeatMilliseconds)) return;
+        // The heartbeat also initializes players who start tracking an already
+        // synchronized transmission, without adding presentation fields to saves.
+        server.Network.BroadcastBlockEntityPacket(Pos, DriveStatePacketId, state.Encode());
+        sentDriveState = state;
+        lastDriveBroadcastMilliseconds = now;
+        hasSentDriveState = true;
     }
 
     private void ResetLockState()
@@ -323,6 +377,8 @@ public sealed class BEBehaviorMPOverrunningTransmission : BlockEntityBehavior
         inputTerminal.LeaveNetwork();
         outputTerminal.LeaveNetwork();
         ResetLockState();
+        hasReceivedDriveState = hasSentDriveState = false;
+        receivedDriveState = OverrunningDriveState.Unavailable;
     }
 
     private readonly record struct PortCandidate(

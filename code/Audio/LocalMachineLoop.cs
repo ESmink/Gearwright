@@ -14,6 +14,7 @@ internal sealed class LocalMachineLoop : IDisposable
     private readonly ICoreClientAPI api;
     private readonly BlockPos position;
     private readonly AssetLocation location;
+    private readonly string cue;
     private readonly HashSet<LocalMachineLoop> budget;
     private readonly float maximumVolume;
     private ILoadedSound? sound;
@@ -23,6 +24,7 @@ internal sealed class LocalMachineLoop : IDisposable
     internal LocalMachineLoop(ICoreClientAPI api, BlockPos position, string name)
     {
         this.api = api; this.position = position.Copy();
+        cue = name;
         location = new("gearwright:sounds/machines/" + name + ".ogg");
         maximumVolume = MachineSoundPolicy.ContinuousVolume(name);
         budget = budgets.GetValue(api, _ => new());
@@ -44,10 +46,10 @@ internal sealed class LocalMachineLoop : IDisposable
     {
         if (disposed || failed) return;
         float elapsed = float.IsFinite(seconds) ? Math.Clamp(seconds, 0, .25f) : 0;
-        float distanceGain = MachineSoundPolicy.DistanceGain(distance, MachineSoundKind.Constant);
+        float distanceGain = MachineSoundPolicy.ContinuousDistanceGain(distance, cue);
         if (distanceGain <= 0)
         {
-            // An immediate stop enforces the hard two-block cap even during a fade.
+            // Stop immediately outside this source's range, even during a fade.
             Release(); volume = quietSeconds = 0; return;
         }
         float target = maximumVolume * MachineSoundPolicy.Intensity(intensity) * distanceGain;
@@ -62,8 +64,8 @@ internal sealed class LocalMachineLoop : IDisposable
                 {
                     Location = location, Position = position.ToVec3f().Add(.5f, .5f, .5f),
                     RelativePosition = false, ShouldLoop = true, DisposeOnFinish = false,
-                    Volume = 0, Range = MachineSoundPolicy.ConstantRange,
-                    ReferenceDistance = MachineSoundPolicy.ConstantReferenceDistance, SoundType = EnumSoundType.Sound
+                    Volume = 0, Range = MachineSoundPolicy.ContinuousRange(cue),
+                    ReferenceDistance = MachineSoundPolicy.ContinuousRange(cue) - .1f, SoundType = EnumSoundType.Sound
                 });
                 if (sound == null || sound.SoundLengthSeconds < MachineSoundPolicy.MinimumConstantSeconds)
                 {

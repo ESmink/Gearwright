@@ -21,14 +21,17 @@ internal static class Program
 
     public static int Main(string[] args)
     {
+        if (args.Length == 2 && args[0] == "--printer-preview") { PneumaticPrinterPaperFixture.Preview(args[1]); return 0; }
         if (args.Length == 3 && args[0] == "--pneumatic-crash") return PneumaticPersistenceFixture.CrashChild(args[1], args[2]);
         if (args.Contains("--audio")) { MachineAudioFixture.Run(Check); PneumaticTransportFixture.Run(Check); return failures == 0 ? 0 : 1; }
         if (args.Contains("--router")) { PneumaticRouterFixture.Run(Check); return failures == 0 ? 0 : 1; }
+        if (args.Contains("--stockkeeper")) { PneumaticStockkeeperFixture.Run(Check); return failures == 0 ? 0 : 1; }
         if (args.Contains("--glass")) { InspectionGlassFixture.Run(Check); return failures == 0 ? 0 : 1; }
         if (args.Contains("--pneumatic"))
         {
             PneumaticAirFixture.Run(Check);
             PneumaticTransportFixture.Run(Check);
+            PneumaticStockkeeperFixture.Run(Check);
             PneumaticRouterFixture.Run(Check);
             PneumaticPresentationFixture.Run(Check);
             PneumaticPlacementFixture.Run(Check);
@@ -73,6 +76,7 @@ internal static class Program
         LargeBellowsFixture.Run(Check);
         PneumaticAirFixture.Run(Check);
         PneumaticTransportFixture.Run(Check);
+        PneumaticStockkeeperFixture.Run(Check);
         PneumaticRouterFixture.Run(Check);
         PneumaticPresentationFixture.Run(Check);
         PneumaticPlacementFixture.Run(Check);
@@ -1005,10 +1009,11 @@ internal static class Program
     private static void AmbientAudioTracksPressureAndFlow()
     {
         Check(HydraulicMath.PressureWarningIntensity(100) == 0 &&
-              Math.Abs(HydraulicMath.PressureWarningIntensity(125) - 0.5) < 0.000001 &&
-              HydraulicMath.PressureWarningIntensity(150) == 1 &&
-              HydraulicMath.PressureWarningIntensity(1000) == 1,
-            "Pressure-warning intensity rises only through the 100-150 kPa warning band");
+              HydraulicMath.PressureWarningIntensity(500) == 0 &&
+              Math.Abs(HydraulicMath.PressureWarningIntensity(1250) - 0.5) < 0.000001 &&
+              HydraulicMath.PressureWarningIntensity(2000) == 1 &&
+              HydraulicMath.PressureWarningIntensity(10000) == 1,
+            "Pressure-warning intensity rises only through the 500-2000 kPa audio band");
         Check(HydraulicMath.AudioFlowIntensity(0) == 0 &&
               Math.Abs(HydraulicMath.AudioFlowIntensity(2) - 0.5) < 0.000001 &&
               HydraulicMath.AudioFlowIntensity(-8) == 1,
@@ -1019,7 +1024,7 @@ internal static class Program
                   HydraulicMath.ExtremeAmbientAudioRangeBlocks &&
               HydraulicMath.LocalAmbientAudioRangeBlocks == 2 &&
               HydraulicMath.ExtremeAmbientAudioRangeBlocks == 2,
-            "Constant hydraulic sound never expands beyond two blocks at extreme flow");
+            "Ordinary pipe flow never expands beyond two blocks at extreme flow");
     }
 
     private static void PipeFlowPlanningIsConservative()

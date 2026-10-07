@@ -2,8 +2,10 @@
 
 Status: Direct transport and the approved router A are implemented. Section 15 specifies current router behavior; section 14 records the approved mechanical design.
 Approved receiver A1, narrow sender A and full-height accumulator A are promoted.
+Smart Receiver / Jonas stockkeeper D3 is approved and implemented for in-game review. Sections 3.6 and 8.2 remain its behavior contract.
+Each committed order starts a four-second printer cycle. The paper advances 1.35 model units outward from beneath the housing. Each line contains as many leading characters of the item's displayed name as fit, a smaller `x`, and the actual batch quantity. Grain and ink share one continuous surface-distance coordinate over the web and octagonal reel facets; printed lines wrap onto the exposed take-up reel. Up to ten saved receipts cover the visible path, with their samples localized on each client. Schema 1 migrates to 2 without inventing names for old orders. Receiver cam rails, follower and weighted return links are thicker, with their original timing and contact path preserved. Paper needs no refills.
 Earlier design sections are historical where section 13 specifies first-version behavior.
-Last updated: 2026-09-30.
+Last updated: 2026-10-06.
 
 This temporary developer document defines behaviour, implementation boundaries and
 acceptance tests. Maintain it in place. Requirements reflect maintainer direction;
@@ -49,8 +51,9 @@ cost and capability. Models must remain simple enough for Vintage Story.
   without requiring the player to know compass directions.
 - The maintainer authorised rendered model candidates for the no-junction slice
   on 2026-09-22. Keep these in the review package until a candidate is approved.
-  On 2026-09-26 the maintainer authorised router mechanism candidates. Stockkeeper
-  modelling remains deferred; router runtime implementation follows model selection.
+  On 2026-09-26 the maintainer authorised router mechanism candidates. The maintainer
+  requested the Smart Receiver and a study of Jonas parts and machinery on 2026-10-04.
+  Its model candidates remain review-only until selection; section 3.6 defines stockkeeping.
 
 ## 2. Terms and directions
 
@@ -452,6 +455,14 @@ quantity. Show the linked inventory name above the rows.
 Implementation default: four rows, empty rows inactive, matching item variants by
 sample. Explain "No matching supply", "No powered route" and "Destination full"
 on the affected row. Routing details and compass directions stay out of this menu.
+
+Implemented target range is 0–65535; zero pauses a row. Duplicate sample rows are
+rejected. The server copies samples from the player's hotbar or backpack without
+consuming them. The Smart Receiver requests for its inventory branch only; its
+mainline still passes cargo and accepts existing outlet deliveries normally.
+One order is outstanding at a time. Loading cargo counts as reserved; cargo in
+later hosts counts as incoming. Adjacent order owners and their frozen routes
+must be loaded before an uncertain reservation can be treated as absent.
 
 All menu changes are server-validated configuration requests. Validate claims,
 legal faces, sample count and quantity bounds. Client packets cannot authorise

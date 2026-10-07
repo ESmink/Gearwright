@@ -22,6 +22,7 @@ internal static class MechanicalAudioFixture
             MachineMotionAudio.Speed(double.NaN, .1f) == 0,
             "Long frames and malformed motion rebase audio instead of replaying missed work");
         Contacts(check); Pump(check); Transmission(check);
+        OverrunningTransmissionFixture.Run(check);
     }
 
     private static void Contacts(Action<bool, string> check)
@@ -116,8 +117,13 @@ internal static class MechanicalAudioFixture
         check(rig.Started.Count == before, "Shafts co-rotating at equal speed produce no ratchet tooth clicks");
         sound.UpdateAtDistance(.1f, new(.4f, .8f, .4f, .3f), 1, false, 3);
         check(rig.Voices.Count(v => v.Cue.StartsWith("ratchet-engage")) == 1 &&
-            rig.Voices.Last().Parameters.Range == 5 && rig.Voices.Last().MaximumGain < .27f,
+            rig.Voices.Last().Parameters.Range == 5 && rig.Voices.Last().MaximumGain < .17f,
             "A real engagement change gets a restrained five-block informational cue");
+        int engagementStarts = rig.Started.Count(v => v.Cue.StartsWith("ratchet-engage"));
+        sound.UpdateAtDistance(.1f, new(.45f, .85f, .4f, .3f), 1, true, 3);
+        sound.UpdateAtDistance(.1f, new(.5f, .9f, .4f, .3f), 1, false, 3);
+        check(rig.Started.Count(v => v.Cue.StartsWith("ratchet-engage")) == engagementStarts,
+            "Rapid authoritative engagement changes cannot turn seating sounds into a repeated rattle");
         before = rig.Started.Count;
         sound.UpdateAtDistance(1, new(2, 3, .4f, .3f), 1, true, 0);
         check(rig.Started.Count == before, "A delayed renderer skips missed pawl contacts and state changes");
@@ -130,6 +136,19 @@ internal static class MechanicalAudioFixture
             "Reverse freewheeling follows mirrored relative travel");
         sound.UpdateAtDistance(.1f, null, -1, true, 5);
         check(rig.Voices.All(v => v.Disposed), "Leaving informational range releases transmission voices");
+
+        rig = new AudioRig();
+        using var loaded = new OverrunningTransmissionSoundController(rig.Api, new BlockPos(0, 0, 0));
+        var locked = OverrunningCouplingMath.Advance(default, .3f, .1f, 0, .05f);
+        var recovering = OverrunningCouplingMath.Advance(locked.State, .2f, .25f,
+            -OverrunningPawlMath.FullContactThreatPhaseLag, .05f);
+        var packet = new OverrunningDriveState(true, recovering.State.Engaged, 1, 1, 2).Encode();
+        OverrunningDriveState.TryDecode(packet, out var drive);
+        loaded.UpdateAtDistance(.1f, new(0, .3f, .2f, .25f), drive.Handedness, !drive.Engaged, 0);
+        loaded.UpdateAtDistance(.1f, new(.1f, .6f, .2f, .25f), drive.Handedness, !drive.Engaged, 0);
+        check(rig.Started.TrueForAll(v => v.Cue == "transmission-bearing") &&
+            rig.Voices.Exists(v => v.Cue == "transmission-bearing"),
+            "Server-confirmed loaded phase recovery retains bearings without false freewheel clicks or engagement chatter");
     }
 
     private sealed class AudioRig

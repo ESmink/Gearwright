@@ -1,0 +1,112 @@
+{
+  "code": "pneumatic-smart-receiver",
+  "class": "GearwrightPneumaticTransport",
+  "entityClass": "GearwrightPneumaticTransport",
+  "heldPriorityInteract": true,
+  "drawtype": "json",
+  "shape": {
+    "base": "gearwright:block/pneumatic-smart-receiver"
+  },
+  "textures": {
+    "brass": {
+      "base": "game:block/metal/sheet/brass1"
+    },
+    "iron": {
+      "base": "game:block/metal/sheet-plain/iron2"
+    },
+    "gear-iron": {
+      "base": "game:block/metal/plate/iron"
+    },
+    "gear-brass": {
+      "base": "game:block/metal/plate/brass"
+    },
+    "leather": {
+      "base": "game:block/leather/plain"
+    },
+    "temporal": {
+      "base": "game:item/resource/temporalgear"
+    },
+    "glass": {
+      "base": "gearwright:block/inspection-glass"
+    },
+    "jonas-cupro": {
+      "base": "game:block/metal/sheet/cupronickel1"
+    },
+    "jonas-plain": {
+      "base": "game:block/metal/sheet-plain/cupronickel1"
+    },
+    "jonas-steel": {
+      "base": "game:block/metal/sheet-plain/steel1"
+    },
+    "jonas-shield": {
+      "base": "game:block/metal/tarnished/lead"
+    },
+    "jonas-flux": {
+      "base": "game:block/machine/statictranslocator/rustyglow"
+    },
+    "cylinder-record": {
+      "base": "game:block/coal/charcoal"
+    },
+    "cylinder-end": {
+      "base": "game:block/wood/debarked/ebony"
+    },
+    "scroll-paper": {
+      "base": "game:block/cloth/paper/blank-small"
+    }
+  },
+  "creativeinventory": {
+    "general": [
+      "*"
+    ],
+    "gearwright": [
+      "*"
+    ]
+  },
+  "attributes": {
+    "handbook": {
+      "include": true,
+      "extraSections": [
+        {
+          "title": "gearwright:handbook-title-how-to-use",
+          "text": "gearwright:handbook-text-pneumatic-smart-receiver"
+        },
+        {
+          "title": "gearwright:handbook-title-sounds",
+          "text": "gearwright:handbook-audio-pneumatic-receiver"
+        }
+      ]
+    }
+  },
+  "blockmaterial": "Metal",
+  "resistance": 4,
+  "lightAbsorption": 0,
+  "maxStackSize": 1,
+  "sidesolid": {
+    "all": false
+  },
+  "sideopaque": {
+    "all": false
+  },
+  "rainPermeable": true,
+  "collisionSelectionBox": {
+    "x1": 0,
+    "y1": 0,
+    "z1": 0.15,
+    "x2": 1,
+    "y2": 1,
+    "z2": 0.78
+  },
+  "sounds": {
+    "place": "game:block/plate",
+    "hit": "game:block/heavymetal-hit2",
+    "break": "game:block/heavymetal-hit2"
+  },
+  "guiTransform": {
+    "rotation": {
+      "x": -20,
+      "y": -35,
+      "z": 0
+    },
+    "scale": 0.85
+  }
+}

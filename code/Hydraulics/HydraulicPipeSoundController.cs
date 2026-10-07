@@ -10,11 +10,13 @@ namespace Gearwright.Hydraulics;
 internal sealed class HydraulicPipeSoundController : IDisposable
 {
     private const string PressureLimiterCacheKey = "gearwright:pressure-creak-limiter";
+    private const float SustainedPressureSeconds = 5;
     private readonly BlockEntityFluidPipe pipe;
     private readonly ICoreClientAPI capi;
     private readonly LocalMachineLoop pipeFlow, nozzleFlow, sprinklerFlow, irrigatorFlow;
     private readonly PressureCreakLimiter pressureLimiter;
     private ILoadedSound? pressureCreakSound;
+    private float highPressureSeconds;
     private bool disposed;
 
     public HydraulicPipeSoundController(BlockEntityFluidPipe pipe, ICoreClientAPI capi)
@@ -34,6 +36,15 @@ internal sealed class HydraulicPipeSoundController : IDisposable
 
     public void Update(float seconds)
     {
+        var entity = capi.World.Player?.Entity;
+        double distance = entity != null && entity.Pos.Dimension == pipe.Pos.dimension
+            ? Math.Sqrt(entity.CameraPos.SquareDistanceTo(pipe.Pos.ToVec3d().Add(.5, .5, .5)))
+            : double.PositiveInfinity;
+        UpdateAtDistance(seconds, distance);
+    }
+
+    internal void UpdateAtDistance(float seconds, double distance)
+    {
         if (disposed) return;
         if (pressureCreakSound?.HasStopped == true) { pressureCreakSound.Dispose(); pressureCreakSound = null; }
         AssetLocation? content = pipe.CurrentContentCode;
@@ -42,32 +53,49 @@ internal sealed class HydraulicPipeSoundController : IDisposable
         if (liquid)
             foreach (BlockFacing face in BlockFacing.ALLFACES)
                 strongest = Math.Max(strongest, Math.Abs(pipe.GetNozzleFlowRate(face)));
-        pipeFlow.Update(seconds, liquid ? HydraulicMath.AudioFlowIntensity(pipe.ThroughputLitresPerSecond) : 0);
-        nozzleFlow.Update(seconds, liquid ? HydraulicMath.AudioFlowIntensity(strongest) : 0);
-        sprinklerFlow.Update(seconds, liquid && pipe is not BlockEntityIrrigatorPipe && pipe.HasSprinkler
-            ? Math.Sqrt(HydraulicMath.Performance(pipe.CurrentPressure)) : 0);
-        irrigatorFlow.Update(seconds, liquid && pipe is BlockEntityIrrigatorPipe
-            ? Math.Sqrt(HydraulicMath.IrrigatorPerformance(pipe.CurrentPressure)) : 0);
-        UpdatePressureInformation();
+        double spray = liquid && pipe is not BlockEntityIrrigatorPipe && pipe.HasSprinkler
+            ? Math.Sqrt(HydraulicMath.Performance(pipe.CurrentPressure)) : 0;
+        double trickle = liquid && pipe is BlockEntityIrrigatorPipe
+            ? Math.Sqrt(HydraulicMath.IrrigatorPerformance(pipe.CurrentPressure)) : 0;
+        // Irrigation carries its own flowing-water detail. Give the useful
+        // outlet layer the voice instead of spending two slots per irrigator.
+        sprinklerFlow.UpdateAtDistance(seconds, spray, 1, distance);
+        irrigatorFlow.UpdateAtDistance(seconds, trickle, 1, distance);
+        pipeFlow.UpdateAtDistance(seconds, liquid && spray <= 0 && trickle <= 0
+            ? HydraulicMath.AudioFlowIntensity(pipe.ThroughputLitresPerSecond) : 0, 1, distance);
+        nozzleFlow.UpdateAtDistance(seconds, liquid ? HydraulicMath.AudioFlowIntensity(strongest) : 0, 1, distance);
+        UpdatePressureInformation(seconds, distance);
     }
 
-    private void UpdatePressureInformation()
+    private void UpdatePressureInformation(float seconds, double distance)
     {
-        var entity = capi.World.Player?.Entity;
-        if (!pipe.CanWriteState || entity == null || entity.Pos.Dimension != pipe.Pos.dimension ||
-            pipe.CurrentPressure < HydraulicMath.PressureWarningStartKPa || pressureCreakSound != null) return;
-        var position = pipe.Pos.ToVec3f().Add(.5f, .5f, .5f);
-        double distance = Math.Sqrt(entity.CameraPos.SquareDistanceTo(pipe.Pos.ToVec3d().Add(.5, .5, .5)));
         float gain = MachineSoundPolicy.DistanceGain(distance, MachineSoundKind.Informational);
-        if (gain <= 0) return;
         float intensity = (float)HydraulicMath.PressureWarningIntensity(pipe.CurrentPressure);
+        if (!pipe.CanWriteState || pipe.CurrentContentCode == null || pipe.ContentAmountLitres <= 0 ||
+            pipe.CurrentPressure <= HydraulicMath.PressureWarningStartKPa || intensity <= 0 || gain <= 0 ||
+            !float.IsFinite(seconds) || seconds <= 0 || seconds > .5f)
+        {
+            highPressureSeconds = 0;
+            pressureCreakSound?.Stop(); pressureCreakSound?.Dispose(); pressureCreakSound = null;
+            return;
+        }
+        highPressureSeconds = Math.Min(SustainedPressureSeconds, highPressureSeconds + seconds);
+        if (pressureCreakSound != null)
+        {
+            pressureCreakSound.SetVolume(gain * (.03f + .13f * intensity));
+            return;
+        }
+        // A pump stroke or transient pressure spike must not sound like a
+        // continuously strained pipe after the readout has returned to normal.
+        if (highPressureSeconds < SustainedPressureSeconds) return;
         if (!pressureLimiter.TryClaim(capi.World.ElapsedMilliseconds, intensity, capi.World.Rand)) return;
+        var position = pipe.Pos.ToVec3f().Add(.5f, .5f, .5f);
         pressureCreakSound = capi.World.LoadSound(new SoundParams
         {
             Location = new("gearwright:sounds/machines/pressure-creak" + (1 + capi.World.Rand.Next(3)) + ".ogg"),
             Position = position, RelativePosition = false, ShouldLoop = false, DisposeOnFinish = false,
             Pitch = .97f + .06f * (float)capi.World.Rand.NextDouble(),
-            Volume = gain * (.08f + .20f * intensity), ReferenceDistance = MachineSoundPolicy.InformationalReferenceDistance,
+            Volume = gain * (.03f + .13f * intensity), ReferenceDistance = MachineSoundPolicy.InformationalReferenceDistance,
             Range = MachineSoundPolicy.InformationalRange, SoundType = EnumSoundType.Sound
         });
         if (pressureCreakSound == null)
@@ -97,7 +125,7 @@ internal sealed class HydraulicPipeSoundController : IDisposable
                 nextCreakMilliseconds = now;
             }
             float severity = Math.Clamp(intensity, 0, 1);
-            double minimum = 30 - 25 * severity, maximum = 48 - 40 * severity;
+            double minimum = 60 - 40 * severity, maximum = 90 - 60 * severity;
             nextCreakMilliseconds = now + (long)((minimum + (maximum - minimum) * random.NextDouble()) * 1000);
             return true;
         }

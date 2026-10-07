@@ -126,6 +126,7 @@ internal static class MachineAudioFixture
         }
         WorkMotion(check);
         MechanicalAudioFixture.Run(check);
+        HydraulicAudioFixture.Run(check);
     }
 
     private static void WorkMotion(Action<bool, string> check)

@@ -1,6 +1,8 @@
 """Approved direct-line hardware. Review builders never write these runtime paths."""
 from dataclasses import replace
 from collections import OrderedDict
+import math
+import numpy as np
 from gearwright_graphics.model import ModelPackage, Shape, Face, Vec3
 from graphics.review.pneumatic_direct_line import Canvas, TEXTURES, tube, ring_x, ring_y
 from graphics.review.pneumatic_sender import candidate_shape as sender
@@ -143,13 +145,46 @@ def repair_surfaces(shape, state):
     return shape
 
 
-def hardware(kind):
+def reinforce_receiver(shape):
+    """Maintainer-requested thicker gate linkage; retain the follower contact path."""
+    from graphics.review.pneumatic_receiver import cam_path, FOLLOWER_R, CAM_CLEARANCE
+    points, normals = cam_path('a1-return-cam')
+    width = .26
+    rail = points - (FOLLOWER_R + CAM_CLEARANCE + width / 2) * normals
+    updated = []
+    for e in shape.elements:
+        lo, hi = list(e.from_.values()), list(e.to.values())
+        if e.name.startswith('cam-rail--1-'):
+            i = int(e.name.rsplit('-', 1)[1]); start, end = rail[i], rail[(i + 1) % len(rail)]
+            delta = end - start
+            lo = [float(start[0]), float(start[1]) - width / 2, hi[2] - .28]
+            hi = [float(start[0] + np.linalg.norm(delta)), float(start[1]) + width / 2, hi[2]]
+            e = replace(e, rotation_origin=Vec3(float(start[0]), float(start[1]), e.rotation_origin.z),
+                        rotation=Vec3(0, 0, math.degrees(math.atan2(delta[1], delta[0]))))
+        elif e.name.startswith('cam-back-web-'):
+            lo[1] -= .05; hi[1] += .05; hi[2] += .04
+        elif e.name == 'follower-lever':
+            lo[1] -= .075; hi[1] += .075; lo[2] -= .08
+        elif e.name == 'weighted-arm':
+            lo[1] -= .07; hi[1] += .07; hi[2] += .08
+        elif e.name == 'brass-return-weight':
+            hi[2] += .06
+        elif e.name == 'follower-pin':
+            lo[0] -= .03; lo[1] -= .03; hi[0] += .03; hi[1] += .03
+        updated.append(replace(e, from_=Vec3(*lo), to=Vec3(*hi)))
+    shape.elements = updated
+    return shape
+
+
+def hardware(kind, *, reinforced=True):
     base = kind.removesuffix('-terminal')
     shape = base_hardware(base)
     if base in ('sender', 'receiver') or kind.endswith('-terminal'):
         inventory_ports(shape, kind)
     if base != 'accumulator':
         repair_surfaces(shape, kind)
+    if base == 'receiver' and reinforced:
+        reinforce_receiver(shape)
     shape.id = 'pneumatic-' + kind
     return shape
 

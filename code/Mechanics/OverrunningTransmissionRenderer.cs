@@ -29,7 +29,6 @@ internal sealed class OverrunningTransmissionRenderer : IRenderer, IDisposable
     private readonly Matrixf modelMatrix = new();
     private OverrunningRotorState lastState;
     private int handedness = 1;
-    private bool overrunPose;
     private readonly OverrunningTransmissionSoundController sound;
 
     public OverrunningTransmissionRenderer(
@@ -79,18 +78,12 @@ internal sealed class OverrunningTransmissionRenderer : IRenderer, IDisposable
             handedness = direction < 0 ? -1 : 1;
         }
 
-        float directedInput = lastState.InputSpeed * handedness;
-        float directedOutput = lastState.OutputSpeed * handedness;
-        if (directedOutput - directedInput > OverrunningCouplingMath.ReleaseSpeedDifference)
-        {
-            overrunPose = true;
-        }
-        else if (directedInput - directedOutput >= OverrunningCouplingMath.EngageSpeedDifference)
-        {
-            overrunPose = false;
-        }
-
-        sound.Update(deltaTime, available ? lastState : null, handedness, overrunPose);
+        bool driveAvailable = transmission.TryGetDriveState(out OverrunningDriveState drive) && available;
+        // Equal speeds and phase recovery do not reveal whether the pawl is
+        // carrying load. Share the server lock used by the tooltip and solver.
+        if (driveAvailable) handedness = drive.Handedness;
+        bool overrunPose = driveAvailable && !drive.Engaged;
+        sound.Update(deltaTime, driveAvailable ? lastState : null, handedness, overrunPose);
 
         int handIndex = handedness < 0 ? 1 : 0;
         float yaw = FacingYaw(transmission.InputFace);

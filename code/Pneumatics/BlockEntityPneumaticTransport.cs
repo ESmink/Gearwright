@@ -13,6 +13,8 @@ public sealed partial class BlockEntityPneumaticTransport : BlockEntity
 {
     internal PneumaticState State = new();
     internal PneumaticRouterState Router = new();
+    internal PneumaticStockkeeperState Stockkeeper = new();
+    internal bool IsSmartReceiver => Block.Code.Path == "pneumatic-smart-receiver";
     internal string Status = "idle";
     internal double Air;
     internal long NextAdvance;
@@ -23,9 +25,9 @@ public sealed partial class BlockEntityPneumaticTransport : BlockEntity
     private long soundTick;
     internal PneumaticLineKind Kind => Block.Code.Path == "pneumatic-router" ? PneumaticLineKind.Router :
         Block.Code.Path == "pneumatic-sender" ? PneumaticLineKind.Sender :
-        Block.Code.Path == "pneumatic-receiver" ? PneumaticLineKind.InlineReceiver : PneumaticLineKind.Tube;
+        Block.Code.Path is "pneumatic-receiver" or "pneumatic-smart-receiver" ? PneumaticLineKind.InlineReceiver : PneumaticLineKind.Tube;
     internal PneumaticPosition Position => PneumaticNetworkSystem.Position(Pos);
-    internal bool CanWrite => State.Writable && (Kind != PneumaticLineKind.Router || Router.Writable);
+    internal bool CanWrite => State.Writable && (Kind != PneumaticLineKind.Router || Router.Writable) && (!IsSmartReceiver || Stockkeeper.Writable);
     internal PneumaticLineNode Node => new(Position, Kind, State.Input, State.Output, true,
         CanWrite && (Kind is PneumaticLineKind.Tube or PneumaticLineKind.Router || State.Output == State.Input.Opposite && State.InventoryFace.Axis != State.Output.Axis),
         Kind == PneumaticLineKind.Router ? RouterPorts("input") : null, Kind == PneumaticLineKind.Router ? RouterPorts("output") : null);
@@ -59,9 +61,11 @@ public sealed partial class BlockEntityPneumaticTransport : BlockEntity
         base.FromTreeAttributes(tree, world);
         State = PneumaticState.Read(tree[PneumaticState.Key], world);
         if (Kind == PneumaticLineKind.Router) Router = PneumaticRouterState.Read(tree[PneumaticRouterState.Key]);
+        if (IsSmartReceiver) Stockkeeper = PneumaticStockkeeperState.Read(tree[PneumaticStockkeeperState.Key], world);
         Status = tree.GetString("gearwrightPneumaticStatus", "idle");
         Air = tree.GetDouble("gearwrightPneumaticAir");
         renderer?.OnStateUpdated();
+        stockkeeperDialog?.Refresh();
         if (!CanWrite) world.Logger.Error("[Gearwright] Pneumatic state at {0} is unreadable; transfers paused and original data preserved.", Pos);
     }
 
@@ -70,6 +74,7 @@ public sealed partial class BlockEntityPneumaticTransport : BlockEntity
         base.ToTreeAttributes(tree);
         tree[PneumaticState.Key] = State.Write();
         if (Kind == PneumaticLineKind.Router) tree[PneumaticRouterState.Key] = Router.Write();
+        if (IsSmartReceiver) tree[PneumaticStockkeeperState.Key] = Stockkeeper.Write();
         tree.SetString("gearwrightPneumaticStatus", Status);
         tree.SetDouble("gearwrightPneumaticAir", Air);
     }
@@ -88,6 +93,7 @@ public sealed partial class BlockEntityPneumaticTransport : BlockEntity
         airflowSound?.Dispose(); airflowSound = null;
         workSound?.Dispose(); workSound = null;
         routerDialog?.TryClose(); routerDialog?.Dispose(); routerDialog = null;
+        stockkeeperDialog?.TryClose(); stockkeeperDialog?.Dispose(); stockkeeperDialog = null;
         if (Api is ICoreClientAPI client && renderer != null)
         {
             client.Event.UnregisterRenderer(renderer, EnumRenderStage.Opaque);

@@ -394,6 +394,26 @@ class PipelineTests(unittest.TestCase):
         self.assertGreater(sample[0], sample[1])
         self.assertEqual(255, sample[3])
 
+    def test_orthographic_sloped_surface_keeps_shallow_inlay_visible(self):
+        def panel(name, extent, inset):
+            points = np.asarray(((-extent, -extent, -.6 * extent - inset),
+                                 (extent, -extent, .6 * extent - inset),
+                                 (extent, extent, .6 * extent - inset),
+                                 (-extent, extent, -.6 * extent - inset)))
+            return [Triangle(points[list(indices)], np.zeros((3, 2)), name,
+                             'opaque', 0, np.asarray((0, 0, -1)), name, None, 0)
+                    for indices in ((0, 1, 2), (0, 2, 3))]
+        materials = {'missing': load_material('missing', None)}
+        for name, color in (('surface', (1, 0, 0, 1)), ('inlay', (0, 1, 0, 1))):
+            materials[name] = Material(name, np.asarray([[color]], dtype=np.float32))
+        surface, inlay = panel('surface', .8, 0), panel('inlay', .15, .01)
+        camera = Camera((0, 0, -2), (0, 0, 0), 101, 101,
+                        orthographic=True, orthographic_scale=2)
+        for mesh in (surface + inlay, inlay + surface):
+            image = np.asarray(render(mesh, materials, camera))
+            self.assertGreater(image[50, 50, 1], image[50, 50, 0])
+            self.assertGreater(image[50, 85, 0], image[50, 85, 1])
+
 
 if __name__ == "__main__":
     unittest.main()

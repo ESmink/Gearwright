@@ -1,6 +1,8 @@
 {
   "version": 1,
   "shapes": {
+    "assets/gearwright/shapes/block/pneumatic-smart-receiver-terminal.json": {"elements": 830, "textureWidth": 16, "textureHeight": 16},
+    "assets/gearwright/shapes/block/pneumatic-smart-receiver.json": {"elements": 817, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/pneumatic-router.json": {"elements": 786, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/pneumatic-receiver-terminal.json": {"elements": 665, "textureWidth": 16, "textureHeight": 16},
     "assets/gearwright/shapes/block/pneumatic-sender-terminal.json": {"elements": 253, "textureWidth": 16, "textureHeight": 16},

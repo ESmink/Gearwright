@@ -12,6 +12,7 @@ internal static class MachineSoundPolicy
     internal const float ConstantRange = 2, InformationalRange = 5, WarningRange = 20;
     internal const float ConstantVolume = .5f, InformationalVolume = .34f, WarningVolume = 1;
     internal const float AirflowVolume = .4f;
+    internal const float IrrigationRange = 5;
     internal const int WorkVariations = 4;
     // Leave a small valid attenuation interval for engine distance models.
     internal const float ConstantReferenceDistance = ConstantRange - .1f;
@@ -29,11 +30,22 @@ internal static class MachineSoundPolicy
 
     internal static float DistanceGain(double distance, MachineSoundKind kind)
     {
-        double range = Range(kind);
+        double near = kind == MachineSoundKind.Constant ? 1.25 : 1;
+        return DistanceFade(distance, Range(kind), near);
+    }
+
+    internal static float ContinuousRange(string cue) =>
+        cue is "water-sprinkler" or "water-irrigator" ? IrrigationRange : ConstantRange;
+
+    internal static float ContinuousDistanceGain(double distance, string cue) =>
+        DistanceFade(distance, ContinuousRange(cue),
+            cue is "water-sprinkler" or "water-irrigator" ? 2.5 : 1.25);
+
+    private static float DistanceFade(double distance, double range, double near)
+    {
         if (!double.IsFinite(distance) || distance < 0 || range <= 0 || distance >= range) return 0;
         // Keep machinery audible at normal head height beside a floor-mounted
         // block. The engine uses a flat near field; this is the only fade.
-        double near = kind == MachineSoundKind.Constant ? 1.25 : 1;
         double t = Math.Clamp((distance - near) / (range - near), 0, 1);
         return (float)(1 - t * t * (3 - 2 * t));
     }
@@ -45,7 +57,7 @@ internal static class MachineSoundPolicy
         "airflow" => AirflowVolume,
         "flywheel" => .32f,
         "pump-mechanism" => .36f,
-        "transmission-bearing" => .28f,
+        "transmission-bearing" => .16f,
         _ => ConstantVolume
     };
 

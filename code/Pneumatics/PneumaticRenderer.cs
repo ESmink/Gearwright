@@ -19,6 +19,9 @@ internal sealed class PneumaticRenderer : IRenderer
     private AnimationKeyFrame[] frames = Array.Empty<AnimationKeyFrame>();
     private double shownProgress, priorProgress, targetProgress, interpolationAge;
     private string presentationKey = "";
+    private string printKey = "";
+    private double shownPrint, priorPrint, targetPrint, printAge;
+    private PneumaticPrinterPaperRenderer? printerPaper;
     private readonly PneumaticCargoMotion cargoMotion;
     private readonly PneumaticAirSpecks airSpecks;
     private readonly PneumaticRouterPresentation routerPresentation = new();
@@ -98,7 +101,7 @@ internal sealed class PneumaticRenderer : IRenderer
         bones = new() { new Bone() };
         shape = Shape.TryGet(api, "gearwright:shapes/block/pneumatic-" + kind + ".json");
         frames = shape.Animations?.FirstOrDefault()?.KeyFrames ?? Array.Empty<AnimationKeyFrame>();
-        var moving = frames.SelectMany(f => f.Elements.Keys).ToHashSet();
+        var moving = (shape.Animations ?? Array.Empty<Animation>()).SelectMany(a => a.KeyFrames).SelectMany(f => f.Elements.Keys).ToHashSet();
         if (kind == "router")
         {
             for (int n = 1; n <= 4; n++) moving.Add($"port-{n}-valve-pivot");
@@ -110,8 +113,11 @@ internal sealed class PneumaticRenderer : IRenderer
             foreach (var e in shape.Elements) RoleParts(e);
         }
         var textures = new Textures(api, shape);
+        printerPaper?.Dispose(); printerPaper = null;
+        if (kind.StartsWith("smart-receiver", StringComparison.Ordinal)) printerPaper = new(api, textures["scroll-paper"]);
         void Visit(ShapeElement e, int bone, float[] ancestor)
         {
+            if (printerPaper != null && PneumaticPrinterPaper.ReplacedElement(e.Name)) return;
             if (kind == "router") for (int n = 1; n <= 4; n++)
                 if (e.Name == $"port-{n}" && (connections & (1 << (n - 1))) == 0 ||
                     e.Name == $"router-cap-{n}" && (connections & (1 << (n - 1))) != 0) return;
@@ -195,7 +201,7 @@ internal sealed class PneumaticRenderer : IRenderer
         var host = entity as BlockEntityPneumaticTransport;
         var accumulator = entity as BlockEntityPneumaticAirIntake;
         string kind = accumulator != null ? "accumulator" : host!.Kind == PneumaticLineKind.Router ? "router" : host!.Kind == PneumaticLineKind.Sender ? "sender" :
-            host.Kind == PneumaticLineKind.InlineReceiver ? "receiver" : host.State.Input.Opposite == host.State.Output ? "straight" : "elbow";
+            host.IsSmartReceiver ? "smart-receiver" : host.Kind == PneumaticLineKind.InlineReceiver ? "receiver" : host.State.Input.Opposite == host.State.Output ? "straight" : "elbow";
         if (host?.OutletChest != null) kind += "-terminal";
         int connections = host?.Kind == PneumaticLineKind.Router ? host.ConnectionMask : 15;
         if (prepared != (kind == "router" ? kind + "|" + connections : kind)) Prepare(kind, connections);
@@ -209,6 +215,15 @@ internal sealed class PneumaticRenderer : IRenderer
         { priorProgress = shownProgress; targetProgress = authoritative; interpolationAge = 0; }
         interpolationAge += Math.Clamp(dt, 0, .1);
         shownProgress = priorProgress + (targetProgress - priorProgress) * Math.Min(1, interpolationAge / .1);
+        if (host?.IsSmartReceiver == true)
+        {
+            var printer = host.Stockkeeper;
+            string nextKey = printer.PrintId + (printer.Printing ? ":printing" : ":parked");
+            if (nextKey != printKey) { printKey = nextKey; shownPrint = priorPrint = targetPrint = printer.PrintProgress; printAge = 0; }
+            if (targetPrint != printer.PrintProgress) { priorPrint = shownPrint; targetPrint = printer.PrintProgress; printAge = 0; }
+            printAge += Math.Clamp(dt, 0, .1);
+            shownPrint = priorPrint + (targetPrint - priorPrint) * Math.Min(1, printAge / .1);
+        }
         double frame = accumulator != null ? ChargeFrame(shownProgress) :
             host!.State.Returning || host.State.Loading || host.IsReceiving && host.State.Cargo != null ? shownProgress * 360 : 0;
         AnimationKeyFrame? low = null, high = null;
@@ -239,6 +254,7 @@ internal sealed class PneumaticRenderer : IRenderer
                 if (bone.Element != null)
                 {
                     var routerPose = host?.Kind == PneumaticLineKind.Router ? PneumaticRouterMotion.Bone(host, bone.Element.Name!, shownProgress, mechanical) : null;
+                    routerPose ??= host?.IsSmartReceiver == true ? PneumaticPrinterMotion.Bone(bone.Element.Name!, host.Stockkeeper, shownPrint) : null;
                     Mat4f.Multiply(bone.World, bone.World, Local(bone.Element,
                         routerPose ?? low?.Elements.GetValueOrDefault(bone.Element.Name!), routerPose ?? high?.Elements.GetValueOrDefault(bone.Element.Name!), mix));
                 }
@@ -251,6 +267,11 @@ internal sealed class PneumaticRenderer : IRenderer
                 if (bone.Uploaded != null) api.Render.RenderMultiTextureMesh(bone.Uploaded, "tex");
             }
             shader.RgbaTint = new Vec4f(1, 1, 1, 1); shader.ExtraGlow = 0; shader.RgbaGlowIn = new Vec4f(0, 0, 0, 0);
+            if (printerPaper != null && host != null)
+            {
+                shader.ModelMatrix = basis.Values;
+                printerPaper.Render(host.Stockkeeper, shownPrint, shader);
+            }
             if (host?.State.Cargo is { } cargo && cargoMotion.TryPosition(host.State.Parcel, host.State.Instance,
                 api.World.ElapsedMilliseconds, out var cargoPosition))
             {
@@ -349,6 +370,7 @@ internal sealed class PneumaticRenderer : IRenderer
         airSpecks.Release(entity);
         if (entity is BlockEntityPneumaticTransport host) cargoMotion.Release(host.State.Instance);
         foreach (var b in bones) { b.Uploaded?.Dispose(); b.UploadedGlass?.Dispose(); }
+        printerPaper?.Dispose();
         bones.Clear();
     }
 }

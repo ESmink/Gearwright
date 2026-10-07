@@ -49,6 +49,7 @@ public sealed partial class PneumaticNetworkSystem
                 var slot = source.Inventory[index];
                 if (slot.Empty || !slot.CanTake() || !PneumaticInventory.Supported(slot.Itemstack)) continue;
                 int count = Math.Min(8, Math.Min(slot.StackSize, destination.Capacity(api!.World, slot.Itemstack)));
+                count = LimitStockOrder(receiver, slot.Itemstack, count);
                 if (count == 0) continue;
                 var route = graph.Find(sender, receiver, slot.Itemstack);
                 if (route == null || best != null && (route.Value.Cost > best.Value.Cost || route.Value.Cost == best.Value.Cost &&
@@ -75,6 +76,7 @@ public sealed partial class PneumaticNetworkSystem
             s.Loading = true; s.Progress = 0; s.Receipt = receipt; chosen.Sender.NextAdvance = 0;
             chosen.Source.Receipt.Receipt = receipt;
             state.Outstanding = parcel; state.OrderRoute = routeKeys; state.Receipt = receipt;
+            if (receiver.IsSmartReceiver) receiver.Stockkeeper.BeginOrder(parcel, cargo.Itemstack!);
             for (int i = 1; i < chosen.Route.Length - 1; i++)
                 if (chosen.Route[i].Kind == PneumaticLineKind.Router)
                 {

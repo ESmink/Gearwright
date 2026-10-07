@@ -1,0 +1,11 @@
+{
+  "ingredientPattern": "PO ,RGC", "width": 3, "height": 2,
+  "ingredients": {
+    "P": { "type": "item", "code": "game:paper-parchment" },
+    "O": { "type": "item", "code": "game:jonasframes-oscillator01" },
+    "R": { "type": "block", "code": "gearwright:pneumatic-receiver" },
+    "G": { "type": "item", "code": "game:jonasframes-gearbox01" },
+    "C": { "type": "item", "code": "game:metalplate-cupronickel" }
+  },
+  "output": { "type": "block", "code": "gearwright:pneumatic-smart-receiver" }
+}

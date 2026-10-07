@@ -115,11 +115,17 @@ def _raster_triangle(image: np.ndarray, depth: np.ndarray, triangle: Triangle, c
         inside = (w0 >= -1e-7) & (w1 >= -1e-7) & (w2 >= -1e-7)
         if not np.any(inside):
             continue
-        inverse = 1 / np.maximum(z, camera.near)
-        weights = np.stack((w0, w1, w2), axis=-1) * inverse[np.newaxis, np.newaxis, :]
-        denominator = weights.sum(axis=-1)
-        weights /= np.maximum(denominator[..., None], 1e-12)
-        pixel_depth = 1 / np.maximum(denominator, 1e-12)
+        weights = np.stack((w0, w1, w2), axis=-1)
+        if camera.orthographic:
+            # Parallel projection interpolates both depth and UVs linearly.
+            # Reciprocal depth makes long sloped faces occlude their own inlays.
+            pixel_depth = weights @ z
+        else:
+            inverse = 1 / np.maximum(z, camera.near)
+            weights = weights * inverse[np.newaxis, np.newaxis, :]
+            denominator = weights.sum(axis=-1)
+            weights /= np.maximum(denominator[..., None], 1e-12)
+            pixel_depth = 1 / np.maximum(denominator, 1e-12)
         uv_values = weights @ clipped_uv
         sampled = material.sample(uv_values, linear=linear)
         sampled = shade(sampled, triangle.normal, key=key, fill=fill, rim=rim, glow=triangle.glow)
