@@ -96,14 +96,16 @@ jobs:
         with:
           python-version: "3.13"
           cache: pip
-          cache-dependency-path: tools/graphics/requirements.txt
+          cache-dependency-path: |
+            tools/graphics/requirements.txt
+            tools/audio/requirements.txt
 
-      - name: Install graphics test dependencies
+      - name: Install graphics and audio test dependencies
         if: steps.metadata.outputs.publish == 'true'
         shell: pwsh
         run: |
-          & python -m pip install --disable-pip-version-check -r tools/graphics/requirements.txt
-          if ($LASTEXITCODE -ne 0) { throw "Graphics test dependency installation failed." }
+          & python -m pip install --disable-pip-version-check -r tools/graphics/requirements.txt -r tools/audio/requirements.txt
+          if ($LASTEXITCODE -ne 0) { throw "Graphics and audio test dependency installation failed." }
 
       - name: Download the Windows Vintage Story server package
         if: steps.metadata.outputs.publish == 'true'

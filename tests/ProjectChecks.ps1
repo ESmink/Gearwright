@@ -234,9 +234,9 @@ Assert-Project (
 Assert-Project (
     $releaseWorkflowText -match 'actions/setup-python@v6' -and
     $releaseWorkflowText -match 'python-version: "3\.13"' -and
-    $releaseWorkflowText -match 'cache-dependency-path: tools/graphics/requirements\.txt' -and
-    $releaseWorkflowText -match 'python -m pip install --disable-pip-version-check -r tools/graphics/requirements\.txt'
-) "Release workflow provisions the bounded Python graphics dependencies"
+    $releaseWorkflowText -match 'cache-dependency-path:\s*\|\s+tools/graphics/requirements\.txt\s+tools/audio/requirements\.txt' -and
+    $releaseWorkflowText -match 'python -m pip install --disable-pip-version-check -r tools/graphics/requirements\.txt -r tools/audio/requirements\.txt'
+) "Release workflow provisions the bounded Python graphics and audio dependencies"
 Assert-Project (
     $releaseWorkflowText -match 'runs-on: windows-latest' -and
     $releaseWorkflowText -match 'vs_server_win-x64_\$gameVersion\.zip' -and
